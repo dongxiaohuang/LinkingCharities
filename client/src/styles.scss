@@ -1,5 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
-
+$dark-blue: #0F325E;
 body{
      font-family: Roboto, sans-serif;
+}
+
+.bg-color {
+  background-color: $dark-blue;
+  color: white;
 }
