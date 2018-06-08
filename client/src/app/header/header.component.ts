@@ -9,7 +9,7 @@ import * as $ from 'jquery';
 })
 export class HeaderComponent implements OnInit {
 
-  public isCollapsed = false;
+  public isCollapsed = true;
   constructor() { }
 
   ngOnInit()
@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
   @HostListener("window:scroll", [])
   onWindowScroll() {
     const number = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    if (number <= 10) {
+    if (number <= 10 && this.isCollapsed === true) {
       $('.navbar').addClass("transparent");
     } else {
       $('.navbar').removeClass("transparent")
