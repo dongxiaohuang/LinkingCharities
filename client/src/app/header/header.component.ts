@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
   @HostListener("window:scroll", [])
   onWindowScroll() {
     const number = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    if (number <= 10 && this.isCollapsed === true) {
+    if (number <= 10) {
       $('.navbar').addClass("transparent");
     } else {
       $('.navbar').removeClass("transparent")

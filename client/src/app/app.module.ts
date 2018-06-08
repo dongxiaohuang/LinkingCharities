@@ -5,8 +5,10 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddBgColorDirective } from './directives/add-bg-color.directive';
 import { JumbotronComponent } from './jumbotron/jumbotron.component';
+// import { CarouselModule, NavbarModule } from 'angular-bootstrap-md';
 
 
 @NgModule({
@@ -21,7 +23,8 @@ import { JumbotronComponent } from './jumbotron/jumbotron.component';
   imports: [
     BrowserModule,
     MaterialModule,
-    NgbCollapseModule
+    NgbCollapseModule,
+    NgbModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
