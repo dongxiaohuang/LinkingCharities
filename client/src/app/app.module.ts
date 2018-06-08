@@ -6,6 +6,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddBgColorDirective } from './directives/add-bg-color.directive';
+import { JumbotronComponent } from './jumbotron/jumbotron.component';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { AddBgColorDirective } from './directives/add-bg-color.directive';
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    AddBgColorDirective
+    AddBgColorDirective,
+    JumbotronComponent
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [
