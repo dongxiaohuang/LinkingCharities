@@ -1,0 +1,50 @@
+<!-- <mat-grid-list cols="5" rowHeight="200px">
+  <mat-grid-tile *ngFor="let charity of charities">
+    <mat-grid-tile-header>
+      <h1 mat-line>{{charity.name | uppercase }}</h1>
+    </mat-grid-tile-header>
+    <img src="{{charity.image}}" class="img-fluid" alt="{{charity.name}}" />
+    <mat-grid-tile-footer>
+      <form>
+        <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" formControlName="model">
+          <label ngbButtonLabel class="btn-primary">
+         <input ngbButton type="radio" [value]="1"> Left
+       </label>
+          <label ngbButtonLabel class="btn-primary">
+         <input ngbButton type="radio" value="middle"> Middle
+       </label>
+          <label ngbButtonLabel class="btn-primary">
+         <input ngbButton type="radio" [value]="false"> Right
+       </label>
+        </div>
+      </form>
+    </mat-grid-tile-footer>
+  </mat-grid-tile>
+</mat-grid-list> -->
+<div class="row">
+  <div class="col-sm-3 thumbnail" *ngFor="let charity of charities">
+    <div class="campaign-gallery-head">
+      <img class="campaign-gallery-thumbnail img-fluid" src="{{charity.image}}" alt="{{charity.name}}">
+    </div>
+    <div>
+      <p>
+        <b>
+            Name : {{charity.name}}
+       </b>
+      </p>
+    </div>
+    <div class="button-row">
+      <button mat-raised-button class="bg-warning">Find More</button>
+      <button mat-raised-button class="bg-primary">Donate</button>
+      <button mat-raised-button class="bg-success">Volunteering</button>
+    </div>
+
+    <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+      <ngb-panel title="Description">
+        <ng-template ngbPanelContent>
+          {{charity.info}}
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+</div>
