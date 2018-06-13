@@ -11,6 +11,7 @@ import { MatButtonModule,
     CommonModule
   ],
   declarations: [],
+  // Specifies a list of directives/pipes/modules that can be used within the template of any component that is part of an Angular module that imports this Angular module.
   exports: [
        MatButtonModule,
        MatIconModule,
