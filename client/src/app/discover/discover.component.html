@@ -1,3 +1,46 @@
-<p>
-  discover works!
-</p>
+<br />
+<br />
+<br />
+<input class="form-control" type="text" name="search" [(ngModel)]="myfilter">
+<div class="container">
+     <div class="row">
+          <table class="table">
+               <thead>
+                    <tr>
+                         <th>
+                              #
+                         </th>
+                         <th (click)="sort('name')">
+                              Name
+                              <span class="fa fa-sort" *ngIf="key == 'name'"></span>
+                         </th>
+                         <th (click)="sort('label')">
+                              label
+                              <span class="fa fa-sort" *ngIf="key =='label'" ></span>
+                         </th>
+                         <th (click)="sort('location')">
+                              location
+                              <span class="fa fa-sort" *ngIf="key =='location'"></span>
+                         </th>
+                    </tr>
+               </thead>
+               <tbody>
+                    <tr *ngFor="let charity of charities | orderBy: key : reverse| filter:myfilter | paginate: { itemsPerPage: 5, currentPage: p}; let i = index">
+                         <td>
+                              {{i}}
+                         </td>
+                         <td>
+                              {{charity.name}}
+                         </td>
+                         <td>
+                              {{charity.label | json}}
+                         </td>
+                         <td>
+                              {{charity.location}}
+                         </td>
+                    </tr>
+               </tbody>
+               <pagination-controls (pageChange)="p = $event"></pagination-controls>
+          </table>
+     </div>
+</div>

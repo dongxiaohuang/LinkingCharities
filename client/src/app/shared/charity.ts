@@ -4,4 +4,5 @@ export class Charity {
      label: string[];
      image: string;
      info: string;
+     location: string;
 };

@@ -10,6 +10,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddBgColorDirective } from './directives/add-bg-color.directive';
 import { JumbotronComponent } from './jumbotron/jumbotron.component';
 import { TopcharitiesComponent } from './topcharities/topcharities.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter'; // used for searching
+import { FormsModule } from '@angular/forms'; // used for ngModel
+import { OrderModule } from 'ngx-order-pipe'; // used for order
+import { NgxPaginationModule } from 'ngx-pagination'; // used for pagination
 
 import { GetCharitiesService } from './services/get-charities.service';
 import { DiscoverComponent } from './discover/discover.component';
@@ -44,7 +48,11 @@ import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
     NgbCollapseModule,
     FlexLayoutModule,
     NgbModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    Ng2SearchPipeModule, // used for searching
+    FormsModule,
+    OrderModule, // used for ordering
+    NgxPaginationModule, // used for pagination
   ],
   // Defines the set of injectable objects that are available in the injector of this module.
   providers: [
