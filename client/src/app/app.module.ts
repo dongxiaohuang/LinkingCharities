@@ -24,6 +24,7 @@ import { ContactComponent } from './contact/contact.component';
 
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
+import { SearchfilterPipe } from './pipes/searchfilter.pipe';
 
 @NgModule({
      // Specifies a list of directives/pipes that belong to this module.
@@ -39,7 +40,8 @@ import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
     HomeComponent,
     AboutusComponent,
     ContactComponent,
-    PagenotfoundComponent
+    PagenotfoundComponent,
+    SearchfilterPipe
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [

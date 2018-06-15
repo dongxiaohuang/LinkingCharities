@@ -1,10 +1,136 @@
 <br />
 <br />
 <br />
-<input class="form-control" type="text" name="search" [(ngModel)]="myfilter">
 <div class="container">
      <div class="row">
-          <table class="table">
+          <div class="col-8 offset-2">
+               <input class="form-control" type="text" name="search" [(ngModel)]="myfilter" placeholder="search by location/categories/name">
+          </div>
+          <div class="col-1">
+               <span class="fa fa-search"></span>
+          </div>
+     </div>
+     <div class="row">
+          <div class="col-4 col-sm-4">
+               <ngb-accordion>
+                    <ngb-panel title="location">
+                         <ng-template ngbPanelContent>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" value="" id="uk" [(ngModel)]="isChecked" (change)="checkValue(isChecked, 'UK')"/>
+                                   <label class="form-check-label" for="uk">UK ({{ (charities| searchfilter: { "location": [ "UK" ], "rating": [], "categories": [] }).length }})</label>
+                              </div>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" value="" id="Europe" [(ngModel)]="isChecked1" (change)="checkValue(isChecked1, 'Europe')"/>
+                                   <label class="form-check-label" for="Europe">Europe({{ (charities| searchfilter: { "location": [ "Europe" ], "rating": [], "categories": [] }).length }})</label>
+                              </div>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" value="" id="Africa" [(ngModel)]="isChecked2" (change)="checkValue(isChecked2, 'Africa')"/>
+                                   <label class="form-check-label" for="EEA">Africa({{ (charities| searchfilter: { "location": [ "Africa" ], "rating": [], "categories": [] }).length }})</label>
+                              </div>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" value="" id="MiddleEast" [(ngModel)]="isChecked3" (change)="checkValue(isChecked3, 'Middle East')" />
+                                   <label class="form-check-label" for="MiddleEast">Middle East({{ (charities| searchfilter: { "location": [ "Middle East" ], "rating": [], "categories": [] }).length }})</label>
+                              </div>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" value="" id="America" [(ngModel)]='isChecked4' (change)="checkValue(isChecked4, 'America')"/>
+                                   <label class="form-check-label" for="America">America({{ (charities| searchfilter: { "location": [ "America" ], "rating": [], "categories": [] }).length }})</label>
+                              </div>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" value="" id="Asia" [(ngModel)]="isChecked5" (change)="checkValue(isChecked5, 'Asia')"/>
+                                   <label class="form-check-label" for="Asia">Asia({{ (charities| searchfilter: { "location": [ "Asia" ], "rating": [], "categories": [] }).length }})</label>
+                              </div>
+                         </ng-template>
+                    </ngb-panel>
+               </ngb-accordion>
+               <ngb-accordion>
+                    <ngb-panel title="categories">
+                         <ng-template ngbPanelContent>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" id="Animals" value="" [(ngModel)]="ischeckAnimal" (change)="checkCategories(ischeckAnimal, 'Animals')" />
+                                   <label class="form-check-label" for="Animals">Animals ({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Animals'] }).length }})</label>
+                              </div>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" id="Arts, Culture, Humanities" [(ngModel)]="ischeckACH" (change)="checkCategories(ischeckACH, 'Arts, Culture, Humanities')" />
+                                   <label class="form-check-label" for="Arts, Culture, Humanities">Arts, Culture, Humanities({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Arts, Culture, Humanities'] }).length }})</label>
+                              </div>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" id="Education" [(ngModel)]="ischeckEducation" (change)="checkCategories(ischeckEducation, 'Education')" />
+                                   <label class="form-check-label" for="Education">Education({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Education'] }).length }})</label>
+                              </div>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" id="Community Development" [(ngModel)]="ischeckCD" (change)="checkCategories(ischeckCD, 'Community Development')" />
+                                   <label class="form-check-label" for="Community Developmentmals">Community Development({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Community Development'] }).length }})</label>
+                              </div>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" id="Environments" [(ngModel)]="ischeckEnvironment" (change)="checkCategories(ischeckEnvironment, 'Environment')" />
+                                   <label class="form-check-label" for="Environment">Environment({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Environment'] }).length }})</label>
+                              </div>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" id="Health" [(ngModel)]="isCheckHealth" (change)="checkCategories(isCheckHealth,'Health')" />
+                                   <label class="form-check-label" for="Health">Health({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Health'] }).length }})</label>
+                              </div>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" id="Health" [(ngModel)]="isCheckInternational" (change)="checkCategories(isCheckInternational,'International')" />
+                                   <label class="form-check-label" for="International">International({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['International'] }).length }})</label>
+                              </div>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" id="Religion" [(ngModel)]="isCheckReligion" (change)="checkCategories(isCheckReligion,'Religion')" />
+                                   <label class="form-check-label" for="Religion">Religion({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Religion'] }).length }})</label>
+                              </div>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" id="Research and Public Policy" [(ngModel)]="isCheckRPP" (change)="checkCategories(isCheckRPP,'Research and Public Policy')" />
+                                   <label class="form-check-label" for="Research and Public Policy">Research and Public Policy({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Research and Public Policy'] }).length }})</label>
+                              </div>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" id="Human and Civil Rights" [(ngModel)]="isCheckHCR" (change)="checkCategories(isCheckHCR,'Human and Civil Rights')" />
+                                   <label class="form-check-label" for="Human and Civil Rights">Human and Civil Rights({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Human and Civil Rights'] }).length }})</label>
+                              </div>
+                         </ng-template>
+                    </ngb-panel>
+               </ngb-accordion>
+               <ngb-accordion>
+                    <ngb-panel title="rating">
+                         <ng-template ngbPanelContent>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" id="5start" [(ngModel)]="isCheck5star" (change)="checkRating(isCheck5star,5)" />
+                                   <label class="form-check-label" for="5start">5 stars({{ (charities| searchfilter: { "location": [], "rating": [5], "categories": [] }).length }})</label>
+                              </div>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" id="4start" [(ngModel)]="isCheck4star" (change)="checkRating(isCheck4star,4)" />
+                                   <label class="form-check-label" for="4start">4 stars({{ (charities| searchfilter: { "location": [], "rating": [4], "categories": [] }).length }})</label>
+                              </div>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" id="3start" [(ngModel)]="isCheck3star" (change)="checkRating(isCheck3star,3)" />
+                                   <label class="form-check-label" for="3start">3 stars({{ (charities| searchfilter: { "location": [], "rating": [3], "categories": [] }).length }})</label>
+                              </div>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" id="2start" [(ngModel)]="isCheck2star" (change)="checkRating(isCheck2star,2)" />
+                                   <label class="form-check-label" for="2start">2 stars({{ (charities| searchfilter: { "location": [], "rating": [2], "categories": [] }).length }})</label>
+                              </div>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" id="1start" [(ngModel)]="isCheck1star" (change)="checkRating(isCheck1star,1)" />
+                                   <label class="form-check-label" for="1start">1 stars({{ (charities| searchfilter: { "location": [], "rating": [1], "categories": [] }).length }})</label>
+                              </div>
+                              <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" id="0start" [(ngModel)]="isCheck0star" (change)="checkRating(isCheck0star,0)" />
+                                   <label class="form-check-label" for="0start">0 stars({{ (charities| searchfilter: { "location": [], "rating": [0], "categories": [] }).length }})</label>
+                              </div>
+                         </ng-template>
+                    </ngb-panel>
+               </ngb-accordion>
+          </div>
+          <div class="col-8 col-sm-8">
+               <h3>Search Result</h3>
+               <h4 *ngIf="myfilter" > {{ (charities| filter:myfilter | searchfilter:advancedFilter)?.length }} search results for <b>{{myfilter}}</b></h4>
+               <h4 *ngIf="(advancedFilter.location.length>0 || advancedFilter.rating.length>0 || advancedFilter.categories.length>0) && !myfilter">
+                    {{ (charities | filter: ' '|searchfilter:advancedFilter)?.length }} search results;
+               </h4>
+               <div class="row">
+                    <div class="col">
+
+                    </div>
+               </div>
+               <table class="table">
                <thead>
                     <tr>
                          <th>
@@ -29,7 +155,7 @@
                     </tr>
                </thead>
                <tbody>
-                    <tr *ngFor="let charity of filteredCharities | orderBy: key : reverse| filter:myfilter | paginate: { itemsPerPage: 5, currentPage: p}; let i = index">
+                    <tr *ngFor="let charity of charities | orderBy: key : reverse| filter:myfilter | searchfilter:advancedFilter | paginate: { itemsPerPage: 10, currentPage: p};let i = index">
                          <td>
                               {{i}}
                          </td>
@@ -48,41 +174,15 @@
                     </tr>
                </tbody>
                <!-- TODO: display total page and current pge goTo first page last page-->
-               <pagination-controls (pageChange)="p = $event"></pagination-controls>
-          </table>
+               </table>
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+          </div>
      </div>
 </div>
-<button (click)="allUK()">
-     UK
-</button>
-<button (click)="getAll()">
+<p>
+     criterial {{advancedFilter | json}}
+</p>
+
+<button (click)="clear()">
      clear
 </button>
-<p>
-     rating
-</p>
-<button (click)="rating(1)">1</button>
-<button (click)="rating(2)">2</button>
-<button (click)="rating(3)">3</button>
-<button (click)="rating(4)">4</button>
-<button (click)="rating(5)">5</button>
-
-<p>
-     categories
-</p>
-<button (click) ="animals()">Animals</button>
-<button>Arts, Culture, Humanities</button>
-<button>Education</button>
-<button>Community Development</button>
-<button>Environment</button>
-<button>Health</button>
-<button>International</button>
-<button>Human and Civil Rights (47)</button>
-<button>Religion</button>
-<button>Research and Public Policy</button>
-
-
-
-<p>
-     {{ filteredCharities | json}}
-</p>

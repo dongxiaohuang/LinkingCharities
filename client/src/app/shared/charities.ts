@@ -4,30 +4,30 @@ export const CHARITIES: Charity[] = [
   // {
   //      id: 0,
   //      name: "c0",
-  //      label: ['animals'],
+  //      label: ['Animals'],
   //      image: "../assets/img/people0.jpg"},
   {
     id: 1,
     name: "c1",
-    label: ['animals'],
+    label: ['Animals', 'Religion'],
     image: "../assets/img/people1.jpg",
     info: "This id description",
-    location: 'EU',
+    location: 'Europe',
     rating: 3
   },
   {
     id: 2,
     name: "c2",
-    label: ['animals'],
+    label: ['Animals', 'International'],
     image: "../assets/img/people3.jpg",
     info: "This id description",
-    location: 'EU',
+    location: 'Europe',
     rating: 4
   },
   {
     id: 3,
     name: "c3",
-    label: ['animals'],
+    label: ['Animals', 'Arts, Culture, Humanities', 'Education'],
     image: "../assets/img/people4.jpg",
     info: "This id description",
     location: 'UK',
@@ -36,7 +36,7 @@ export const CHARITIES: Charity[] = [
   {
     id: 4,
     name: "c4",
-    label: ['animals'],
+    label: ['Animals', 'International'],
     image: "../assets/img/people5.jpg",
     info: "This id description",
     location: 'UK',
@@ -45,7 +45,7 @@ export const CHARITIES: Charity[] = [
   {
     id: 5,
     name: "c5",
-    label: ['animals'],
+    label: ['Animals'],
     image: "../assets/img/people6.jpg",
     info: "This id description",
     location: 'UK',
@@ -54,16 +54,16 @@ export const CHARITIES: Charity[] = [
   {
     id: 6,
     name: "c6",
-    label: ['animals'],
+    label: ['Animals','Research and Public Policy'],
     image: "../assets/img/people7.jpg",
     info: "This id description",
-    location: 'USA',
+    location: 'America',
     rating: 5
   },
   {
     id: 7,
     name: "c7",
-    label: ['animals'],
+    label: ['Animals', 'Health'],
     image: "../assets/img/people8.jpg",
     info: "This id description",
     location: 'UK',
@@ -72,7 +72,7 @@ export const CHARITIES: Charity[] = [
   {
     id: 8,
     name: "c9",
-    label: ['animals'],
+    label: ['Animals', 'Research and Public Policy'],
     image: "../assets/img/people2.jpg",
     info: "This id description",
     location: 'UK',
@@ -81,7 +81,7 @@ export const CHARITIES: Charity[] = [
   {
     id: 9,
     name: "c9",
-    label: ['animals'],
+    label: ['Animals', 'Education'],
     image: "../assets/img/people2.jpg",
     info: "This id description",
     location: 'UK',
@@ -90,7 +90,7 @@ export const CHARITIES: Charity[] = [
   {
     id: 10,
     name: "c10",
-    label: ['animals'],
+    label: ['Animals', 'Human and Civil Rights'],
     image: "../assets/img/people2.jpg",
     info: "This id description",
     location: 'UK',
@@ -99,25 +99,25 @@ export const CHARITIES: Charity[] = [
   {
     id: 11,
     name: "c11",
-    label: ['animals'],
+    label: ['Animals','Arts, Culture, Humanities'],
     image: "../assets/img/people2.jpg",
     info: "This id description",
-    location: 'UK',
+    location: 'Asia',
     rating: 5
 },
   {
     id: 12,
     name: "c12",
-    label: ['animals'],
+    label: ['Education', 'Human and Civil Rights'],
     image: "../assets/img/people2.jpg",
     info: "This id description",
-    location: 'UK',
+    location: 'Africa',
     rating: 5
 },
   {
     id: 13,
     name: "c13",
-    label: ['animals'],
+    label: ['Animals', 'Environment'],
     image: "../assets/img/people2.jpg",
     info: "This id description",
     location: 'UK',
@@ -126,7 +126,7 @@ export const CHARITIES: Charity[] = [
   {
     id: 14,
     name: "c14",
-    label: ['animals', 'religion'],
+    label: ['Animals', 'Community Development'],
     image: "../assets/img/people2.jpg",
     info: "This id description",
     location: 'UK',
@@ -135,19 +135,19 @@ export const CHARITIES: Charity[] = [
   {
     id: 15,
     name: "c15",
-    label: ['animals', 'education', 'religion'],
+    label: ['Animals', 'Education', 'Community Development'],
     image: "../assets/img/people2.jpg",
     info: "This id description",
-    location: 'UK',
+    location: 'Middle East',
     rating: 5
 },
   {
     id: 16,
     name: "c16",
-    label: ['education'],
+    label: ['Education', 'Environment'],
     image: "../assets/img/people2.jpg",
     info: "This id description",
-    location: 'UK',
+    location: 'America',
     rating: 5
   }
 ]
