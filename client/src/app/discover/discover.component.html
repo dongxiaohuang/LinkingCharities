@@ -22,10 +22,14 @@
                               location
                               <span class="fa fa-sort" *ngIf="key =='location'"></span>
                          </th>
+                         <th (click)="sort('rating')">
+                              rating
+                              <span class="fa fa-sort" *ngIf="key =='rating'"></span>
+                         </th>
                     </tr>
                </thead>
                <tbody>
-                    <tr *ngFor="let charity of charities | orderBy: key : reverse| filter:myfilter | paginate: { itemsPerPage: 5, currentPage: p}; let i = index">
+                    <tr *ngFor="let charity of filteredCharities | orderBy: key : reverse| filter:myfilter | paginate: { itemsPerPage: 5, currentPage: p}; let i = index">
                          <td>
                               {{i}}
                          </td>
@@ -38,9 +42,47 @@
                          <td>
                               {{charity.location}}
                          </td>
+                         <td>
+                              {{charity.rating}}
+                         </td>
                     </tr>
                </tbody>
+               <!-- TODO: display total page and current pge goTo first page last page-->
                <pagination-controls (pageChange)="p = $event"></pagination-controls>
           </table>
      </div>
 </div>
+<button (click)="allUK()">
+     UK
+</button>
+<button (click)="getAll()">
+     clear
+</button>
+<p>
+     rating
+</p>
+<button (click)="rating(1)">1</button>
+<button (click)="rating(2)">2</button>
+<button (click)="rating(3)">3</button>
+<button (click)="rating(4)">4</button>
+<button (click)="rating(5)">5</button>
+
+<p>
+     categories
+</p>
+<button (click) ="animals()">Animals</button>
+<button>Arts, Culture, Humanities</button>
+<button>Education</button>
+<button>Community Development</button>
+<button>Environment</button>
+<button>Health</button>
+<button>International</button>
+<button>Human and Civil Rights (47)</button>
+<button>Religion</button>
+<button>Research and Public Policy</button>
+
+
+
+<p>
+     {{ filteredCharities | json}}
+</p>

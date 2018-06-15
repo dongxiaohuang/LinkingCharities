@@ -12,6 +12,6 @@ export const routes: Routes = [
      { path: 'discover', component: DiscoverComponent},
      { path: 'volunteer', component: VolunteerComponent},
      { path: 'aboutus', component: AboutusComponent},
+     { path: '', redirectTo: '/home', pathMatch: 'full'},
      { path: '**', component: PagenotfoundComponent},
-     { path: '', redirectTo: '/home', pathMatch: 'full'}
 ]

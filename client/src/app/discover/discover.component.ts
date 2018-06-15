@@ -10,18 +10,44 @@ import { GetCharitiesService } from '../services/get-charities.service';
 export class DiscoverComponent implements OnInit {
 
   charities: Charity[];
+  filteredCharities: Charity[];
   key: string = "name";
   reverse: boolean = false;
-  sort(key){
-       this.key = key;
-       this.reverse = !this.reverse;
- }
+  myfilter:any ;
+
+  sort(key) {
+    this.key = key;
+    this.reverse = !this.reverse;
+  }
   constructor(private charityService: GetCharitiesService) { }
 
   //initializing p to one
   p: number = 1;
   ngOnInit() {
-       this.charities = this.charityService.getChairties();
+    this.getAll();
   }
+  getAll(): void {
+    this.charities = this.charityService.getChairties();
+    this.filteredCharities = this.charities;
+  }
+  allUK(): void {
+    this.filteredCharities = this.filteredCharities.filter(
+      charity => charity.location == 'UK'
+    )
+    // myfilter = 'UK';
+  }
+  animals():void {
+       this.filteredCharities = this.filteredCharities.filter(
+            charity => charity.label.includes('animals')
+       )
+ }
+  rating(num: number):void {
+       this.filteredCharities = this.filteredCharities.filter(
+           (charity) => {
+                return charity.rating === num;
+           }
+       )
+ }
+
 
 }

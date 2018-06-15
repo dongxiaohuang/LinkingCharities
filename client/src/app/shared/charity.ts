@@ -5,4 +5,5 @@ export class Charity {
      image: string;
      info: string;
      location: string;
+     rating: number;
 };
