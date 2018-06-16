@@ -11,7 +11,7 @@ import { AddBgColorDirective } from './directives/add-bg-color.directive';
 import { JumbotronComponent } from './jumbotron/jumbotron.component';
 import { TopcharitiesComponent } from './topcharities/topcharities.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter'; // used for searching
-import { FormsModule } from '@angular/forms'; // used for ngModel
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // used for ngModel
 import { OrderModule } from 'ngx-order-pipe'; // used for order
 import { NgxPaginationModule } from 'ngx-pagination'; // used for pagination
 
@@ -55,6 +55,7 @@ import { SearchfilterPipe } from './pipes/searchfilter.pipe';
     FormsModule,
     OrderModule, // used for ordering
     NgxPaginationModule, // used for pagination
+    ReactiveFormsModule
   ],
   // Defines the set of injectable objects that are available in the injector of this module.
   providers: [
