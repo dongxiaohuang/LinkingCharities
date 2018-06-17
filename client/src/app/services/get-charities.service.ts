@@ -11,4 +11,9 @@ export class GetCharitiesService {
   getChairties(): Charity[] {
        return CHARITIES;
  };
+ getCharity(id:number){
+      return CHARITIES.filter(
+           (charity) => charity.id==id
+      )[0];
+}
 }

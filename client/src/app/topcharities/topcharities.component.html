@@ -22,7 +22,7 @@
   </mat-grid-tile>
 </mat-grid-list> -->
 <div class="row">
-  <div class="col-sm-3 thumbnail" *ngFor="let charity of charities">
+  <div class="col-sm-3 thumbnail" *ngFor="let charity of charities" [routerLink]="['/charitydetail', charity.id]">
     <div class="campaign-gallery-head">
       <img class="campaign-gallery-thumbnail img-fluid" src="{{charity.image}}" alt="{{charity.name}}">
     </div>

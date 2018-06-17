@@ -1,17 +1,31 @@
 <div class="bg">
-     
+
 </div>
 <div class="container">
      <div class="row">
-          <div class="col-8 offset-2">
+          <div class="col-7 offset-2">
                <input class="form-control" type="text" name="search" [(ngModel)]="myfilter" placeholder="search by location/categories/name">
           </div>
           <div class="col-1">
                <span class="fa fa-search"></span>
           </div>
+          <div class="col-2">
+               Sort by:
+               <select [(ngModel)]="key">
+                    <option>
+                         name
+                    </option>
+                    <option>
+                         rating
+                    </option>
+               </select>
+          </div>
+          <p>
+               this is key: {{key}}
+          </p>
      </div>
      <div class="row">
-          <div class="col-4 col-sm-4">
+          <div class="col-4 col-sm-2 col-sm-offset-1">
                <ngb-accordion>
                     <ngb-panel title="location">
                          <ng-template ngbPanelContent>
@@ -125,56 +139,32 @@
                <h4 *ngIf="(advancedFilter.location.length>0 || advancedFilter.rating.length>0 || advancedFilter.categories.length>0) && !myfilter">
                     {{ (charities | filter: ' '|searchfilter:advancedFilter)?.length }} search results;
                </h4>
-               <div class="row">
-                    <div class="col">
+                    <div
+                    *ngFor="let charity of charities | orderBy: key : reverse| filter:myfilter | searchfilter:advancedFilter | paginate: { itemsPerPage: 10, currentPage: p};let i = index" class="col">
+                         <div class="row">
+                         <div class="col-4">
+                              <img [routerLink]="['/charitydetail', charity.id]"
+                              class="campaign-gallery-thumbnail img-fluid suitablesize" src="{{charity.image}}" alt="{{charity.name}}">
+                         </div>
+                         <div class="col-8">
+                              <!-- {{charity | json}} -->
+                              <h3>
+                                   <a [routerLink]="['/charitydetail', charity.id]">
+                                        <b>{{charity.name}}</b>
+                                   </a>
+                              </h3>
+                              <h4>description: {{charity.description}}</h4>
+                              <h5>location: {{charity.location}}</h5>
+                              <h5>rating: {{charity.rating}}</h5>
+                              <h5>categories: {{charity.label | json}}</h5>
 
+                              <a class="button" href="#">Donate</a>
+                              <span>   |  </span>
+                              <a class="website" href="#">website</a>
+                         </div>
                     </div>
+                    <hr />
                </div>
-               <table class="table">
-               <thead>
-                    <tr>
-                         <th>
-                              #
-                         </th>
-                         <th (click)="sort('name')">
-                              Name
-                              <span class="fa fa-sort" *ngIf="key == 'name'"></span>
-                         </th>
-                         <th (click)="sort('label')">
-                              label
-                              <span class="fa fa-sort" *ngIf="key =='label'" ></span>
-                         </th>
-                         <th (click)="sort('location')">
-                              location
-                              <span class="fa fa-sort" *ngIf="key =='location'"></span>
-                         </th>
-                         <th (click)="sort('rating')">
-                              rating
-                              <span class="fa fa-sort" *ngIf="key =='rating'"></span>
-                         </th>
-                    </tr>
-               </thead>
-               <tbody>
-                    <tr *ngFor="let charity of charities | orderBy: key : reverse| filter:myfilter | searchfilter:advancedFilter | paginate: { itemsPerPage: 10, currentPage: p};let i = index">
-                         <td>
-                              {{i}}
-                         </td>
-                         <td>
-                              {{charity.name}}
-                         </td>
-                         <td>
-                              {{charity.label | json}}
-                         </td>
-                         <td>
-                              {{charity.location}}
-                         </td>
-                         <td>
-                              {{charity.rating}}
-                         </td>
-                    </tr>
-               </tbody>
-               <!-- TODO: display total page and current pge goTo first page last page-->
-               </table>
           <pagination-controls (pageChange)="p = $event"></pagination-controls>
           </div>
      </div>
