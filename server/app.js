@@ -6,6 +6,8 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var charityRouter = require('./routes/charityRouter');
+var coverPicRouter = require('./routes/coverPicRouter');
 
 var app = express();
 
@@ -19,6 +21,8 @@ app.all('*', (req, res, next) =>{
           res.redirect(307, 'https://' + req.hostname + ':' + app.get('secPort') + req.url);
      }
 });
+app.use('/charities', charityRouter);
+app.use('/coverPicRouter', coverPicRouter);
 
 
 // view engine setup

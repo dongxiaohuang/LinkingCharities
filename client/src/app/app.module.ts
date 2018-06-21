@@ -28,7 +28,8 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { SearchfilterPipe } from './pipes/searchfilter.pipe';
 import { CharityDetailsComponent } from './charity-details/charity-details.component';
-
+import { HttpModule } from '@angular/http';
+import { baseURL } from './shared/baseurl';
 @NgModule({
      // Specifies a list of directives/pipes that belong to this module.
   declarations: [
@@ -59,12 +60,17 @@ import { CharityDetailsComponent } from './charity-details/charity-details.compo
     FormsModule,
     OrderModule, // used for ordering
     NgxPaginationModule, // used for pagination
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpModule
   ],
   // Defines the set of injectable objects that are available in the injector of this module.
   providers: [
+       // TODO: why i need this
        GetCharitiesService,
-       GetCoverPicsService
+       GetCoverPicsService,
+       //registers a value (baseURL) under the BaseURL injection token.
+       //Angular can inject the BaseURL value into any class that it creates.
+       {provide: 'BaseURL', useValue:baseURL}
  ],
   bootstrap: [AppComponent]
 })
