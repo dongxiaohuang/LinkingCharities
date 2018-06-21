@@ -16,6 +16,8 @@ import { OrderModule } from 'ngx-order-pipe'; // used for order
 import { NgxPaginationModule } from 'ngx-pagination'; // used for pagination
 
 import { GetCharitiesService } from './services/get-charities.service';
+import { GetCoverPicsService } from './services/get-cover-pics.service';
+
 import { DiscoverComponent } from './discover/discover.component';
 import { VolunteerComponent } from './volunteer/volunteer.component';
 import { HomeComponent } from './home/home.component';
@@ -61,7 +63,8 @@ import { CharityDetailsComponent } from './charity-details/charity-details.compo
   ],
   // Defines the set of injectable objects that are available in the injector of this module.
   providers: [
-       GetCharitiesService
+       GetCharitiesService,
+       GetCoverPicsService
  ],
   bootstrap: [AppComponent]
 })

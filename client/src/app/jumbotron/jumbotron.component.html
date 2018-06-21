@@ -1,12 +1,12 @@
 <ngb-carousel>
-  <ng-template ngbSlide>
-    <img src="../assets/img/carousel0.jpg" class="responsive" alt="Random first slide">
+  <ng-template ngbSlide *ngFor="let pic of coverPics" >
+    <img src={{pic.url}} class="responsive" alt={{pic.label}}>
     <div class="carousel-caption">
-      <h3>First slide label</h3>
-      <p>Description 1</p>
+      <h3>{{pic.label}}</h3>
+      <p>{{pic.description}}</p>
     </div>
-    <form class="col-12" id="searchForm">
-         <div class="form-group col-6 col-offset-2">
+    <form  id="searchForm">
+         <div class="form-group ">
         <div class="input-group input-group-lg center-block">
           <input type="text" class="form-control" placeholder="Search">
           <button type="submit">
@@ -15,56 +15,5 @@
         </div>
      </div>
     </form>
-  </ng-template>
-  <ng-template ngbSlide>
-    <img src="../assets/img/carousel1.jpg" class="responsive" alt="Random second slide">
-    <form class="col-12" id="searchForm">
-         <div class="form-group col-6 col-offset-2">
-        <div class="input-group input-group-lg center-block">
-          <input type="text" class="form-control" placeholder="Search">
-          <button type="submit">
-            <span class="input-group-addon"><i class="fa fa-search fa-lg"></i></span>
-        </button>
-        </div>
-     </div>
-    </form>
-    <div class="carousel-caption">
-      <h3>Second slide label</h3>
-      <p>Description 2</p>
-    </div>
-  </ng-template>
-  <ng-template ngbSlide>
-    <img src="../assets/img/carousel2.jpg" class="responsive" alt="Random third slide">
-    <form class="col-12" id="searchForm">
-     <div class="form-group col-6 col-offset-2">
-        <div class="input-group input-group-lg center-block">
-          <input type="text" class="form-control" placeholder="Search">
-          <button type="submit">
-             <span class="input-group-addon"><i class="fa fa-search fa-lg"></i></span>
-        </button>
-        </div>
-     </div>
-    </form>
-    <div class="carousel-caption">
-      <h3>Third slide label</h3>
-      <p>Description 3</p>
-    </div>
-  </ng-template>
-  <ng-template ngbSlide>
-    <img src="../assets/img/carousel4.jpg" class="responsive" alt="Random fourth slide">
-    <form class="col-12" id="searchForm">
-     <div class="form-group col-6 col-offset-2">
-        <div class="input-group input-group-lg center-block">
-          <input type="text" class="form-control" placeholder="Search">
-          <button type="submit">
-             <span class="input-group-addon"><i class="fa fa-search fa-lg"></i></span>
-        </button>
-        </div>
-     </div>
-    </form>
-    <div class="carousel-caption">
-      <h3>Forth slide label</h3>
-      <p>Description 4</p>
-    </div>
   </ng-template>
 </ngb-carousel>
