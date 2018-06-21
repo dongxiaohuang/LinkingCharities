@@ -32,7 +32,8 @@ export class DiscoverComponent implements OnInit {
     this.getAll();
   }
   getAll(): void {
-    this.charities = this.charityService.getChairties();
+    this.charityService.getChairties()
+     .then( charities => this.charities = charities);
   }
   // allUK(): void {
   //   this.advancedFilter.location = ['UK']

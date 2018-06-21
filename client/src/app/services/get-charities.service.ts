@@ -8,12 +8,12 @@ import { CHARITIES } from '../shared/charities';
 export class GetCharitiesService {
 
   constructor() { }
-  getChairties(): Charity[] {
-       return CHARITIES;
- };
- getCharity(id:number){
-      return CHARITIES.filter(
-           (charity) => charity.id==id
-      )[0];
-}
+  getChairties(): Promise<Charity[]> {
+    return Promise.resolve(CHARITIES);
+  };
+  getCharity(id: number): Promise<Charity> {
+    return Promise.resolve(CHARITIES.filter(
+      (charity) => charity.id == id
+    )[0]);
+  }
 }

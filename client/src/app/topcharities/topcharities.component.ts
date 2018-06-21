@@ -13,7 +13,8 @@ export class TopcharitiesComponent implements OnInit {
   constructor(private charityService: GetCharitiesService) { }
 
   ngOnInit() {
-       this.charities = this.charityService.getChairties();
+      this.charityService.getChairties()
+          .then(charities => this.charities = charities);
   }
 
 
