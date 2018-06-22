@@ -3,6 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
+
+var config = require('./config');
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -10,6 +15,16 @@ var charityRouter = require('./routes/charityRouter');
 var coverPicRouter = require('./routes/coverPicRouter');
 
 var app = express();
+
+// connect to mongodb
+var url = config.mongoUrl;
+const connect = mongoose.connect(url);
+//Mongoose creates a default connection when you call mongoose.connect().
+//You can access the default connection using mongoose.connection.
+connect.then(() => {
+     console.log('mongoDB connect successfully');
+});
+
 
 // redirect to secure ports
 app.all('*', (req, res, next) =>{
@@ -21,8 +36,6 @@ app.all('*', (req, res, next) =>{
           res.redirect(307, 'https://' + req.hostname + ':' + app.get('secPort') + req.url);
      }
 });
-app.use('/charities', charityRouter);
-app.use('/coverPicRouter', coverPicRouter);
 
 
 // view engine setup
@@ -37,6 +50,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/charities', charityRouter);
+app.use('/coverpics', coverPicRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
