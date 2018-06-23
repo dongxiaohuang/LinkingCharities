@@ -33,7 +33,7 @@ export class DiscoverComponent implements OnInit {
   }
   getAll(): void {
     this.charityService.getChairties()
-     .then( charities => this.charities = charities);
+     .subscribe( charities => this.charities = charities);
   }
   // allUK(): void {
   //   this.advancedFilter.location = ['UK']

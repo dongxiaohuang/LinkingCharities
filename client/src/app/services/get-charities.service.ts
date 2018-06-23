@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { Charity } from '../shared/charity';
 import { CHARITIES } from '../shared/charities';
 
@@ -9,16 +9,16 @@ import { CHARITIES } from '../shared/charities';
 export class GetCharitiesService {
 
   constructor() { }
-  getChairties(): Promise<Charity[]> {
+  getChairties(): Observable<Charity[]> {
     // return Promise.resolve(CHARITIES);
-     return of(CHARITIES).toPromise();
+     return of(CHARITIES);
   };
-  getCharity(id: number): Promise<Charity> {
+  getCharity(id: number): Observable<Charity> {
     // return Promise.resolve(CHARITIES.filter(
     //   (charity) => charity.id == id
     // )[0]);
     return of(CHARITIES.filter(
                    charities => charities.id == id
-              )[0]).toPromise();
+              )[0]);
   }
 }

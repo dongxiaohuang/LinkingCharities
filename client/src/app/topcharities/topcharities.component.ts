@@ -14,7 +14,7 @@ export class TopcharitiesComponent implements OnInit {
 
   ngOnInit() {
       this.charityService.getChairties()
-          .then(charities => this.charities = charities);
+          .subscribe(charities => this.charities = charities);
   }
 
 

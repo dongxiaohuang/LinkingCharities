@@ -16,7 +16,7 @@ export class CharityDetailsComponent implements OnInit {
   ngOnInit() {
        let id = +this.route.snapshot.params['id']; //'+' convert a string into interger value
        this.charityService.getCharity(id)
-          .then(charity => this.charity = charity);
+          .subscribe(charity => this.charity = charity);
   }
 
 }

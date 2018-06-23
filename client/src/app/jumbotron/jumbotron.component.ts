@@ -13,7 +13,7 @@ export class JumbotronComponent implements OnInit {
 
   ngOnInit() {
        this.coverPicsService.getAllCoverPics()
-       .then(pics => this.coverPics = pics);
+       .subscribe(pics => this.coverPics = pics);
   }
 
 
