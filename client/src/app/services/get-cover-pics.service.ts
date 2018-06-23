@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CoverPic } from '../shared/coverPic';
-import { COVERPICS } from '../shared/coverPictures';
-import { of, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { RestangularModule, Restangular } from 'ngx-restangular';
+import { Restangular } from 'ngx-restangular';
 
 
 import { baseURL } from '../shared/baseurl';

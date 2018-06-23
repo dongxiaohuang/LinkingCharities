@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GetCharitiesService } from '../services/get-charities.service';
 import { Charity } from '../shared/charity';
+import { baseURL } from '../shared/baseurl';
 
 @Component({
   selector: 'app-topcharities',
@@ -8,7 +9,7 @@ import { Charity } from '../shared/charity';
   styleUrls: ['./topcharities.component.scss']
 })
 export class TopcharitiesComponent implements OnInit {
-
+  baseUrl = baseURL;
   charities: Charity[];
   constructor(private charityService: GetCharitiesService) { }
 

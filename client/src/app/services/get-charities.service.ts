@@ -1,24 +1,21 @@
 import { Injectable } from '@angular/core';
-import { of, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Charity } from '../shared/charity';
 import { CHARITIES } from '../shared/charities';
+
+import { Restangular } from 'ngx-restangular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GetCharitiesService {
 
-  constructor() { }
+  constructor(private restangular: Restangular) { }
   getChairties(): Observable<Charity[]> {
     // return Promise.resolve(CHARITIES);
-     return of(CHARITIES);
+     return this.restangular.all('charities').getList();
   };
   getCharity(id: number): Observable<Charity> {
-    // return Promise.resolve(CHARITIES.filter(
-    //   (charity) => charity.id == id
-    // )[0]);
-    return of(CHARITIES.filter(
-                   charities => charities.id == id
-              )[0]);
+    return this.restangular.one('charities', id).get();
   }
 }

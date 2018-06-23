@@ -143,20 +143,20 @@
                     *ngFor="let charity of charities | orderBy: key : reverse| filter:myfilter | searchfilter:advancedFilter | paginate: { itemsPerPage: 10, currentPage: p};let i = index" class="col">
                          <div class="row">
                          <div class="col-4">
-                              <img [routerLink]="['/charitydetail', charity.id]"
-                              class="campaign-gallery-thumbnail img-fluid suitablesize" src="{{charity.image}}" alt="{{charity.name}}">
+                              <img [routerLink]="['/charitydetail', charity._id]"
+                              class="campaign-gallery-thumbnail img-fluid suitablesize" src="{{baseUrl}}{{charity.image}}" alt="{{charity.name}}">
                          </div>
                          <div class="col-8">
                               <!-- {{charity | json}} -->
                               <h3>
-                                   <a [routerLink]="['/charitydetail', charity.id]">
+                                   <a [routerLink]="['/charitydetail', charity._id]">
                                         <b>{{charity.name}}</b>
                                    </a>
                               </h3>
-                              <h4>description: {{charity.description}}</h4>
+                              <h4>description: {{charity.info}}</h4>
                               <h5>location: {{charity.location}}</h5>
-                              <h5>rating: {{charity.rating}}</h5>
-                              <h5>categories: {{charity.label | json}}</h5>
+                              <h5>rating: {{charity.comments[0].rating}}</h5>
+                              <h5>categories: {{charity.labels | json}}</h5>
 
                               <a class="button" href="#">Donate</a>
                               <span>   |  </span>

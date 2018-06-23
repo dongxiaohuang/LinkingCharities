@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Charity } from '../shared/charity';
+import { baseURL } from '../shared/baseurl';
 import { GetCharitiesService } from '../services/get-charities.service';
 @Component({
   selector: 'app-discover',
@@ -8,7 +9,7 @@ import { GetCharitiesService } from '../services/get-charities.service';
   styleUrls: ['./discover.component.scss']
 })
 export class DiscoverComponent implements OnInit {
-
+  baseUrl = baseURL;
   charities: Charity[];
   key: string = "name";
   reverse: boolean = false;
