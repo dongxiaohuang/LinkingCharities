@@ -1,5 +1,4 @@
 <div class="bg">
-
 </div>
 <div class="container">
      <div class="row">
@@ -25,7 +24,7 @@
           </p>
      </div>
      <div class="row">
-          <div class="col-4 col-sm-2 col-sm-offset-1">
+          <div class="container col-8 col-sm-3 col-sm-offset-1">
                <ngb-accordion>
                     <ngb-panel title="location">
                          <ng-template ngbPanelContent>
@@ -133,21 +132,23 @@
                     </ngb-panel>
                </ngb-accordion>
           </div>
-          <div class="col-8 col-sm-8">
+
+          <div class="container col-12 col-sm-8">
                <h3>Search Result</h3>
                <h4 *ngIf="myfilter" > {{ (charities| filter:myfilter | searchfilter:advancedFilter)?.length }} search results for <b>{{myfilter}}</b></h4>
                <h4 *ngIf="(advancedFilter.location.length>0 || advancedFilter.rating.length>0 || advancedFilter.categories.length>0) && !myfilter">
                     {{ (charities | filter: ' '|searchfilter:advancedFilter)?.length }} search results;
                </h4>
                     <div
-                    *ngFor="let charity of charities | orderBy: key : reverse| filter:myfilter | searchfilter:advancedFilter | paginate: { itemsPerPage: 10, currentPage: p};let i = index" class="col">
-                         <div class="row">
-                         <div class="col-4">
+                    *ngFor="let charity of charities | orderBy: key : reverse| filter:myfilter | searchfilter:advancedFilter | paginate: { itemsPerPage: 10, currentPage: p};let i = index"
+                    class="col">
+                         <div class="row box-shadow">
+                         <div class="col-4 no-padding">
                               <img [routerLink]="['/charitydetail', charity._id]"
-                              class="campaign-gallery-thumbnail img-fluid suitablesize" src="{{baseUrl}}{{charity.image}}" alt="{{charity.name}}">
+                              class="campaign-gallery-thumbnail img-fluid suitablesize fit-size " src="{{baseUrl}}{{charity.image}}" alt="{{charity.name}}">
                          </div>
                          <div class="col-8">
-                              <!-- {{charity | json}} -->
+                              <div class="col-margin-1">
                               <h3>
                                    <a [routerLink]="['/charitydetail', charity._id]">
                                         <b>{{charity.name}}</b>
@@ -156,11 +157,16 @@
                               <h4>description: {{charity.info}}</h4>
                               <h5>location: {{charity.location}}</h5>
                               <h5>rating: {{charity.comments[0].rating}}</h5>
-                              <h5>categories: {{charity.labels | json}}</h5>
-
+                              <h5 >categories:</h5>
+                              <div class="row">
+                                   <div class="col-4 col-md-3 col-lg-2" *ngFor="let label of charity.labels" >
+                                        <span class="badge badge-pill badge-info">{{label}}</span>
+                                   </div>
+                              </div>
                               <a class="button" href="#">Donate</a>
                               <span>   |  </span>
                               <a class="website" href="#">website</a>
+                              </div>
                          </div>
                     </div>
                     <hr />
