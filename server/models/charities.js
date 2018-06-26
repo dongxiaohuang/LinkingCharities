@@ -47,6 +47,10 @@ const charitySchema = new Schema({
           type: String,
           required: true
      },
+     add: {
+          type: String,
+          required: true
+     }
      comments: [commentSchema]
 },{
      timestamps: true
