@@ -14,6 +14,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter'; // used for searching
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // used for ngModel
 import { OrderModule } from 'ngx-order-pipe'; // used for order
 import { NgxPaginationModule } from 'ngx-pagination'; // used for pagination
+import { AgmCoreModule } from '@agm/core';
 
 import { GetCharitiesService } from './services/get-charities.service';
 import { GetCoverPicsService } from './services/get-cover-pics.service';
@@ -32,6 +33,7 @@ import { CharityDetailsComponent } from './charity-details/charity-details.compo
 import { RestangularModule, Restangular } from 'ngx-restangular';
 import { RestangularConfigFactory } from './shared/restConfig';
 import { baseURL } from './shared/baseurl';
+import { AgmComponent } from './agm/agm.component';
 @NgModule({
      // Specifies a list of directives/pipes that belong to this module.
   declarations: [
@@ -48,7 +50,8 @@ import { baseURL } from './shared/baseurl';
     ContactComponent,
     PagenotfoundComponent,
     SearchfilterPipe,
-    CharityDetailsComponent
+    CharityDetailsComponent,
+    AgmComponent
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [
@@ -63,7 +66,10 @@ import { baseURL } from './shared/baseurl';
     OrderModule, // used for ordering
     NgxPaginationModule, // used for pagination
     ReactiveFormsModule,
-    RestangularModule.forRoot(RestangularConfigFactory)
+    RestangularModule.forRoot(RestangularConfigFactory),
+    AgmCoreModule.forRoot({
+         apiKey: 'AIzaSyA3AVlaDTOxqpnA6lqKW9kvHKQR9UZ0YIE'
+    })
   ],
   // Defines the set of injectable objects that are available in the injector of this module.
   providers: [
