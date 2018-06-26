@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GetCharitiesService } from '../services/get-charities.service';
 import { Charity } from '../shared/charity';
 import { baseURL } from '../shared/baseurl';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-topcharities',
@@ -17,6 +18,5 @@ export class TopcharitiesComponent implements OnInit {
       this.charityService.getChairties()
           .subscribe(charities => this.charities = charities);
   }
-
-
+  display(classId: string){$('.'+classId).slideToggle('slow');}
 }

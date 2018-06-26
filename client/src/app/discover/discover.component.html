@@ -1,32 +1,24 @@
 <div class="bg">
 </div>
 <div class="container">
+  <div class="d-sm-none d-block search-form-trigger" (click)="isCollapsed = !isCollapsed"
+          [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">Filters<i class="fa btn fa-filter"></i></div>
      <div class="row">
-          <div class="col-7 offset-2">
-               <input class="form-control" type="text" name="search" [(ngModel)]="myfilter" placeholder="search by location/categories/name">
-          </div>
-          <div class="col-1">
-               <span class="fa fa-search"></span>
-          </div>
-          <div class="col-2">
-               Sort by:
-               <select [(ngModel)]="key">
-                    <option>
-                         name
-                    </option>
-                    <option>
-                         rating
-                    </option>
-               </select>
-          </div>
-          <p>
-               this is key: {{key}}
-          </p>
-     </div>
-     <div class="row">
-          <div class="container col-8 col-sm-3 col-sm-offset-1">
-               <ngb-accordion>
-                    <ngb-panel title="location">
+          <div class="container col-12 col-sm-3 col-sm-offset-1" id="collapseExample" [ngbCollapse]="isCollapsed">
+               <br />
+               <div class="col-12">
+                    <div class="row">
+                         <div class="col">
+                              <input class="form-control" type="text" name="search" [(ngModel)]="myfilter" placeholder="search by location/categories/name">
+                         </div>
+                         <div class="col-1">
+                              <span class="fa fa-search"></span>
+                         </div>
+                    </div>
+               </div>
+               <hr />
+               <ngb-accordion activeIds="a1">
+                    <ngb-panel title="location" id="a1">
                          <ng-template ngbPanelContent>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" value="" id="uk" [(ngModel)]="isChecked" (change)="checkValue(isChecked, 'UK')"/>
@@ -55,8 +47,8 @@
                          </ng-template>
                     </ngb-panel>
                </ngb-accordion>
-               <ngb-accordion>
-                    <ngb-panel title="categories">
+               <ngb-accordion activeIds="a2">
+                    <ngb-panel title="categories" id="a2">
                          <ng-template ngbPanelContent>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" id="Animals" value="" [(ngModel)]="ischeckAnimal" (change)="checkCategories(ischeckAnimal, 'Animals')" />
@@ -101,8 +93,8 @@
                          </ng-template>
                     </ngb-panel>
                </ngb-accordion>
-               <ngb-accordion>
-                    <ngb-panel title="rating">
+               <ngb-accordion activeIds="a3">
+                    <ngb-panel title="rating" id="a3">
                          <ng-template ngbPanelContent>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" id="5start" [(ngModel)]="isCheck5star" (change)="checkRating(isCheck5star,5)" />
@@ -134,7 +126,25 @@
           </div>
 
           <div class="container col-12 col-sm-8">
-               <h3>Search Result</h3>
+               <div class="row">
+                    <div class="col-4">
+                         <h3>Search Result</h3>
+
+                    </div>
+                    <div class="col-4">
+                         Sort by:
+                         <select [(ngModel)]="key">
+                              <option>
+                                   name
+                              </option>
+                              <option>
+                                   rating
+                              </option>
+                         </select>
+                    </div>
+               <button *ngIf="isCollapsed" (click) ="isCollapsed = !isCollapsed" class="d-none d-sm-block btn">filter</button>
+               </div>
+
                <h4 *ngIf="myfilter" > {{ (charities| filter:myfilter | searchfilter:advancedFilter)?.length }} search results for <b>{{myfilter}}</b></h4>
                <h4 *ngIf="(advancedFilter.location.length>0 || advancedFilter.rating.length>0 || advancedFilter.categories.length>0) && !myfilter">
                     {{ (charities | filter: ' '|searchfilter:advancedFilter)?.length }} search results;

@@ -14,7 +14,7 @@ export class DiscoverComponent implements OnInit {
   key: string = "name";
   reverse: boolean = false;
   myfilter: any;
-
+  isCollapsed: boolean = true;
   advancedFilter: any = {
     location: [],
     rating: [],
