@@ -51,7 +51,8 @@ import { AgmComponent } from './agm/agm.component';
     PagenotfoundComponent,
     SearchfilterPipe,
     CharityDetailsComponent,
-    AgmComponent
+    AgmComponent,
+
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [
@@ -68,8 +69,8 @@ import { AgmComponent } from './agm/agm.component';
     ReactiveFormsModule,
     RestangularModule.forRoot(RestangularConfigFactory),
     AgmCoreModule.forRoot({
-         apiKey: 'AIzaSyA3AVlaDTOxqpnA6lqKW9kvHKQR9UZ0YIE'
-    })
+         apiKey: 'AIzaSyDgYITwFa8Y3SzcrRHKpgDJEEntuj65le8'
+    }),
   ],
   // Defines the set of injectable objects that are available in the injector of this module.
   providers: [
