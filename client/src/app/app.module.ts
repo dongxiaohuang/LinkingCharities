@@ -15,6 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // used for n
 import { OrderModule } from 'ngx-order-pipe'; // used for order
 import { NgxPaginationModule } from 'ngx-pagination'; // used for pagination
 import { AgmCoreModule } from '@agm/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgSelectModule, NgOption } from '@ng-select/ng-select';
 
 import { GetCharitiesService } from './services/get-charities.service';
 import { GetCoverPicsService } from './services/get-cover-pics.service';
@@ -34,25 +36,26 @@ import { RestangularModule, Restangular } from 'ngx-restangular';
 import { RestangularConfigFactory } from './shared/restConfig';
 import { baseURL } from './shared/baseurl';
 import { AgmComponent } from './agm/agm.component';
+import { AutocompleteSearchComponent } from './autocomplete-search/autocomplete-search.component';
 @NgModule({
      // Specifies a list of directives/pipes that belong to this module.
   declarations: [
+    AboutusComponent,
     AppComponent,
+    AddBgColorDirective,
+    AgmComponent,
     HeaderComponent,
     FooterComponent,
-    AddBgColorDirective,
     JumbotronComponent,
     TopcharitiesComponent,
     DiscoverComponent,
     VolunteerComponent,
     HomeComponent,
-    AboutusComponent,
     ContactComponent,
     PagenotfoundComponent,
     SearchfilterPipe,
     CharityDetailsComponent,
-    AgmComponent,
-
+    AutocompleteSearchComponent,
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [
@@ -71,6 +74,8 @@ import { AgmComponent } from './agm/agm.component';
     AgmCoreModule.forRoot({
          apiKey: 'AIzaSyDgYITwFa8Y3SzcrRHKpgDJEEntuj65le8'
     }),
+    BrowserAnimationsModule,
+    NgSelectModule,
   ],
   // Defines the set of injectable objects that are available in the injector of this module.
   providers: [

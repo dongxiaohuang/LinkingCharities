@@ -5,15 +5,6 @@
       <h3>{{pic.label}}</h3>
       <p>{{pic.description}}</p>
     </div>
-    <form  id="searchForm">
-         <div class="form-group ">
-        <div class="input-group input-group-lg center-block">
-          <input type="text" class="form-control" placeholder="Search">
-          <button type="submit">
-            <span class="input-group-addon"><i class="fa fa-search fa-lg"></i></span>
-        </button>
-        </div>
-     </div>
-    </form>
+    <app-autocomplete-search id="searchForm"></app-autocomplete-search>
   </ng-template>
 </ngb-carousel>
