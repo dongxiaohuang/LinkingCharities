@@ -1,5 +1,6 @@
 <div class="bg">
 </div>
+<app-autocomplete-search [searchKey]="searchKey"></app-autocomplete-search>
 <div class="container">
   <div class="d-sm-none d-block search-form-trigger" (click)="isCollapsed = !isCollapsed"
           [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">Filters<i class="fa btn fa-filter"></i></div>
@@ -22,27 +23,27 @@
                          <ng-template ngbPanelContent>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" value="" id="uk" [(ngModel)]="isChecked" (change)="checkValue(isChecked, 'UK')"/>
-                                   <label class="form-check-label" for="uk">UK ({{ (charities| searchfilter: { "location": [ "UK" ], "rating": [], "categories": [] }).length }})</label>
+                                   <label class="form-check-label" for="uk">UK ({{ (charities| searchfilter: { "location": [ "UK" ], "rating": [], "categories": [] })?.length }})</label>
                               </div>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" value="" id="Europe" [(ngModel)]="isChecked1" (change)="checkValue(isChecked1, 'Europe')"/>
-                                   <label class="form-check-label" for="Europe">Europe({{ (charities| searchfilter: { "location": [ "Europe" ], "rating": [], "categories": [] }).length }})</label>
+                                   <label class="form-check-label" for="Europe">Europe({{ (charities| searchfilter: { "location": [ "Europe" ], "rating": [], "categories": [] })?.length }})</label>
                               </div>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" value="" id="Africa" [(ngModel)]="isChecked2" (change)="checkValue(isChecked2, 'Africa')"/>
-                                   <label class="form-check-label" for="EEA">Africa({{ (charities| searchfilter: { "location": [ "Africa" ], "rating": [], "categories": [] }).length }})</label>
+                                   <label class="form-check-label" for="EEA">Africa({{ (charities| searchfilter: { "location": [ "Africa" ], "rating": [], "categories": [] })?.length }})</label>
                               </div>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" value="" id="MiddleEast" [(ngModel)]="isChecked3" (change)="checkValue(isChecked3, 'Middle East')" />
-                                   <label class="form-check-label" for="MiddleEast">Middle East({{ (charities| searchfilter: { "location": [ "Middle East" ], "rating": [], "categories": [] }).length }})</label>
+                                   <label class="form-check-label" for="MiddleEast">Middle East({{ (charities| searchfilter: { "location": [ "Middle East" ], "rating": [], "categories": [] })?.length }})</label>
                               </div>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" value="" id="America" [(ngModel)]='isChecked4' (change)="checkValue(isChecked4, 'America')"/>
-                                   <label class="form-check-label" for="America">America({{ (charities| searchfilter: { "location": [ "America" ], "rating": [], "categories": [] }).length }})</label>
+                                   <label class="form-check-label" for="America">America({{ (charities| searchfilter: { "location": [ "America" ], "rating": [], "categories": [] })?.length }})</label>
                               </div>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" value="" id="Asia" [(ngModel)]="isChecked5" (change)="checkValue(isChecked5, 'Asia')"/>
-                                   <label class="form-check-label" for="Asia">Asia({{ (charities| searchfilter: { "location": [ "Asia" ], "rating": [], "categories": [] }).length }})</label>
+                                   <label class="form-check-label" for="Asia">Asia({{ (charities| searchfilter: { "location": [ "Asia" ], "rating": [], "categories": [] })?.length }})</label>
                               </div>
                          </ng-template>
                     </ngb-panel>
@@ -52,43 +53,43 @@
                          <ng-template ngbPanelContent>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" id="Animals" value="" [(ngModel)]="ischeckAnimal" (change)="checkCategories(ischeckAnimal, 'Animals')" />
-                                   <label class="form-check-label" for="Animals">Animals ({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Animals'] }).length }})</label>
+                                   <label class="form-check-label" for="Animals">Animals ({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Animals'] })?.length }})</label>
                               </div>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" id="Arts, Culture, Humanities" [(ngModel)]="ischeckACH" (change)="checkCategories(ischeckACH, 'Arts, Culture, Humanities')" />
-                                   <label class="form-check-label" for="Arts, Culture, Humanities">Arts, Culture, Humanities({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Arts, Culture, Humanities'] }).length }})</label>
+                                   <label class="form-check-label" for="Arts, Culture, Humanities">Arts, Culture, Humanities({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Arts, Culture, Humanities'] })?.length }})</label>
                               </div>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" id="Education" [(ngModel)]="ischeckEducation" (change)="checkCategories(ischeckEducation, 'Education')" />
-                                   <label class="form-check-label" for="Education">Education({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Education'] }).length }})</label>
+                                   <label class="form-check-label" for="Education">Education({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Education'] })?.length }})</label>
                               </div>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" id="Community Development" [(ngModel)]="ischeckCD" (change)="checkCategories(ischeckCD, 'Community Development')" />
-                                   <label class="form-check-label" for="Community Developmentmals">Community Development({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Community Development'] }).length }})</label>
+                                   <label class="form-check-label" for="Community Developmentmals">Community Development({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Community Development'] })?.length }})</label>
                               </div>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" id="Environments" [(ngModel)]="ischeckEnvironment" (change)="checkCategories(ischeckEnvironment, 'Environment')" />
-                                   <label class="form-check-label" for="Environment">Environment({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Environment'] }).length }})</label>
+                                   <label class="form-check-label" for="Environment">Environment({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Environment'] })?.length }})</label>
                               </div>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" id="Health" [(ngModel)]="isCheckHealth" (change)="checkCategories(isCheckHealth,'Health')" />
-                                   <label class="form-check-label" for="Health">Health({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Health'] }).length }})</label>
+                                   <label class="form-check-label" for="Health">Health({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Health'] })?.length }})</label>
                               </div>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" id="Health" [(ngModel)]="isCheckInternational" (change)="checkCategories(isCheckInternational,'International')" />
-                                   <label class="form-check-label" for="International">International({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['International'] }).length }})</label>
+                                   <label class="form-check-label" for="International">International({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['International'] })?.length }})</label>
                               </div>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" id="Religion" [(ngModel)]="isCheckReligion" (change)="checkCategories(isCheckReligion,'Religion')" />
-                                   <label class="form-check-label" for="Religion">Religion({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Religion'] }).length }})</label>
+                                   <label class="form-check-label" for="Religion">Religion({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Religion'] })?.length }})</label>
                               </div>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" id="Research and Public Policy" [(ngModel)]="isCheckRPP" (change)="checkCategories(isCheckRPP,'Research and Public Policy')" />
-                                   <label class="form-check-label" for="Research and Public Policy">Research and Public Policy({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Research and Public Policy'] }).length }})</label>
+                                   <label class="form-check-label" for="Research and Public Policy">Research and Public Policy({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Research and Public Policy'] })?.length }})</label>
                               </div>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" id="Human and Civil Rights" [(ngModel)]="isCheckHCR" (change)="checkCategories(isCheckHCR,'Human and Civil Rights')" />
-                                   <label class="form-check-label" for="Human and Civil Rights">Human and Civil Rights({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Human and Civil Rights'] }).length }})</label>
+                                   <label class="form-check-label" for="Human and Civil Rights">Human and Civil Rights({{ (charities| searchfilter: { "location": [], "rating": [], "categories": ['Human and Civil Rights'] })?.length }})</label>
                               </div>
                          </ng-template>
                     </ngb-panel>
@@ -98,27 +99,27 @@
                          <ng-template ngbPanelContent>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" id="5start" [(ngModel)]="isCheck5star" (change)="checkRating(isCheck5star,5)" />
-                                   <label class="form-check-label" for="5start">5 stars({{ (charities| searchfilter: { "location": [], "rating": [5], "categories": [] }).length }})</label>
+                                   <label class="form-check-label" for="5start">5 stars({{ (charities| searchfilter: { "location": [], "rating": [5], "categories": [] })?.length }})</label>
                               </div>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" id="4start" [(ngModel)]="isCheck4star" (change)="checkRating(isCheck4star,4)" />
-                                   <label class="form-check-label" for="4start">4 stars({{ (charities| searchfilter: { "location": [], "rating": [4], "categories": [] }).length }})</label>
+                                   <label class="form-check-label" for="4start">4 stars({{ (charities| searchfilter: { "location": [], "rating": [4], "categories": [] })?.length }})</label>
                               </div>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" id="3start" [(ngModel)]="isCheck3star" (change)="checkRating(isCheck3star,3)" />
-                                   <label class="form-check-label" for="3start">3 stars({{ (charities| searchfilter: { "location": [], "rating": [3], "categories": [] }).length }})</label>
+                                   <label class="form-check-label" for="3start">3 stars({{ (charities| searchfilter: { "location": [], "rating": [3], "categories": [] })?.length }})</label>
                               </div>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" id="2start" [(ngModel)]="isCheck2star" (change)="checkRating(isCheck2star,2)" />
-                                   <label class="form-check-label" for="2start">2 stars({{ (charities| searchfilter: { "location": [], "rating": [2], "categories": [] }).length }})</label>
+                                   <label class="form-check-label" for="2start">2 stars({{ (charities| searchfilter: { "location": [], "rating": [2], "categories": [] })?.length }})</label>
                               </div>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" id="1start" [(ngModel)]="isCheck1star" (change)="checkRating(isCheck1star,1)" />
-                                   <label class="form-check-label" for="1start">1 stars({{ (charities| searchfilter: { "location": [], "rating": [1], "categories": [] }).length }})</label>
+                                   <label class="form-check-label" for="1start">1 stars({{ (charities| searchfilter: { "location": [], "rating": [1], "categories": [] })?.length }})</label>
                               </div>
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" id="0start" [(ngModel)]="isCheck0star" (change)="checkRating(isCheck0star,0)" />
-                                   <label class="form-check-label" for="0start">0 stars({{ (charities| searchfilter: { "location": [], "rating": [0], "categories": [] }).length }})</label>
+                                   <label class="form-check-label" for="0start">0 stars({{ (charities| searchfilter: { "location": [], "rating": [0], "categories": [] })?.length }})</label>
                               </div>
                          </ng-template>
                     </ngb-panel>

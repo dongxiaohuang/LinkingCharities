@@ -7,6 +7,7 @@ export class SearchfilterPipe implements PipeTransform {
 
   transform(items: any[], criterias: any): any[] {
        // if filter location
+    if(!items) return [];
     if(criterias.location.length > 0){
          items = items.filter(
               item => {return criterias.location.includes(item.location);});

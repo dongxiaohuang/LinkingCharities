@@ -17,7 +17,7 @@ import { NgxPaginationModule } from 'ngx-pagination'; // used for pagination
 import { AgmCoreModule } from '@agm/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgSelectModule, NgOption } from '@ng-select/ng-select';
-
+import {RouterModule} from "@angular/router";
 import { GetCharitiesService } from './services/get-charities.service';
 import { GetCoverPicsService } from './services/get-cover-pics.service';
 
@@ -31,6 +31,7 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { SearchfilterPipe } from './pipes/searchfilter.pipe';
 import { CharityDetailsComponent } from './charity-details/charity-details.component';
+
 
 import { RestangularModule, Restangular } from 'ngx-restangular';
 import { RestangularConfigFactory } from './shared/restConfig';

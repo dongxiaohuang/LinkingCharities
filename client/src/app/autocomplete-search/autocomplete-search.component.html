@@ -1,7 +1,9 @@
-<form id="searchForm">
+<form id="searchForm" (ngSubmit)="doSearch()">
   <div class="row">
     <div class="col-11 bg-tp">
-      <ng-select class="custom" [items]="charities" [virtualScroll]="true" bindLabel="name" name="search" bindValue="_id" placeholder="Search by name" [(ngModel)]="selectedCityId">
+      <ng-select class="custom" required [items]="charities" [virtualScroll]="true" bindLabel="name" name="search"
+      bindValue="name" 
+      placeholder="Search by name" [(ngModel)]="searchKey">
       </ng-select>
     </div>
     <div class="col-1 bg-tp">

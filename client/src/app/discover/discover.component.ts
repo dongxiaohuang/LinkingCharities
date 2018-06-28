@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Charity } from '../shared/charity';
 import { baseURL } from '../shared/baseurl';
 import { GetCharitiesService } from '../services/get-charities.service';
+import { Router, ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-discover',
   templateUrl: './discover.component.html',
@@ -11,6 +13,7 @@ import { GetCharitiesService } from '../services/get-charities.service';
 export class DiscoverComponent implements OnInit {
   baseUrl = baseURL;
   charities: Charity[];
+  searchKey:string;
   key: string = "name";
   reverse: boolean = false;
   myfilter: any;
@@ -25,10 +28,25 @@ export class DiscoverComponent implements OnInit {
     this.key = key;
     this.reverse = !this.reverse;
   }
-  constructor(private charityService: GetCharitiesService) { }
+  constructor(private charityService: GetCharitiesService,
+               private router: Router,
+               private activatedRoute: ActivatedRoute) {
+                    this.activatedRoute.params.subscribe(
+                         params => {
+                              if(params['key']){
+                                   this.onSearch(params.key);
+                                   this.searchKey = params['key'];
+                              }
+                         }
+                    )
+ }
 
   //initializing p to one
   p: number = 1;
+
+  onSearch(params: string){
+       console.log(params);
+ }
   ngOnInit() {
     this.getAll();
   }
