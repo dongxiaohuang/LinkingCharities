@@ -1,32 +1,29 @@
 
     <div class="row">
         <div class="col-6 col-sm-4 col-md-3" *ngFor="let charity of charities">
-            <div class="card box-shadow" >
-                <div class="card-image">
-                    <img class="img-fluid" src="{{baseUrl}}{{charity.image}}" alt="{{charity.name}}">
-                </div><!-- card image -->
-
-                <div class="card-content">
-                    <a class="card-title" [routerLink]="['/charitydetail', charity._id]">{{charity.name}}</a>
-                    <button type="button" id="show" (click)="display(charity._id)" class="btn btn-custom pull-right" aria-label="Left Align">
-                        <i class="fa fa-ellipsis-v"></i>
-                    </button>
-                </div><!-- card content -->
-                <div class="row container">
-                     <div class="col-4" *ngFor="let category of charity.labels" >
-                          <span class="badge badge-pill badge-success">{{category}}</span>
-                     </div>
-
+            <div class="panel card box-shadow" >
+                <div class="wrapper" [ngStyle]="{'background': getUrl(charity.image)}">
+                  <div class="header">
+                    <div class="date">
+                         {{charity.updatedAt |date}}
+                    </div>
+                    <ul class="menu-content">
+                      <li>
+                        <a href="#" class="fa fa-donate"></a>
+                      </li>
+                      <li><a href="#" class="fa fa-heart"><span>NA</span></a></li>
+                      <li><a href="#" class="fa fa-comment"><span>{{charity.comments.length}}</span></a></li>
+                    </ul>
+                  </div>
+                  <div class="data">
+                    <div class="content">
+                      <span class="location">{{charity.location}}</span>
+                      <h1 class="title"><a [routerLink]="['/charitydetail', charity._id]">{{charity.name}}</a></h1>
+                      <p class="text">{{charity.info}}</p>
+                      <a [routerLink]="['/charitydetail', charity._id]" class="button">Read more</a>
+                    </div>
+                  </div>
                 </div>
-                <div class="card-action row">
-                    <a class="btn icon-btn btn-info col-2" href="#"> Like</a>
-                    <a class="btn icon-btn btn-danger col-3" href="#"> Donate</a>
-                    <a class="btn icon-btn btn-warning col-4" href="#"> Volunteer</a>
-                </div><!-- card actions -->
-                <div class="card-reveal {{charity._id}}">
-                    <span class="card-title">{{charity.name}}</span> <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="display(charity._id)"><span aria-hidden="true">×</span></button>
-                    <p>{{charity.info}}</p>
-                </div><!-- card reveal -->
             </div>
         </div>
     </div>

@@ -1,39 +1,64 @@
 <div class="bg">
 </div>
-<h1>
-  {{charity.name}}
-</h1>
+<div class="container bgcolor">
+     <h1>
+          <b>{{charity?.name}}</b>
+     </h1>
+     <div class="row">
 
-Greyhound Gap
+          <div class="col-12" *ngIf="charity" >
+               <img class="img-fluid rounded text-center" src="{{baseUrl+(charity?.image)}}" alt="{{charity.name}}" />
+          </div>
+          <div *ngIf="!charity">
+               <app-loading></app-loading>
+          </div>
+          <div class="col-8">
+          </div>
+          <div *ngIf="!charity">
+               <app-loading></app-loading>
+          </div>
+          <div class="col-4">
+               Greyhound Gap
 
-Registered with the Charity Commission as 1113207
-Address:
-Grindle Stone Edge House
-Cobmoor Road
-Kidsgrove
-Stoke-on-Trent
-Staffordshire
-ST7 3PZ
-United Kingdom
-Telephone:
-07944862777
-Email:
-treasurer@greyhoundgap.org.uk
-Web Address:
-www.greyhoundgap.org.uk
-Area of Operation:
-THROUGHOUT ENGLAND AND WALES
+               Registered with the Charity Commission as 1113207
+               Address:
+               Grindle Stone Edge House
+               Cobmoor Road
+               Kidsgrove
+               Stoke-on-Trent
+               Staffordshire
+               ST7 3PZ
+               United Kingdom
+               Telephone:
+               07944862777
+               Email:
+               treasurer@greyhoundgap.org.uk
+               Web Address:
+               www.greyhoundgap.org.uk
+               Area of Operation:
+               THROUGHOUT ENGLAND AND WALES
 
-Latest financial
-Last Income Value
-£ 13,635.00
-Last Expenditure value
-£ 38,835.00
-Charitable activities
-Animals
-Other Charities or Voluntary Bodies
-Other Defined Groups
+               Latest financial
+               Last Income Value
+               £ 13,635.00
+               Last Expenditure value
+               £ 38,835.00
+               Charitable activities
+               Animals
+               Other Charities or Voluntary Bodies
+               Other Defined Groups
 
-TO PROMOTE HUMANE BEHAVIOUR TOWARDS ANIMALS , IN PARTICULAR GREYHOUNDS AND LURCHERS, BY PROVIDING APPROPRIATE CARE, PROTECTION, TREATMENT AND SECURITY FOR GREYHOUNDS AND LURCHERS WHICH ARE IN NEED OF CARE AND ATTENTION BY REASON OF SICKNESS, MALTREATMENT, POOR CIRCUMSTANCES OR ILL USAGE AN TO EDUCATE THE PUBLIC IN MATTERS PERTAINING TO ANIMAL WELFARE IN GENERAL AND THE PREVENTION OF CRUELTY AND SUFFERING AMONG ANIMALS.
+               TO PROMOTE HUMANE BEHAVIOUR TOWARDS ANIMALS , IN PARTICULAR GREYHOUNDS AND LURCHERS, BY PROVIDING APPROPRIATE CARE, PROTECTION, TREATMENT AND SECURITY FOR GREYHOUNDS AND LURCHERS WHICH ARE IN NEED OF CARE AND ATTENTION BY REASON OF SICKNESS, MALTREATMENT, POOR CIRCUMSTANCES OR ILL USAGE AN TO EDUCATE THE PUBLIC IN MATTERS PERTAINING TO ANIMAL WELFARE IN GENERAL AND THE PREVENTION OF CRUELTY AND SUFFERING AMONG ANIMALS.
 
-Add to My Charities Donate to this Charity Print
+               Add to My Charities Donate to this Charity Print
+
+email to:
+phone:
+starts
+activities
+comments
+<!-- https://bootsnipp.com/snippets/y8gAW -->
+<!-- https://bootsnipp.com/snippets/featured/font-awesome-star-ratings -->
+          </div>
+     </div>
+</div>
