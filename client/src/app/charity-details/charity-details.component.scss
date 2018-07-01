@@ -13,6 +13,20 @@ h1{
      background-color: #FFFFFF;
 }
 
+//button
+.btn-ept {
+     background-color: #fff;
+     border-color: black;
+     color:#0F325E
+}
+.btn-like:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open > .btn-default.dropdown-toggle{
+     color: #fff;
+     background-color: #007aff;
+}
+.btn-dislike:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open > .btn-default.dropdown-toggle {
+     color: #fff;
+     background-color: grey;
+    }
 
 //comments
 .widget-area.blank {
@@ -39,8 +53,6 @@ border-radius: 4px;
 -o-box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
 box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
 float: left;
-margin-top: 30px;
-padding: 25px 30px;
 position: relative;
 width: 100%;
 }
@@ -100,7 +112,7 @@ float: left;
 font-size: 14px;
 height: 30px;
 line-height: 30px;
-margin: 10px 0 10px 10px;
+// margin: 10px 0 10px 10px;
 text-align: center;
 -webkit-transition: all 0.4s ease 0s;
 -moz-transition: all 0.4s ease 0s;
