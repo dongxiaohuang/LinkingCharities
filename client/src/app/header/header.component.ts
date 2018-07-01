@@ -1,16 +1,20 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import * as $ from 'jquery';
 
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  providers: [NgbDropdownConfig]
 })
 export class HeaderComponent implements OnInit {
 
   public isCollapsed = true;
-  constructor() { }
+  constructor(config: NgbDropdownConfig) {
+          config.autoClose = false;
+          config.placement = 'bottom-right';}
 
   ngOnInit()
   {}

@@ -39,6 +39,7 @@ import { baseURL } from './shared/baseurl';
 import { AgmComponent } from './agm/agm.component';
 import { AutocompleteSearchComponent } from './autocomplete-search/autocomplete-search.component';
 import { LoadingComponent } from './loading/loading.component';
+import { SignupComponent } from './signup/signup.component';
 @NgModule({
      // Specifies a list of directives/pipes that belong to this module.
   declarations: [
@@ -59,6 +60,7 @@ import { LoadingComponent } from './loading/loading.component';
     CharityDetailsComponent,
     AutocompleteSearchComponent,
     LoadingComponent,
+    SignupComponent,
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [

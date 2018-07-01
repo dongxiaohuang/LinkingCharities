@@ -7,9 +7,11 @@ import { VolunteerComponent } from '../volunteer/volunteer.component';
 import { AboutusComponent } from '../aboutus/aboutus.component';
 import { PagenotfoundComponent } from '../pagenotfound/pagenotfound.component';
 import { CharityDetailsComponent } from '../charity-details/charity-details.component';
+import { SignupComponent } from '../signup/signup.component';
 export const routes: Routes = [
      { path: '', redirectTo: '/home', pathMatch: 'full'},
      { path: 'home', component: HomeComponent},
+     { path: 'signup', component: SignupComponent},
      { path: 'contact', component: ContactComponent},
      { path: 'discover', component: DiscoverComponent},
      { path: 'volunteer', component: VolunteerComponent},
