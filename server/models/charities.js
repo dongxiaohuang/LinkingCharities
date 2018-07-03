@@ -47,10 +47,10 @@ const charitySchema = new Schema({
           type: String,
           required: true
      },
-     add: {
+     address: {
           type: String,
           required: true
-     }
+     },
      comments: [commentSchema]
 },{
      timestamps: true
