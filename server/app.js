@@ -16,6 +16,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var charityRouter = require('./routes/charityRouter');
 var coverPicRouter = require('./routes/coverPicRouter');
+var favoriteRouter = require('./routes/favoriteRouter');
 
 var app = express();
 
