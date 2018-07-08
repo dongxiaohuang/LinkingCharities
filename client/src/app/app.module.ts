@@ -17,18 +17,20 @@ import { NgxPaginationModule } from 'ngx-pagination'; // used for pagination
 import { AgmCoreModule } from '@agm/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgSelectModule, NgOption } from '@ng-select/ng-select';
-import {RouterModule} from "@angular/router";
+import { RouterModule } from "@angular/router";
 import { GetCharitiesService } from './services/get-charities.service';
 import { GetCoverPicsService } from './services/get-cover-pics.service';
+import { AuthService } from './services/auth.service';
 
 import { DiscoverComponent } from './discover/discover.component';
 import { VolunteerComponent } from './volunteer/volunteer.component';
 import { HomeComponent } from './home/home.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
 import { ContactComponent } from './contact/contact.component';
+import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 
 import { AppRoutingModule } from './app-routing/app-routing.module';
-import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
+import { HttpClientModule } from '@angular/common/http';
 import { SearchfilterPipe } from './pipes/searchfilter.pipe';
 import { CharityDetailsComponent } from './charity-details/charity-details.component';
 
@@ -40,8 +42,11 @@ import { AgmComponent } from './agm/agm.component';
 import { AutocompleteSearchComponent } from './autocomplete-search/autocomplete-search.component';
 import { LoadingComponent } from './loading/loading.component';
 import { SignupComponent } from './signup/signup.component';
+import { LoginComponent } from './login/login.component';
+import { AuthInterceptor, UnauthorizedInterceptor } from './services/auth.interceptor';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
 @NgModule({
-     // Specifies a list of directives/pipes that belong to this module.
+  // Specifies a list of directives/pipes that belong to this module.
   declarations: [
     AboutusComponent,
     AppComponent,
@@ -61,6 +66,7 @@ import { SignupComponent } from './signup/signup.component';
     AutocompleteSearchComponent,
     LoadingComponent,
     SignupComponent,
+    LoginComponent,
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [
@@ -77,20 +83,35 @@ import { SignupComponent } from './signup/signup.component';
     ReactiveFormsModule,
     RestangularModule.forRoot(RestangularConfigFactory),
     AgmCoreModule.forRoot({
-         apiKey: 'AIzaSyDgYITwFa8Y3SzcrRHKpgDJEEntuj65le8'
+      apiKey: 'AIzaSyDgYITwFa8Y3SzcrRHKpgDJEEntuj65le8'
     }),
     BrowserAnimationsModule,
     NgSelectModule,
+    HttpClientModule,
   ],
   // Defines the set of injectable objects that are available in the injector of this module.
   providers: [
-       // TODO: why i need this
-       GetCharitiesService,
-       GetCoverPicsService,
-       //registers a value (baseURL) under the BaseURL injection token.
-       //Angular can inject the BaseURL value into any class that it creates.
-       {provide: 'BaseURL', useValue:baseURL}
- ],
-  bootstrap: [AppComponent]
+    // TODO: why i need this
+    GetCharitiesService,
+    GetCoverPicsService,
+    AuthService,
+    //registers a value (baseURL) under the BaseURL injection token.
+    //Angular can inject the BaseURL value into any class that it creates.
+    { provide: 'BaseURL', useValue: baseURL },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: UnauthorizedInterceptor,
+      multi: true
+    }
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [
+    LoginComponent
+  ]
 })
 export class AppModule { }

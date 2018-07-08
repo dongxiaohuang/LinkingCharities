@@ -20,7 +20,6 @@ export class TopcharitiesComponent implements OnInit {
   }
   display(classId: string){$('.'+classId).slideToggle('slow');}
   getUrl(img):string{
-       console.log("url('"+this.baseUrl+img+")'");
        return "url("+this.baseUrl+img+") center/cover no-repeat";
  }
 }

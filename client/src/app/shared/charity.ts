@@ -1,6 +1,7 @@
+import { User } from './user';
 export class Charity {
      _id: string;
-     name: string;
+     name: User;
      label: string[];
      image: string;
      info: string;
