@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-// import { MatDialog, MatDialogRef } from '@angular/material';
 import { AuthService } from '../services/auth.service';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-login',
@@ -10,10 +10,10 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-     modalReference: NgbModalRef;
+  modalReference: NgbModalRef;
   user = { username: '', password: '', remember: false };
   errMess: string;
-
+  res;
   constructor(
     private modalService: NgbModal,
     private authService: AuthService) { }
@@ -28,9 +28,11 @@ export class LoginComponent implements OnInit {
     console.log("User: ", this.user);
     this.authService.logIn(this.user)
       .subscribe(res => {
+           this.res = res;
         if (res.success) {
           // this.dialogRef.close(res.success);
           this.modalReference.dismiss();
+
         }
         else {
           console.log(res);
@@ -38,7 +40,7 @@ export class LoginComponent implements OnInit {
       },
         error => {
           console.log(error);
-          this.errMess = error
+          this.errMess = error;
         })
   }
 

@@ -44,7 +44,7 @@ import { LoadingComponent } from './loading/loading.component';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { AuthInterceptor, UnauthorizedInterceptor } from './services/auth.interceptor';
-import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 @NgModule({
   // Specifies a list of directives/pipes that belong to this module.
   declarations: [
