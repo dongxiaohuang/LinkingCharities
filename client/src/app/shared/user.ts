@@ -1,7 +1,7 @@
 export class User {
   _id: string;
-  username: string;
+  email: string;
   firstname: string;
   lastname: string;
-  facebookId: string;
+  country: string;
 }

@@ -35,7 +35,7 @@
   </div>
 
   <div class="modal-footer">
-    New here ? <a href="#"><b>Join Us</b></a>
+    New here ? <a [routerLink]="['/signup']" (click)="modalReference.dismiss()"><b>Join Us</b></a>
   </div>
 </ng-template>
 

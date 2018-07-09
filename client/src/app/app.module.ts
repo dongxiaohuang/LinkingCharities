@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { MaterialModule } from './material/material.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
+// import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -45,6 +45,7 @@ import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { AuthInterceptor, UnauthorizedInterceptor } from './services/auth.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CountryPickerModule } from 'ngx-country-picker';
 @NgModule({
   // Specifies a list of directives/pipes that belong to this module.
   declarations: [
@@ -73,7 +74,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     BrowserModule,
     MaterialModule,
     NgbCollapseModule,
-    FlexLayoutModule,
+    // FlexLayoutModule,
     NgbModule.forRoot(),
     AppRoutingModule,
     Ng2SearchPipeModule, // used for searching
@@ -88,6 +89,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     BrowserAnimationsModule,
     NgSelectModule,
     HttpClientModule,
+    CountryPickerModule.forRoot()
   ],
   // Defines the set of injectable objects that are available in the injector of this module.
   providers: [
