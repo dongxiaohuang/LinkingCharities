@@ -61,6 +61,7 @@ app.use(passport.session());
 app.use('/users', usersRouter);
 app.use('/charities', charityRouter);
 app.use('/coverpics', coverPicRouter);
+app.use('/favorites', favoriteRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

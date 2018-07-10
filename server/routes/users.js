@@ -32,6 +32,8 @@ router.route('/signup')
                               user.firstname = req.body.firstname;
                          if (req.body.lastname)
                               user.lastname = req.body.lastname;
+                         if (req.body.country)
+                              user.country = req.body.country;
                          user.save()
                               .then((user) => {
                                    // check if it is registered successfully

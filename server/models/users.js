@@ -11,7 +11,10 @@ const userSchema = new Schema({
           type: String,
           default: ''
      },
-     facebookId: String
+     country: {
+          type: String,
+          default: ''
+     }
 });
 
 //// it will automatically add username and salt-encrypted psw for model
