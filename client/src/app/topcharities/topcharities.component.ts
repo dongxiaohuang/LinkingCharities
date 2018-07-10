@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { GetCharitiesService } from '../services/get-charities.service';
+// import { GetCharitiesService } from '../services/get-charities.service';
 import { Charity } from '../shared/charity';
 import { baseURL } from '../shared/baseurl';
 import * as $ from 'jquery';
@@ -11,12 +11,15 @@ import * as $ from 'jquery';
 })
 export class TopcharitiesComponent implements OnInit {
   baseUrl = baseURL;
+  @Input()
   charities: Charity[];
-  constructor(private charityService: GetCharitiesService) { }
+  constructor(
+       // private charityService: GetCharitiesService
+ ) { }
 
   ngOnInit() {
-      this.charityService.getChairties()
-          .subscribe(charities => this.charities = charities);
+      // this.charityService.getChairties()
+      //     .subscribe(charities => this.charities = charities);
   }
   display(classId: string){$('.'+classId).slideToggle('slow');}
   getUrl(img):string{

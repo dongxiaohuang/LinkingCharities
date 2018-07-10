@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { GetCharitiesService } from '../services/get-charities.service';
+import { Charity } from '../shared/charity';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  charities: Charity[];
+  constructor(
+    private charityService: GetCharitiesService
+  ) { }
 
   ngOnInit() {
+    this.charityService.getChairties()
+      .subscribe(charities => this.charities = charities);
   }
-
 }
