@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
+import { FavoriteService } from '../services/favorite.service';
 @Component({
   selector: 'app-volunteer',
   templateUrl: './volunteer.component.html',
@@ -8,7 +9,9 @@ import {NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
 })
 export class VolunteerComponent implements OnInit {
 
-  constructor(config: NgbDropdownConfig) { config.autoClose = false; }
+  constructor(config: NgbDropdownConfig,
+       private favoriteService: FavoriteService
+ ) { config.autoClose = false; }
 
   ngOnInit() {
   }

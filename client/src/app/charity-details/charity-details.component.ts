@@ -5,6 +5,7 @@ import { Charity } from '../shared/charity';
 import { Params, ActivatedRoute } from '@angular/router';
 import { baseURL } from '../shared/baseurl';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-charity-details',
   templateUrl: './charity-details.component.html',
@@ -18,12 +19,25 @@ export class CharityDetailsComponent implements OnInit {
   baseUrl: string = baseURL;
   favorite: boolean;
   id: string;
+  selected: number = 0;
+  commentForm: FormGroup;
+  formErrors = {
+    'rating': '',
+    'comment': ''
+  };
+
+  validationMsg = {
+    'rating': { 'min': 'rating is needed!' },
+      'comment': { 'required': 'comment is needed!' }
+  };
+
   constructor(private charityService: GetCharitiesService,
-       private favoriteService: FavoriteService,
+    private favoriteService: FavoriteService,
+    private fb: FormBuilder,
     private route: ActivatedRoute,
-     config: NgbRatingConfig) {
-          config.max = 5;
-     }
+    config: NgbRatingConfig) {
+    config.max = 5;
+  }
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id']; //'+' convert a string into interger value
@@ -31,26 +45,64 @@ export class CharityDetailsComponent implements OnInit {
       .subscribe(charity => this.charity = charity);
     this.favoriteService.isFavorite(this.id)
       .subscribe(fav => {
-           console.log(fav);
-           this.favorite = fav.exists;
-      })
+        console.log(fav);
+        this.favorite = fav.exists;
+      });
+    //initial commentFrom
+    this.createForm();
   }
 
-  toggleFavorite(){
-       if(this.favorite){
-            this.favoriteService.deleteFavorite(this.id)
-               .subscribe(resp => {
-                    console.log(resp);
-                    this.favorite = false;
-               }, err => console.log(err));
-       }else{
-            this.favoriteService.postFavorite(this.id)
-               .subscribe(resp => {
-                    console.log(resp);
-                    this.favorite = true;
-               }, err=> console.log(err));
+  createForm() {
+    this.commentForm = this.fb.group({
+      rating: 5,
+      comment: ['', [Validators.required, Validators.min(1)]]
+    });
+
+    this.commentForm.valueChanges
+      .subscribe(data => this.onValueChanged(data));
+
+    this.onValueChanged(); // reset formErrors
+  }
+
+  //
+  onValueChanged(data?:any){
+       if(!this.commentForm) return;
+       const form = this.commentForm;
+       for(const field in this.formErrors){
+            this.formErrors[field] = '';
+            const control = form.get(field);
+            if(control && control.dirty && !control.valid){
+                 const message = this.validationMsg[field];
+                 for(const key in control.errors){
+                      this.formErrors[field] += message[key] + ' ';
+                 }
+            }
        }
  }
-  selected = 0;
-
+  toggleFavorite() {
+    if (this.favorite) {
+      this.favoriteService.deleteFavorite(this.id)
+        .subscribe(resp => {
+          console.log(resp);
+          this.favorite = false;
+        }, err => console.log(err));
+    } else {
+      this.favoriteService.postFavorite(this.id)
+        .subscribe(resp => {
+          console.log(resp);
+          this.favorite = true;
+        }, err => console.log(err));
+    }
+  }
+  onSubmit() {
+    // this.charityService.postComment(this.id,)
+    console.log(this.commentForm.value);
+    this.charityService.postComment(this.id, this.commentForm.value)
+     .subscribe(comments => this.charity.comments = comments,
+          err => console.log(err));
+    this.commentForm.reset({
+     rating: 5,
+     comment: ''
+   });
+  }
 }

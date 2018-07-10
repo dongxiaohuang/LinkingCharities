@@ -98,11 +98,18 @@
                   <div class="col-12">
                     <div class="widget-area no-padding blank">
                       <div class="status-upload">
-                        <form>
-                          <textarea placeholder="What are you doing right now?"></textarea>
-                          <ngb-rating [(rate)]="selected" (hover)="hovered=$event" (leave)="hovered=0" [readonly]="readonly"></ngb-rating>Selected: <b>{{selected}}</b>
-                          <button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Share</button>
+                        <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+                          <textarea placeholder="What are you doing right now?" formControlName="comment"></textarea>
+                          <small>
+                              <span [hidden]="!(formErrors.comment)">{{formErrors.comment}}</span>
+                         </small>
+                          <ngb-rating [(rate)]="commentForm.value.rating" (hover)="hovered=$event" (leave)="hovered=0" [readonly]="readonly"></ngb-rating>Selected: <b>{{commentForm.value.rating}}</b>
+                          <small>
+                              <span [hidden]="!(formErrors.rating)">{{formErrors.rating}}</span>
+                         </small>
+                          <button type="submit" [disabled]="!commentForm.valid" class="btn btn-success green"><i class="fa fa-share"></i> Share</button>
                         </form>
+                        {{commentForm.value|json}}
                       </div>
                       <!-- Status Upload  -->
                     </div>

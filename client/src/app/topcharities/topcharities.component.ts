@@ -11,42 +11,29 @@ import * as $ from 'jquery';
 })
 export class TopcharitiesComponent implements OnInit {
   baseUrl = baseURL;
-  favorite = true;
+  favorite = {};
   @Input()
   charities: Charity[];
   constructor(
        private favoriteService: FavoriteService
  ) { }
-
   ngOnInit() {
-      // this.charityService.getChairties()
-      //     .subscribe(charities => this.charities = charities);
+       // console.log(this.charities);
+       // for(let charity in this.charities){
+       //      let id = charity._id;
+       //      console.log(id);
+       //      this.favoriteService.isFavorite(charity._id)
+       //         .subscribe(resp => {
+       //              console.log(resp);
+       //              this.favorite.id = resp.exists;
+       //         }, err => console.log(err))
+       // }
   }
+
   display(classId: string){$('.'+classId).slideToggle('slow');}
   getUrl(img):string{
        return "url("+this.baseUrl+img+") center/cover no-repeat";
  }
- //  isFavorite(charityId: string): boolean{
- //       let _isFavorite: boolean;
- //       this.favoriteService.isFavorite(charityId)
- //          .subscribe(
- //               resp => {console.log(resp);
- //                    _isFavorite = resp.exists;},
- //                err => console.log(err)
- //          );
- //     return _isFavorite;
- // }
- //  toggleFavorite(charityId: string){
- //       if(this.isFavorite(charityId)){
- //            this.favoriteService.deleteFavorite(charityId)
- //               .subscribe(fav => {
- //                    console.log("remove from favorites", fav);
- //               }, err => console.log(err));
- //       }else{
- //            this.favoriteService.postFavorite(charityId)
- //               .subscribe(fav => {
- //                    console.log("add to favorites",fav)
- //               },  err => console.log(err));
- //       }
- // }
+
+
 }
