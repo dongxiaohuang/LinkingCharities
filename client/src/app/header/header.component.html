@@ -31,6 +31,6 @@
     </div>
   </div>
   <app-login *ngIf="!username"></app-login>
-  <a *ngIf="username">{{username}}</a>
-  <a *ngIf="username" (click)="logOut()"><i class="fas fa-sign-out-alt"></i><b>Logout</b></a>
+  <a *ngIf="username" class="btn">{{username}}</a>
+  <a *ngIf="username" class="btn" (click)="logOut()"><i class="fas fa-sign-out-alt"></i><b>Logout</b></a>
 </nav>

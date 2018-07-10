@@ -21,6 +21,8 @@ import { RouterModule } from "@angular/router";
 import { GetCharitiesService } from './services/get-charities.service';
 import { GetCoverPicsService } from './services/get-cover-pics.service';
 import { AuthService } from './services/auth.service';
+import { FavoriteService } from './services/favorite.service';
+import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
 
 import { DiscoverComponent } from './discover/discover.component';
 import { VolunteerComponent } from './volunteer/volunteer.component';
@@ -46,6 +48,8 @@ import { LoginComponent } from './login/login.component';
 import { AuthInterceptor, UnauthorizedInterceptor } from './services/auth.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CountryPickerModule } from 'ngx-country-picker';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { FavoritesComponent } from './favorites/favorites.component';
 @NgModule({
   // Specifies a list of directives/pipes that belong to this module.
   declarations: [
@@ -68,6 +72,8 @@ import { CountryPickerModule } from 'ngx-country-picker';
     LoadingComponent,
     SignupComponent,
     LoginComponent,
+    UserProfileComponent,
+    FavoritesComponent,
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [
@@ -97,6 +103,8 @@ import { CountryPickerModule } from 'ngx-country-picker';
     GetCharitiesService,
     GetCoverPicsService,
     AuthService,
+    FavoriteService,
+    ProcessHTTPMsgService,
     //registers a value (baseURL) under the BaseURL injection token.
     //Angular can inject the BaseURL value into any class that it creates.
     { provide: 'BaseURL', useValue: baseURL },

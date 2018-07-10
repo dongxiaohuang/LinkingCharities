@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { GetCharitiesService } from '../services/get-charities.service';
 import { Charity } from '../shared/charity';
 import { baseURL } from '../shared/baseurl';
