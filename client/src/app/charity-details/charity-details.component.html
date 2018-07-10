@@ -1,7 +1,6 @@
 <div class="bg">
 </div>
 <div class="bgcolor">
-
   <div class="row">
     <div class="col-11 col-sm-5 info offset-1 mr-sm-1">
       <h1><b class="col text-center">{{charity?.name}}</b></h1>
@@ -10,8 +9,8 @@
       <span>Rating: {{currentRate}}</span>
       <br />
       <div class="btn-group btn-group-sm demoPadder" role="group" aria-label="Small button group">
-        <button type="button" class="btn btn-ept btn-like"><i class="fas fa-heart">Add to favorite</i></button>
-        <button type="button" class="btn btn-ept btn-dislike"><i class="far fa-heart">Remove from Favorite</i></button>
+        <button *ngIf="!favorite" (click)="toggleFavorite()" type="button" class="btn btn-ept btn-like"><i class="fas fa-heart">Add to favorite</i></button>
+        <button *ngIf="favorite" (click)="toggleFavorite()" type="button" class="btn btn-ept btn-dislike"><i class="far fa-heart">Remove from Favorite</i></button>
       </div>
       <div class="align-bottom">
         <a *ngFor="let label of charity?.labels" href="#" class="badge badge-info">{{label}}</a>

@@ -13,7 +13,7 @@ export class GetCharitiesService {
   getChairties(): Observable<Charity[]> {
      return this.restangular.all('charities').getList();
   };
-  getCharity(id: number): Observable<Charity> {
+  getCharity(id: string): Observable<Charity> {
     return this.restangular.one('charities', id).get();
   }
 }
