@@ -11,7 +11,7 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
-  basicInfoForm: FormGroup;
+  personalInfoForm: FormGroup;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   public countries: ICountry[] = [];
@@ -62,7 +62,7 @@ export class SignupComponent implements OnInit {
     this.countryPicker.getCountries()
       .subscribe((countries: ICountry[]) => this.countries = countries);
 
-    this.basicInfoForm = this._formBuilder.group({
+    this.personalInfoForm = this._formBuilder.group({
       username: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPSW:['', [Validators.required, this.matchOtherValidator('password') ]],
@@ -71,15 +71,10 @@ export class SignupComponent implements OnInit {
       country: ['', [Validators.required]]
 });
 
-     this.basicInfoForm.valueChanges.subscribe(
-          data => this.onValueChanged(this.basicInfoErrors, this.BasicInfoValidaMsg, data, this.basicInfoForm)
+     this.personalInfoForm.valueChanges.subscribe(
+          data => this.onValueChanged(this.basicInfoErrors, this.BasicInfoValidaMsg, data, this.personalInfoForm)
      );
 
-
-
-     this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
-    });
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required]
     });
@@ -100,9 +95,9 @@ export class SignupComponent implements OnInit {
        }
  }
  onSubmit(){
-      console.log(this.basicInfoForm.value);
-      // this.basicInfoForm.reset();
-      this.authService.signUp(this.basicInfoForm.value)
+      console.log(this.personalInfoForm.value);
+      // this.personalInfoForm.reset();
+      this.authService.signUp(this.personalInfoForm.value)
           .subscribe(res => console.log("res from register", res),error => {
            console.log(error);
          });
@@ -143,7 +138,6 @@ export class SignupComponent implements OnInit {
      return null;
 
    }
-
  }
 
 

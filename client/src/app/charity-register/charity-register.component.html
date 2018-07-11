@@ -1,0 +1,194 @@
+<mat-horizontal-stepper #stepper>
+  <mat-step [stepControl]="">
+    <div class="row justify-content-center">
+      <div class="col-8 col-md-6 col-lg-5">
+        <form [formGroup]="">
+          <ng-template matStepLabel><i class="far fa-info"></i><b>&nbsp; Charity details</b></ng-template>
+          <div class="form-group">
+            <label for="ccb">Charity Commission number</label>
+            <input type="text" class="form-control" id="ccn" formControlName="CCN" placeholder="Enter charity commission number" required>
+            <small>
+               <span>info</span>
+          </small>
+          </div>
+          <div class="form-group">
+            <label for="rBody">Registered body(*)</label>
+            <input type="text" class="form-control" id="rBody" formControlName="" placeholder="Enter registered body" required>
+            <small>
+        <span>info</span>
+   </small>
+          </div>
+          <div class="form-group">
+            <label for="rNumber">Registered number</label>
+            <input type="text" class="form-control" id="rNumber" formControlName="" placeholder="Enter registered number" required>
+            <small>
+        <span>info</span>
+   </small>
+          </div>
+          <div class="form-group">
+            <label for="rName">Registered name(*)</label>
+            <input type="text" class="form-control" id="rName" formControlName="" placeholder="Enter registered name" required>
+            <small>
+        <span>info</span>
+   </small>
+          </div>
+          <div class="form-group">
+            <label for="tel">Registered telphone(*)</label>
+            <input type="tel" class="form-control" id="tel" formControlName="" name="tel" placeholder="Enter telphone" required>
+            <small>
+        <span>info</span>
+   </small>
+          </div>
+          <div class="form-group">
+            <label for="website">Website</label>
+            <input type="text" class="form-control" id="website" formControlName="" name="website" placeholder="Enter website" required>
+            <small>
+        <span>info</span>
+   </small>
+          </div>
+          <div class="form-group">
+            <label for="chooseTypes">Types</label>
+            <ng-multiselect-dropdown [placeholder]="'Please select type(s) of your charity'" [data]="types" [(ngModel)]="selectedItems" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" #chooseTypes>
+            </ng-multiselect-dropdown>
+          </div>
+          <div>
+            <div class="form-group">
+              <label for="imageUpload">Please Upload Profile Image for your charity</label>
+              <input type="file" class="form-control-file" id="imageUpload" name="imageFile">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="info">brief description</label>
+            <textarea id="info" maxlength="200" class="form-control" formControlName="" placeholder="Charity Description" rows=4></textarea>
+            <small>
+             <span>Max length 200 characters</span>
+        </small>
+            <hr />
+            <label for="detail">details description</label>
+            <textarea id="detail" maxlength="500" class="form-control" formControlName="" placeholder="Charity Details" rows=6></textarea>
+            <small>
+             <span>Max length 500 characters</span>
+        </small>
+          </div>
+          <div class="form-group">
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="control-label" for="textinput">Line 1</label>
+              <input type="text" placeholder="Address Line 1" class="form-control">
+            </div>
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="control-label" for="textinput">Line 2</label>
+              <input type="text" placeholder="Address Line 2" class="form-control">
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="control-label" for="textinput">City</label>
+              <input type="text" placeholder="City" class="form-control">
+            </div>
+            <!-- Text input-->
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="control-label" for="textinput">State</label>
+                  <input type="text" placeholder="State" class="form-control">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="control-label" for="textinput">Postcode</label>
+                  <input type="text" placeholder="Post Code" class="form-control">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="textinput">Country</label>
+              <input type="text" placeholder="Country" class="form-control">
+            </div>
+          </div>
+
+
+
+        </form>
+      </div>
+    </div>
+  </mat-step>
+  <mat-step [stepControl]="personalInfoForm">
+    <div class="row justify-content-center">
+      <div class="col-8 col-md-6 col-lg-5">
+        <form novalidate [formGroup]="basicInfoForm">
+          <ng-template matStepLabel><i class="fas fa-pen-square"></i><b>&nbsp; Personal details</b></ng-template>
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" formControlName="username" aria-describedby="emailHelp" placeholder="Enter email" required>
+            <small>
+                   <span [hidden]="!(basicInfoErrors.username)">{{basicInfoErrors.username}}</span>
+              </small>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" formControlName="password" placeholder="Enter password" required>
+            <small>
+                            <span [hidden]="!(basicInfoErrors.password)">{{basicInfoErrors.password}}</span>
+                       </small>
+          </div>
+          <div class="form-group">
+            <label for="confirmPSW">Retype Password</label>
+            <input type="password" class="form-control" id="confirmPSW" formControlName="confirmPSW" placeholder="Retype password" required>
+            <small>
+                            <span [hidden]="!(basicInfoErrors.confirmPSW)">{{basicInfoErrors.confirmPSW}}</span>
+                       </small>
+          </div>
+          <div class="form-group">
+            <label for="firstname">Firstname</label>
+            <input type="text" class="form-control" id="firstname" formControlName="firstname" placeholder="Enter First Name" required>
+            <small>
+                  <span [hidden]="!(basicInfoErrors.firstname)">{{basicInfoErrors.firstname}}</span>
+             </small>
+          </div>
+          <div class="form-group">
+            <label for="lastname">Lastname</label>
+            <input type="text" class="form-control" id="lastname" formControlName="lastname" placeholder="Enter Last Name" required>
+            <small>
+                  <span [hidden]="!(basicInfoErrors.lastname)">{{basicInfoErrors.lastname}}</span>
+             </small>
+          </div>
+          {{basicInfoForm.value |json}}
+          <div class="row justify-content-center">
+            <button mat-button [style.background-color]="basicInfoForm.invalid ? 'grey' : 'green'" matStepperNext>Next</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </mat-step>
+  <mat-step [stepControl]="">
+    <div class="row justify-content-center">
+      <div class="col-8 col-md-6 col-lg-5">
+        <form [formGroup]="">
+          <ng-template matStepLabel><i class="far fa-money-check-alt"></i><b>&nbsp; Donation details</b></ng-template>
+          <div class="form-group">
+            <i class="fas fa-credit-card"></i>
+            <label for="card_name">Name</label>
+            <input type="text" id="card_name" name="card_name" placeholder="Card name" class="form-control">
+            <label for="card_number">card</label>
+            <input type="text" id="card_number" name="card_number" placeholder="Card number" class="form-control">
+            <label for="sort_code">Sort code</label>
+            <input type="text" id="sort_code" name="sort_code" placeholder="sort_code" class="form-control">
+            <label for="account_no">Account No.</label>
+            <input type="text" id="account_no" name="account_no" placeholder="Account number" class="form-control">
+          </div>
+          <div class="form-group">
+            <i class="fab fa-paypal"></i>
+            <label for="paypal_number">Paypal</label>
+            <input type="text" id="paypal_number" name="paypal_number" placeholder="Paypal number" class="form-control">
+          </div>
+        </form>
+      </div>
+    </div>
+  </mat-step>
+  <mat-step [stepControl]="">
+    <ng-template matStepLabel><i class="fas fa-check-circle"></i><b>&nbsp; Done</b></ng-template>
+  </mat-step>
+</mat-horizontal-stepper>

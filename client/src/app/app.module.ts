@@ -35,7 +35,7 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchfilterPipe } from './pipes/searchfilter.pipe';
 import { CharityDetailsComponent } from './charity-details/charity-details.component';
-
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 import { RestangularModule, Restangular } from 'ngx-restangular';
 import { RestangularConfigFactory } from './shared/restConfig';
@@ -50,6 +50,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CountryPickerModule } from 'ngx-country-picker';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { FavoritesComponent } from './favorites/favorites.component';
+import { CharityRegisterComponent } from './charity-register/charity-register.component';
 @NgModule({
   // Specifies a list of directives/pipes that belong to this module.
   declarations: [
@@ -74,6 +75,7 @@ import { FavoritesComponent } from './favorites/favorites.component';
     LoginComponent,
     UserProfileComponent,
     FavoritesComponent,
+    CharityRegisterComponent,
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [
@@ -95,7 +97,8 @@ import { FavoritesComponent } from './favorites/favorites.component';
     BrowserAnimationsModule,
     NgSelectModule,
     HttpClientModule,
-    CountryPickerModule.forRoot()
+    CountryPickerModule.forRoot(),
+    NgMultiSelectDropDownModule.forRoot()
   ],
   // Defines the set of injectable objects that are available in the injector of this module.
   providers: [
