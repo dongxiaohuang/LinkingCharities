@@ -3,11 +3,12 @@
       <a class="navbar-brand mr-auto" [routerLink]="['/home']"><img src="../assets/img/logo-charity.png" alt="logo" height="34" width="36" /></a>
     </div>
     <div class="pull-right">
-      <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed">
-                    <span class="navbar-toggler-icon"></span></button>
-    </div>
-  <div class="container">
-    <div class="collapse navbar-collapse row" [ngbCollapse]="isCollapsed">
+         <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed">
+              <span class="navbar-toggler-icon"></span></button>
+         </div>
+    <div class="row col-12 collapse navbar-collapse" [ngbCollapse]="isCollapsed">
+         <div class="container col-10 col-lg-11">
+    <div class="row offset-1" >
       <div class="col-9">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
@@ -30,7 +31,10 @@
       </div>
     </div>
   </div>
-  <app-login *ngIf="!username"></app-login>
-  <a *ngIf="username" class="btn" [routerLink]="['favorites']">{{username}}</a>
-  <a *ngIf="username" class="btn" (click)="logOut()"><i class="fas fa-sign-out-alt"></i><b>Logout</b></a>
+  <div #userInfo class="col-2 col-lg-1 text-right">
+         <app-login *ngIf="!username"></app-login>
+         <a *ngIf="username" class="btn" [routerLink]="['favorites']">{{username}}</a>
+         <!-- <a *ngIf="username" class="btn" (click)="logOut()"><i class="fas fa-sign-out-alt"></i><b>Logout</b></a> -->
+    </div>
+    </div>
 </nav>

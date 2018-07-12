@@ -51,6 +51,9 @@ import { CountryPickerModule } from 'ngx-country-picker';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { CharityRegisterComponent } from './charity-register/charity-register.component';
+import { PaymentComponent } from './payment/payment.component';
+import { NgxStripeModule } from 'ngx-stripe';
+
 @NgModule({
   // Specifies a list of directives/pipes that belong to this module.
   declarations: [
@@ -76,6 +79,7 @@ import { CharityRegisterComponent } from './charity-register/charity-register.co
     UserProfileComponent,
     FavoritesComponent,
     CharityRegisterComponent,
+    PaymentComponent,
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [
@@ -98,7 +102,8 @@ import { CharityRegisterComponent } from './charity-register/charity-register.co
     NgSelectModule,
     HttpClientModule,
     CountryPickerModule.forRoot(),
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    NgxStripeModule.forRoot('pk_test_nsptMFRRApES3nRXJFic53XJ'),
   ],
   // Defines the set of injectable objects that are available in the injector of this module.
   providers: [

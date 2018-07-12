@@ -36,6 +36,7 @@
     "ngx-order-pipe": "^2.0.1",
     "ngx-pagination": "^3.1.1",
     "ngx-restangular": "^3.0.0",
+    "ngx-stripe": "^6.0.0-rc.0",
     "npm": "^6.1.0",
     "rxjs": "^6.2.1",
     "rxjs-compat": "^6.2.1",

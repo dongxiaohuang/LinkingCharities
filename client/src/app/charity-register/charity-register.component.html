@@ -6,7 +6,7 @@
           <ng-template matStepLabel><i class="far fa-info"></i><b>&nbsp; Charity details</b></ng-template>
           <div class="form-group">
             <label for="ccb">Charity Commission number</label>
-            <input type="text" class="form-control" id="ccn" formControlName="CCN" placeholder="Enter charity commission number" required>
+            <input type="text" class="form-control" id="ccn" formControlName="" placeholder="Enter charity commission number" required>
             <small>
                <span>info</span>
           </small>
@@ -84,33 +84,30 @@
 
             <!-- Text input-->
             <div class="form-group">
-              <label class="control-label" for="textinput">City</label>
-              <input type="text" placeholder="City" class="form-control">
+              <label class="control-label" for="city">City</label>
+              <input type="text" placeholder="City" id="city" class="form-control">
             </div>
             <!-- Text input-->
             <div class="row">
               <div class="col-lg-6">
                 <div class="form-group">
-                  <label class="control-label" for="textinput">State</label>
-                  <input type="text" placeholder="State" class="form-control">
+                  <label class="control-label" for="state">State</label>
+                  <input type="text" placeholder="State" id="state" class="form-control">
                 </div>
               </div>
               <div class="col-lg-6">
                 <div class="form-group">
-                  <label class="control-label" for="textinput">Postcode</label>
-                  <input type="text" placeholder="Post Code" class="form-control">
+                  <label class="control-label" for="postcode">Postcode</label>
+                  <input type="text" placeholder="Post Code" id="postcode" class="form-control">
                 </div>
               </div>
             </div>
 
             <div class="form-group">
-              <label class="control-label" for="textinput">Country</label>
-              <input type="text" placeholder="Country" class="form-control">
+              <label class="control-label" for="country">Country</label>
+              <input type="text" placeholder="Country" id="country" class="form-control">
             </div>
           </div>
-
-
-
         </form>
       </div>
     </div>
@@ -179,6 +176,7 @@
             <label for="account_no">Account No.</label>
             <input type="text" id="account_no" name="account_no" placeholder="Account number" class="form-control">
           </div>
+          <hr />
           <div class="form-group">
             <i class="fab fa-paypal"></i>
             <label for="paypal_number">Paypal</label>
