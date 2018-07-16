@@ -18,6 +18,7 @@ var charityRouter = require('./routes/charityRouter');
 var coverPicRouter = require('./routes/coverPicRouter');
 var favoriteRouter = require('./routes/favoriteRouter');
 var uploadRouter = require('./routes/uploadRouter');
+var searchRouter = require('./routes/searchRouter');
 
 var app = express();
 
@@ -64,6 +65,7 @@ app.use('/charities', charityRouter);
 app.use('/coverpics', coverPicRouter);
 app.use('/favorites', favoriteRouter);
 app.use('/imageUpload', uploadRouter);
+app.use('/search', searchRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

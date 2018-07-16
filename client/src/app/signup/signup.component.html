@@ -1,8 +1,8 @@
 <div class="bg"></div>
 
 <mat-vertical-stepper linear #stepper>
-     <mat-step [stepControl]="basicInfoForm">
-       <form novalidate [formGroup]="basicInfoForm">
+     <mat-step [stepControl]="personalInfoForm">
+       <form novalidate [formGroup]="personalInfoForm">
          <ng-template matStepLabel><i class="fas fa-pen-square"></i><b>&nbsp; Bisic Information</b></ng-template>
          <div class="row">
            <div class="col-8 col-sm-4">
@@ -69,9 +69,9 @@
                <span [hidden]="!(basicInfoErrors.country)">{{basicInfoErrors.country}}</span>
           </small>
          </div>
-         {{basicInfoForm.value |json}}
+         {{personalInfoForm.value |json}}
          <div>
-              <button mat-button  [style.background-color]="basicInfoForm.invalid ? 'grey' : 'green'"  matStepperNext >Next</button>
+              <button mat-button  [style.background-color]="personalInfoForm.invalid ? 'grey' : 'green'"  matStepperNext >Next</button>
          </div>
        </form>
      </mat-step>
@@ -91,7 +91,21 @@
     You are now done.
     <div>
       <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="onSubmit()">Submit</button>
+      <button mat-button (click)="onSubmit(content)">Submit</button>
     </div>
   </mat-step>
 </mat-vertical-stepper>
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Register</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Register successfully&hellip;</p>
+  </div>
+  <div class="modal-footer">
+    <a  class="btn btn-light" (click)="c('Close click') " [routerLink] ="['/']">Close</a>
+  </div>
+</ng-template>

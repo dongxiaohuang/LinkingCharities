@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const  mongooseAlgolia = require('mongoose-algolia');
+const config = require('../config');
 const Schema = mongoose.Schema;
 
 const commentSchema = new Schema({
@@ -26,6 +28,7 @@ const charitySchema = new Schema({
           required: true,
           unique: true
      },
+     //TODO: change it into ObjectId
      labels: {
           type: [String],
           required: true
@@ -55,6 +58,24 @@ const charitySchema = new Schema({
      timestamps: true
 });
 
-var Charities = mongoose.model('Charity', charitySchema);
+//TODO: config to store keys
+charitySchema.plugin(mongooseAlgolia, {
+     appId: config.algolia.appId,
+     apiKey: config.algolia.apiKey,
+     indexName: config.algolia.indexName,
+     selector: '_id name location city labels', //which you would like to asyn with algolia
+     // populate: {},
+     // defaults: {},
+     // mappings: {},
+     // virtuals: {},
+     debug: true
+});
+
+let Charities = mongoose.model('Charity', charitySchema);
+Charities.SyncToAlgolia();
+Charities.SetAlgoliaSettings({
+     searchableAttributes:['name', 'location','rating']
+})
+
 
 module.exports = Charities;

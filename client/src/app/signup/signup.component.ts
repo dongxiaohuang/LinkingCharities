@@ -5,6 +5,8 @@ import { ValidatorFn } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { User } from '../shared/user';
 import { AuthService } from '../services/auth.service';
+import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -12,7 +14,6 @@ import { AuthService } from '../services/auth.service';
 })
 export class SignupComponent implements OnInit {
   personalInfoForm: FormGroup;
-  firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   public countries: ICountry[] = [];
   user: User;
@@ -53,8 +54,10 @@ export class SignupComponent implements OnInit {
 }
 
   constructor(private _formBuilder: FormBuilder,
+     private modalService: NgbModal,
      protected countryPicker: CountryPickerService,
-     private authService: AuthService) {
+     private authService: AuthService,
+     ) {
 
   }
 
@@ -94,13 +97,15 @@ export class SignupComponent implements OnInit {
             }
        }
  }
- onSubmit(){
+ onSubmit(content){
       console.log(this.personalInfoForm.value);
       // this.personalInfoForm.reset();
       this.authService.signUp(this.personalInfoForm.value)
           .subscribe(res => console.log("res from register", res),error => {
            console.log(error);
          });
+      this.personalInfoForm.reset();
+      this.modalService.open(content, { centered: true });
 }
   matchOtherValidator (otherControlName: string) {
 

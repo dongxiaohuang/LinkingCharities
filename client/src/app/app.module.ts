@@ -23,6 +23,7 @@ import { GetCoverPicsService } from './services/get-cover-pics.service';
 import { AuthService } from './services/auth.service';
 import { FavoriteService } from './services/favorite.service';
 import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
+import { SearchService } from './services/search.service';
 
 import { DiscoverComponent } from './discover/discover.component';
 import { VolunteerComponent } from './volunteer/volunteer.component';
@@ -53,6 +54,7 @@ import { FavoritesComponent } from './favorites/favorites.component';
 import { CharityRegisterComponent } from './charity-register/charity-register.component';
 import { PaymentComponent } from './payment/payment.component';
 import { NgxStripeModule } from 'ngx-stripe';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   // Specifies a list of directives/pipes that belong to this module.
@@ -80,6 +82,7 @@ import { NgxStripeModule } from 'ngx-stripe';
     FavoritesComponent,
     CharityRegisterComponent,
     PaymentComponent,
+    SearchComponent,
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [
@@ -113,6 +116,7 @@ import { NgxStripeModule } from 'ngx-stripe';
     AuthService,
     FavoriteService,
     ProcessHTTPMsgService,
+    SearchService,
     //registers a value (baseURL) under the BaseURL injection token.
     //Angular can inject the BaseURL value into any class that it creates.
     { provide: 'BaseURL', useValue: baseURL },

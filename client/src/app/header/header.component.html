@@ -8,16 +8,16 @@
          </div>
     <div class="row col-12 collapse navbar-collapse" [ngbCollapse]="isCollapsed">
          <div class="container col-10 col-lg-11">
-    <div class="row offset-1" >
+    <div class="row offset-lg-1" >
       <div class="col-9">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav mr-auto ">
           <li class="nav-item">
             <a class="nav-link" routerLink="/discover" routerLinkActive="active"><span class="fa fa-compass fa-lg"></span>  Discover  </a>
           </li>
           <li class="nav-item">
             <a class="nav-link d-none d-block d-lg-block" routerLink="/volunteer" routerLinkActive="active"><span class="fa fa-heart fa-lg"></span>  Volunteer  </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item ">
             <a class="nav-link" routerLink="/aboutus" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>
                About Us</a>
           </li>
@@ -31,10 +31,16 @@
       </div>
     </div>
   </div>
-  <div #userInfo class="col-2 col-lg-1 text-right">
+  <div #userInfo class="col col-lg-1 text-right">
          <app-login *ngIf="!username"></app-login>
-         <a *ngIf="username" class="btn" [routerLink]="['favorites']">{{username}}</a>
-         <!-- <a *ngIf="username" class="btn" (click)="logOut()"><i class="fas fa-sign-out-alt"></i><b>Logout</b></a> -->
+         <div ngbDropdown *ngIf="username">
+              <a class="btn" id="dropdown" ngbDropdownToggle>{{username}}</a>
+              <div ngbDropdownMenu aria-labelledby="dropdown">
+                  <button class="dropdown-item" [routerLink]="['favorites']"><i class="fab fa-gratipay"></i><b>&nbsp; Favorites</b></button>
+                  <button class="dropdown-item"><i class="fas fa-user-circle"></i><b>&nbsp; Profile</b></button>
+                  <a *ngIf="username" class="btn dropdown-item" (click)="logOut()"><i class="fas fa-sign-out-alt"></i><b>&nbsp; Logout</b></a>
+             </div>
+         </div>
     </div>
     </div>
 </nav>

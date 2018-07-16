@@ -10,6 +10,7 @@ import { PagenotfoundComponent } from '../pagenotfound/pagenotfound.component';
 import { SignupComponent } from '../signup/signup.component';
 import { UserProfileComponent } from '../user-profile/user-profile.component';
 import { VolunteerComponent } from '../volunteer/volunteer.component';
+import { SearchComponent } from '../search/search.component';
 export const routes: Routes = [
      { path: '', redirectTo: '/home', pathMatch: 'full'},
      { path: 'aboutus', component: AboutusComponent},
@@ -21,4 +22,5 @@ export const routes: Routes = [
      { path: 'signup', component: SignupComponent},
      { path: 'user/:id', component: UserProfileComponent},
      { path: 'volunteer', component: VolunteerComponent},
+     { path: 'search', component: SearchComponent},
 ]

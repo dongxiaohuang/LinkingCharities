@@ -3,6 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from '../login/login.component';
 import { Subscription } from 'rxjs/Subscription';
+import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 
 import * as $ from 'jquery';
 
@@ -10,7 +11,8 @@ import * as $ from 'jquery';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  providers: [NgbDropdownConfig] // add NgbDropdownConfig to the component providers
 })
 export class HeaderComponent implements OnInit {
 
@@ -19,7 +21,9 @@ export class HeaderComponent implements OnInit {
   username: string = undefined;
 
   constructor(private modalService: NgbModal,
-    private authService: AuthService) { }
+    private authService: AuthService,
+     private config: NgbDropdownConfig)
+     { this.config.placement = 'bottom-right'; }
 
   ngOnInit() {
     this.authService.loadUserCredentials();
