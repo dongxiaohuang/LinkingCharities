@@ -15,7 +15,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class CharityDetailsComponent implements OnInit {
 
   charity: Charity;
-  currentRate: number = 4;
+  // currentRate: number = 4;
   baseUrl: string = baseURL;
   favorite: boolean;
   id: string;

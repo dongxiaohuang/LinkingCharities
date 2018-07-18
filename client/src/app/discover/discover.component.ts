@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { Charity } from '../shared/charity';
-import { baseURL } from '../shared/baseurl';
 import { GetCharitiesService } from '../services/get-charities.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -11,9 +10,9 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./discover.component.scss']
 })
 export class DiscoverComponent implements OnInit {
-  baseUrl = baseURL;
-  charities: Charity[];
-  searchKey:string;
+
+  @Input()
+  charities;
   key: string = "name";
   reverse: boolean = false;
   myfilter: any;
@@ -29,16 +28,8 @@ export class DiscoverComponent implements OnInit {
     this.reverse = !this.reverse;
   }
   constructor(private charityService: GetCharitiesService,
-               private router: Router,
-               private activatedRoute: ActivatedRoute) {
-                    this.activatedRoute.params.subscribe(
-                         params => {
-                              if(params['key']){
-                                   this.onSearch(params.key);
-                                   this.searchKey = params['key'];
-                              }
-                         }
-                    )
+               private router: Router) {
+
  }
 
   //initializing p to one

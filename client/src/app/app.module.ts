@@ -55,6 +55,7 @@ import { CharityRegisterComponent } from './charity-register/charity-register.co
 import { PaymentComponent } from './payment/payment.component';
 import { NgxStripeModule } from 'ngx-stripe';
 import { SearchComponent } from './search/search.component';
+import { CardComponent } from './card/card.component';
 
 @NgModule({
   // Specifies a list of directives/pipes that belong to this module.
@@ -83,6 +84,7 @@ import { SearchComponent } from './search/search.component';
     CharityRegisterComponent,
     PaymentComponent,
     SearchComponent,
+    CardComponent,
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [

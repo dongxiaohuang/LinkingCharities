@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Charity } from '../shared/charity';
 import { baseURL } from '../shared/baseurl';
 import { FavoriteService } from '../services/favorite.service';
+import { Router } from '@angular/router';
 import * as $ from 'jquery';
 
 @Component({
@@ -15,7 +16,8 @@ export class TopcharitiesComponent implements OnInit {
   @Input()
   charities: Charity[];
   constructor(
-       private favoriteService: FavoriteService
+       private favoriteService: FavoriteService,
+       private router: Router
  ) { }
   ngOnInit() {
        // console.log(this.charities);
@@ -29,6 +31,7 @@ export class TopcharitiesComponent implements OnInit {
        //         }, err => console.log(err))
        // }
   }
+
 
   display(classId: string){$('.'+classId).slideToggle('slow');}
   getUrl(img):string{

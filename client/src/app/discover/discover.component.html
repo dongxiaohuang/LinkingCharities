@@ -1,6 +1,5 @@
 <div class="bg">
 </div>
-<app-autocomplete-search [searchKey]="searchKey"></app-autocomplete-search>
 <div class="container">
   <div class="d-sm-none d-block search-form-trigger" (click)="isCollapsed = !isCollapsed"
           [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">Filters<i class="fa btn fa-filter"></i></div>
@@ -153,34 +152,8 @@
                     <div
                     *ngFor="let charity of charities | orderBy: key : reverse| filter:myfilter | searchfilter:advancedFilter | paginate: { itemsPerPage: 10, currentPage: p};let i = index"
                     class="col">
-                         <div class="row box-shadow">
-                         <div class="col-4 no-padding">
-                              <img [routerLink]="['/charitydetail', charity?._id]"
-                              class="campaign-gallery-thumbnail img-fluid suitablesize fit-size " src="{{baseUrl}}{{charity?.image}}" alt="{{charity?.name}}">
-                         </div>
-                         <div class="col-8">
-                              <div class="col-margin-1">
-                              <h3>
-                                   <a [routerLink]="['/charitydetail', charity?._id]">
-                                        <b>{{charity?.name}}</b>
-                                   </a>
-                              </h3>
-                              <h4>description: {{charity?.info}}</h4>
-                              <h5>location: {{charity?.location}}</h5>
-                              <!-- <h5>rating: {{charity?.comments[0].rating}}</h5> -->
-                              <h5 >categories:</h5>
-                              <div class="row">
-                                   <div class="col-4 col-md-3 col-lg-2" *ngFor="let label of charity?.labels" >
-                                        <span class="badge badge-pill badge-info">{{label}}</span>
-                                   </div>
-                              </div>
-                              <a class="button" href="#">Donate</a>
-                              <span>   |  </span>
-                              <a class="website" href="#">website</a>
-                              </div>
-                         </div>
-                    </div>
-                    <hr />
+
+                         <app-card [charity]="charity"></app-card>
                </div>
           <pagination-controls (pageChange)="p = $event"></pagination-controls>
           </div>

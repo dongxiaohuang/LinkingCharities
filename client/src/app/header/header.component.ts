@@ -4,7 +4,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from '../login/login.component';
 import { Subscription } from 'rxjs/Subscription';
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
-
+import { Router } from '@angular/router';
 import * as $ from 'jquery';
 
 
@@ -22,7 +22,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(private modalService: NgbModal,
     private authService: AuthService,
-     private config: NgbDropdownConfig)
+     private config: NgbDropdownConfig,
+     private router: Router)
      { this.config.placement = 'bottom-right'; }
 
   ngOnInit() {
@@ -46,6 +47,7 @@ export class HeaderComponent implements OnInit {
  logOut() {
     this.username = undefined;
     this.authService.logOut();
+    this.router.navigate(['/']);
   }
   // window scroll listener
   @HostListener("window:scroll", [])

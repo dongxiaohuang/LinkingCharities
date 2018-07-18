@@ -1,0 +1,27 @@
+<div class="row box-shadow">
+<div class="col-4 no-padding">
+     <img [routerLink]="['/charitydetail', charity?._id]"
+     class="campaign-gallery-thumbnail img-fluid suitablesize fit-size " src="{{baseUrl}}{{charity?.image}}" alt="{{charity?.name}}">
+</div>
+<div class="col-8">
+     <div class="col-margin-1 mg-top">
+     <h3>
+          <a [routerLink]="['/charitydetail', charity?._id]">
+               <b>{{charity?.name}}</b>
+          </a>
+     </h3>
+     <h4>description: {{charity?.info}}</h4>
+     <h5>location: {{charity?.location}}</h5>
+     <h5 >categories:</h5>
+     <div class="row">
+          <div class="col-4 col-md-3 col-lg-2" *ngFor="let label of charity?.labels" >
+               <span class="badge badge-pill badge-info">{{label}}</span>
+          </div>
+     </div>
+     <a class="button" href="#">Donate</a>
+     <span>   |  </span>
+     <a class="website" href="#">website</a>
+     </div>
+</div>
+</div>
+<hr />

@@ -17,7 +17,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 export class AutocompleteSearchComponent implements OnInit {
   searchKeywords: string[] = [];
   @Input()
-  searchKey:string = "";
+  searchKey: string = "";
   searchForm: FormGroup;
   ngOnInit(): void {
 
@@ -34,7 +34,6 @@ export class AutocompleteSearchComponent implements OnInit {
 
   }
 
-  public model: any;
 
   search = (text$: Observable<string>) =>
     text$.pipe(
@@ -47,10 +46,11 @@ export class AutocompleteSearchComponent implements OnInit {
 
   constructor(private charitiesService: GetCharitiesService,
     private router: Router,
-     private fb: FormBuilder) {
-          this.searchForm = this.fb.group({
-               key:['']
-          })
+    private fb: FormBuilder) {
+
+    this.searchForm = this.fb.group({
+      key: ['']
+    })
   }
   doSearch() {
     this.router.navigate(['/search', { query: this.searchForm.value.key, page: 1 }]);

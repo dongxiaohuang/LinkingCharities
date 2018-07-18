@@ -8,8 +8,8 @@
                     </div>
                     <ul class="menu-content">
                       <li><a class="btn {{favorite ? 'far fa-heart' : 'fa fa-heart'}}"></a></li>
-                      <li><a href="#" class="btn far fa-donate"></a> </li>
-                      <li><a href="#" class="btn far fa-comment"><span>{{charity.comments.length}}</span></a></li>
+                      <li><a  class="btn far fa-donate"></a> </li>
+                      <li><a [routerLink]="['/charitydetail', charity._id]"  fragment="comments" class="btn far fa-comment"><span>{{charity.comments.length}}</span></a></li>
                     </ul>
                   </div>
                   <div class="data">
