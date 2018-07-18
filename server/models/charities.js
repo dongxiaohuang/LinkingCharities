@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const  mongooseAlgolia = require('mongoose-algolia');
+const mongooseAlgolia = require('mongoose-algolia');
 const config = require('../config');
 const Schema = mongoose.Schema;
 
@@ -19,7 +19,7 @@ const commentSchema = new Schema({
           required: true
      }
 }, {
-      timestamps: true
+     timestamps: true
 });
 
 const charitySchema = new Schema({
@@ -53,28 +53,62 @@ const charitySchema = new Schema({
           type: String,
           required: true
      },
-     comments: [commentSchema]
-},{
-     timestamps: true
+     comments: [commentSchema] // TODO: changed to comments TypeID
+}, {
+     timestamps: true,
+     toObject: {
+          virtuals: true
+     },
+     toJSON: {
+          virtuals: true
+     }
 });
+
+charitySchema
+     .virtual('averageRating')
+     .get(function(){ // cannot use arrow function
+          var rating = 0;
+          if (this.comments.length == 0)
+               {rating = 0}
+          else {
+               this.comments.map((comment) => {
+                    rating += comment.rating;
+               });
+               rating /= this.comments.length;
+          }
+          return rating;
+     });
 
 //TODO: config to store keys
 charitySchema.plugin(mongooseAlgolia, {
      appId: config.algolia.appId,
      apiKey: config.algolia.apiKey,
      indexName: config.algolia.indexName,
-     selector: '_id name location city labels', //which you would like to asyn with algolia
+     selector: '_id name location city labels image comments', //which you would like to asyn with algolia
      // populate: {},
      // defaults: {},
      // mappings: {},
-     // virtuals: {},
+     // virtuals: {
+     //      averageRating: function(doc){
+     //           var rating = 0;
+     //           if (doc.comments.length == 0)
+     //                {rating = 0}
+     //           else {
+     //                doc.comments.map((comment) => {
+     //                     rating += comment.rating;
+     //                });
+     //                rating /= doc.comments.length;
+     //           }
+     //           return rating;
+     //      }
+     // },
      debug: true
 });
 
 let Charities = mongoose.model('Charity', charitySchema);
 Charities.SyncToAlgolia();
 Charities.SetAlgoliaSettings({
-     searchableAttributes:['name', 'location','rating']
+     searchableAttributes: ['name', 'location', 'rating']
 })
 
 
