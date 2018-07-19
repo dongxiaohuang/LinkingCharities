@@ -23,27 +23,65 @@ const commentSchema = new Schema({
 });
 
 const charitySchema = new Schema({
+     ccn:{
+          type: Number,
+          default:''
+     },
+     rbody:{
+          type: String,
+          default:''
+     },
+     rno:{
+          type:Number,
+          default:''
+     },
      name: {
           type: String,
           required: true,
           unique: true
      },
-     //TODO: change it into ObjectId
-     labels: {
-          type: [String],
+     tel:{
+          type: Number, //TODO:
           required: true
      },
+     web:{
+          type: String,
+          default:''
+     },
+     email:{
+          type: String,
+          required: true
+     },
+     //TODO: change it into ObjectId
+     categories: [{
+          type: Schema.Types.ObjectId,
+          ref: 'Category',
+          requierd:true
+     }],
      image: {
           type: String,
+          required:true
           // default: ''
      },
      info: {
           type: String,
           required: true
      },
-     location: {
+     details:{
+          type: String,
+          required:true
+     },
+     postcode:{
+          type: String,
+          required:true
+     },
+     country: {
           type: String,
           requierd: true
+     },
+     state:{
+          type:String,
+          default: ''
      },
      city: {
           type: String,
@@ -54,7 +92,13 @@ const charitySchema = new Schema({
           required: true
      },
      comments: [commentSchema] // TODO: changed to comments TypeID
-}, {
+     ,
+     card:{
+          type: Schema.Types.ObjectId,
+          ref:'PaymentDtail',
+          required:true
+     }}
+, {
      timestamps: true,
      toObject: {
           virtuals: true

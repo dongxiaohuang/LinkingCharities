@@ -23,7 +23,7 @@ charityRouter.route('/')
                }, (err) => next(err))
                .catch((err) => next(err));
      })
-     .post(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+     .post(cors.corsWithOptions, (req, res, next) => {
           Charities.create(req.body)
                .then((charity) => {
                     console.log("Charity created: ", charity);

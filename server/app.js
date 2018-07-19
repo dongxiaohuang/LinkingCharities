@@ -8,6 +8,7 @@ mongoose.Promise = require('bluebird');
 
 var passport = require('passport');
 var authenticate = require('./authenticate'); // config the passport
+var charityAuthenticate = require('./charityAuthenticate'); // config the passport
 
 var config = require('./config');
 
@@ -20,6 +21,8 @@ var favoriteRouter = require('./routes/favoriteRouter');
 var uploadRouter = require('./routes/uploadRouter');
 var searchRouter = require('./routes/searchRouter');
 var categoriesRouter = require('./routes/categoriesRouter');
+var paymentDetailsRouter = require('./routes/paymentDetailsRouter');
+var charityUserRouter = require('./routes/charityUserRouter');
 
 var app = express();
 
@@ -62,12 +65,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 // app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/charityusers', charityUserRouter);
 app.use('/charities', charityRouter);
 app.use('/coverpics', coverPicRouter);
 app.use('/favorites', favoriteRouter);
 app.use('/imageUpload', uploadRouter);
 app.use('/search', searchRouter);
 app.use('/categories', categoriesRouter);
+app.use('/paymentdetails', paymentDetailsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

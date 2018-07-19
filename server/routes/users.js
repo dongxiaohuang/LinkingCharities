@@ -37,7 +37,7 @@ router.route('/signup')
                          user.save()
                               .then((user) => {
                                    // check if it is registered successfully
-                                   passport.authenticate('local')(req, res, () => {
+                                   passport.authenticate('localUser')(req, res, () => {
                                         res.statusCode = 200;
                                         res.setHeader('Content-Type', 'application/json');
                                         res.json({
@@ -60,7 +60,7 @@ router.route('/login')
           // for more meaningful user login message
           // err: general request err
           // info: user err
-          passport.authenticate('local', (err, user, info) => {
+          passport.authenticate('localUser', (err, user, info) => {
                if (err) return next(err);
                if (!user) {
                     res.statusCode = 401;
@@ -111,7 +111,7 @@ router.route('/logout')
 router.route('/checkJWTToken')
      .options(cors.corsWithOptions, (req, res) => { sendStatus(200);})
      .get(cors.corsWithOptions, (req, res) => {
-          passport.authenticate('jwt', {session: false}, (err, user, info) => {
+          passport.authenticate('jwtPassportUser', {session: false}, (err, user, info) => {
                if(err) return next(err);
                if(!user){
                     res.statusCode = 401;
