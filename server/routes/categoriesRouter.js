@@ -1,8 +1,10 @@
 const Categories = require('../models/categories');
+const Charities = require('../models/charities');
 const express = require('express');
 const categoriesRouter = express.Router();
 const bodyParser = require('body-parser');
 const cors = require('./cors');
+const async = require('async');
 
 categoriesRouter.use(bodyParser.json());
 
@@ -51,5 +53,46 @@ categoriesRouter.route('/')
                })
           }, err => next(err))
           .catch(err => next(err))
+})
+
+categoriesRouter.route('/:id')
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200);})
+.get(cors.cors, (req, res, next) => {
+     const perPage = 10;
+     const page = req.query.page;
+     async.parallel([
+          function(callback){
+               Charities.count({categories:req.params.id}, (err, count) => {
+                    var totalCharities = count;
+                    callback(err, totalCharities);
+               })
+          },
+          function(callback){
+               Charities.find({categories:req.params.id})
+               .skip(perPage* page)
+               .limit(perPage)
+               .exec((err, charities) => {
+                    if(err) return next(err);
+                    callback(err, charities);
+               })
+          },
+          function(callback) {
+               Categories.findOne({ _id: req.params.id}, (err, category) => {
+               callback(err, category)
+               });}
+     ], (err, results) => {
+          var totalCharities = results[0];
+          var charities = results[1];
+          var category = results[2];
+          res.json({
+               success:true,
+               message:'category',
+               charities:charities,
+               categoryName: category.name,
+               totalCharities: totalCharities,
+               pages: Math.ceil(totalCharities / perPage)
+          })
+     })
+
 })
 module.exports = categoriesRouter;

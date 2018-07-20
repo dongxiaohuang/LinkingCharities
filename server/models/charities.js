@@ -21,6 +21,16 @@ const commentSchema = new Schema({
 }, {
      timestamps: true
 });
+const geocodingSchema = new Schema({
+     lat: {
+          type: Number,
+          default:''
+     },
+     lng: {
+          type: Number,
+          default:''
+     }
+});
 
 const charitySchema = new Schema({
      ccn:{
@@ -38,7 +48,6 @@ const charitySchema = new Schema({
      name: {
           type: String,
           required: true,
-          unique: true
      },
      tel:{
           type: Number, //TODO:
@@ -52,7 +61,6 @@ const charitySchema = new Schema({
           type: String,
           required: true
      },
-     //TODO: change it into ObjectId
      categories: [{
           type: Schema.Types.ObjectId,
           ref: 'Category',
@@ -97,8 +105,10 @@ const charitySchema = new Schema({
           type: Schema.Types.ObjectId,
           ref:'PaymentDtail',
           required:true
-     }}
-, {
+     },
+     geocoding: geocodingSchema
+},
+ {
      timestamps: true,
      toObject: {
           virtuals: true
@@ -122,14 +132,24 @@ charitySchema
           }
           return rating;
      });
+charitySchema
+     .virtual('geoaddress')
+     .get(function(){ // cannot use arrow function
+          var state =this.state? this.state+ ', ' : '';
+          var addr = this.address + ', '+this.city +', ' +state+this.postcode+', '+this.country;
+          return addr;
+     });
 
 //TODO: config to store keys
 charitySchema.plugin(mongooseAlgolia, {
      appId: config.algolia.appId,
      apiKey: config.algolia.apiKey,
      indexName: config.algolia.indexName,
-     selector: '_id name location city labels image comments', //which you would like to asyn with algolia
-     // populate: {},
+     selector: '_id name country city categories info averageRating image', //which you would like to asyn with algolia
+     populate: {
+          path: 'categories',
+          select:'name'
+     },
      // defaults: {},
      // mappings: {},
      // virtuals: {
@@ -152,7 +172,7 @@ charitySchema.plugin(mongooseAlgolia, {
 let Charities = mongoose.model('Charity', charitySchema);
 Charities.SyncToAlgolia();
 Charities.SetAlgoliaSettings({
-     searchableAttributes: ['name', 'location', 'rating']
+     searchableAttributes: ['name', 'country', 'city', 'categories']
 })
 
 

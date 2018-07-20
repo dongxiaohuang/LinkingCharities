@@ -12,5 +12,7 @@ const favoriteSchema = new Schema({
           ref: 'Charity',
           requierd:true
      }]
+},{
+     timestamps:true
 })
 module.exports = mongoose.model('Favorite', favoriteSchema);
