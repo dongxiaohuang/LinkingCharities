@@ -12,6 +12,7 @@
      </h3>
      <h4>description: {{charity?.info}}</h4>
      <h5>location: {{charity?.location}}</h5>
+     <h5>rating: {{charity?.averageRating | number : '1.2-2'}}</h5>
      <h5 >categories:</h5>
      <div class="row">
           <div class="col-4 col-md-3 col-lg-2" *ngFor="let label of charity?.labels" >

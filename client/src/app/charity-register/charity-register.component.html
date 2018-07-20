@@ -2,70 +2,79 @@
   <mat-step [stepControl]="">
     <div class="row justify-content-center">
       <div class="col-8 col-md-6 col-lg-5">
-        <form [formGroup]="">
+        <form [formGroup]="charityDetailForm" novalidate>
           <ng-template matStepLabel><i class="far fa-info"></i><b>&nbsp; Charity details</b></ng-template>
+          {{charityDetailForm.value |json}} {{charityDetailForm.invalid |json}}
           <div class="form-group">
             <label for="ccb">Charity Commission number</label>
-            <input type="text" class="form-control" id="ccn" formControlName="" placeholder="Enter charity commission number" required>
+            <input type="text" class="form-control" id="ccn" formControlName="ccn" placeholder="Enter charity commission number">
             <small>
                <span>info</span>
           </small>
           </div>
           <div class="form-group">
             <label for="rBody">Registered body(*)</label>
-            <input type="text" class="form-control" id="rBody" formControlName="" placeholder="Enter registered body" required>
+            <input type="text" class="form-control" id="rBody" formControlName="rbody" placeholder="Enter registered body">
             <small>
         <span>info</span>
    </small>
           </div>
           <div class="form-group">
             <label for="rNumber">Registered number</label>
-            <input type="text" class="form-control" id="rNumber" formControlName="" placeholder="Enter registered number" required>
+            <input type="text" class="form-control" id="rNumber" formControlName="rno" placeholder="Enter registered number">
             <small>
         <span>info</span>
    </small>
           </div>
           <div class="form-group">
             <label for="rName">Registered name(*)</label>
-            <input type="text" class="form-control" id="rName" formControlName="" placeholder="Enter registered name" required>
+            <input type="text" class="form-control" id="rName" formControlName="name" placeholder="Enter registered name">
             <small>
         <span>info</span>
    </small>
           </div>
           <div class="form-group">
             <label for="tel">Registered telphone(*)</label>
-            <input type="tel" class="form-control" id="tel" formControlName="" name="tel" placeholder="Enter telphone" required>
+            <input type="tel" class="form-control" id="tel" formControlName="tel" name="tel" placeholder="Enter telphone">
             <small>
         <span>info</span>
    </small>
           </div>
           <div class="form-group">
             <label for="website">Website</label>
-            <input type="text" class="form-control" id="website" formControlName="" name="website" placeholder="Enter website" required>
+            <input type="text" class="form-control" id="website" formControlName="web" name="website" placeholder="Enter website">
+            <small>
+        <span>info</span>
+   </small>
+          </div>
+          <div class="form-group">
+            <label for="charity_email">Contact Email</label>
+            <input type="text" class="form-control" id="charity_email" formControlName="email" name="website" placeholder="Enter charity email">
             <small>
         <span>info</span>
    </small>
           </div>
           <div class="form-group">
             <label for="chooseTypes">Types</label>
-            <ng-multiselect-dropdown [placeholder]="'Please select type(s) of your charity'" [data]="types" [(ngModel)]="selectedItems" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" #chooseTypes>
+            <ng-multiselect-dropdown #chooseTypes [placeholder]="'Please select type(s) of your charity'" [data]="categories" [(ngModel)]="choosedCategories" [settings]="dropdownSettings" formControlName="categories" (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)"
+                 (onSelectAll)="onSelectAll($event)">
             </ng-multiselect-dropdown>
           </div>
           <div>
             <div class="form-group">
               <label for="imageUpload">Please Upload Profile Image for your charity</label>
-              <input type="file" class="form-control-file" id="imageUpload" name="imageFile">
+              <input type="file" class="form-control-file" formControlName="image" id="imageUpload" name="imageFile">
             </div>
           </div>
           <div class="form-group">
             <label for="info">brief description</label>
-            <textarea id="info" maxlength="200" class="form-control" formControlName="" placeholder="Charity Description" rows=4></textarea>
+            <textarea id="info" maxlength="200" class="form-control" formControlName="info" placeholder="Charity Description" rows=4></textarea>
             <small>
              <span>Max length 200 characters</span>
         </small>
             <hr />
             <label for="detail">details description</label>
-            <textarea id="detail" maxlength="500" class="form-control" formControlName="" placeholder="Charity Details" rows=6></textarea>
+            <textarea id="detail" maxlength="500" class="form-control" formControlName="details" placeholder="Charity Details" rows=6></textarea>
             <small>
              <span>Max length 500 characters</span>
         </small>
@@ -74,38 +83,38 @@
             <!-- Text input-->
             <div class="form-group">
               <label class="control-label" for="textinput">Line 1</label>
-              <input type="text" placeholder="Address Line 1" class="form-control">
+              <input type="text" placeholder="Address Line 1" class="form-control" formControlName="address">
             </div>
             <!-- Text input-->
             <div class="form-group">
               <label class="control-label" for="textinput">Line 2</label>
-              <input type="text" placeholder="Address Line 2" class="form-control">
+              <input type="text" placeholder="Address Line 2" class="form-control" formControlName="address">
             </div>
 
             <!-- Text input-->
             <div class="form-group">
               <label class="control-label" for="city">City</label>
-              <input type="text" placeholder="City" id="city" class="form-control">
+              <input type="text" placeholder="City" id="city" class="form-control" formControlName="city">
             </div>
             <!-- Text input-->
             <div class="row">
               <div class="col-lg-6">
                 <div class="form-group">
                   <label class="control-label" for="state">State</label>
-                  <input type="text" placeholder="State" id="state" class="form-control">
+                  <input type="text" placeholder="State" id="state" class="form-control" formControlName="state">
                 </div>
               </div>
               <div class="col-lg-6">
                 <div class="form-group">
                   <label class="control-label" for="postcode">Postcode</label>
-                  <input type="text" placeholder="Post Code" id="postcode" class="form-control">
+                  <input type="text" placeholder="Post Code" id="postcode" class="form-control" formControlName="postcode">
                 </div>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label" for="country">Country</label>
-              <input type="text" placeholder="Country" id="country" class="form-control">
+              <input type="text" placeholder="Country" id="country" class="form-control" formControlName="country">
             </div>
           </div>
         </form>
@@ -118,8 +127,8 @@
         <form novalidate [formGroup]="basicInfoForm">
           <ng-template matStepLabel><i class="fas fa-pen-square"></i><b>&nbsp; Personal details</b></ng-template>
           <div class="form-group">
-            <label for="email">Email address</label>
-            <input type="email" class="form-control" id="email" formControlName="username" aria-describedby="emailHelp" placeholder="Enter email" required>
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" formControlName="username" placeholder="Enter username" required>
             <small>
                    <span [hidden]="!(basicInfoErrors.username)">{{basicInfoErrors.username}}</span>
               </small>
@@ -160,27 +169,28 @@
       </div>
     </div>
   </mat-step>
+  <!-- {{cardForm.value |json}} -->
   <mat-step [stepControl]="">
     <div class="row justify-content-center">
       <div class="col-8 col-md-6 col-lg-5">
-        <form [formGroup]="">
-          <ng-template matStepLabel><i class="far fa-money-check-alt"></i><b>&nbsp; Donation details</b></ng-template>
+          <form [formGroup]="paymentDetailsForm" novalidate>
+               <ng-template matStepLabel><i class="far fa-money-check-alt"></i><b>&nbsp; Donation details</b></ng-template>
           <div class="form-group">
             <i class="fas fa-credit-card"></i>
             <label for="card_name">Name</label>
-            <input type="text" id="card_name" name="card_name" placeholder="Card name" class="form-control">
+            <input type="text" id="card_name" name="card_name" formControlName="name" placeholder="Card name" class="form-control" required>
             <label for="card_number">card</label>
-            <input type="text" id="card_number" name="card_number" placeholder="Card number" class="form-control">
+            <input type="text" id="card_number" name="card_number" formControlName="number" placeholder="Card number" class="form-control" required>
             <label for="sort_code">Sort code</label>
-            <input type="text" id="sort_code" name="sort_code" placeholder="sort_code" class="form-control">
+            <input type="text" id="sort_code" name="sort_code" formControlName="sortcode" placeholder="sort_code" class="form-control">
             <label for="account_no">Account No.</label>
-            <input type="text" id="account_no" name="account_no" placeholder="Account number" class="form-control">
+            <input type="text" id="account_no" name="account_no" formControlName="account_no" placeholder="Account number" class="form-control">
           </div>
           <hr />
           <div class="form-group">
             <i class="fab fa-paypal"></i>
             <label for="paypal_number">Paypal</label>
-            <input type="text" id="paypal_number" name="paypal_number" placeholder="Paypal number" class="form-control">
+            <input type="text" id="paypal_number" name="paypal_number" formControlName="paypal" placeholder="Paypal number" class="form-control">
           </div>
         </form>
       </div>

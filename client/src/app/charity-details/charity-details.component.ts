@@ -98,7 +98,7 @@ export class CharityDetailsComponent implements OnInit {
     // this.charityService.postComment(this.id,)
     console.log(this.commentForm.value);
     this.charityService.postComment(this.id, this.commentForm.value)
-     .subscribe(comments => this.charity.comments = comments,
+     .subscribe(comments => {this.charity.comments = comments},
           err => console.log(err));
     this.commentForm.reset({
      rating: 5,

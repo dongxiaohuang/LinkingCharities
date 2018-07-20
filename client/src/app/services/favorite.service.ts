@@ -6,10 +6,10 @@ import { baseURL } from '../shared/baseurl';
 import { ProcessHTTPMsgService } from './process-httpmsg.service';
 
 
-// interface isFavResponse {
-//   exists: boolean,
-//   favorites: any
-// };
+interface isFavResponse {
+  exists: boolean,
+  favorites: any
+};
 @Injectable()
 export class FavoriteService {
 
@@ -27,7 +27,7 @@ export class FavoriteService {
        .catch(err => this.processHTTPMsgService.handleError(err));
  }
   isFavorite(charityID: any){
-       return this.http.get(baseURL + 'favorites/' + charityID)
+       return this.http.get<isFavResponse>(baseURL + 'favorites/' + charityID)
        .catch(err => this.processHTTPMsgService.handleError(err));
  }
  deleteFavorite(charityID: any){

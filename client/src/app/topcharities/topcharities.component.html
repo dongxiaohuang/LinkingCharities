@@ -14,7 +14,7 @@
                   </div>
                   <div class="data">
                     <div class="content">
-                      <span class="location">{{charity.location}}</span>
+                      <span class="location">{{charity.city}}, {{charity.country}}</span>
                       <h1 class="title"><a [routerLink]="['/charitydetail', charity._id]">{{charity.name}}</a></h1>
                       <p class="text">{{charity.info}}</p>
                       <a [routerLink]="['/charitydetail', charity._id]" class="button">Read more</a>

@@ -1,6 +1,6 @@
 import { Component, NgModule, ViewChild, OnInit, Input } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormControl, FormGroup, FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgSelectModule, NgOption } from '@ng-select/ng-select';
 import { GetCharitiesService } from '../services/get-charities.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -15,23 +15,32 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 
 export class AutocompleteSearchComponent implements OnInit {
-  searchKeywords: string[] = [];
+  searchKeywords: string[]=[];
   @Input()
   searchKey: string = "";
   searchForm: FormGroup;
+
+  constructor(private charitiesService: GetCharitiesService,
+       private router: Router,
+       private fb: FormBuilder) {}
+
   ngOnInit(): void {
 
-    this.charitiesService.getChairties()
-      .subscribe((charities) => {
-        charities.forEach(charity => {
-          this.searchKeywords.push(charity.name);
-          // TODO: use a shared data structure
-          if (this.searchKeywords.indexOf(charity.location) == -1)
-            this.searchKeywords.push(charity.location);
-          // this.searchKeywords.push(charity.name);
-        });
-      });
+    // this.charitiesService.getChairties()
+    //   .subscribe((charities) => {
+    //        console.log(charities);
+    //     charities.forEach(charity => {
+    //       this.searchKeywords.push(charity.name);
+    //       // TODO: use a shared data structure
+    //       // if (this.searchKeywords.indexOf(charity.country) == -1)
+    //       //   this.searchKeywords.push(charity.country);
+    //       // this.searchKeywords.push(charity.name);
+    //     });
+    //   });
 
+    this.searchForm = this.fb.group({
+      keyword: ['', Validators.required]
+    })
   }
 
 
@@ -44,16 +53,9 @@ export class AutocompleteSearchComponent implements OnInit {
     );
 
 
-  constructor(private charitiesService: GetCharitiesService,
-    private router: Router,
-    private fb: FormBuilder) {
-
-    this.searchForm = this.fb.group({
-      key: ['']
-    })
-  }
   doSearch() {
-    this.router.navigate(['/search', { query: this.searchForm.value.key, page: 1 }]);
+    this.router.navigate(['/search', { query: this.searchForm.value.keyword, page: 1 }]);
+    this.searchForm.reset();
   };
 
 

@@ -1,17 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { types } from '../shared/types';
+import { CategoriesService } from '../services/categories.service';
+import { Category } from '../shared/category';
+
 @Component({
   selector: 'app-charity-register',
   templateUrl: './charity-register.component.html',
   styleUrls: ['./charity-register.component.scss']
 })
 export class CharityRegisterComponent implements OnInit {
-  types: string[];
+  categories:Category[] =[];
+  charityDetailForm: FormGroup;
   basicInfoForm: FormGroup;
+  paymentDetailsForm: FormGroup;
 
   dropdownList = [];
-  selectedItems = [];
+  choosedCategories = [];
   dropdownSettings = {};
 
   basicInfoErrors = {
@@ -23,8 +27,8 @@ export class CharityRegisterComponent implements OnInit {
   }
   BasicInfoValidaMsg = {
     'username': {
-      'required': 'Email is required.',
-      'email': 'Email is not in valid format.'
+         'required': 'Username is required.',
+         'minlength': 'Username should have at least 6 characters.'
     },
     'password': {
       'required': 'Password is required.',
@@ -45,25 +49,77 @@ export class CharityRegisterComponent implements OnInit {
       'maxlength': 'Last Name cannot be more than 25 characters.'
     }
   }
-  constructor(private _formBuilder: FormBuilder, ) { }
+  constructor(private _formBuilder: FormBuilder,
+     private categoriesService: CategoriesService) { }
 
   ngOnInit() {
-    this.types = types;
+
     this.onBasicFormCreate();
+    this.onCharityDetailsFormCreate();
+    this.onPaymentDetailsFormCreate();
+    this.categoriesService.getCategories()
+     .subscribe(data => {
+          if(data['success']){
+               this.categories = data.categories;
+               // console.log('log categories', this.categories);
+          }else{
+               console.log('unsuccessful get categories');
+          }
+     })
 
     this.dropdownSettings = {
       singleSelection: false,
-      idField: 'item_id',
-      textField: 'item_text',
+      idField: '_id',
+      textField: 'name',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 5,
       allowSearchFilter: true
     };
+
+
   }
+ //  onItemSelect (item:any) {
+ //    console.log(item);
+ //    console.log("selected: ", this.choosedCategories);
+ //  }
+ //  onDeSelect(item:any){
+ //       console.log("detele",item);
+ // }
+
+  onCharityDetailsFormCreate(){
+       this.charityDetailForm = this._formBuilder.group({
+           ccn: [''],
+           rbody:[''],
+           rno:[''],
+           name: ['', Validators.required],
+           tel:['', [Validators.required, Validators.pattern]],
+           web:['', [Validators.pattern]],
+           email:['', [Validators.required, Validators.email]],
+           categories: [Category, Validators.required],
+           image: [''],
+           info: ['', [Validators.required, Validators.maxLength(200)]],
+           details:['', [Validators.required, Validators.maxLength(500)]],
+           address: ['', [Validators.required]],
+           city: ['', [Validators.required]],
+           state:[''],
+           postcode:['', [Validators.required]],
+           country:['', [Validators.required]]
+       })
+ };
+
+ onPaymentDetailsFormCreate(){
+      this.paymentDetailsForm = this._formBuilder.group({
+           name:['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+           number:['', [Validators.required]],
+           sortcode:['',[Validators.required]],
+           account_no: ['', [Validators.required]],
+           paypal:['']
+      })
+};
   onBasicFormCreate() {
     this.basicInfoForm = this._formBuilder.group({
-      username: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required, Validators.minLength(6)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPSW: ['', [Validators.required, this.matchOtherValidator('password')]],
       firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
@@ -74,6 +130,7 @@ export class CharityRegisterComponent implements OnInit {
       data => this.onValueChanged(this.basicInfoErrors, this.BasicInfoValidaMsg, data, this.basicInfoForm)
     );
   };
+
 
   onValueChanged(errs, errMsg, data?: any, fg?: FormGroup) {
     if (!fg) return;
