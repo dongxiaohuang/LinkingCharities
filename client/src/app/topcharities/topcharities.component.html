@@ -4,7 +4,7 @@
                 <div class="wrapper" [ngStyle]="{'background': getUrl(charity.image)}">
                   <div class="header">
                     <div class="date">
-                         {{charity.updatedAt |date}}
+                         updated at: {{charity.updatedAt |date}}
                     </div>
                     <ul class="menu-content">
                       <li><a class="btn {{favorite ? 'far fa-heart' : 'fa fa-heart'}}"></a></li>

@@ -19,6 +19,9 @@ export class GetCharitiesService {
   getChairties(): Observable<Charity[]> {
     return this.restangular.all('charities').getList();
   };
+  getNewestCharities(): Observable<Charity[]> {
+    return this.restangular.all('charities/newCharities').getList();
+ }
   getCharity(id: string): Observable<Charity> {
     return this.restangular.one('charities', id).get();
   }

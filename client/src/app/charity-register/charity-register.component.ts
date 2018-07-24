@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { CategoriesService } from '../services/categories.service';
 import { Category } from '../shared/category';
-
+import { AuthCharityService } from '../services/auth-charity.service'
+import { mergeMap } from 'rxjs/operators';
 @Component({
   selector: 'app-charity-register',
   templateUrl: './charity-register.component.html',
   styleUrls: ['./charity-register.component.scss']
 })
 export class CharityRegisterComponent implements OnInit {
-  categories:Category[] =[];
+  categories: Category[] = [];
   charityDetailForm: FormGroup;
   basicInfoForm: FormGroup;
   paymentDetailsForm: FormGroup;
@@ -18,6 +19,20 @@ export class CharityRegisterComponent implements OnInit {
   choosedCategories = [];
   dropdownSettings = {};
 
+  charityDetailErrors = {
+    "rno": '',
+    "name": '',
+    "tel": '',
+    "web": "",
+    "email": "",
+    "categories": '',
+    "info": "",
+    "details": "",
+    "address": "",
+    "city": "",
+    "postcode": "",
+    "country": ""
+  }
   basicInfoErrors = {
     'username': '',
     'password': '',
@@ -25,10 +40,59 @@ export class CharityRegisterComponent implements OnInit {
     'firstname': '',
     'lastname': ''
   }
+
+  paymentDetailsErros = {
+    'name': '',
+    'card': '',
+    'sortcode': '',
+    'account_no': ''
+  }
+
+  CharityDetailValidaMsg = {
+       "rno":{
+            'pattern': 'Register number should be digits'
+       },
+      "name": {
+            'required': 'Charity name is required.'
+      },
+      "tel": {
+           'required': 'Charity telephone number is required.'
+      },
+      "web": {
+           'pattern': 'website is not valid'
+      },
+      "email": {
+           'required': 'Email is required.',
+           'email': 'email not in valid format.'
+      },
+      "categories": {
+           'required': 'Category is required.'
+      },
+      "info": {
+           'required': 'Information is required.',
+           'maxlength': 'Max length is 200'
+      },
+      "details": {
+           'required': 'Detail is required.',
+           'maxlength': 'Max length is 500'
+      },
+      "address": {
+           'required': 'Address is required.'
+      },
+      "city": {
+           'required': 'City is required.'
+      },
+      "postcode": {
+           'required': 'Postcode is required.'
+      },
+      "country": {
+           'required': 'Country is required.'
+      }
+ }
   BasicInfoValidaMsg = {
     'username': {
-         'required': 'Username is required.',
-         'minlength': 'Username should have at least 6 characters.'
+      'required': 'Username is required.',
+      'minlength': 'Username should have at least 6 characters.'
     },
     'password': {
       'required': 'Password is required.',
@@ -49,8 +113,24 @@ export class CharityRegisterComponent implements OnInit {
       'maxlength': 'Last Name cannot be more than 25 characters.'
     }
   }
+  PaymentDetailsValidaMsg = {
+    'name': {
+      'required': 'Username is required.',
+      'minlength': 'Username should have at least 6 characters.'
+    },
+    'card': {
+      'required': 'Card number is required'
+    },
+    'sortcode': {
+      'required': 'Sort code is required'
+    },
+    'account_no': {
+      'required': 'Account no is required'
+    }
+  }
   constructor(private _formBuilder: FormBuilder,
-     private categoriesService: CategoriesService) { }
+    private categoriesService: CategoriesService,
+     private authCharityService: AuthCharityService) { }
 
   ngOnInit() {
 
@@ -58,14 +138,14 @@ export class CharityRegisterComponent implements OnInit {
     this.onCharityDetailsFormCreate();
     this.onPaymentDetailsFormCreate();
     this.categoriesService.getCategories()
-     .subscribe(data => {
-          if(data['success']){
-               this.categories = data.categories;
-               // console.log('log categories', this.categories);
-          }else{
-               console.log('unsuccessful get categories');
-          }
-     })
+      .subscribe(data => {
+        if (data['success']) {
+          this.categories = data.categories;
+          // console.log('log categories', this.categories);
+        } else {
+          console.log('unsuccessful get categories');
+        }
+      })
 
     this.dropdownSettings = {
       singleSelection: false,
@@ -79,44 +159,52 @@ export class CharityRegisterComponent implements OnInit {
 
 
   }
- //  onItemSelect (item:any) {
- //    console.log(item);
- //    console.log("selected: ", this.choosedCategories);
- //  }
- //  onDeSelect(item:any){
- //       console.log("detele",item);
- // }
+  //  onItemSelect (item:any) {
+  //    console.log(item);
+  //    console.log("selected: ", this.choosedCategories);
+  //  }
+  //  onDeSelect(item:any){
+  //       console.log("detele",item);
+  // }
 
-  onCharityDetailsFormCreate(){
-       this.charityDetailForm = this._formBuilder.group({
-           ccn: [''],
-           rbody:[''],
-           rno:[''],
-           name: ['', Validators.required],
-           tel:['', [Validators.required, Validators.pattern]],
-           web:['', [Validators.pattern]],
-           email:['', [Validators.required, Validators.email]],
-           categories: [Category, Validators.required],
-           image: [''],
-           info: ['', [Validators.required, Validators.maxLength(200)]],
-           details:['', [Validators.required, Validators.maxLength(500)]],
-           address: ['', [Validators.required]],
-           city: ['', [Validators.required]],
-           state:[''],
-           postcode:['', [Validators.required]],
-           country:['', [Validators.required]]
-       })
- };
+  onCharityDetailsFormCreate() {
+    this.charityDetailForm = this._formBuilder.group({
+      ccn: [''],
+      rbody: [''],
+      rno: [''],
+      name: ['', Validators.required],
+      tel: ['', [Validators.required, Validators.pattern]],
+      web: ['', [Validators.pattern]],
+      email: ['', [Validators.required, Validators.email]],
+      categories: [Category, Validators.required],
+      image: ['images/people2.jpg'],
+      info: ['', [Validators.required, Validators.maxLength(200)]],
+      details: ['', [Validators.required, Validators.maxLength(500)]],
+      address: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      state: [''],
+      postcode: ['', [Validators.required]],
+      country: ['', [Validators.required]],
+      card: ['']
+});
+     this.charityDetailForm.valueChanges.subscribe(
+          data => this.onValueChanged(this.charityDetailErrors, this.CharityDetailValidaMsg, data, this.charityDetailForm)
+     )
+  };
 
- onPaymentDetailsFormCreate(){
-      this.paymentDetailsForm = this._formBuilder.group({
-           name:['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
-           number:['', [Validators.required]],
-           sortcode:['',[Validators.required]],
-           account_no: ['', [Validators.required]],
-           paypal:['']
-      })
-};
+  onPaymentDetailsFormCreate() {
+    this.paymentDetailsForm = this._formBuilder.group({
+      name: ['ss', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+      number: ['', [Validators.required]],
+      sortcode: ['', [Validators.required]],
+      account_no: ['', [Validators.required]],
+      paypal: ['']
+});
+
+     this.paymentDetailsForm.valueChanges.subscribe(
+          data => this.onValueChanged(this.paymentDetailsErros, this.PaymentDetailsValidaMsg, data, this.paymentDetailsForm)
+     );
+  };
   onBasicFormCreate() {
     this.basicInfoForm = this._formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(6)]],
@@ -124,6 +212,7 @@ export class CharityRegisterComponent implements OnInit {
       confirmPSW: ['', [Validators.required, this.matchOtherValidator('password')]],
       firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
       lastname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+      charity: ['']
     });
 
     this.basicInfoForm.valueChanges.subscribe(
@@ -146,6 +235,34 @@ export class CharityRegisterComponent implements OnInit {
       }
     }
   }
+
+  onSubmit(){
+       const cardID;
+       const charityID;
+       this.authCharityService.postCard(this.paymentDetailsForm.value)
+          .pipe(
+               mergeMap(res => {
+                    cardID = res.details._id;
+                    this.charityDetailForm.value.card = cardID;
+                    console.log('charitydetails', this.charityDetailForm.value);
+
+                    return this.authCharityService.postCharity(this.charityDetailForm.value);
+               })
+               ,
+               mergeMap(res => {
+                    charityID = res._id;
+                    this.basicInfoForm.value.charity = charityID;
+                    console.log('charities successful', this.basicInfoForm.value.charity);
+                    return this.authCharityService.signUp(this.basicInfoForm.value);
+               })
+
+          )
+          .subscribe(
+               res =>
+               console.log(res);
+          )
+ };
+
   matchOtherValidator(otherControlName: string) {
 
     let thisControl: FormControl;

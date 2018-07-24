@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.charityService.getChairties()
+    this.charityService.getNewestCharities()
       .subscribe(charities => this.charities = charities);
   }
 }
