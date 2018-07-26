@@ -36,4 +36,21 @@ export function  matchOtherValidator (otherControlName: string) {
     return null;
 
  }
-}
+};
+
+export interface AuthResponse {
+  status: string,
+  success: string,
+  token: string
+};
+
+export interface RegisterResponse {
+  status: string,
+  success: string
+};
+
+export interface JWTResponse {
+  status: string,
+  success: string,
+  user: any
+};

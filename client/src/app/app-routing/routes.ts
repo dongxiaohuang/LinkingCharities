@@ -11,6 +11,7 @@ import { SignupComponent } from '../signup/signup.component';
 import { VolunteerComponent } from '../volunteer/volunteer.component';
 import { SearchComponent } from '../search/search.component';
 import { UserprofileComponent } from '../userprofile/userprofile.component';
+import { CharityProfileComponent } from '../charity-profile/charity-profile.component';
 import { CategoryComponent } from '../category/category.component';
 export const routes: Routes = [
      { path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -24,6 +25,7 @@ export const routes: Routes = [
      { path: 'volunteer', component: VolunteerComponent},
      { path: 'search', component: SearchComponent},
      { path: 'user/profile', component: UserprofileComponent},
+     { path: 'charityuser/profile', component: CharityProfileComponent},
      { path: 'category/:id', component: CategoryComponent},
      { path: '**', redirectTo: '/home'},
 ]

@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { AuthCharityService } from '../services/auth-charity.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from '../login/login.component';
 import { Subscription } from 'rxjs/Subscription';
@@ -17,36 +18,44 @@ import * as $ from 'jquery';
 export class HeaderComponent implements OnInit {
 
   public isCollapsed = true;
-  subscription: Subscription;
+  subscriptionUser: Subscription;
+  subscriptionCharity: Subscription;
   username: string = undefined;
+  charityUsername: string = undefined;
 
   constructor(private modalService: NgbModal,
     private authService: AuthService,
-     private config: NgbDropdownConfig,
-     private router: Router)
-     { this.config.placement = 'bottom-right'; }
+    private authCharityService: AuthCharityService,
+    private config: NgbDropdownConfig,
+    private router: Router) { this.config.placement = 'bottom-right'; }
 
   ngOnInit() {
     this.authService.loadUserCredentials();
-    this.subscription = this.authService.getUsername()
+    this.subscriptionUser = this.authService.getUsername()
       .subscribe(name => { console.log(name); this.username = name; });
+    this.authCharityService.loadCharityCredentials();
+    this.subscriptionCharity = this.authCharityService.getUsername()
+      .subscribe(name => { console.log(name); this.charityUsername = name; });
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subscriptionUser.unsubscribe();
+    this.subscriptionCharity.unsubscribe();
   }
   openLoginForm() {
-   const modalRef = this.modalService.open(LoginComponent, { centered: true });
+    const modalRef = this.modalService.open(LoginComponent, { centered: true });
 
-   // modalRef.afterClosed()
-   //   .subscribe(result => {
-   //     console.log(result);
-   //   });
- }
+    // modalRef.afterClosed()
+    //   .subscribe(result => {
+    //     console.log(result);
+    //   });
+  }
 
- logOut() {
+  logOut() {
     this.username = undefined;
     this.authService.logOut();
+    this.charityUsername = undefined;
+    this.authCharityService.logOut();
     this.router.navigate(['/']);
   }
   // window scroll listener

@@ -8,30 +8,16 @@ import { baseURL } from '../shared/baseurl';
 import { ProcessHTTPMsgService } from './process-httpmsg.service';
 
 import 'rxjs/add/operator/catch';
+import { JWTResponse, AuthResponse, RegisterResponse } from '../utils/helpers';
 
-interface AuthResponse {
-  status: string,
-  success: string,
-  token: string
-};
-interface RegisterResponse {
-  status: string,
-  success: string
-};
-
-interface JWTResponse {
-  status: string,
-  success: string,
-  user: any
-};
 
 @Injectable()
 export class AuthService {
 
- tokenKey: string = 'JWT';
- isAuthenticated: Boolean = false;
- username: Subject<string> = new Subject<string>();
- authToken: string = undefined;
+  tokenKey: string = 'JWT_User';
+  isAuthenticated: boolean = false;
+  username: Subject<string> = new Subject<string>();
+  authToken: string = undefined;
 
   constructor(private http: HttpClient,
     private processHTTPMsgService: ProcessHTTPMsgService) {
@@ -39,14 +25,14 @@ export class AuthService {
 
   checkJWTtoken() {
     this.http.get<JWTResponse>(baseURL + 'users/checkJWTtoken')
-    .subscribe(res => {
-      console.log("JWT Token Valid: ", res);
-      this.sendUsername(res.user.username);
-    },
-    err => {
-      console.log("JWT Token invalid: ", err);
-      this.destroyUserCredentials();
-    })
+      .subscribe(res => {
+        console.log("JWT Token Valid: ", res);
+        this.sendUsername(res.user.username);
+      },
+        err => {
+          console.log("JWT Token invalid: ", err);
+          this.destroyUserCredentials();
+        })
   }
 
   sendUsername(name: string) {
@@ -87,26 +73,26 @@ export class AuthService {
   }
 
   signUp(user: any): Observable<any> {
-       return this.http.post(baseURL + 'users/signup',
-       user)
-       .pipe(
-           map(res => {
-                return {'success': true, 'username': user.username };
-           })
+    return this.http.post(baseURL + 'users/signup',
+      user)
+      .pipe(
+        map(res => {
+          return { 'success': true, 'username': user.username };
+        })
       )
-        .catch(error => { return this.processHTTPMsgService.handleError(error); });
+      .catch(error => { return this.processHTTPMsgService.handleError(error); });
   }
 
   logIn(user: any): Observable<any> {
     return this.http.post<AuthResponse>(baseURL + 'users/login',
-      {"username": user.username, "password": user.password})
+      { "username": user.username, "password": user.password })
       .pipe(
-           map(res => {
-                this.storeUserCredentials({username: user.username, token: res.token});
-                return {'success': true, 'username': user.username };
-           })
+        map(res => {
+          this.storeUserCredentials({ username: user.username, token: res.token });
+          return { 'success': true, 'username': user.username };
+        })
       )
-        .catch(error => { return this.processHTTPMsgService.handleError(error); });
+      .catch(error => { return this.processHTTPMsgService.handleError(error); });
   }
 
   logOut() {
@@ -126,11 +112,11 @@ export class AuthService {
   }
 
   getProfile(): Observable<any> {
-       return this.http.get(baseURL+'users/profile')
-          .catch(err => this.processHTTPMsgService.handleError(err));
- }
+    return this.http.get(baseURL + 'users/profile')
+      .catch(err => this.processHTTPMsgService.handleError(err));
+  }
   changePSW(newPSW: any): Observable<any> {
-       return this.http.put(baseURL + 'users/newpassword', newPSW)
-       .catch(error => { return this.processHTTPMsgService.handleError(error); });
- }
+    return this.http.put(baseURL + 'users/newpassword', newPSW)
+      .catch(error => { return this.processHTTPMsgService.handleError(error); });
+  }
 }

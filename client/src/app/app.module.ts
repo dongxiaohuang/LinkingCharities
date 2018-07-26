@@ -57,6 +57,7 @@ import { SearchComponent } from './search/search.component';
 import { CardComponent } from './card/card.component';
 import { UserprofileComponent } from './userprofile/userprofile.component';
 import { CategoryComponent } from './category/category.component';
+import { CharityProfileComponent } from './charity-profile/charity-profile.component';
 
 @NgModule({
   // Specifies a list of directives/pipes that belong to this module.
@@ -87,6 +88,7 @@ import { CategoryComponent } from './category/category.component';
     CardComponent,
     UserprofileComponent,
     CategoryComponent,
+    CharityProfileComponent,
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [

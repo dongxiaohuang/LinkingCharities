@@ -32,13 +32,21 @@
     </div>
   </div>
   <div #userInfo class="col col-lg-1 text-right">
-         <app-login *ngIf="!username"></app-login>
+         <app-login *ngIf="!username && !charityUsername"></app-login>
          <div ngbDropdown *ngIf="username">
               <a class="btn" id="dropdown" ngbDropdownToggle>{{username}}</a>
               <div ngbDropdownMenu aria-labelledby="dropdown">
                   <button class="dropdown-item" [routerLink]="['favorites']"><i class="fab fa-gratipay"></i><b>&nbsp; Favorites</b></button>
                   <button class="dropdown-item" [routerLink]="['user/profile']"><i class="fas fa-user-circle"></i><b>&nbsp; Profile</b></button>
                   <a *ngIf="username" class="btn dropdown-item" (click)="logOut()"><i class="fas fa-sign-out-alt"></i><b>&nbsp; Logout</b></a>
+             </div>
+         </div>
+         <div ngbDropdown *ngIf="charityUsername">
+              <a class="btn" id="dropdown" ngbDropdownToggle>{{charityUsername}}</a>
+              <div ngbDropdownMenu aria-labelledby="dropdown">
+                  <!-- <button class="dropdown-item" ><i class="fab fa-gratipay"></i><b>&nbsp; Favorites</b></button> -->
+                  <button class="dropdown-item" [routerLink]="['/charityuser/profile']"><i class="fas fa-user-circle" ></i><b>&nbsp; Profile</b></button>
+                  <a *ngIf="username" class="btn dropdown-item" (click)="logOutCharity()"><i class="fas fa-sign-out-alt"></i><b>&nbsp; Logout</b></a>
              </div>
          </div>
     </div>
