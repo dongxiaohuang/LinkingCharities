@@ -124,4 +124,13 @@ export class AuthService {
   getToken(): string {
     return this.authToken;
   }
+
+  getProfile(): Observable<any> {
+       return this.http.get(baseURL+'users/profile')
+          .catch(err => this.processHTTPMsgService.handleError(err));
+ }
+  changePSW(newPSW: any): Observable<any> {
+       return this.http.put(baseURL + 'users/newpassword', newPSW)
+       .catch(error => { return this.processHTTPMsgService.handleError(error); });
+ }
 }

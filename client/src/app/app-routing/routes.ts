@@ -8,9 +8,10 @@ import { FavoritesComponent } from '../favorites/favorites.component';
 import { HomeComponent } from '../home/home.component';
 import { PagenotfoundComponent } from '../pagenotfound/pagenotfound.component';
 import { SignupComponent } from '../signup/signup.component';
-import { UserProfileComponent } from '../user-profile/user-profile.component';
 import { VolunteerComponent } from '../volunteer/volunteer.component';
 import { SearchComponent } from '../search/search.component';
+import { UserprofileComponent } from '../userprofile/userprofile.component';
+import { CategoryComponent } from '../category/category.component';
 export const routes: Routes = [
      { path: '', redirectTo: '/home', pathMatch: 'full'},
      { path: 'aboutus', component: AboutusComponent},
@@ -20,7 +21,9 @@ export const routes: Routes = [
      { path: 'favorites', component: FavoritesComponent},
      { path: 'home', component: HomeComponent},
      { path: 'signup', component: SignupComponent},
-     { path: 'user/:id', component: UserProfileComponent},
      { path: 'volunteer', component: VolunteerComponent},
      { path: 'search', component: SearchComponent},
+     { path: 'user/profile', component: UserprofileComponent},
+     { path: 'category/:id', component: CategoryComponent},
+     { path: '**', redirectTo: '/home'},
 ]

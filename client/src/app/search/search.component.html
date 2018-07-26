@@ -3,11 +3,7 @@
 
 <section id="search">
   <div class="container p-3 p-md-5">
-    <div *ngIf="!content" class="m-auto">
-      <h1 class="text-center display-3 mt-5">
-        <i class="fa fa-spinner fa-spin"></i>
-      </h1>
-    </div>
+    <app-loading *ngIf="!content" ></app-loading>
     <h3 *ngIf="content && !content.search_result.nbHits" class="display-2 text-center mt-5">No Results</h3>
     <div *ngIf="content && content.search_result.nbHits">
       <p>{{ lower }}-{{ upper }} of {{ content?.search_result.nbHits }} results for

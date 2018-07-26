@@ -125,11 +125,11 @@
                </ngb-accordion> -->
           </div>
 
-          <div class="container col-12 col-sm-8">
+          <div class="container col-12 col-md-8">
                <div class="row">
                     <div class="col-4">
-                         <h3>Search Result</h3>
-
+                         <h3>Search Result :</h3>
+                          {{ lower }}-{{ upper }} of {{totalNumber}}
                     </div>
                     <div class="col-4">
                          Sort by:
@@ -155,7 +155,7 @@
 
                          <app-card [charity]="charity"></app-card>
                </div>
-          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+               <ngb-pagination [collectionSize]="totalNumber" [pageSize]="10" [(page)]="page" (pageChange)="getCharities(page)"></ngb-pagination>
           </div>
      </div>
 </div>

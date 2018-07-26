@@ -1,0 +1,17 @@
+<div class="bg">
+</div>
+  <div class="container p-3 p-md-5">
+    <app-loading *ngIf="!charities" ></app-loading>
+    <h3 *ngIf="charities && !charities.length" class="display-2 text-center mt-5">No Results</h3>
+    <div *ngIf="charities && charities.length">
+      <p>{{ lower }}-{{ upper }} of {{ totalNumber }} results for
+        <span class="text-warning">"{{ category }}"</span>
+      </p>
+      <hr>
+     <div *ngFor="let charity of charities">
+          <app-card [charity]="charity"></app-card>
+      </div>
+
+      <ngb-pagination [collectionSize]="totalNumber" [pageSize]="perPage" [(page)]="page" (pageChange)="getCharities(id, page)"></ngb-pagination>
+    </div>
+  </div>

@@ -1,27 +1,27 @@
 <div class="row box-shadow">
-<div class="col-4 no-padding">
+<div class="col-5 col-lg-4 no-padding">
      <img [routerLink]="['/charitydetail', charity?._id]"
      class="campaign-gallery-thumbnail img-fluid suitablesize fit-size " src="{{baseUrl}}{{charity?.image}}" alt="{{charity?.name}}">
 </div>
-<div class="col-8">
+<div class="col-7 col-lg-8">
      <div class="col-margin-1 mg-top">
      <h3>
           <a [routerLink]="['/charitydetail', charity?._id]">
                <b>{{charity?.name}}</b>
           </a>
      </h3>
-     <h4>description: {{charity?.info}}</h4>
-     <h5>location: {{charity?.location}}</h5>
-     <h5>rating: {{charity?.averageRating | number : '1.2-2'}}</h5>
+     <!-- <h4>description: {{charity?.info}}</h4> -->
+     <h5>location: {{charity?.city}}, {{charity.country}}</h5>
+      <ngb-rating [rate]="charity?.averageRating" ngbTooltip="{{charity?.rateLen}} ratings" [readonly]="true">{{charity?.averageRating | number : '1.2-2'}}</ngb-rating>
      <h5 >categories:</h5>
      <div class="row">
-          <div class="col-4 col-md-3 col-lg-2" *ngFor="let label of charity?.labels" >
-               <span class="badge badge-pill badge-info">{{label}}</span>
+          <div class="col-4 col-md-3 col-lg-2" *ngFor="let category of charity?.categories" >
+               <span class="badge badge-pill badge-success"><a class="link" [routerLink]="['/category', category._id]">{{category.name}}</a></span>
           </div>
      </div>
      <a class="button" href="#">Donate</a>
-     <span>   |  </span>
-     <a class="website" href="#">website</a>
+
+     <a class="btn" *ngIf="charity?.website"  href="{{charity?.website}}"><span>   |  </span>website</a>
      </div>
 </div>
 </div>

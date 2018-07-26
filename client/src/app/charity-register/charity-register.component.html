@@ -50,17 +50,18 @@
           </div>
           <div class="form-group">
             <label for="chooseTypes">Types</label>
-            <ng-multiselect-dropdown #chooseTypes [placeholder]="'Please select type(s) of your charity'" [data]="categories" [(ngModel)]="choosedCategories" [settings]="dropdownSettings" formControlName="categories"
-                 (onSelectAll)="onSelectAll($event)">
+            <ng-multiselect-dropdown #chooseTypes [placeholder]="'Please select type(s) of your charity'" [data]="categories"  [settings]="dropdownSettings"
+             formControlName="categories"
+             (onSelectAll)="onSelectAll($event)">
             </ng-multiselect-dropdown>
             <span [hidden]="!charityDetailErrors.categories">{{charityDetailErrors.categories}}</span>
           </div>
           <div>
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="imageUpload">Please Upload Profile Image for your charity</label>
               <input type="file" class="form-control-file"  formControlName="image" id="imageUpload" name="imageFile">
 
-            </div>
+            </div> -->
           </div>
           <div class="form-group">
             <label for="info">brief description</label>

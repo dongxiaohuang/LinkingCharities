@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../services/auth.service';
+import { AuthCharityService } from '../services/auth-charity.service';
 import * as $ from 'jquery';
 
 @Component({
@@ -12,11 +13,13 @@ export class LoginComponent implements OnInit {
 
   modalReference: NgbModalRef;
   user = { username: '', password: '', remember: false };
-  errMess: string;
+  charity = { username: '', password: '', remember: false };
+  errMsg: string;
   res;
   constructor(
     private modalService: NgbModal,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private authCharityService: AuthCharityService) { }
 
   openVerticallyCentered(content) {
     this.modalReference = this.modalService.open(content, { centered: true });
@@ -24,7 +27,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSubmit() {
+  onUserSubmit() {
     console.log("User: ", this.user);
     this.authService.logIn(this.user)
       .subscribe(res => {
@@ -36,12 +39,29 @@ export class LoginComponent implements OnInit {
         }
         else {
           console.log(res);
+          this.errMsg = res.err.message;
         }
       },
         error => {
           console.log(error);
-          this.errMess = error;
+          this.errMsg = error;
         })
-  }
+  };
+
+  onCharitySubmit(){
+       console.log('Charity User', this.charity);
+       this.authCharityService.logIn(this.charity)
+          .subscribe(res => {
+               if(res.success){
+                    this.modalReference.dismiss();
+               }else{
+                    console.log(res);
+                    this.errMsg = res.err.message;
+               }
+          },error => {
+           console.log(error);
+           this.errMsg = error;
+         })
+ }
 
 }

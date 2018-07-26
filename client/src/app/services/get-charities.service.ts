@@ -7,6 +7,7 @@ import { ProcessHTTPMsgService } from './process-httpmsg.service';
 import { Restangular } from 'ngx-restangular';
 import { baseURL } from '../shared/baseurl';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,8 +17,10 @@ export class GetCharitiesService {
     private http: HttpClient,
     private processHTTPMsgService: ProcessHTTPMsgService) { }
 
-  getChairties(): Observable<Charity[]> {
-    return this.restangular.all('charities').getList();
+  getChairties(page: number): Observable<any> {
+    return this.http.get<any>(baseURL + 'charities?page='+ page)
+    .catch(err => this.processHTTPMsgService.handleError(err));
+
   };
   getNewestCharities(): Observable<Charity[]> {
     return this.restangular.all('charities/newCharities').getList();
@@ -28,5 +31,9 @@ export class GetCharitiesService {
   postComment(charityId: string, comment: any): Observable<Comment[]>{
        return this.http.post<Comment[]>(baseURL+'charities/'+charityId + "/comments", comment)
           .catch(err => this.processHTTPMsgService.handleError(err));
+ }
+  getCharityByCategory(categoryId: string, page:number): Observable<any>{
+       return this.http.get(baseURL+'categories/'+categoryId+'?page='+page)
+       .catch(err => this.processHTTPMsgService.handleError(err));
  }
 }

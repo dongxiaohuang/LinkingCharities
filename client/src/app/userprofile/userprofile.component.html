@@ -1,0 +1,77 @@
+<div class="bg">
+</div>
+
+<div class="row container">
+  <div class="col-md-3">
+    <div class="list-group ">
+      <a href="#" class="list-group-item list-group-item-action active">Dashboard</a>
+      <a href="#" class="list-group-item list-group-item-action">User Management</a>
+    </div>
+  </div>
+  <div *ngIf="user" class="col-md-9">
+    <div *ngIf="!user" class="m-auto">
+      <h1 class="text-center display-3 mt-5">
+               <i class="fa fa-spinner fa-spin"></i>
+          </h1>
+    </div>
+    <div class="col-md-12">
+      <!-- <div class="col-md-3 text-center">
+        <img src="" alt="userimage" class="rounded-circle image">
+      </div> -->
+      <div class="row">
+        <div class="col-4">
+
+        </div>
+        <div class="col-4 col-offset-4">
+          <img src="{{baseUrl+(user?.profile)}}" class="rounded-circle img-responsive img img-fluid">
+        </div>
+      </div>
+      <hr />
+      <form novalidate [formGroup]="userForm">
+        <div class="row">
+          <span class="col-4 col-form-label text-right">Email*</span>
+          <span class="col-8 col-md-5 col-form-label">
+                     {{user?.username}}
+                </span>
+        </div>
+        <div class="form-group row">
+          <label for="name" class="col-4 col-form-label text-right">First Name</label>
+          <div class="col-8 col-md-5">
+            <input id="name" name="name" value={{user?.firstname}} formControlName="firstname" class="form-control here" type="text">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="lastname" class="col-4 col-form-label text-right">Last Name</label>
+          <div class="col-8 col-md-5">
+            <input id="lastname" name="lastname" value={{user?.lastname}} formControlName="lastname" class="form-control here" type="text">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="country" class="col-4 col-form-label text-right">Country</label>
+          <div class="col-8 col-md-5">
+            <input id="lastname" name="country" value={{user?.country}} formControlName="country" class="form-control here" type="text">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="newpass" class="col-4 col-form-label text-right">New Password</label>
+          <div class="col-8 col-md-5">
+            <input id="newpass" name="newpass" placeholder="New Password" class="form-control here" formControlName="password" type="text">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="confirmPSW" class="col-4 col-form-label text-right">Confirm Password</label>
+          <div class="col-8 col-md-5">
+            <input id="newpass" name="confirmPSW" placeholder="Confirm New Password" class="form-control here" formControlName="confirmPSW" type="text">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="offset-4 col-8">
+            <button name="submit" type="submit" class="btn btn-primary">Update My Profile</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{{user |json}} {{userForm.value |json}}

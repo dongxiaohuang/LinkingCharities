@@ -17,6 +17,12 @@ export class AuthCharityService {
        return this.http.post(baseURL + 'charityusers/signup', user)
        .catch(error => this.processHTTPMsgService.handleError(error));
  }
+ logIn(user:any): Observable<any>{
+      return this.http.post(baseURL+'charityusers/login',
+      {"username": user.username, "password": user.password})
+      .catch(error => this.processHTTPMsgService.handleError(error));
+
+}
   postCharity(charity: any): Observable<any> {
        //localhost:8000/charities/newCharities
        return this.http.post(baseURL +'charities', charity)

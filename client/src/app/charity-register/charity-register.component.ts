@@ -16,7 +16,6 @@ export class CharityRegisterComponent implements OnInit {
   paymentDetailsForm: FormGroup;
 
   dropdownList = [];
-  choosedCategories = [];
   dropdownSettings = {};
 
   charityDetailErrors = {
@@ -177,7 +176,6 @@ export class CharityRegisterComponent implements OnInit {
       web: ['', [Validators.pattern]],
       email: ['', [Validators.required, Validators.email]],
       categories: [Category, Validators.required],
-      image: ['images/people2.jpg'],
       info: ['', [Validators.required, Validators.maxLength(200)]],
       details: ['', [Validators.required, Validators.maxLength(500)]],
       address: ['', [Validators.required]],
@@ -194,7 +192,7 @@ export class CharityRegisterComponent implements OnInit {
 
   onPaymentDetailsFormCreate() {
     this.paymentDetailsForm = this._formBuilder.group({
-      name: ['ss', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
       number: ['', [Validators.required]],
       sortcode: ['', [Validators.required]],
       account_no: ['', [Validators.required]],
@@ -237,8 +235,8 @@ export class CharityRegisterComponent implements OnInit {
   }
 
   onSubmit(){
-       const cardID;
-       const charityID;
+       let cardID;
+       let charityID;
        this.authCharityService.postCard(this.paymentDetailsForm.value)
           .pipe(
                mergeMap(res => {
@@ -259,7 +257,7 @@ export class CharityRegisterComponent implements OnInit {
           )
           .subscribe(
                res =>
-               console.log(res);
+               console.log(res)
           )
  };
 

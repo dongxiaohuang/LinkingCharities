@@ -26,7 +26,7 @@
     <div class="container">
 
       <h2><b>Details</b></h2>
-      {{charity.details}}
+      {{charity?.details}}
       <hr />
       <div class="row">
 
@@ -134,13 +134,13 @@
                 <span class="fa fa-map-marker-alt fa-lg"></span><a href="http://maps.google.com/?q={{charity?.geoaddress}}">&nbsp;{{charity?.geoaddress}}</a>
               </li>
               <li>
-                <span class="fa fa-phone text-muted c-info"></span>  &nbsp;{{charity.tel}}
+                <span class="fa fa-phone text-muted c-info"></span>  &nbsp;{{charity?.tel}}
               </li>
               <li>
-                <span class="fa fa-envelope text-muted c-info"></span>  &nbsp;{{charity.email}}
+                <span class="fa fa-envelope text-muted c-info"></span>  &nbsp;{{charity?.email}}
               </li>
-              <li *ngIf="charity.website" >
-                <i class="fas fa-link"></i>{{charity.website}}
+              <li *ngIf="charity?.website" >
+                <i class="fas fa-link"></i>{{charity?.website}}
               </li>
             </ul>
           </div>

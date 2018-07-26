@@ -1,111 +1,125 @@
 <div class="bg"></div>
 
-<mat-vertical-stepper linear #stepper>
-     <mat-step [stepControl]="personalInfoForm">
-       <form novalidate [formGroup]="personalInfoForm">
-         <ng-template matStepLabel><i class="fas fa-pen-square"></i><b>&nbsp; Bisic Information</b></ng-template>
-         <div class="row">
-           <div class="col-8 col-sm-4">
-             <div class="form-group">
-               <label for="email">Email address</label>
-               <input type="email" class="form-control" id="email" formControlName="username" aria-describedby="emailHelp" placeholder="Enter email" required>
-               <small>
-                   <span [hidden]="!(basicInfoErrors.username)">{{basicInfoErrors.username}}</span>
-              </small>
-             </div>
-           </div>
-         </div>
-         <div class="row">
+
+<ngb-tabset [justify]="tab_pos">
+  <ngb-tab>
+    <ng-template ngbTabTitle><b>Register as a donator</b></ng-template>
+    <ng-template ngbTabContent>
+      <mat-vertical-stepper linear #stepper>
+        <mat-step [stepControl]="personalInfoForm">
+          <form novalidate [formGroup]="personalInfoForm">
+            <ng-template matStepLabel><i class="fas fa-pen-square"></i><b>&nbsp; Bisic Information</b></ng-template>
+            <div class="row">
               <div class="col-8 col-sm-4">
-                   <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" formControlName="password"  placeholder="Enter password" required>
-                        <small>
-                            <span [hidden]="!(basicInfoErrors.password)">{{basicInfoErrors.password}}</span>
-                       </small>
-                   </div>
+                <div class="form-group">
+                  <label for="email">Email address</label>
+                  <input type="email" class="form-control" id="email" formControlName="username" aria-describedby="emailHelp" placeholder="Enter email" required>
+                  <small>
+                                            <span [hidden]="!(basicInfoErrors.username)">{{basicInfoErrors.username}}</span>
+                                       </small>
+                </div>
               </div>
-         </div>
-         <div class="row">
+            </div>
+            <div class="row">
               <div class="col-8 col-sm-4">
-                   <div class="form-group">
-                        <label for="confirmPSW">Retype Password</label>
-                        <input type="password" class="form-control" id="confirmPSW" formControlName="confirmPSW"  placeholder="Retype password" required>
-                        <small>
-                            <span [hidden]="!(basicInfoErrors.confirmPSW)">{{basicInfoErrors.confirmPSW}}</span>
-                       </small>
-                   </div>
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" class="form-control" id="password" formControlName="password" placeholder="Enter password" required>
+                  <small>
+                                            <span [hidden]="!(basicInfoErrors.password)">{{basicInfoErrors.password}}</span>
+                                       </small>
+                </div>
               </div>
-         </div>
-         <div class="row">
-           <div class="col-8 col-sm-4">
-             <div class="form-group">
-               <label for="firstname">Firstname</label>
-               <input type="text" class="form-control" id="firstname" formControlName="firstname" placeholder="Enter First Name" required>
-               <small>
-                  <span [hidden]="!(basicInfoErrors.firstname)">{{basicInfoErrors.firstname}}</span>
-             </small>
-             </div>
-           </div>
-         </div>
-         <div class="row">
-           <div class="col-8 col-sm-4">
-             <div class="form-group">
-               <label for="lastname">Lastname</label>
-               <input type="text" class="form-control" id="lastname" formControlName="lastname" placeholder="Enter Last Name" required>
-               <small>
-                  <span [hidden]="!(basicInfoErrors.lastname)">{{basicInfoErrors.lastname}}</span>
-             </small>
-             </div>
-           </div>
-         </div>
-         <div class="form-group">
-           <label for="country">Country: &nbsp;</label>
-           <select formControlName="country">
-                <option disabled selected value> -- select a country -- </option>
-                  <option *ngFor="let c of countries; let i = index;" [value]="c.name.common">{{c.name.common}}</option>
-           </select>
-           <small>
-               <span [hidden]="!(basicInfoErrors.country)">{{basicInfoErrors.country}}</span>
-          </small>
-         </div>
-         {{personalInfoForm.value |json}}
-         <div>
-              <button mat-button  [style.background-color]="personalInfoForm.invalid ? 'grey' : 'green'"  matStepperNext >Next</button>
-         </div>
-       </form>
-     </mat-step>
-     <!-- TODO: username cannot be the same -->
-     <!-- TODO: upload profile -->
-  <mat-step [stepControl]="secondFormGroup" [optional]="true">
-    <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel><i class="fas fa-credit-card"></i> <b>&nbsp; Payment Info(Optional)</b></ng-template>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </form>
-  </mat-step>
-  <mat-step>
-    <ng-template matStepLabel> <i class="fas fa-check-circle"></i><b>&nbsp; Done</b></ng-template>
-    You are now done.
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="onSubmit(content)">Submit</button>
-    </div>
-  </mat-step>
-</mat-vertical-stepper>
-<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title">Register</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <p>Register successfully&hellip;</p>
-  </div>
-  <div class="modal-footer">
-    <a  class="btn btn-light" (click)="c('Close click') " [routerLink] ="['/']">Close</a>
-  </div>
-</ng-template>
+            </div>
+            <div class="row">
+              <div class="col-8 col-sm-4">
+                <div class="form-group">
+                  <label for="confirmPSW">Retype Password</label>
+                  <input type="password" class="form-control" id="confirmPSW" formControlName="confirmPSW" placeholder="Retype password" required>
+                  <small>
+                                            <span [hidden]="!(basicInfoErrors.confirmPSW)">{{basicInfoErrors.confirmPSW}}</span>
+                                       </small>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-8 col-sm-4">
+                <div class="form-group">
+                  <label for="firstname">Firstname</label>
+                  <input type="text" class="form-control" id="firstname" formControlName="firstname" placeholder="Enter First Name" required>
+                  <small>
+                                            <span [hidden]="!(basicInfoErrors.firstname)">{{basicInfoErrors.firstname}}</span>
+                                       </small>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-8 col-sm-4">
+                <div class="form-group">
+                  <label for="lastname">Lastname</label>
+                  <input type="text" class="form-control" id="lastname" formControlName="lastname" placeholder="Enter Last Name" required>
+                  <small>
+                                            <span [hidden]="!(basicInfoErrors.lastname)">{{basicInfoErrors.lastname}}</span>
+                                       </small>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="country">Country: &nbsp;</label>
+              <select formControlName="country">
+                                  <option disabled selected value> -- select a country -- </option>
+                                  <option *ngFor="let c of countries; let i = index;" [value]="c.name.common">{{c.name.common}}</option>
+                             </select>
+              <small>
+                                  <span [hidden]="!(basicInfoErrors.country)">{{basicInfoErrors.country}}</span>
+                             </small>
+            </div>
+            {{personalInfoForm.value |json}}
+            <div>
+              <button mat-button [style.background-color]="personalInfoForm.invalid ? 'grey' : 'green'" matStepperNext>Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <!-- TODO: username cannot be the same -->
+        <!-- TODO: upload profile -->
+        <mat-step [stepControl]="secondFormGroup" [optional]="true">
+          <form [formGroup]="secondFormGroup">
+            <ng-template matStepLabel><i class="fas fa-credit-card"></i> <b>&nbsp; Payment Info(Optional)</b></ng-template>
+            <div>
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-button matStepperNext>Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel> <i class="fas fa-check-circle"></i><b>&nbsp; Done</b></ng-template>
+          You are now done.
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button (click)="onSubmit(content)">Submit</button>
+          </div>
+        </mat-step>
+      </mat-vertical-stepper>
+      <ng-template #content let-c="close" let-d="dismiss">
+        <div class="modal-header">
+          <h4 class="modal-title">Register</h4>
+          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                   </button>
+        </div>
+        <div class="modal-body">
+          <p>Register successfully&hellip;</p>
+        </div>
+        <div class="modal-footer">
+          <a class="btn btn-light" (click)="c('Close click') " [routerLink]="['/']">Close</a>
+        </div>
+      </ng-template>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle><b>Register as a charity user</b></ng-template>
+    <ng-template ngbTabContent>
+      <app-charity-register></app-charity-register>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>

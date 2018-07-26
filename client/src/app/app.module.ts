@@ -49,13 +49,14 @@ import { LoginComponent } from './login/login.component';
 import { AuthInterceptor, UnauthorizedInterceptor } from './services/auth.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CountryPickerModule } from 'ngx-country-picker';
-import { UserProfileComponent } from './user-profile/user-profile.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { CharityRegisterComponent } from './charity-register/charity-register.component';
 import { PaymentComponent } from './payment/payment.component';
 import { NgxStripeModule } from 'ngx-stripe';
 import { SearchComponent } from './search/search.component';
 import { CardComponent } from './card/card.component';
+import { UserprofileComponent } from './userprofile/userprofile.component';
+import { CategoryComponent } from './category/category.component';
 
 @NgModule({
   // Specifies a list of directives/pipes that belong to this module.
@@ -79,12 +80,13 @@ import { CardComponent } from './card/card.component';
     LoadingComponent,
     SignupComponent,
     LoginComponent,
-    UserProfileComponent,
     FavoritesComponent,
     CharityRegisterComponent,
     PaymentComponent,
     SearchComponent,
     CardComponent,
+    UserprofileComponent,
+    CategoryComponent,
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [
