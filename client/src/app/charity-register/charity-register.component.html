@@ -78,16 +78,20 @@
           </div>
           <div class="form-group">
             <!-- Text input-->
-            <div class="form-group">
-              <label class="control-label" for="textinput">Line 1</label>
-              <input type="text" placeholder="Address Line 1" class="form-control" formControlName="address" required>
-              <span [hidden]="!charityDetailErrors.address">{{charityDetailErrors.address}}</span>
-            </div>
-            <!-- Text input-->
-            <!-- <div class="form-group">
-              <label class="control-label" for="textinput">Line 2</label>
-              <input type="text" placeholder="Address Line 2" class="form-control" formControlName="address">
-            </div> -->
+            <form [formGroup]="addressForm" novalidate>
+                 <div class="form-group">
+                      <label class="control-label" for="textinput">Line 1</label>
+                      <input type="text" placeholder="Address Line 1" class="form-control" formControlName="line1" required>
+                      <span [hidden]="!addressErrors.line1">{{addressErrors.line1}}</span>
+                 </div>
+                 <!-- Text input-->
+                 <div class="form-group">
+                      <label class="control-label" for="textinput">Line 2</label>
+                      <input type="text" placeholder="Address Line 2" class="form-control" formControlName="line2">
+                 </div>
+                 <!-- {{addressForm.valid |json}} -->
+                 {{addressForm.value |json}}
+            </form>
 
             <!-- Text input-->
             <div class="form-group">
@@ -208,6 +212,10 @@
     </div>
   </mat-step>
   <mat-step [stepControl]="">
+     <div class="alert alert-info alert-dismissable" *ngIf="msg" >
+         <a class="panel-close close" routerLink="/" data-dismiss="alert">×</a>
+         {{msg}}
+     </div>
     <ng-template matStepLabel><i class="fas fa-check-circle"></i><b>&nbsp; Done</b></ng-template>
     <div>
       <button mat-button matStepperPrevious>Back</button>

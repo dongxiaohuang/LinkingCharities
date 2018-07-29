@@ -14,7 +14,11 @@
         <button *ngIf="favorite" (click)="toggleFavorite()" type="button" class="btn btn-ept btn-dislike"><i class="far fa-heart">Remove from Favorite</i></button>
       </div>
       <div class="align-bottom">
-        <a *ngFor="let label of charity?.labels" href="#" class="badge badge-info">{{label}}</a>
+           <div class="row text">
+                <div class="col-4 col-md-3 col-lg-2" *ngFor="let category of charity?.categories" >
+                     <span class="badge badge-pill badge-warning"><a class="link" [routerLink]="['/category', category._id]">{{category.name}}</a></span>
+                </div>
+           </div>
       </div>
     </div>
     <div class="col-11 col-sm-5 ml-sm-1">

@@ -1,1 +1,143 @@
+<div class="bg">
+</div>
 {{profile|json}}
+<ngb-tabset justify="center">
+  <ngb-tab>
+    <ng-template ngbTabTitle><i class="fas fa-user-alt"></i> <b> User profile</b></ng-template>
+    <ng-template ngbTabContent>
+     
+
+   <div class="container" style="padding-top: 60px;">
+     <h1 class="page-header">Edit Profile</h1>
+     <div class="row">
+       <!-- left column -->
+       <div class="col-md-4 col-sm-6 col-xs-12">
+         <div class="text-center">
+           <img src="http://lorempixel.com/200/200/people/9/" class="avatar img-circle img-thumbnail" alt="avatar">
+           <h6>Upload a different photo...</h6>
+           <input type="file" class="text-center center-block well well-sm">
+         </div>
+       </div>
+       <!-- edit form column -->
+       <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
+         <div class="alert alert-info alert-dismissable">
+           <a class="panel-close close" data-dismiss="alert">×</a>
+           <i class="fa fa-coffee"></i>
+           This is an <strong>.alert</strong>. Use this to show important messages to the user.
+         </div>
+         <h3>Personal info</h3>
+         <form class="form-horizontal" role="form">
+           <div class="form-group">
+             <label class="col-lg-3 control-label">First name:</label>
+             <div class="col-lg-8">
+               <input class="form-control" value="Jane" type="text">
+             </div>
+           </div>
+           <div class="form-group">
+             <label class="col-lg-3 control-label">Last name:</label>
+             <div class="col-lg-8">
+               <input class="form-control" value="Bishop" type="text">
+             </div>
+           </div>
+           <div class="form-group">
+             <label class="col-lg-3 control-label">Company:</label>
+             <div class="col-lg-8">
+               <input class="form-control" value="" type="text">
+             </div>
+           </div>
+           <div class="form-group">
+             <label class="col-lg-3 control-label">Email:</label>
+             <div class="col-lg-8">
+               <input class="form-control" value="janesemail@gmail.com" type="text">
+             </div>
+           </div>
+           <div class="form-group">
+             <label class="col-lg-3 control-label">Time Zone:</label>
+             <div class="col-lg-8">
+               <div class="ui-select">
+                 <select id="user_time_zone" class="form-control">
+                   <option value="Hawaii">(GMT-10:00) Hawaii</option>
+                   <option value="Alaska">(GMT-09:00) Alaska</option>
+                   <option value="Pacific Time (US & Canada)">(GMT-08:00) Pacific Time (US & Canada)</option>
+                   <option value="Arizona">(GMT-07:00) Arizona</option>
+                   <option value="Mountain Time (US & Canada)">(GMT-07:00) Mountain Time (US & Canada)</option>
+                   <option value="Central Time (US & Canada)" selected="selected">(GMT-06:00) Central Time (US & Canada)</option>
+                   <option value="Eastern Time (US & Canada)">(GMT-05:00) Eastern Time (US & Canada)</option>
+                   <option value="Indiana (East)">(GMT-05:00) Indiana (East)</option>
+                 </select>
+               </div>
+             </div>
+           </div>
+           <div class="form-group">
+             <label class="col-md-3 control-label">Username:</label>
+             <div class="col-md-8">
+               <input class="form-control" value="janeuser" type="text">
+             </div>
+           </div>
+           <div class="form-group">
+             <label class="col-md-3 control-label">Password:</label>
+             <div class="col-md-8">
+               <input class="form-control" value="11111122333" type="password">
+             </div>
+           </div>
+           <div class="form-group">
+             <label class="col-md-3 control-label">Confirm password:</label>
+             <div class="col-md-8">
+               <input class="form-control" value="11111122333" type="password">
+             </div>
+           </div>
+           <div class="form-group">
+             <label class="col-md-3 control-label"></label>
+             <div class="col-md-8">
+               <input class="btn btn-primary" value="Save Changes" type="button">
+               <span></span>
+               <input class="btn btn-default" value="Cancel" type="reset">
+             </div>
+           </div>
+         </form>
+       </div>
+     </div>
+   </div>
+
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle><i class="fas fa-users-cog"></i> <b> My charity</b></ng-template>
+    <ng-template ngbTabContent>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
+      <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
+      craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl
+      cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia
+      yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean
+      shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero
+      sint qui sapiente accusamus tattooed echo park.</p>
+    </ng-template>
+  </ngb-tab>
+
+</ngb-tabset>
+
+<section id="profile">
+  <div class="container p-5">
+    <h4 class="display-4">My Profile</h4>
+    <hr>
+    <div *ngIf="!profile?.username" class="m-auto">
+      <h1 class="text-center display-3 mt-5">
+        <i class="fa fa-spinner fa-spin"></i>
+      </h1>
+    </div>
+    <div *ngIf="profile?.username" class="row mt-5">
+      <div class="col-md-3">
+        <img src="{{baseUrl+(profile?.charity.image)}}" alt="userimage" class="rounded-circle image img-fluid">
+      </div>
+      <div class="col-md-8 ml-3">
+        <p id="name" class="lead">{{ profile.name }}</p>
+        <a routerLink="" class="btn btn-warning">My charity</a>
+        <br>
+        <br>
+        <a routerLink="" class="btn btn-warning">Change Account Settings</a>
+        <br>
+        <br>
+        <br>
+      </div>
+    </div>
+  </div>
+</section>

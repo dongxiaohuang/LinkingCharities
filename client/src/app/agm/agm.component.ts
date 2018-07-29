@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Marker } from '../shared/marker';
+import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
 @Component({
   selector: 'app-agm',
   templateUrl: './agm.component.html',
@@ -10,9 +12,13 @@ export class AgmComponent implements OnInit {
   lat: number = 51.678418;
   lng: number = 7.809007;
   zoom = 10;
-  constructor() { }
+  aa;
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
+       this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA')
+      .pipe(tap(res => console.log(res)))
+      .subscribe(res => this.aa = res)
   }
 
   markers: Marker[] = [

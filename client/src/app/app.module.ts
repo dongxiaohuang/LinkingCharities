@@ -31,6 +31,7 @@ import { HomeComponent } from './home/home.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
 import { ContactComponent } from './contact/contact.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
+import { ImageUploadModule } from "angular2-image-upload";
 
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -41,12 +42,14 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { RestangularModule, Restangular } from 'ngx-restangular';
 import { RestangularConfigFactory } from './shared/restConfig';
 import { baseURL } from './shared/baseurl';
+import { googleAPI, stripeAPI } from './config';
 import { AgmComponent } from './agm/agm.component';
 import { AutocompleteSearchComponent } from './autocomplete-search/autocomplete-search.component';
 import { LoadingComponent } from './loading/loading.component';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { AuthInterceptor, UnauthorizedInterceptor } from './services/auth.interceptor';
+import { UnauthorizedCharityInterceptor } from './services/auth-charity.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CountryPickerModule } from 'ngx-country-picker';
 import { FavoritesComponent } from './favorites/favorites.component';
@@ -105,14 +108,15 @@ import { CharityProfileComponent } from './charity-profile/charity-profile.compo
     ReactiveFormsModule,
     RestangularModule.forRoot(RestangularConfigFactory),
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDgYITwFa8Y3SzcrRHKpgDJEEntuj65le8'
+      apiKey: googleAPI
     }),
     BrowserAnimationsModule,
     NgSelectModule,
     HttpClientModule,
     CountryPickerModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
-    NgxStripeModule.forRoot('pk_test_nsptMFRRApES3nRXJFic53XJ'),
+    NgxStripeModule.forRoot(stripeAPI),
+    ImageUploadModule.forRoot(),
   ],
   // Defines the set of injectable objects that are available in the injector of this module.
   providers: [
@@ -127,10 +131,20 @@ import { CharityProfileComponent } from './charity-profile/charity-profile.compo
     //Angular can inject the BaseURL value into any class that it creates.
     { provide: 'BaseURL', useValue: baseURL },
     {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
+         provide: HTTP_INTERCEPTORS,
+         useClass: AuthInterceptor,
+         multi: true
     },
+    // {
+    //      provide: HTTP_INTERCEPTORS,
+    //      useClass: AuthCharityInterceptor,
+    //      multi: true
+    // },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: UnauthorizedCharityInterceptor,
+    //   multi: true
+    // },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: UnauthorizedInterceptor,

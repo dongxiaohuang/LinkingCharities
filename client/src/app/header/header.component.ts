@@ -54,6 +54,9 @@ export class HeaderComponent implements OnInit {
   logOut() {
     this.username = undefined;
     this.authService.logOut();
+    this.router.navigate(['/']);
+  };
+  logOutChairty() {
     this.charityUsername = undefined;
     this.authCharityService.logOut();
     this.router.navigate(['/']);

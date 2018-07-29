@@ -1,6 +1,7 @@
 <div class="bg">
 </div>
-
+<!-- url="{{baseUrl}}imageUpload" -->
+<image-upload  [max]="1" [extensions]="['jpeg','png','jpg']"></image-upload>
 <div class="row container">
   <div class="col-md-3">
     <div class="list-group ">
@@ -20,11 +21,20 @@
       </div> -->
       <div class="row">
         <div class="col-4">
-
         </div>
         <div class="col-4 col-offset-4">
           <img src="{{baseUrl+(user?.profile)}}" class="rounded-circle img-responsive img img-fluid">
         </div>
+        <br/>
+      </div>
+      <br />
+      <div class="col-12 text-center">
+           <input type="file" #profileUpload
+           hidden="true"
+           (change)="onFileChanged($event)"/>
+           <button class="btn btn-success"
+           (click)="profileUpload.click()">Choose another file</button>
+           <button class="btn btn-info"  *ngIf="selectedFile"  (click)="onUpload()">Upload</button>
       </div>
       <hr />
       <form novalidate [formGroup]="userForm">

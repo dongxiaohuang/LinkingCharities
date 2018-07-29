@@ -10,13 +10,19 @@ import { mergeMap } from 'rxjs/operators';
   styleUrls: ['./charity-register.component.scss']
 })
 export class CharityRegisterComponent implements OnInit {
+     msg: any;
   categories: Category[] = [];
   charityDetailForm: FormGroup;
+  addressForm: FormGroup;
   basicInfoForm: FormGroup;
   paymentDetailsForm: FormGroup;
 
   dropdownList = [];
   dropdownSettings = {};
+
+  addressErrors = {
+       'line1': ''
+ };
 
   charityDetailErrors = {
     "rno": '',
@@ -27,7 +33,6 @@ export class CharityRegisterComponent implements OnInit {
     "categories": '',
     "info": "",
     "details": "",
-    "address": "",
     "city": "",
     "postcode": "",
     "country": ""
@@ -46,6 +51,12 @@ export class CharityRegisterComponent implements OnInit {
     'sortcode': '',
     'account_no': ''
   }
+
+  addressValidaMsg = {
+       'line1': {
+            'required': 'Address is required.'
+       }
+ }
 
   CharityDetailValidaMsg = {
        "rno":{
@@ -74,9 +85,6 @@ export class CharityRegisterComponent implements OnInit {
       "details": {
            'required': 'Detail is required.',
            'maxlength': 'Max length is 500'
-      },
-      "address": {
-           'required': 'Address is required.'
       },
       "city": {
            'required': 'City is required.'
@@ -132,7 +140,7 @@ export class CharityRegisterComponent implements OnInit {
      private authCharityService: AuthCharityService) { }
 
   ngOnInit() {
-
+    this.onAddressFormCreate();
     this.onBasicFormCreate();
     this.onCharityDetailsFormCreate();
     this.onPaymentDetailsFormCreate();
@@ -165,7 +173,15 @@ export class CharityRegisterComponent implements OnInit {
   //  onDeSelect(item:any){
   //       console.log("detele",item);
   // }
-
+  onAddressFormCreate() {
+       this.addressForm = this._formBuilder.group({
+            line1:['', Validators.required],
+            line2:[''],
+       });
+       this.addressForm.valueChanges.subscribe(
+            data => this.onValueChanged(this.addressErrors, this.addressValidaMsg, this.addressForm)
+       )
+ }
   onCharityDetailsFormCreate() {
     this.charityDetailForm = this._formBuilder.group({
       ccn: [''],
@@ -178,7 +194,7 @@ export class CharityRegisterComponent implements OnInit {
       categories: [Category, Validators.required],
       info: ['', [Validators.required, Validators.maxLength(200)]],
       details: ['', [Validators.required, Validators.maxLength(500)]],
-      address: ['', [Validators.required]],
+      address:[''],
       city: ['', [Validators.required]],
       state: [''],
       postcode: ['', [Validators.required]],
@@ -242,6 +258,7 @@ export class CharityRegisterComponent implements OnInit {
                mergeMap(res => {
                     cardID = res.details._id;
                     this.charityDetailForm.value.card = cardID;
+                    this.charityDetailForm.value.address = this.addressForm.value;
                     console.log('charitydetails', this.charityDetailForm.value);
 
                     return this.authCharityService.postCharity(this.charityDetailForm.value);
@@ -253,11 +270,19 @@ export class CharityRegisterComponent implements OnInit {
                     console.log('charities successful', this.basicInfoForm.value.charity);
                     return this.authCharityService.signUp(this.basicInfoForm.value);
                })
-
           )
           .subscribe(
-               res =>
-               console.log(res)
+               res =>{
+                    console.log(res);
+                    //{success: true, username: "imperial"}
+                    if(res.success){
+                         this.msg = "register successfully!";
+
+                    }else{
+                         this.msg = res.err;
+                    }
+
+               }
           )
  };
 
@@ -298,6 +323,7 @@ export class CharityRegisterComponent implements OnInit {
 
     }
   }
+
 
 
 }

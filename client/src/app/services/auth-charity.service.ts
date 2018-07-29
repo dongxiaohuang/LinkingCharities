@@ -13,7 +13,7 @@ import { map } from 'rxjs/operators';
 export class AuthCharityService {
 
 
-  tokenKey: string = 'JWT';
+  tokenKey: string = 'JWT_Charity';
   isAuthenticated: boolean = false;
   charity: Subject<string> = new Subject<string>();
   authToken: string = undefined;
