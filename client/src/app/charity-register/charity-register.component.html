@@ -56,13 +56,7 @@
             <span [hidden]="!charityDetailErrors.categories">{{charityDetailErrors.categories}}</span>
             </small>
           </div>
-          <div>
-            <!-- <div class="form-group">
-              <label for="imageUpload">Please Upload Profile Image for your charity</label>
-              <input type="file" class="form-control-file"  formControlName="image" id="imageUpload" name="imageFile">
 
-            </div> -->
-          </div>
           <div class="form-group">
             <label for="info">brief description(*)</label>
             <textarea id="info" maxlength="200" class="form-control" formControlName="info" placeholder="Charity Description 200 words at most" rows=4 required></textarea>
@@ -222,9 +216,26 @@
     </div>
     <ng-template matStepLabel><i class="fas fa-check-circle"></i><b>&nbsp; Done</b></ng-template>
     <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="onSubmit()">Submit</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
+         <image-upload [max]="3" #iu
+         [extensions]="['jpeg','png']"
+         [maxFileSize]="1048576"
+         dropBoxMessage="Drop Charities promotion images here (1M size at most for each picture, and 3 pictures at most)"
+         (uploadFinished)="onUploadFinished($event)"
+         (uploadStateChanged)="onUploadStateChanged($event)"
+         (removed)="onRemoved($event)"
+         ></image-upload>
+         <div >
+             <ngb-progressbar *ngIf="progress>0 && progress<100" type="warning" [striped]="true" [animated]="true" [value]="progress">{{progress}}</ngb-progressbar>
+             <p>
+               <ngb-progressbar *ngIf="progress==100" type="danger" [value]="100" [striped]="true">Completed!</ngb-progressbar>
+             </p>
+         </div>
+         <button class="btn btn-success" (click)="onUpload()"> click</button>
+    </div>
+    <div>
+     <button mat-button matStepperPrevious>Back</button>
+     <button mat-button (click)="onSubmit()">Submit</button>
+     <button mat-button (click)="stepper.reset()">Reset</button>
     </div>
   </mat-step>
 </mat-horizontal-stepper>

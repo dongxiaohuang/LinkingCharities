@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { CategoriesService } from '../services/categories.service';
+import { AuthCharityService } from '../services/auth-charity.service';
 import { Category } from '../shared/category';
-import { AuthCharityService } from '../services/auth-charity.service'
 import { mergeMap } from 'rxjs/operators';
 import { CountryPickerService, ICountry } from 'ngx-country-picker';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-charity-register',
@@ -13,6 +14,7 @@ import { CountryPickerService, ICountry } from 'ngx-country-picker';
 })
 export class CharityRegisterComponent implements OnInit {
   msg: any;
+  files: File[]=[];
   categories: Category[] = [];
   charityDetailForm: FormGroup;
   addressForm: FormGroup;
@@ -21,9 +23,11 @@ export class CharityRegisterComponent implements OnInit {
   dropdownList = [];
   dropdownSettings = {};
   countries: ICountry[];
+  fd = new FormData();
   addressErrors = {
     'line1': ''
   };
+  progress:number = 0;
 
   charityDetailErrors = {
     "rno": '',
@@ -67,7 +71,8 @@ export class CharityRegisterComponent implements OnInit {
       'required': 'Charity name is required.'
     },
     "tel": {
-      'required': 'Charity telephone number is required.'
+      'required': 'Charity telephone number is required.',
+      'pattern': 'Telephone number should be digits'
     },
     "web": {
       'pattern': 'website is not valid, please start with http(s)://www'
@@ -203,7 +208,8 @@ export class CharityRegisterComponent implements OnInit {
       state: [''],
       postcode: ['', [Validators.required]],
       country: ['', [Validators.required]],
-      card: ['']
+      card: [''],
+      images:[['images/people2.jpg']]
     });
     this.charityDetailForm.valueChanges.subscribe(
       data => this.onValueChanged(this.charityDetailErrors, this.CharityDetailValidaMsg, data, this.charityDetailForm)
@@ -264,7 +270,6 @@ export class CharityRegisterComponent implements OnInit {
           this.charityDetailForm.value.card = cardID;
           this.charityDetailForm.value.address = this.addressForm.value;
           console.log('charitydetails', this.charityDetailForm.value);
-
           return this.authCharityService.postCharity(this.charityDetailForm.value);
         })
         ,
@@ -287,7 +292,8 @@ export class CharityRegisterComponent implements OnInit {
           }
 
         }
-      )
+   );
+     this.onUpload();
   };
 
   matchOtherValidator(otherControlName: string) {
@@ -327,6 +333,39 @@ export class CharityRegisterComponent implements OnInit {
 
     }
   }
+
+  //upload Images
+  onUploadFinished(event){
+       this.files.push(event.file);
+       console.log(this.files);
+}
+onUploadStateChanged(event){
+      console.log("upload status ", event)
+}
+onRemoved(event){
+    let idx = this.files.indexOf(event.file);
+    this.files.splice(idx,1);
+    console.log("after removed", this.files)
+}
+onUpload(){
+     this.charityDetailForm.value.images = [];
+     for(let i = 0; i < this.files.length; i++){
+           this.fd.append('imageFile', this.files[i], this.files[i].name.toLowerCase());
+           let newPic = 'images/charityPics/'+this.files[i].name.toLowerCase();
+           this.charityDetailForm.value.images.push(newPic);
+     }
+    this.authCharityService.postPictures(this.fd)
+      .subscribe(event => {
+           if (event.type === HttpEventType.UploadProgress) {
+             console.log('Upload Progree', Math.round(event.loaded / event.total * 100));
+             this.progress = Math.round(event.loaded / event.total * 100)
+           } else if (event.type === HttpEventType.Response) {
+             // if(event.)
+             console.log(event);
+           }
+      })
+
+}
 
 
 

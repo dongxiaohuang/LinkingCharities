@@ -123,4 +123,11 @@ export class AuthCharityService {
        .catch(error => this.processHTTPMsgService.handleError(error));
 
  }
+
+  postPictures(fd: FormData): Observable<any> {
+      return  this.http.post(baseURL +'imageUpload/charitiesPics', fd, {
+       reportProgress: true,
+       observe: 'events'
+     })
+ }
 }

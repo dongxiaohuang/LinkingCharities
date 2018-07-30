@@ -16,9 +16,9 @@ export class AgmComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-       this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA')
-      .pipe(tap(res => console.log(res)))
-      .subscribe(res => this.aa = res)
+      //  this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA')
+      // .pipe(tap(res => console.log(res)))
+      // .subscribe(res => this.aa = res)
   }
 
   markers: Marker[] = [

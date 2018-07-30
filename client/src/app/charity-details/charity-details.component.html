@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="col-11 col-sm-5 ml-sm-1">
-      <img *ngIf="charity" class="img-fluid rounded text-center" src="{{baseUrl+(charity?.image)}}" alt="{{charity.name}}" />
+      <img *ngIf="charity" class="img-fluid rounded text-center" src="{{baseUrl+(charity?.images[0])}}" alt="{{charity.name}}" />
       <app-loading *ngIf="!charity"></app-loading>
     </div>
   </div>

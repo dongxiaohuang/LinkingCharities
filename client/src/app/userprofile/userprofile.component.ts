@@ -23,6 +23,7 @@ export class UserprofileComponent implements OnInit {
   countries: ICountry[];
   userMsg:string = undefined;
   pswMsg:string = undefined;
+  selectedFile: File = undefined;
 
   userFormErrors = {
     'firstname': '',
@@ -63,7 +64,6 @@ export class UserprofileComponent implements OnInit {
     private http: HttpClient,
     protected countryPicker: CountryPickerService,
     private location: Location) { }
-  selectedFile: File = undefined;
   ngOnInit() {
     this.countryPicker.getCountries()
       .subscribe((countries: ICountry[]) => this.countries = countries);

@@ -1,7 +1,8 @@
-<div class="row box-shadow">
+<app-loading *ngIf="!charity" ></app-loading>
+<div class="row box-shadow" *ngIf="charity" >
 <div class="col-5 col-lg-4 no-padding">
      <img [routerLink]="['/charitydetail', charity?._id]"
-     class="campaign-gallery-thumbnail img-fluid suitablesize fit-size " src="{{baseUrl}}{{charity?.image}}" alt="{{charity?.name}}">
+     class="campaign-gallery-thumbnail img-fluid suitablesize fit-size " src="{{baseUrl}}{{charity?.images[0]}}" alt="{{charity?.name}}">
 </div>
 <div class="col-7 col-lg-8">
      <div class="col-margin-1 mg-top">
