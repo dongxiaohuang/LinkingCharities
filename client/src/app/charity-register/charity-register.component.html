@@ -1,16 +1,16 @@
-<mat-horizontal-stepper #stepper>
-  <mat-step [stepControl]="">
+<mat-horizontal-stepper #stepper linear>
+  <mat-step [stepControl]="charityDetailForm">
     <div class="row justify-content-center">
       <div class="col-8 col-md-6 col-lg-5">
         <form [formGroup]="charityDetailForm" novalidate>
           <ng-template matStepLabel><i class="far fa-info"></i><b>&nbsp; Charity details</b></ng-template>
-          {{charityDetailForm.value |json}} {{charityDetailForm.invalid |json}}
+          {{charityDetailForm.value |json}} {{charityDetailForm.valid |json}}
           <div class="form-group">
             <label for="ccb">Charity Commission number</label>
             <input type="text" class="form-control" id="ccn" formControlName="ccn" placeholder="Enter charity commission number">
           </div>
           <div class="form-group">
-            <label for="rBody">Registered body(*)</label>
+            <label for="rBody">Registered body</label>
             <input type="text" class="form-control" id="rBody" formControlName="rbody" placeholder="Enter registered body">
           </div>
           <div class="form-group">
@@ -42,19 +42,19 @@
    </small>
           </div>
           <div class="form-group">
-            <label for="charity_email">Contact Email</label>
+            <label for="charity_email">Contact Email(*)</label>
             <input type="text" class="form-control" id="charity_email" formControlName="email" name="website" placeholder="Enter charity email" required>
             <small>
         <span [hidden]="!charityDetailErrors.email">{{charityDetailErrors.email}}</span>
    </small>
           </div>
           <div class="form-group">
-            <label for="chooseTypes">Types</label>
-            <ng-multiselect-dropdown #chooseTypes [placeholder]="'Please select type(s) of your charity'" [data]="categories"  [settings]="dropdownSettings"
-             formControlName="categories"
-             (onSelectAll)="onSelectAll($event)">
+            <label for="chooseTypes">Types(*)</label>
+            <ng-multiselect-dropdown #chooseTypes [placeholder]="'Please select type(s) of your charity'" [data]="categories" [settings]="dropdownSettings" formControlName="categories" (onSelectAll)="onSelectAll($event)" required>
             </ng-multiselect-dropdown>
+            <small>
             <span [hidden]="!charityDetailErrors.categories">{{charityDetailErrors.categories}}</span>
+            </small>
           </div>
           <div>
             <!-- <div class="form-group">
@@ -64,14 +64,14 @@
             </div> -->
           </div>
           <div class="form-group">
-            <label for="info">brief description</label>
-            <textarea id="info" maxlength="200" class="form-control" formControlName="info" placeholder="Charity Description" rows=4 required></textarea>
+            <label for="info">brief description(*)</label>
+            <textarea id="info" maxlength="200" class="form-control" formControlName="info" placeholder="Charity Description 200 words at most" rows=4 required></textarea>
             <small>
               <span [hidden]="!charityDetailErrors.info">{{charityDetailErrors.info}}</span>
         </small>
             <hr />
-            <label for="detail">details description</label>
-            <textarea id="detail" maxlength="500" class="form-control" formControlName="details" placeholder="Charity Details" rows=6 required></textarea>
+            <label for="detail">details description(*)</label>
+            <textarea id="detail" maxlength="500" class="form-control" formControlName="details" placeholder="Charity Details 500 words at most" rows=6 required></textarea>
             <small>
             <span [hidden]="!charityDetailErrors.details">{{charityDetailErrors.details}}</span>
         </small>
@@ -79,23 +79,23 @@
           <div class="form-group">
             <!-- Text input-->
             <form [formGroup]="addressForm" novalidate>
-                 <div class="form-group">
-                      <label class="control-label" for="textinput">Line 1</label>
-                      <input type="text" placeholder="Address Line 1" class="form-control" formControlName="line1" required>
-                      <span [hidden]="!addressErrors.line1">{{addressErrors.line1}}</span>
-                 </div>
-                 <!-- Text input-->
-                 <div class="form-group">
-                      <label class="control-label" for="textinput">Line 2</label>
-                      <input type="text" placeholder="Address Line 2" class="form-control" formControlName="line2">
-                 </div>
-                 <!-- {{addressForm.valid |json}} -->
-                 {{addressForm.value |json}}
+              <div class="form-group">
+                <label class="control-label" for="textinput">Line 1(*)</label>
+                <input type="text" placeholder="Address Line 1" class="form-control" formControlName="line1" required>
+                <span [hidden]="!addressErrors.line1">{{addressErrors.line1}}</span>
+              </div>
+              <!-- Text input-->
+              <div class="form-group">
+                <label class="control-label" for="textinput">Line 2</label>
+                <input type="text" placeholder="Address Line 2" class="form-control" formControlName="line2">
+              </div>
+              <!-- {{addressForm.valid |json}} -->
+              {{addressForm.value |json}}
             </form>
 
             <!-- Text input-->
             <div class="form-group">
-              <label class="control-label" for="city">City</label>
+              <label class="control-label" for="city">City(*)</label>
               <input type="text" placeholder="City" id="city" class="form-control" formControlName="city" required>
               <span [hidden]="!charityDetailErrors.city">{{charityDetailErrors.city}}</span>
             </div>
@@ -109,7 +109,7 @@
               </div>
               <div class="col-lg-6">
                 <div class="form-group">
-                  <label class="control-label" for="postcode">Postcode</label>
+                  <label class="control-label" for="postcode">Postcode(*)</label>
                   <input type="text" placeholder="Post Code" id="postcode" class="form-control" formControlName="postcode" required>
                   <span [hidden]="!charityDetailErrors.postcode">{{charityDetailErrors.postcode}}</span>
                 </div>
@@ -117,19 +117,24 @@
             </div>
 
             <div class="form-group">
-              <label class="control-label" for="country">Country</label>
-              <input type="text" placeholder="Country" id="country" class="form-control" formControlName="country" required>
-              <span [hidden]="!charityDetailErrors.country">{{charityDetailErrors.country}}</span>
+              <label class="control-label" for="country">Country(*)</label>
+              <select id="country" formControlName="country" class="form-control" required>
+                   <option disabled selected value> -- select a country -- </option>
+                   <option  *ngFor="let c of countries; let i = index;"  [value]="c.name.common">{{c.name.common}}</option>
+             </select>
+              <small>
+                   <span [hidden]="!charityDetailErrors.country">{{charityDetailErrors.country}}</span>
+              </small>
             </div>
           </div>
         </form>
       </div>
     </div>
     <div>
-      <button mat-button matStepperNext>Next</button>
+      <button mat-button [style.background-color]="charityDetailForm.invalid ? 'grey' : 'green'" matStepperNext>Next</button>
     </div>
   </mat-step>
-  <mat-step [stepControl]="personalInfoForm">
+  <mat-step [stepControl]="basicInfoForm">
     <div class="row justify-content-center">
       <div class="col-8 col-md-6 col-lg-5">
         <form novalidate [formGroup]="basicInfoForm">
@@ -181,7 +186,7 @@
       <button mat-button matStepperNext>Next</button>
     </div>
   </mat-step>
-  <mat-step [stepControl]="">
+  <mat-step [stepControl]="paymentDetailsForm">
     <div class="row justify-content-center">
       <div class="col-8 col-md-6 col-lg-5">
         <form [formGroup]="paymentDetailsForm" novalidate>
@@ -211,15 +216,15 @@
       <button mat-button matStepperNext>Next</button>
     </div>
   </mat-step>
-  <mat-step [stepControl]="">
-     <div class="alert alert-info alert-dismissable" *ngIf="msg" >
-         <a class="panel-close close" routerLink="/" data-dismiss="alert">×</a>
-         {{msg}}
-     </div>
+  <mat-step>
+    <div class="alert alert-info alert-dismissable" *ngIf="msg">
+      <a class="panel-close close" routerLink="/" data-dismiss="alert">×</a> {{msg}}
+    </div>
     <ng-template matStepLabel><i class="fas fa-check-circle"></i><b>&nbsp; Done</b></ng-template>
     <div>
       <button mat-button matStepperPrevious>Back</button>
       <button mat-button (click)="onSubmit()">Submit</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
     </div>
   </mat-step>
 </mat-horizontal-stepper>

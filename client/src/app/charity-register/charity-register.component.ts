@@ -4,25 +4,26 @@ import { CategoriesService } from '../services/categories.service';
 import { Category } from '../shared/category';
 import { AuthCharityService } from '../services/auth-charity.service'
 import { mergeMap } from 'rxjs/operators';
+import { CountryPickerService, ICountry } from 'ngx-country-picker';
+
 @Component({
   selector: 'app-charity-register',
   templateUrl: './charity-register.component.html',
   styleUrls: ['./charity-register.component.scss']
 })
 export class CharityRegisterComponent implements OnInit {
-     msg: any;
+  msg: any;
   categories: Category[] = [];
   charityDetailForm: FormGroup;
   addressForm: FormGroup;
   basicInfoForm: FormGroup;
   paymentDetailsForm: FormGroup;
-
   dropdownList = [];
   dropdownSettings = {};
-
+  countries: ICountry[];
   addressErrors = {
-       'line1': ''
- };
+    'line1': ''
+  };
 
   charityDetailErrors = {
     "rno": '',
@@ -53,49 +54,49 @@ export class CharityRegisterComponent implements OnInit {
   }
 
   addressValidaMsg = {
-       'line1': {
-            'required': 'Address is required.'
-       }
- }
+    'line1': {
+      'required': 'Address is required.'
+    }
+  }
 
   CharityDetailValidaMsg = {
-       "rno":{
-            'pattern': 'Register number should be digits'
-       },
-      "name": {
-            'required': 'Charity name is required.'
-      },
-      "tel": {
-           'required': 'Charity telephone number is required.'
-      },
-      "web": {
-           'pattern': 'website is not valid'
-      },
-      "email": {
-           'required': 'Email is required.',
-           'email': 'email not in valid format.'
-      },
-      "categories": {
-           'required': 'Category is required.'
-      },
-      "info": {
-           'required': 'Information is required.',
-           'maxlength': 'Max length is 200'
-      },
-      "details": {
-           'required': 'Detail is required.',
-           'maxlength': 'Max length is 500'
-      },
-      "city": {
-           'required': 'City is required.'
-      },
-      "postcode": {
-           'required': 'Postcode is required.'
-      },
-      "country": {
-           'required': 'Country is required.'
-      }
- }
+    "rno": {
+      'pattern': 'Register number should be digits'
+    },
+    "name": {
+      'required': 'Charity name is required.'
+    },
+    "tel": {
+      'required': 'Charity telephone number is required.'
+    },
+    "web": {
+      'pattern': 'website is not valid, please start with http(s)://www'
+    },
+    "email": {
+      'required': 'Email is required.',
+      'email': 'email not in valid format.'
+    },
+    "categories": {
+      'required': 'Category is required.'
+    },
+    "info": {
+      'required': 'Information is required.',
+      'maxlength': 'Max length is 200'
+    },
+    "details": {
+      'required': 'Detail is required.',
+      'maxlength': 'Max length is 500'
+    },
+    "city": {
+      'required': 'City is required.'
+    },
+    "postcode": {
+      'required': 'Postcode is required.'
+    },
+    "country": {
+      'required': 'Country is required.'
+    }
+  }
   BasicInfoValidaMsg = {
     'username': {
       'required': 'Username is required.',
@@ -137,9 +138,12 @@ export class CharityRegisterComponent implements OnInit {
   }
   constructor(private _formBuilder: FormBuilder,
     private categoriesService: CategoriesService,
-     private authCharityService: AuthCharityService) { }
+    protected countryPicker: CountryPickerService,
+    private authCharityService: AuthCharityService) { }
 
   ngOnInit() {
+    this.countryPicker.getCountries()
+      .subscribe((countries: ICountry[]) => this.countries = countries);
     this.onAddressFormCreate();
     this.onBasicFormCreate();
     this.onCharityDetailsFormCreate();
@@ -174,14 +178,14 @@ export class CharityRegisterComponent implements OnInit {
   //       console.log("detele",item);
   // }
   onAddressFormCreate() {
-       this.addressForm = this._formBuilder.group({
-            line1:['', Validators.required],
-            line2:[''],
-       });
-       this.addressForm.valueChanges.subscribe(
-            data => this.onValueChanged(this.addressErrors, this.addressValidaMsg, this.addressForm)
-       )
- }
+    this.addressForm = this._formBuilder.group({
+      line1: ['', Validators.required],
+      line2: [''],
+    });
+    this.addressForm.valueChanges.subscribe(
+      data => this.onValueChanged(this.addressErrors, this.addressValidaMsg, this.addressForm)
+    )
+  }
   onCharityDetailsFormCreate() {
     this.charityDetailForm = this._formBuilder.group({
       ccn: [''],
@@ -194,16 +198,16 @@ export class CharityRegisterComponent implements OnInit {
       categories: [Category, Validators.required],
       info: ['', [Validators.required, Validators.maxLength(200)]],
       details: ['', [Validators.required, Validators.maxLength(500)]],
-      address:[''],
+      address: [''],
       city: ['', [Validators.required]],
       state: [''],
       postcode: ['', [Validators.required]],
       country: ['', [Validators.required]],
       card: ['']
-});
-     this.charityDetailForm.valueChanges.subscribe(
-          data => this.onValueChanged(this.charityDetailErrors, this.CharityDetailValidaMsg, data, this.charityDetailForm)
-     )
+    });
+    this.charityDetailForm.valueChanges.subscribe(
+      data => this.onValueChanged(this.charityDetailErrors, this.CharityDetailValidaMsg, data, this.charityDetailForm)
+    )
   };
 
   onPaymentDetailsFormCreate() {
@@ -213,11 +217,11 @@ export class CharityRegisterComponent implements OnInit {
       sortcode: ['', [Validators.required]],
       account_no: ['', [Validators.required]],
       paypal: ['']
-});
+    });
 
-     this.paymentDetailsForm.valueChanges.subscribe(
-          data => this.onValueChanged(this.paymentDetailsErros, this.PaymentDetailsValidaMsg, data, this.paymentDetailsForm)
-     );
+    this.paymentDetailsForm.valueChanges.subscribe(
+      data => this.onValueChanged(this.paymentDetailsErros, this.PaymentDetailsValidaMsg, data, this.paymentDetailsForm)
+    );
   };
   onBasicFormCreate() {
     this.basicInfoForm = this._formBuilder.group({
@@ -250,41 +254,41 @@ export class CharityRegisterComponent implements OnInit {
     }
   }
 
-  onSubmit(){
-       let cardID;
-       let charityID;
-       this.authCharityService.postCard(this.paymentDetailsForm.value)
-          .pipe(
-               mergeMap(res => {
-                    cardID = res.details._id;
-                    this.charityDetailForm.value.card = cardID;
-                    this.charityDetailForm.value.address = this.addressForm.value;
-                    console.log('charitydetails', this.charityDetailForm.value);
+  onSubmit() {
+    let cardID;
+    let charityID;
+    this.authCharityService.postCard(this.paymentDetailsForm.value)
+      .pipe(
+        mergeMap(res => {
+          cardID = res.details._id;
+          this.charityDetailForm.value.card = cardID;
+          this.charityDetailForm.value.address = this.addressForm.value;
+          console.log('charitydetails', this.charityDetailForm.value);
 
-                    return this.authCharityService.postCharity(this.charityDetailForm.value);
-               })
-               ,
-               mergeMap(res => {
-                    charityID = res._id;
-                    this.basicInfoForm.value.charity = charityID;
-                    console.log('charities successful', this.basicInfoForm.value.charity);
-                    return this.authCharityService.signUp(this.basicInfoForm.value);
-               })
-          )
-          .subscribe(
-               res =>{
-                    console.log(res);
-                    //{success: true, username: "imperial"}
-                    if(res.success){
-                         this.msg = "register successfully!";
+          return this.authCharityService.postCharity(this.charityDetailForm.value);
+        })
+        ,
+        mergeMap(res => {
+          charityID = res._id;
+          this.basicInfoForm.value.charity = charityID;
+          console.log('charities successful', this.basicInfoForm.value.charity);
+          return this.authCharityService.signUp(this.basicInfoForm.value);
+        })
+      )
+      .subscribe(
+        res => {
+          console.log(res);
+          //{success: true, username: "imperial"}
+          if (res.success) {
+            this.msg = "register successfully!";
 
-                    }else{
-                         this.msg = res.err;
-                    }
+          } else {
+            this.msg = res.err;
+          }
 
-               }
-          )
- };
+        }
+      )
+  };
 
   matchOtherValidator(otherControlName: string) {
 
