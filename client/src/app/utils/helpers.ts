@@ -1,4 +1,5 @@
 import { FormControl } from "@angular/forms";
+import { FormGroup } from "@angular/forms";
 
 export function  matchOtherValidator (otherControlName: string) {
 
@@ -54,3 +55,18 @@ export interface JWTResponse {
   success: string,
   user: any
 };
+
+export function onValueChanged(errs, errMsg, data?: any, fg?: FormGroup) {
+  if (!fg) return;
+  const form = fg;
+  for (const field in errs) {
+   errs[field] = '';
+   const control = fg.get(field);
+   if (control && control.dirty && !control.valid) {
+      const messages = errMsg[field];
+      for (const key in control.errors) {
+        errs[field] += messages[key] + ' ';
+      }
+   }
+  }
+}

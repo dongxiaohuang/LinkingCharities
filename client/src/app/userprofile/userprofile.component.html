@@ -1,87 +1,112 @@
 <div class="bg">
 </div>
-<!-- url="{{baseUrl}}imageUpload" -->
-<image-upload  [max]="1" [extensions]="['jpeg','png','jpg']"></image-upload>
-<div class="row container">
-  <div class="col-md-3">
-    <div class="list-group ">
-      <a href="#" class="list-group-item list-group-item-action active">Dashboard</a>
-      <a href="#" class="list-group-item list-group-item-action">User Management</a>
-    </div>
-  </div>
-  <div *ngIf="user" class="col-md-9">
-    <div *ngIf="!user" class="m-auto">
-      <h1 class="text-center display-3 mt-5">
-               <i class="fa fa-spinner fa-spin"></i>
-          </h1>
-    </div>
-    <div class="col-md-12">
-      <!-- <div class="col-md-3 text-center">
-        <img src="" alt="userimage" class="rounded-circle image">
-      </div> -->
-      <div class="row">
-        <div class="col-4">
-        </div>
-        <div class="col-4 col-offset-4">
-          <img src="{{baseUrl+(user?.profile)}}" class="rounded-circle img-responsive img img-fluid">
-        </div>
-        <br/>
+<app-loading *ngIf="!user" ></app-loading>
+<div class="container" style="padding-top: 60px;" *ngIf="user" >
+  <h1 class="page-header">Edit Profile</h1>
+  <div class="row">
+    <!-- left column -->
+    <div class="col-md-4 col-sm-6 col-xs-12">
+      <div class="text-center">
+        <img src="{{baseUrl+(user?.profile)}}" class="rounded-circle img-responsive img img-fluid">
+        <br />
+        <ngb-progressbar *ngIf="progress>0 && progress<100" type="warning" [striped]="true" [animated]="true" [value]="progress">{{progress}}</ngb-progressbar>
+        <p>
+          <ngb-progressbar *ngIf="progress==100" type="danger" [value]="100" [striped]="true">Completed!</ngb-progressbar>
+        </p>
       </div>
-      <br />
-      <div class="col-12 text-center">
-           <input type="file" #profileUpload
-           hidden="true"
-           (change)="onFileChanged($event)"/>
-           <button class="btn btn-success"
-           (click)="profileUpload.click()">Choose another file</button>
-           <button class="btn btn-info"  *ngIf="selectedFile"  (click)="onUpload()">Upload</button>
+      <div class="text-center">
+        <input type="file" #profileUpload hidden="true" (change)="onFileChanged($event)" />
+        <button class="btn btn-success" (click)="profileUpload.click()">Change profile</button>
+        <button class="btn btn-info" *ngIf="selectedFile" (click)="onUpload()">Upload</button>
       </div>
-      <hr />
-      <form novalidate [formGroup]="userForm">
-        <div class="row">
-          <span class="col-4 col-form-label text-right">Email*</span>
-          <span class="col-8 col-md-5 col-form-label">
-                     {{user?.username}}
-                </span>
-        </div>
-        <div class="form-group row">
-          <label for="name" class="col-4 col-form-label text-right">First Name</label>
-          <div class="col-8 col-md-5">
-            <input id="name" name="name" value={{user?.firstname}} formControlName="firstname" class="form-control here" type="text">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="lastname" class="col-4 col-form-label text-right">Last Name</label>
-          <div class="col-8 col-md-5">
-            <input id="lastname" name="lastname" value={{user?.lastname}} formControlName="lastname" class="form-control here" type="text">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="country" class="col-4 col-form-label text-right">Country</label>
-          <div class="col-8 col-md-5">
-            <input id="lastname" name="country" value={{user?.country}} formControlName="country" class="form-control here" type="text">
-          </div>
-        </div>
+    </div>
+    <!-- edit form column -->
+    <div class="col-md-8 col-sm-6 col-xs-12 personal-info" >
+      <div class="alert alert-info alert-dismissable"  *ngIf="userMsg">
+        <a class="panel-close close" data-dismiss="alert" (click)="userMsg=undefined">×</a>
+       {{userMsg}}
+      </div>
+      <h3>Personal info</h3>
+      <form class="form-horizontal" role="form" novalidate [formGroup]="userForm">
 
-        <div class="form-group row">
-          <label for="newpass" class="col-4 col-form-label text-right">New Password</label>
-          <div class="col-8 col-md-5">
-            <input id="newpass" name="newpass" placeholder="New Password" class="form-control here" formControlName="password" type="text">
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Email/Username:</label>
+          <div class="col-lg-8">
+            <b>{{user?.username}}</b>
           </div>
         </div>
-        <div class="form-group row">
-          <label for="confirmPSW" class="col-4 col-form-label text-right">Confirm Password</label>
-          <div class="col-8 col-md-5">
-            <input id="newpass" name="confirmPSW" placeholder="Confirm New Password" class="form-control here" formControlName="confirmPSW" type="text">
+        <div class="form-group">
+          <label class="col-lg-3 control-label" for="firstname">First name:</label>
+          <div class="col-lg-8">
+            <input id="firstname" class="form-control" formControlName="firstname" value={{user?.firstname}} type="text" [(ngModel)]="user.firstname" >
+            <small>
+                 <span [hidden]="!(userFormErrors.firstname)">{{userFormErrors.firstname}}</span>
+            </small>
           </div>
         </div>
-        <div class="form-group row">
-          <div class="offset-4 col-8">
-            <button name="submit" type="submit" class="btn btn-primary">Update My Profile</button>
+        <div class="form-group">
+          <label class="col-lg-3 control-label" for="lastname">Last name:</label>
+          <div class="col-lg-8">
+            <input id="lastname" class="form-control" formControlName="lastname" value={{user?.lastname}} type="text" [(ngModel)]="user.lastname" >
+            <small>
+                 <span [hidden]="!(userFormErrors.lastname)">{{userFormErrors.lastname}}</span>
+            </small>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="country" class="col-lg-3" for="country">Country: &nbsp;</label>
+          <div class="col-lg-8">
+            <select id="country" formControlName="country" class="form-control" [ngModel]="user?.country">
+                                      <option  *ngFor="let c of countries; let i = index;"  [value]="c.name.common">{{c.name.common}}</option>
+                                 </select>
+            <small>
+                                      <span [hidden]="!(userFormErrors.country)">{{userFormErrors.country}}</span>
+                                 </small>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-md-8">
+              <button name="submit" type="submit" class="btn btn-primary" (click)="changeProfile()">Update My Profile</button>
+            </div>
+          </div>
+          <hr />
+        </div>
+      </form>
+      <div class="alert alert-info alert-dismissable"  *ngIf="pswMsg">
+        <a class="panel-close close" data-dismiss="alert">×</a>
+       {{pswMsg}}
+      </div>
+      <form novalidate [formGroup]="passwordForm" >
+        <div class="form-group">
+          <label class="col-md-3 control-label">Password:</label>
+          <div class="col-md-8">
+            <input class="form-control" formControlName="password" type="password">
+            <small>
+                 <span [hidden]="!(passwardFormErrors.password)">{{passwardFormErrors.password}}</span>
+            </small>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label">Confirm password:</label>
+          <div class="col-md-8">
+            <input class="form-control" formControlName="confirmPSW" type="password">
+            <small>
+                 <span [hidden]="!(passwardFormErrors.confirmPSW)">{{passwardFormErrors.confirmPSW}}</span>
+            </small>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label"></label>
+          <div class="col-md-8">
+            <button name="submit" type="submit" class="btn btn-primary" (click)="changePSW()">Update Password</button>
+            <button class="btn btn-warning" (click)="onCancel()">Cancel</button>
           </div>
         </div>
       </form>
+
     </div>
   </div>
 </div>
-{{user |json}} {{userForm.value |json}}
+
+
+{{user |json}} {{userForm.value |json}} {{passwordForm.value |json}}

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs/Subject';
-
+import { Router } from '@angular/router';
 import { baseURL } from '../shared/baseurl';
 import { ProcessHTTPMsgService } from './process-httpmsg.service';
 
@@ -20,6 +20,7 @@ export class AuthService {
   authToken: string = undefined;
 
   constructor(private http: HttpClient,
+    private router: Router,
     private processHTTPMsgService: ProcessHTTPMsgService) {
   }
 
@@ -97,6 +98,7 @@ export class AuthService {
 
   logOut() {
     this.destroyUserCredentials();
+    this.router.navigate(['/']);
   }
 
   isLoggedIn(): Boolean {
@@ -115,6 +117,17 @@ export class AuthService {
     return this.http.get(baseURL + 'users/profile')
       .catch(err => this.processHTTPMsgService.handleError(err));
   }
+  postImage(fd: FormData): Observable<any>{
+       return this.http.post(baseURL + 'imageUpload', fd, {
+        reportProgress: true,
+        observe: 'events'
+      })
+       .catch(err => this.processHTTPMsgService.handleError(err));
+ }
+  changeProfile(newProfile: any): Observable<any> {
+       return this.http.put(baseURL + 'users/profile', newProfile)
+       .catch(err => this.processHTTPMsgService.handleError(err));
+ }
   changePSW(newPSW: any): Observable<any> {
     return this.http.put(baseURL + 'users/newpassword', newPSW)
       .catch(error => { return this.processHTTPMsgService.handleError(error); });

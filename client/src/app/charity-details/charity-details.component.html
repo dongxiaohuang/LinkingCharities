@@ -71,11 +71,11 @@
                 <div class="card" *ngFor="let comment of charity?.comments">
                   <div class="card-body">
                     <div class="row">
-                      <div class="col-md-2">
-                        <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid" />
-                        <p class="text-secondary text-center">{{comment?.createdAt |date}}</p>
+                      <div class="col-2">
+                        <img src="{{baseUrl+(comment?.author.profile)}}" class="img img-rounded img-fluid" />
+                        <p class="text-secondary text-center"><small>{{comment?.createdAt |date}}</small></p>
                       </div>
-                      <div class="col-md-10">
+                      <div class="col-10">
                         <p>
                           <a class="float-left"><strong>{{comment?.author.firstname}}, {{comment?.author.lastname}}</strong></a>
                         </p>
