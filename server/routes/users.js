@@ -106,22 +106,27 @@ router.route('/logout')
           req.logout();
           res.redirect('/');
      });
-     // check token valid or not
-     //it will keep alive of user login info
+// check token valid or not
+//it will keep alive of user login info
 router.route('/checkJWTToken')
-     .options(cors.corsWithOptions, (req, res) => { sendStatus(200);})
+     .options(cors.corsWithOptions, (req, res) => {
+          sendStatus(200);
+     })
      .get(cors.corsWithOptions, (req, res) => {
-          passport.authenticate('jwtPassportUser', {session: false}, (err, user, info) => {
-               if(err) return next(err);
-               if(!user){
+          passport.authenticate('jwtPassportUser', {
+               session: false
+          }, (err, user, info) => {
+               if (err) return next(err);
+               if (!user) {
                     res.statusCode = 401;
                     res.setHeader('Content-Type', 'application/json');
                     return res.json({
                          status: 'JWT invalid',
                          success: false,
                          err: info
+
                     })
-               }else{
+               } else {
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');
                     return res.json({
@@ -131,5 +136,75 @@ router.route('/checkJWTToken')
                     });
                }
           })(req, res);
+     })
+
+router.route('/profile')
+     .options(cors.corsWithOptions, (req, res) => {
+          sendStatus(200);
+     })
+     .get(cors.corsWithOptions, authenticate.verifyUser, (req, res) => {
+          User.findById(req.user._id)
+               .then(user => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(user);
+               })
+     })
+     .post(cors.corsWithOptions, authenticate.verifyUser, (req, res) => {
+          res.statusCode = 403;
+          res.end("POST is not supported on this endpoint");
+     })
+     .put(cors.corsWithOptions, authenticate.verifyUser, (req, res) => {
+          let newVal = req.body;
+          if(newVal.profile) newVal.profile = 'images/userprofile/'+req.user._id+req.body.profile;
+          User.findByIdAndUpdate(req.user._id, {
+                    $set: req.body
+               }, {
+                    new: true
+               })
+               .then(user => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(user);
+               }, err => next(err))
+               .catch(err => next(err));
+     })
+     .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res) => {
+          res.statusCode = 403;
+          res.end("DELETE is not supported on this endpoint");
+     })
+router.route('/newpassword')
+     .options(cors.corsWithOptions, (req, res) => {
+          sendStatus(200);
+     })
+     .get(cors.corsWithOptions, authenticate.verifyUser, (req, res) => {
+          res.statusCode = 403;
+          res.end("GET is not supported on this endpoint");
+     })
+     .post(cors.corsWithOptions, authenticate.verifyUser, (req, res) => {
+          res.statusCode = 403;
+          res.end("POST is not supported on this endpoint");
+     })
+     .put(cors.corsWithOptions, authenticate.verifyUser, (req, res) => {
+          User.findById(req.user._id).then(function(sanitizedUser) {
+               if (sanitizedUser) {
+                    sanitizedUser.setPassword(req.body.password, function() {
+                         sanitizedUser.save();
+                         res.status(200).json({
+                              message: 'password reset successful'
+                         });
+                    });
+               } else {
+                    res.status(500).json({
+                         message: 'This user does not exist'
+                    });
+               }
+          }, function(err) {
+               console.error(err);
+          })
+     })
+     .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res) => {
+          res.statusCode = 403;
+          res.end("DELETE is not supported on this endpoint");
      })
 module.exports = router;

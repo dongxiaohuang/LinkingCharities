@@ -68,8 +68,8 @@ const charitySchema = new Schema({
      }],
      image: {
           type: String,
-          required:true
-          // default: ''
+          required:true,
+          default: 'images/people2.jpg'
      },
      info: {
           type: String,
@@ -96,8 +96,8 @@ const charitySchema = new Schema({
           required: true
      },
      address: {
-          type: String,
-          required: true
+          line1: String,
+          line2: String,
      },
      comments: [commentSchema] // TODO: changed to comments TypeID
      ,
@@ -136,8 +136,13 @@ charitySchema
      .virtual('geoaddress')
      .get(function(){ // cannot use arrow function
           var state =this.state? this.state+ ', ' : '';
-          var addr = this.address + ', '+this.city +', ' +state+this.postcode+', '+this.country;
+          var addr = this.address.line1 + ", "+this.address.line2 + ', '+this.city +', ' +state+this.postcode+', '+this.country;
           return addr;
+     });
+charitySchema
+     .virtual('rateLen')
+     .get(function(){ // cannot use arrow function
+          return this.comments.length;
      });
 
 //TODO: config to store keys
@@ -145,7 +150,7 @@ charitySchema.plugin(mongooseAlgolia, {
      appId: config.algolia.appId,
      apiKey: config.algolia.apiKey,
      indexName: config.algolia.indexName,
-     selector: '_id name country city categories info averageRating image', //which you would like to asyn with algolia
+     selector: '_id name country city categories info averageRating image rateLen', //which you would like to asyn with algolia
      populate: {
           path: 'categories',
           select:'name'

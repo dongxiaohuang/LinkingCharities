@@ -15,6 +15,10 @@ const charityRegisterSchema = new Schema({
      charity:{
           type: Schema.Types.ObjectId,
           ref:'Charity'
+     },
+     type:{
+          type: String,
+          default:'Charity User'
      }
 });
 // //// it will automatically add username and salt-encrypted psw for model

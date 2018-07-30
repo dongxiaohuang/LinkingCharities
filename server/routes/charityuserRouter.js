@@ -22,6 +22,7 @@ charityRegisterRouter.route('/signup')
                          res.statusCode = 500;
                          res.setHeader('Content-Type', 'application/json');
                          res.json({
+                              success: false,
                               err: err
                          });
                     } else {

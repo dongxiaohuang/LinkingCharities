@@ -71,6 +71,7 @@ categoriesRouter.route('/:id')
                Charities.find({categories:req.params.id})
                .skip(perPage* page)
                .limit(perPage)
+               .populate('categories')
                .exec((err, charities) => {
                     if(err) return next(err);
                     callback(err, charities);
@@ -89,8 +90,9 @@ categoriesRouter.route('/:id')
                message:'category',
                charities:charities,
                categoryName: category.name,
-               totalCharities: totalCharities,
-               pages: Math.ceil(totalCharities / perPage)
+               totalNumber: totalCharities,
+               page: Math.ceil(totalCharities / perPage),
+               numberPerPage: perPage
           })
      })
 

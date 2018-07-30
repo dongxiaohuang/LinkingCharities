@@ -14,6 +14,14 @@ const userSchema = new Schema({
      country: {
           type: String,
           default: ''
+     },
+     profile: {
+          type: String,
+          default: 'images/defaultuserpic.png'
+     },
+     type:{
+          type: String,
+          default:'Donator'
      }
 });
 

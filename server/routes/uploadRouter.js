@@ -8,11 +8,11 @@ const cors = require('./cors');
 const storage = multer.diskStorage({
      destination: (req, file, callback) => {
           // err ; destination
-          callback(null, 'public/images'); //TODO: change
+          callback(null, 'public/images/userprofile'); //TODO: change
      },
      filename: (req, file, callback) => {
-          //err, filename stored in our server
-          callback(null, file.originalname)
+          //err; filename stored in our server
+          callback(null, req.user._id+file.originalname)
      }
 });
 
@@ -36,7 +36,7 @@ uploadRouter.route('/')
 })
 //corresponding to the name of the name('imageFile') of input
 // error handled by upload
-.post(cors.corsWithOptions, upload.single('imageFile'),(req, res) => {
+.post(cors.corsWithOptions, authenticate.verifyUser, upload.single('imageFile'),(req, res) => {
      res.statusCode = 200;
      res.setHeader('Content-Type', 'application/json');
      res.json(req.file); // multer will provide file for us for single upoload
