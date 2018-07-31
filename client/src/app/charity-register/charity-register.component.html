@@ -1,6 +1,5 @@
-
-<button (click)="onClick()"> click me</button>
-<mat-horizontal-stepper #stepper linear>
+<!-- <mat-horizontal-stepper #stepper linear> -->
+<mat-horizontal-stepper #stepper>
   <mat-step [stepControl]="charityDetailForm">
     <div class="row justify-content-center">
       <div class="col-8 col-md-6 col-lg-5">
@@ -126,7 +125,7 @@
         </form>
       </div>
     </div>
-    <div>
+    <div class="text-center">
       <button mat-button [style.background-color]="charityDetailForm.invalid ? 'grey' : 'green'" matStepperNext>Next</button>
     </div>
   </mat-step>
@@ -172,14 +171,11 @@
           </div>
           {{basicInfoForm.value |json}}
           <div class="row justify-content-center">
+            <button mat-button matStepperPrevious class="btn btn-success">Back</button>
             <button mat-button [style.background-color]="basicInfoForm.invalid ? 'grey' : 'green'" matStepperNext>Next</button>
           </div>
         </form>
       </div>
-    </div>
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button matStepperNext>Next</button>
     </div>
   </mat-step>
   <mat-step [stepControl]="paymentDetailsForm">
@@ -191,12 +187,30 @@
             <i class="fas fa-credit-card"></i>
             <label for="card_name">Name</label>
             <input type="text" id="card_name" name="card_name" formControlName="name" placeholder="Card name" class="form-control" required>
+            <small>
+                 <span [hidden]="!(paymentDetailsErros.name)">{{paymentDetailsErros.name}}</span>
+            </small>
+          </div>
+          <div class="form-group">
             <label for="card_number">card</label>
             <input type="text" id="card_number" name="card_number" formControlName="number" pattern="[0-9]*" placeholder="Card number" class="form-control" required>
+            <small>
+                 <span [hidden]="!(paymentDetailsErros.number)">{{paymentDetailsErros.number}}</span>
+            </small>
+          </div>
+          <div class="form-group">
             <label for="sort_code">Sort code</label>
             <input type="text" id="sort_code" name="sort_code" formControlName="sortcode" placeholder="sort_code" pattern="[0-9]*" class="form-control" required>
+            <small>
+                 <span [hidden]="!(paymentDetailsErros.sortcode)">{{paymentDetailsErros.sortcode}}</span>
+            </small>
+          </div>
+          <div class="form-group">
             <label for="account_no">Account No.</label>
             <input type="text" id="account_no" name="account_no" formControlName="account_no" placeholder="Account number" pattern="[0-9]*" class="form-control" required>
+            <small>
+                 <span [hidden]="!(paymentDetailsErros.account_no)">{{paymentDetailsErros.account_no}}</span>
+            </small>
           </div>
           <hr /> {{paymentDetailsForm.value |json}}
           <div class="form-group">
@@ -207,37 +221,31 @@
         </form>
       </div>
     </div>
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button matStepperNext>Next</button>
+    <div class="row justify-content-center">
+      <button mat-button matStepperPrevious class="btn btn-success">Back</button>
+      <button mat-button [style.background-color]="paymentDetailsForm.invalid ? 'grey' : 'green'" matStepperNext>Next</button>
     </div>
   </mat-step>
   <mat-step>
     <div class="alert alert-info alert-dismissable" *ngIf="msg">
       <a class="panel-close close" routerLink="/" data-dismiss="alert">×</a> {{msg}}
     </div>
-    <ng-template matStepLabel><i class="fas fa-check-circle"></i><b>&nbsp; Done</b></ng-template>
+    <ng-template matStepLabel><i class="fas fa-check-circle"></i><b>&nbsp; Image Upload</b></ng-template>
     <div>
-         <image-upload [max]="3" #iu
-         [extensions]="['jpeg','png']"
-         [maxFileSize]="1048576"
-         dropBoxMessage="Drop Charities promotion images here (1M size at most for each picture, and 3 pictures at most)"
-         (uploadFinished)="onUploadFinished($event)"
-         (uploadStateChanged)="onUploadStateChanged($event)"
-         (removed)="onRemoved($event)"
-         ></image-upload>
-         <div >
-             <ngb-progressbar *ngIf="progress>0 && progress<100" type="warning" [striped]="true" [animated]="true" [value]="progress">{{progress}}</ngb-progressbar>
-             <p>
-               <ngb-progressbar *ngIf="progress==100" type="danger" [value]="100" [striped]="true">Completed!</ngb-progressbar>
-             </p>
-         </div>
-         <button class="btn btn-success" (click)="onUpload()"> click</button>
+      <image-upload [max]="3" #iu [extensions]="['jpeg','png']" [maxFileSize]="1048576" dropBoxMessage="Drop Charities promotion images here (1M size at most for each picture, and 3 pictures at most)" (uploadFinished)="onUploadFinished($event)" (uploadStateChanged)="onUploadStateChanged($event)"
+           (removed)="onRemoved($event)"></image-upload>
+      <div>
+        <ngb-progressbar *ngIf="progress>0 && progress<100" type="warning" [striped]="true" [animated]="true" [value]="progress">{{progress}}</ngb-progressbar>
+        <p>
+          <ngb-progressbar *ngIf="progress==100" type="danger" [value]="100" [striped]="true">Completed!</ngb-progressbar>
+        </p>
+      </div>
+      <button class="btn btn-success" (click)="onUpload()"> click</button>
     </div>
-    <div>
-     <button mat-button matStepperPrevious>Back</button>
-     <button mat-button (click)="onSubmit()">Submit</button>
-     <button mat-button (click)="stepper.reset()">Reset</button>
+    <div class="row justify-content-center btn-group">
+      <button mat-button matStepperPrevious class="btn-success">Back</button>
+      <button mat-button (click)="onSubmit()" class="btn-info">Submit</button>
+      <button mat-button (click)="stepper.reset()" class="btn-warning">Reset</button>
     </div>
   </mat-step>
 </mat-horizontal-stepper>

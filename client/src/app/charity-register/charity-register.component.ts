@@ -55,7 +55,7 @@ export class CharityRegisterComponent implements OnInit {
 
   paymentDetailsErros = {
     'name': '',
-    'card': '',
+    'number': '',
     'sortcode': '',
     'account_no': ''
   }
@@ -134,14 +134,17 @@ export class CharityRegisterComponent implements OnInit {
       'required': 'Username is required.',
       'minlength': 'Username should have at least 6 characters.'
     },
-    'card': {
-      'required': 'Card number is required'
+    'number': {
+      'required': 'Card number is required',
+      'pattern': 'Card number should be consist of  digits'
     },
     'sortcode': {
-      'required': 'Sort code is required'
+      'required': 'Sort code is required',
+      'pattern': 'Sort code should be consist of  digits'
     },
     'account_no': {
-      'required': 'Account no is required'
+      'required': 'Account no is required',
+      'pattern': 'Account no should be consist of  digits'
     }
   }
   constructor(private _formBuilder: FormBuilder,
@@ -221,9 +224,9 @@ export class CharityRegisterComponent implements OnInit {
   onPaymentDetailsFormCreate() {
     this.paymentDetailsForm = this._formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
-      number: ['', [Validators.required]],
-      sortcode: ['', [Validators.required]],
-      account_no: ['', [Validators.required]],
+      number: ['', [Validators.required, Validators.pattern]],
+      sortcode: ['', [Validators.required, Validators.pattern]],
+      account_no: ['', [Validators.required, Validators.pattern]],
       paypal: ['']
     });
 
