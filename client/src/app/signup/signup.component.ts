@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, ValidatorFn } from '@angular/forms';
-import { CountryPickerService, ICountry } from 'ngx-country-picker';
 import { User } from '../shared/user';
 import { AuthService } from '../services/auth.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { matchOtherValidator } from '../utils/helpers';
-
+import { Countries } from '../shared/countries';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -15,7 +14,7 @@ export class SignupComponent implements OnInit {
   tab_pos = 'center';
   personalInfoForm: FormGroup;
   secondFormGroup: FormGroup;
-  public countries: ICountry[] = [];
+  public countries = Countries;
   user: User;
   basicInfoErrors = {
        'username':'',
@@ -55,15 +54,12 @@ export class SignupComponent implements OnInit {
 
   constructor(private _formBuilder: FormBuilder,
      private modalService: NgbModal,
-     protected countryPicker: CountryPickerService,
      private authService: AuthService,
      ) {
 
   }
 
   ngOnInit() {
-    this.countryPicker.getCountries()
-      .subscribe((countries: ICountry[]) => this.countries = countries);
 
     this.personalInfoForm = this._formBuilder.group({
       username: ['', [Validators.required, Validators.email]],
@@ -107,43 +103,6 @@ export class SignupComponent implements OnInit {
       this.personalInfoForm.reset();
       this.modalService.open(content, { centered: true });
 }
- //  matchOtherValidator (otherControlName: string) {
- //
- //   let thisControl: FormControl;
- //   let otherControl: FormControl;
- //
- //   return function matchOtherValidate (control: FormControl) {
- //
- //     if (!control.parent) {
- //       return null;
- //     }
- //
- //     // Initializing the validator.
- //     if (!thisControl) {
- //       thisControl = control;
- //       otherControl = control.parent.get(otherControlName) as FormControl;
- //       if (!otherControl) {
- //         throw new Error('matchOtherValidator(): other control is not found in parent group');
- //       }
- //       otherControl.valueChanges.subscribe(() => {
- //         thisControl.updateValueAndValidity();
- //       });
- //     }
- //
- //     if (!otherControl) {
- //       return null; //pass
- //     }
- //
- //     if (otherControl.value !== thisControl.value) {
- //       return {
- //         matchOther: true //validator symbol
- //       };
- //     }
- //
- //     return null;
- //
- //   }
- // }
 
 
 }

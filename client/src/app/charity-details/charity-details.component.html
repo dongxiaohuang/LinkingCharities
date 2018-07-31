@@ -1,72 +1,77 @@
 <div class="bg">
 </div>
 <div class="bgcolor">
-  <div class="row">
-    <div class="col-11 col-sm-5 info offset-1 mr-sm-1">
+  <div class="row ">
+    <div class="col-11 col-md-5 info container">
       <h1><b class="col text-center">{{charity?.name}}</b></h1>
       <h2>{{charity?.info}}</h2>
       <ngb-rating [rate]="charity?.averageRating" placement="top" ngbTooltip="{{charity?.comments.length}} ratings" [readonly]="true"></ngb-rating>
       <span>Rating: {{charity?.averageRating |number : '1.2-2' }}</span>
-      <!-- {minIntegerDigits}.{minFractionDigits}-{maxFractionDigits} -->
       <br />
       <div class="btn-group btn-group-sm demoPadder" role="group" aria-label="Small button group">
         <button *ngIf="!favorite" (click)="toggleFavorite()" type="button" class="btn btn-ept btn-like"><i class="fas fa-heart">Add to favorite</i></button>
         <button *ngIf="favorite" (click)="toggleFavorite()" type="button" class="btn btn-ept btn-dislike"><i class="far fa-heart">Remove from Favorite</i></button>
       </div>
+      <br />
+      <div>
+
+      </div>
+      <p *ngIf="alertMsg" >
+           <ngb-alert type='danger' (close)="alertMsg = undefined">{{ alertMsg }}</ngb-alert>
+      </p>
       <div class="align-bottom">
-           <div class="row text">
-                <div class="col-4 col-md-3 col-lg-2" *ngFor="let category of charity?.categories" >
-                     <span class="badge badge-pill badge-warning"><a class="link" [routerLink]="['/category', category._id]">{{category.name}}</a></span>
-                </div>
-           </div>
+        <div class="row text">
+          <div class="col" *ngFor="let category of charity?.categories">
+            <span class="badge badge-pill badge-warning"><a class="link" [routerLink]="['/category', category._id]">{{category.name}}</a></span>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-11 col-sm-5 ml-sm-1">
-      <img *ngIf="charity" class="img-fluid rounded text-center" src="{{baseUrl+(charity?.images[0])}}" alt="{{charity.name}}" />
+    <div class="container col-11 col-md-5">
+      <img *ngIf="charity" class="img-fluid rounded text-center img col-12" src="{{baseUrl+(charity?.images[0])}}" alt="{{charity.name}}" />
       <app-loading *ngIf="!charity"></app-loading>
     </div>
   </div>
   <div class="row">
     <div class="container">
 
-      <h2><b>Details</b></h2>
-      {{charity?.details}}
+      <h2><b>Details</b></h2> {{charity?.details}}
       <hr />
       <div class="row">
 
         <div class="col-sm-9">
-             <div class="row">
-                  <h2 class="col-10"><b>Voluntary works</b></h2>
-                  <div class="col-2" (click)="isCollapsedVnt = !isCollapsedVnt" [attr.aria-expanded]="!isCollapsedVnt" aria-controls="collapseVnt">
-                       <i *ngIf="isCollapsedVnt" class="fas fa-angle-double-down fa-2x"></i>
-                       <i *ngIf="!isCollapsedVnt" class="fas fa-angle-double-up fa-2x"></i>
-                  </div>
-             </div>
+          <div class="row">
+            <h2 class="col-10"><b>Voluntary works</b></h2>
+            <div class="col-2" (click)="isCollapsedVnt = !isCollapsedVnt" [attr.aria-expanded]="!isCollapsedVnt" aria-controls="collapseVnt">
+              <i *ngIf="isCollapsedVnt" class="fas fa-angle-double-down fa-2x"></i>
+              <i *ngIf="!isCollapsedVnt" class="fas fa-angle-double-up fa-2x"></i>
+            </div>
+          </div>
           <div id="collapseVnt" [ngbCollapse]="isCollapsedVnt">
             Voluntary works details
           </div>
           <hr />
           <div class="row">
-               <h2 class="col-10"><b>Financial data</b></h2>
-               <div class="col-2 " (click)="isCollapsedFd= !isCollapsedFd" [attr.aria-expanded]="!isCollapsedFd" aria-controls="collapseFd">
-                   <i *ngIf="isCollapsedFd" class="fas fa-angle-double-down fa-2x"></i>
-                   <i *ngIf="!isCollapsedFd" class="fas fa-angle-double-up fa-2x"></i>
-               </div>
+            <h2 class="col-10"><b>Financial data</b></h2>
+            <div class="col-2 " (click)="isCollapsedFd= !isCollapsedFd" [attr.aria-expanded]="!isCollapsedFd" aria-controls="collapseFd">
+              <i *ngIf="isCollapsedFd" class="fas fa-angle-double-down fa-2x"></i>
+              <i *ngIf="!isCollapsedFd" class="fas fa-angle-double-up fa-2x"></i>
+            </div>
           </div>
           <div id="collapseFd" [ngbCollapse]="isCollapsedFd">
-               financial data details
+            financial data details
           </div>
           <hr />
 
           <div class="row" id="comments">
-               <h2 class="col-10" ><b>Comments</b></h2>
-               <div class="col-2 " (click)="isCollapsedCm=!isCollapsedCm" [attr.aria-expanded]="!isCollapsedCm" aria-controls="collapseCm">
-                   <i *ngIf="isCollapsedCm" class="fas fa-angle-double-down fa-2x"></i>
-                   <i *ngIf="!isCollapsedCm" class="fas fa-angle-double-up fa-2x"></i>
-               </div>
+            <h2 class="col-10"><b>Comments</b></h2>
+            <div class="col-2 " (click)="isCollapsedCm=!isCollapsedCm" [attr.aria-expanded]="!isCollapsedCm" aria-controls="collapseCm">
+              <i *ngIf="isCollapsedCm" class="fas fa-angle-double-down fa-2x"></i>
+              <i *ngIf="!isCollapsedCm" class="fas fa-angle-double-up fa-2x"></i>
+            </div>
           </div>
           <ngb-tabset id="collapseCm" [ngbCollapse]="isCollapsedCm">
-            <ngb-tab title="Comments" >
+            <ngb-tab title="Comments">
               <ng-template ngbTabContent>
                 <div class="card" *ngFor="let comment of charity?.comments">
                   <div class="card-body">
@@ -96,7 +101,7 @@
                 </div>
               </ng-template>
             </ngb-tab>
-            <ngb-tab title="Add Comments" >
+            <ngb-tab title="Add Comments">
               <ng-template ngbTabContent>
                 <div class="row">
                   <div class="col-12">
@@ -138,12 +143,12 @@
                 <span class="fa fa-map-marker-alt fa-lg"></span><a href="http://maps.google.com/?q={{charity?.geoaddress}}">&nbsp;{{charity?.geoaddress}}</a>
               </li>
               <li>
-                <span class="fa fa-phone text-muted c-info"></span>  &nbsp;{{charity?.tel}}
+                <span class="fa fa-phone text-muted c-info"></span> &nbsp;{{charity?.tel}}
               </li>
               <li>
-                <span class="fa fa-envelope text-muted c-info"></span>  &nbsp;{{charity?.email}}
+                <span class="fa fa-envelope text-muted c-info"></span> &nbsp;{{charity?.email}}
               </li>
-              <li *ngIf="charity?.website" >
+              <li *ngIf="charity?.website">
                 <i class="fas fa-link"></i>{{charity?.website}}
               </li>
             </ul>

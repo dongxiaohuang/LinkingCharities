@@ -68,7 +68,7 @@
               <label for="country">Country: &nbsp;</label>
               <select formControlName="country">
                                   <option disabled selected value> -- select a country -- </option>
-                                  <option *ngFor="let c of countries; let i = index;" [value]="c.name.common">{{c.name.common}}</option>
+                                  <option *ngFor="let c of countries; let i = index;" [value]="c.name">{{c.name}}</option>
                              </select>
               <small>
                                   <span [hidden]="!(basicInfoErrors.country)">{{basicInfoErrors.country}}</span>

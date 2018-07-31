@@ -4,9 +4,16 @@ h1{
 
 .info{
      background-color: #F2F2F2;
-     width: 20%;
-     padding-top: 20%;
+     width: 100%;
+     min-height: 60vh;
+     max-height: 60vh;
+     padding-top: 10%;
      padding-left:5%
+}
+.img {
+     width: 100%;
+     min-height: 60vh;
+     max-height: 60vh
 }
 
 .bgcolor {

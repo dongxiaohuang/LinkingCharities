@@ -1,3 +1,5 @@
+
+<button (click)="onClick()"> click me</button>
 <mat-horizontal-stepper #stepper linear>
   <mat-step [stepControl]="charityDetailForm">
     <div class="row justify-content-center">
@@ -114,7 +116,7 @@
               <label class="control-label" for="country">Country(*)</label>
               <select id="country" formControlName="country" class="form-control" required>
                    <option disabled selected value> -- select a country -- </option>
-                   <option  *ngFor="let c of countries; let i = index;"  [value]="c.name.common">{{c.name.common}}</option>
+                   <option  *ngFor="let c of countries; let i = index;"  [value]="c.name">{{c.name}}</option>
              </select>
               <small>
                    <span [hidden]="!charityDetailErrors.country">{{charityDetailErrors.country}}</span>

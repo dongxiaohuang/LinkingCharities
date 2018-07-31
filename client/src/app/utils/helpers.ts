@@ -44,6 +44,26 @@ export interface AuthResponse {
   success: string,
   token: string
 };
+export interface MapResponse{
+     results: {
+          address_components: Object[],
+          formatted_address:string,
+          geometry:{
+               location:{
+                    lat: number,
+                    lng: number
+               }
+          }
+     }[],
+     status: string
+}
+export interface MakerResponse {
+     lat: number,
+     lng: number,
+     img: string,
+     name: string,
+     description: string
+}
 
 export interface RegisterResponse {
   status: string,

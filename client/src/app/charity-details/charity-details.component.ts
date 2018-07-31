@@ -6,6 +6,7 @@ import { Params, ActivatedRoute } from '@angular/router';
 import { baseURL } from '../shared/baseurl';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-charity-details',
   templateUrl: './charity-details.component.html',
@@ -15,6 +16,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class CharityDetailsComponent implements OnInit {
 
   charity: Charity;
+  isLoggedIn;
+  alertMsg: string= undefined;
   // currentRate: number = 4;
   baseUrl: string = baseURL;
   favorite: boolean;
@@ -34,6 +37,7 @@ export class CharityDetailsComponent implements OnInit {
   constructor(private charityService: GetCharitiesService,
     private favoriteService: FavoriteService,
     private fb: FormBuilder,
+    private authService: AuthService,
     private route: ActivatedRoute,
     config: NgbRatingConfig) {
     config.max = 5;
@@ -43,11 +47,17 @@ export class CharityDetailsComponent implements OnInit {
     this.id = this.route.snapshot.params['id']; //'+' convert a string into interger value
     this.charityService.getCharity(this.id)
       .subscribe(charity => this.charity = charity);
-    this.favoriteService.isFavorite(this.id)
-      .subscribe(fav => {
-        console.log(fav);
-        this.favorite = fav.exists;
-      });
+    this.isLoggedIn = this.authService.isLoggedIn();
+    if(this.isLoggedIn){
+         this.favoriteService.isFavorite(this.id)
+         .subscribe(fav => {
+              console.log(fav);
+              this.favorite = fav.exists;
+         });
+    }
+
+
+
     //initial commentFrom
     this.createForm();
   }
@@ -80,19 +90,23 @@ export class CharityDetailsComponent implements OnInit {
        }
  }
   toggleFavorite() {
-    if (this.favorite) {
-      this.favoriteService.deleteFavorite(this.id)
-        .subscribe(resp => {
-          console.log(resp);
-          this.favorite = false;
-        }, err => console.log(err));
-    } else {
-      this.favoriteService.postFavorite(this.id)
-        .subscribe(resp => {
-          console.log(resp);
-          this.favorite = true;
-        }, err => console.log(err));
-    }
+       if(this.isLoggedIn){
+            if (this.favorite) {
+                 this.favoriteService.deleteFavorite(this.id)
+                 .subscribe(resp => {
+                      console.log(resp);
+                      this.favorite = false;
+                 }, err => console.log(err));
+            } else {
+                 this.favoriteService.postFavorite(this.id)
+                 .subscribe(resp => {
+                      console.log(resp);
+                      this.favorite = true;
+                 }, err => console.log(err));
+            }
+       }else{
+            this.alertMsg = "Please log in as a user!"
+       }
   }
   onSubmit() {
     // this.charityService.postComment(this.id,)

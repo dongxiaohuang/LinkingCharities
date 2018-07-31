@@ -16,7 +16,7 @@
       <ngb-rating [rate]="charity?.averageRating" ngbTooltip="{{charity?.rateLen}} ratings" [readonly]="true">{{charity?.averageRating | number : '1.2-2'}}</ngb-rating>
      <h5 >categories:</h5>
      <div class="row">
-          <div class="col-4 col-md-3 col-lg-2" *ngFor="let category of charity?.categories" >
+          <div class="col-6" *ngFor="let category of charity?.categories" >
                <span class="badge badge-pill badge-success"><a class="link" [routerLink]="['/category', category._id]">{{category.name}}</a></span>
           </div>
      </div>
