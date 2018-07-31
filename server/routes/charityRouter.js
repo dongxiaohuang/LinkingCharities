@@ -130,6 +130,53 @@ charityRouter.route('/:charityId')
                .catch(err => next(err));
      });
 
+charityRouter.route('/:charityId/geocode')
+.options(cors.corsWithOptions, (req, res) => {
+     res.sendStatus(200);
+})
+.get(cors.cors, (req, res, next) => {
+     Charities.findById(req.params.charityId)
+     .then((charity) => {
+          if (charity != null) {
+               res.statusCode = 200;
+               res.setHeader('Content-Type', 'application/json');
+               res.json(charity.geocoding);
+          } else {
+               var err = new Error('Charity' + req.params.charityId + ' not found!');
+               err.status = 404;
+               return next(err);
+          }
+     }, err => next(err))
+     .catch(err => next(err));
+})
+.post(cors.corsWithOptions, (req, res, next) => {
+     Charities.findById(req.params.charityId)
+          .then((charity) => {
+               charity.geocoding = req.body;
+               charity.save()
+               .then((charity) => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(charity.geocoding);
+               })
+          }, err => next(err))
+          .catch(err => next(err));
+})
+.put(cors.corsWithOptions, (req, res, next) => {
+     Charities.findById(req.params.charityId)
+          .then((charity) => {
+               charity.geocoding = req.body;
+               charity.save()
+               .then((charity) => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(charity.geocoding);
+               })
+          }, err => next(err))
+          .catch(err => next(err));
+})
+
+
 charityRouter.route('/:charityId/comments')
      .options(cors.corsWithOptions, (req, res) => {
           sendStatus(200);

@@ -15,6 +15,16 @@ const storage = multer.diskStorage({
           callback(null, req.user._id+file.originalname)
      }
 });
+const storageCharity = multer.diskStorage({
+     destination: (req, file, callback) => {
+          // err ; destination
+          callback(null, 'public/images/charityPics'); //TODO: change
+     },
+     filename: (req, file, callback) => {
+          //err; filename stored in our server
+          callback(null, file.originalname)
+     }
+});
 
 const imageFileFilter =(req, file, callback) => {
      // regular express only accept jpg jpeg png gif
@@ -25,7 +35,7 @@ const imageFileFilter =(req, file, callback) => {
 };
 
 const upload = multer({storage:storage, fileFilter: imageFileFilter});
-
+const uploadCharity = multer({storage:storageCharity, fileFilter: imageFileFilter})
 uploadRouter.use(bodyParser.json());
 
 uploadRouter.route('/')
@@ -46,5 +56,13 @@ uploadRouter.route('/')
      res.end('PUT is not supported on endpoint /upload');
 })
 .delete();
+
+uploadRouter.route('/charitiesPics')
+.options(cors.corsWithOptions, (req, res) => { sendStatus(200);})
+.post(cors.corsWithOptions, uploadCharity.array('imageFile',3),(req, res) => {
+     res.statusCode = 200;
+     res.setHeader('Content-Type', 'application/json');
+     res.json(req.files); // multer will provide file for us for array upoload
+})
 
 module.exports = uploadRouter;

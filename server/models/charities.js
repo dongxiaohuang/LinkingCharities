@@ -21,16 +21,6 @@ const commentSchema = new Schema({
 }, {
      timestamps: true
 });
-const geocodingSchema = new Schema({
-     lat: {
-          type: Number,
-          default:''
-     },
-     lng: {
-          type: Number,
-          default:''
-     }
-});
 
 const charitySchema = new Schema({
      ccn:{
@@ -66,10 +56,10 @@ const charitySchema = new Schema({
           ref: 'Category',
           requierd:true
      }],
-     image: {
-          type: String,
+     images: {
+          type: [String],
           required:true,
-          default: 'images/people2.jpg'
+          default: ['images/people2.jpg']
      },
      info: {
           type: String,
@@ -106,7 +96,10 @@ const charitySchema = new Schema({
           ref:'PaymentDtail',
           required:true
      },
-     geocoding: geocodingSchema
+     geocoding: {
+          lat: Number,
+          lng: Number
+     }
 },
  {
      timestamps: true,
@@ -136,9 +129,11 @@ charitySchema
      .virtual('geoaddress')
      .get(function(){ // cannot use arrow function
           var state =this.state? this.state+ ', ' : '';
-          var addr = this.address.line1 + ", "+this.address.line2 + ', '+this.city +', ' +state+this.postcode+', '+this.country;
+          var line = this.address.line2 ? this.address.line1+', '+this.address.line2 : this.address.line1;
+          var addr = line +', '+this.city +', ' +state+this.postcode+', '+this.country;
           return addr;
      });
+
 charitySchema
      .virtual('rateLen')
      .get(function(){ // cannot use arrow function
