@@ -125,9 +125,7 @@ export class AuthCharityService {
  }
 
   postPictures(fd: FormData): Observable<any> {
-      return  this.http.post(baseURL +'imageUpload/charitiesPics', fd, {
-       reportProgress: true,
-       observe: 'events'
-     })
+      return  this.http.post(baseURL +'imageUpload/charitiesPics', fd
+)
  }
 }

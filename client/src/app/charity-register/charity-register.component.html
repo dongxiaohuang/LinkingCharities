@@ -1,4 +1,5 @@
 <!-- <mat-horizontal-stepper #stepper linear> -->
+<button (click)="onregiste()">clikc</button>
 <mat-horizontal-stepper #stepper>
   <mat-step [stepControl]="charityDetailForm">
     <div class="row justify-content-center">
@@ -232,7 +233,7 @@
     </div>
     <ng-template matStepLabel><i class="fas fa-check-circle"></i><b>&nbsp; Image Upload</b></ng-template>
     <div>
-      <image-upload [max]="3" #iu [extensions]="['jpeg','png']" [maxFileSize]="1048576" dropBoxMessage="Drop Charities promotion images here (1M size at most for each picture, and 3 pictures at most)" (uploadFinished)="onUploadFinished($event)" (uploadStateChanged)="onUploadStateChanged($event)"
+      <image-upload #iu [max]="3" #iu [extensions]="['jpeg','png']" [maxFileSize]="1048576" dropBoxMessage="Drop Charities promotion images here (1M size at most for each picture, and 3 pictures at most)" (uploadFinished)="onUploadFinished($event)" (uploadStateChanged)="onUploadStateChanged($event)"
            (removed)="onRemoved($event)"></image-upload>
       <div>
         <ngb-progressbar *ngIf="progress>0 && progress<100" type="warning" [striped]="true" [animated]="true" [value]="progress">{{progress}}</ngb-progressbar>
@@ -240,12 +241,13 @@
           <ngb-progressbar *ngIf="progress==100" type="danger" [value]="100" [striped]="true">Completed!</ngb-progressbar>
         </p>
       </div>
-      <button class="btn btn-success" (click)="onUpload()"> click</button>
+      <!-- <button class="btn btn-success" (click)="onUpload()"> click</button> -->
     </div>
     <div class="row justify-content-center btn-group">
       <button mat-button matStepperPrevious class="btn-success">Back</button>
-      <button mat-button (click)="onSubmit()" class="btn-info">Submit</button>
+      <button mat-button (click)="onSubmit()" (click)="stepper.reset()" class="btn-info">Submit</button>
       <button mat-button (click)="stepper.reset()" class="btn-warning">Reset</button>
+      {{this.basicInfoForm.value |json}}
     </div>
   </mat-step>
 </mat-horizontal-stepper>
