@@ -5,9 +5,15 @@
              updated at: {{charity.updatedAt |date}}
         </div>
         <ul class="menu-content">
-          <li><a class="btn {{favorite ? 'far fa-heart' : 'fa fa-heart'}}"></a></li>
+          <li><a class="btn" (click)="toggleFavorite()">
+               <i *ngIf="isFavorite"  class="fas fa-heart"></i>
+               <i *ngIf="!isFavorite" class="far fa-heart"></i>
+          </a> </li>
           <li><a  class="btn far fa-donate"></a> </li>
           <li><a [routerLink]="['/charitydetail', charity._id]"  fragment="comments" class="btn far fa-comment"><span>{{charity.comments.length}}</span></a></li>
+          <p *ngIf="alertMsg" >
+               <ngb-alert type='danger' (close)="alertMsg = undefined">{{ alertMsg }}</ngb-alert>
+          </p>
         </ul>
       </div>
       <div class="data">

@@ -8,15 +8,17 @@
   (markerClick)="gm.lastOpen?.close(); gm.lastOpen = infoWindow;"
   >
     <agm-info-window #infoWindow [maxWidth]=200>
-      <strong>{{marker.name}}</strong>
+         <div class="text-center">
+              <h5 class="btn" [routerLink]="['/charitydetail',marker.id]">{{marker.name}}</h5>
+         </div>
+      <hr />
       <div class="row">
         <div class="col-12">
-          <img class="smallsize" src="{{marker.img}}" />
+          <img  [routerLink]="['/charitydetail',marker.id]" class="smallsize" src="{{baseUrl}}{{marker.img}}" />
         </div>
         <div class="col-12">
           {{marker.description}}
           <br />
-          id: {{marker.id}}
         </div>
       </div>
     </agm-info-window>
@@ -25,5 +27,4 @@
 <br />
 <br />
 
-{{aa | json}}
-ssss
+{{markers | json}}

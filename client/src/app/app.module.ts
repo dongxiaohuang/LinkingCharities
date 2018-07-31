@@ -62,6 +62,20 @@ import { UserprofileComponent } from './userprofile/userprofile.component';
 import { CategoryComponent } from './category/category.component';
 import { CharityProfileComponent } from './charity-profile/charity-profile.component';
 import { CharityCardComponent } from './charity-card/charity-card.component';
+import { SocialLoginModule, AuthServiceConfig } from 'angularx-social-login';
+import { FacebookLoginProvider } from "angularx-social-login";
+import { FacebookLoginComponent } from './facebook-login/facebook-login.component';
+
+let config = new AuthServiceConfig([
+  {
+    id: FacebookLoginProvider.PROVIDER_ID,
+    provider: new FacebookLoginProvider("Facebook-App-Id")
+  }
+]);
+
+export function provideConfig() {
+  return config;
+}
 
 @NgModule({
   // Specifies a list of directives/pipes that belong to this module.
@@ -94,6 +108,7 @@ import { CharityCardComponent } from './charity-card/charity-card.component';
     CategoryComponent,
     CharityProfileComponent,
     CharityCardComponent,
+    FacebookLoginComponent,
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [
@@ -119,6 +134,7 @@ import { CharityCardComponent } from './charity-card/charity-card.component';
     NgMultiSelectDropDownModule.forRoot(),
     NgxStripeModule.forRoot(stripeAPI),
     ImageUploadModule.forRoot(),
+    SocialLoginModule
   ],
   // Defines the set of injectable objects that are available in the injector of this module.
   providers: [
@@ -133,9 +149,9 @@ import { CharityCardComponent } from './charity-card/charity-card.component';
     //Angular can inject the BaseURL value into any class that it creates.
     { provide: 'BaseURL', useValue: baseURL },
     {
-         provide: HTTP_INTERCEPTORS,
-         useClass: AuthInterceptor,
-         multi: true
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
     },
     // {
     //      provide: HTTP_INTERCEPTORS,
@@ -151,6 +167,10 @@ import { CharityCardComponent } from './charity-card/charity-card.component';
       provide: HTTP_INTERCEPTORS,
       useClass: UnauthorizedInterceptor,
       multi: true
+    },
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
     }
   ],
   bootstrap: [AppComponent],

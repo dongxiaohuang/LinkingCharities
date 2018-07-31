@@ -24,6 +24,10 @@ export class GetCharitiesService {
       .catch(err => this.processHTTPMsgService.handleError(err));
 
   };
+  getAllCharities():Observable<any> {
+       return this.http.get<any>(baseURL +'charities/allcharities')
+       .catch(err => this.processHTTPMsgService.handleError(err));
+ }
   getNewestCharities(): Observable<Charity[]> {
     return this.restangular.all('charities/newCharities').getList();
   }
