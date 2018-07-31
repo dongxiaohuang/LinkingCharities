@@ -70,6 +70,31 @@ charityRouter.route('/')
                .catch(err => next(err));
      });
 
+charityRouter.route('/allcharities')
+.options(cors.corsWithOptions, (req, res) => {
+     res.sendStatus(200);
+})
+.get(cors.cors, (req, res, next) => {
+     Charities.find({})
+     .then((charities) => {
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.json(charities);
+     }, err => next(err))
+     .catch(err => next(err));
+})
+.post(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+     res.statusCode = 403;
+     res.end('POST is not supported in this endpoint /allcharities' + req.params.charityId);
+})
+.put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+     res.statusCode = 403;
+     res.end('PUT is not supported in this endpoint /allcharities' + req.params.charityId);
+})
+.delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+     res.statusCode = 403;
+     res.end('DELETE is not supported in this endpoint /allcharities' + req.params.charityId);
+})
 charityRouter.route('/newCharities')
      .options(cors.corsWithOptions, (req, res) => {
           res.sendStatus(200);
