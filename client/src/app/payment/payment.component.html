@@ -1,6 +1,6 @@
 <form novalidate (ngSubmit)="buy($event)" [formGroup]="stripeTest">
   <input type="text" formControlName="name" placeholder="Jane Doe">
-  <div id="card-element" class="field"></div>
+  <ngx-stripe-card [options]="cardOptions" [elementsOptions]="elementsOptions"></ngx-stripe-card>
   <button type="submit">
     BUY
   </button>

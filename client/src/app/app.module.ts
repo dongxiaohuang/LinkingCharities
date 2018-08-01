@@ -153,16 +153,6 @@ export function provideConfig() {
       useClass: AuthInterceptor,
       multi: true
     },
-    // {
-    //      provide: HTTP_INTERCEPTORS,
-    //      useClass: AuthCharityInterceptor,
-    //      multi: true
-    // },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: UnauthorizedCharityInterceptor,
-    //   multi: true
-    // },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: UnauthorizedInterceptor,

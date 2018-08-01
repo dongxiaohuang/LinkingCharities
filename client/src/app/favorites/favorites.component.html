@@ -1,3 +1,5 @@
 <div class="bg">
 </div>
+<!-- <app-loading *ngIf="favorite" ></app-loading> -->
 <app-topcharities [charities]="favorite?.charities"></app-topcharities>
+{{favorite?.charities |json}}
