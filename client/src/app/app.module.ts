@@ -42,7 +42,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { RestangularModule, Restangular } from 'ngx-restangular';
 import { RestangularConfigFactory } from './shared/restConfig';
 import { baseURL } from './shared/baseurl';
-import { googleAPI, stripeAPI } from './config';
+import { googleAPI, stripeAPI, facebookAppID } from './config';
 import { AgmComponent } from './agm/agm.component';
 import { AutocompleteSearchComponent } from './autocomplete-search/autocomplete-search.component';
 import { LoadingComponent } from './loading/loading.component';
@@ -62,18 +62,23 @@ import { UserprofileComponent } from './userprofile/userprofile.component';
 import { CategoryComponent } from './category/category.component';
 import { CharityProfileComponent } from './charity-profile/charity-profile.component';
 import { CharityCardComponent } from './charity-card/charity-card.component';
-import { SocialLoginModule, AuthServiceConfig } from 'angularx-social-login';
-import { FacebookLoginProvider } from "angularx-social-login";
-import { FacebookLoginComponent } from './facebook-login/facebook-login.component';
+import {
+  SocialLoginModule,
+  AuthServiceConfig,
+  GoogleLoginProvider,
+  FacebookLoginProvider,
+} from "angular5-social-login";
 
-let config = new AuthServiceConfig([
-  {
-    id: FacebookLoginProvider.PROVIDER_ID,
-    provider: new FacebookLoginProvider("Facebook-App-Id")
-  }
-]);
-
-export function provideConfig() {
+// Configs
+export function getAuthServiceConfigs() {
+  let config = new AuthServiceConfig(
+    [
+      {
+        id: FacebookLoginProvider.PROVIDER_ID,
+        provider: new FacebookLoginProvider(facebookAppID)
+      }
+    ]
+  );
   return config;
 }
 
@@ -108,7 +113,6 @@ export function provideConfig() {
     CategoryComponent,
     CharityProfileComponent,
     CharityCardComponent,
-    FacebookLoginComponent,
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [
@@ -160,7 +164,7 @@ export function provideConfig() {
     },
     {
       provide: AuthServiceConfig,
-      useFactory: provideConfig
+      useFactory: getAuthServiceConfigs
     }
   ],
   bootstrap: [AppComponent],
