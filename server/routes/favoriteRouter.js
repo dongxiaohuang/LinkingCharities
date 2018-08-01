@@ -17,6 +17,7 @@ favoriteRouter.route('/')
                     user: req.user._id
                })
                .populate('charities') // TODO: if needed
+               .deepPopulate(['charities.categories'])
                .then((favorites) => {
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');

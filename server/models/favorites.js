@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 const favoriteSchema = new Schema({
      user: {
@@ -15,4 +16,7 @@ const favoriteSchema = new Schema({
 },{
      timestamps:true
 })
+
+favoriteSchema.plugin(deepPopulate);
+
 module.exports = mongoose.model('Favorite', favoriteSchema);
