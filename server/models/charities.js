@@ -145,7 +145,7 @@ charitySchema.plugin(mongooseAlgolia, {
      appId: config.algolia.appId,
      apiKey: config.algolia.apiKey,
      indexName: config.algolia.indexName,
-     selector: '_id name country city categories info averageRating image rateLen', //which you would like to asyn with algolia
+     selector: '_id name country city categories info averageRating images rateLen', //which you would like to asyn with algolia
      populate: {
           path: 'categories',
           select:'name'
