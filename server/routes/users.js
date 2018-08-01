@@ -207,4 +207,17 @@ router.route('/newpassword')
           res.statusCode = 403;
           res.end("DELETE is not supported on this endpoint");
      })
+router.route('/facebook/token')
+.get(cors.cors, passport.authenticate('facebook-token'), (req, res) => {
+     if(req.user) {
+          var token = authenticate.getToken({_id: req.user._id});
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.json({
+               success: true,
+               token: token,
+               status: "You are successful loggen in"
+          })
+     }
+} )
 module.exports = router;

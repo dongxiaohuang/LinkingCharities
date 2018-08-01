@@ -22,7 +22,8 @@ const userSchema = new Schema({
      type:{
           type: String,
           default:'Donator'
-     }
+     },
+     facebookId: String
 });
 
 //// it will automatically add username and salt-encrypted psw for model
