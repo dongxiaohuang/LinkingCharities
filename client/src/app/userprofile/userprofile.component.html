@@ -57,12 +57,13 @@
           <label for="country" class="col-lg-3" for="country">Country: &nbsp;</label>
           <div class="col-lg-8">
             <select id="country" formControlName="country" class="form-control" [ngModel]="user?.country">
-                                      <option  *ngFor="let c of countries; let i = index;"  [value]="c.name.common">{{c.name.common}}</option>
+                                      <option  *ngFor="let c of countries; let i = index;"  [value]="c.name">{{c.name}}</option>
                                  </select>
             <small>
                                       <span [hidden]="!(userFormErrors.country)">{{userFormErrors.country}}</span>
                                  </small>
           </div>
+     </div>
           <div class="form-group">
             <label class="col-md-3 control-label"></label>
             <div class="col-md-8">
@@ -70,7 +71,6 @@
             </div>
           </div>
           <hr />
-        </div>
       </form>
       <div class="alert alert-info alert-dismissable"  *ngIf="pswMsg">
         <a class="panel-close close" data-dismiss="alert">×</a>
@@ -98,7 +98,7 @@
         <div class="form-group">
           <label class="col-md-3 control-label"></label>
           <div class="col-md-8">
-            <button name="submit" type="submit" class="btn btn-primary" (click)="changePSW()">Update Password</button>
+            <button name="submit" [disabled]="passwordForm.invalid" type="submit" class="btn btn-primary" (click)="changePSW()">Update Password</button>
             <button class="btn btn-warning" (click)="onCancel()">Cancel</button>
           </div>
         </div>

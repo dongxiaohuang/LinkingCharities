@@ -6,7 +6,7 @@ import { baseURL } from '../shared/baseurl';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { mergeMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
-import { CountryPickerService, ICountry } from 'ngx-country-picker';
+import { Countries } from '../shared/countries';
 
 @Component({
   selector: 'app-userprofile',
@@ -20,7 +20,7 @@ export class UserprofileComponent implements OnInit {
   passwordForm: FormGroup;
   user;
   baseUrl = baseURL;
-  countries: ICountry[];
+  countries = Countries;
   userMsg:string = undefined;
   pswMsg:string = undefined;
   selectedFile: File = undefined;
@@ -62,11 +62,8 @@ export class UserprofileComponent implements OnInit {
   constructor(private authService: AuthService,
     private fb: FormBuilder,
     private http: HttpClient,
-    protected countryPicker: CountryPickerService,
     private location: Location) { }
   ngOnInit() {
-    this.countryPicker.getCountries()
-      .subscribe((countries: ICountry[]) => this.countries = countries);
 
     this.authService.getProfile()
       .subscribe(profile => {

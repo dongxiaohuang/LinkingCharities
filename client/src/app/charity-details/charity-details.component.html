@@ -1,6 +1,9 @@
 <div class="bg">
 </div>
-<div class="bgcolor">
+<div *ngIf="!charity">
+     <app-loading></app-loading>
+</div>
+<div class="bgcolor" *ngIf="charity" >
   <div class="row ">
     <div class="col-11 col-md-5 info container">
       <h1><b class="col text-center">{{charity?.name}}</b></h1>
@@ -28,8 +31,11 @@
       </div>
     </div>
     <div class="container col-11 col-md-5">
-      <img *ngIf="charity" class="img-fluid rounded text-center img col-12" src="{{baseUrl+(charity?.images[0])}}" alt="{{charity.name}}" />
-      <app-loading *ngIf="!charity"></app-loading>
+         <ngb-carousel>
+              <ng-template ngbSlide *ngFor="let image of charity.images">
+                   <img class="img-fluid rounded text-center img col-12" src="{{baseUrl+(image)}}" alt="{{charity.name}}" />
+              </ng-template>
+         </ngb-carousel>
     </div>
   </div>
   <div class="row">
