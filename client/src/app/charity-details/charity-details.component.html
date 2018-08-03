@@ -7,7 +7,7 @@
   <div class="row ">
     <div class="col-11 col-md-5 info container">
       <h1><b class="col text-center">{{charity?.name}}</b></h1>
-      <h2>{{charity?.info}}</h2>
+      <!-- <h2>{{charity?.info}}</h2> -->
       <ngb-rating [rate]="charity?.averageRating" placement="top" ngbTooltip="{{charity?.comments.length}} ratings" [readonly]="true"></ngb-rating>
       <span>Rating: {{charity?.averageRating |number : '1.2-2' }}</span>
       <br />
@@ -33,7 +33,7 @@
     <div class="container col-11 col-md-5">
          <ngb-carousel>
               <ng-template ngbSlide *ngFor="let image of charity.images">
-                   <img class="img-fluid rounded text-center img col-12" src="{{baseUrl+(image)}}" alt="{{charity.name}}" />
+                   <img class="img-fluid rounded text-center img img-size col-12" src="{{baseUrl+(image)}}" alt="{{charity.name}}" />
               </ng-template>
          </ngb-carousel>
     </div>
@@ -107,7 +107,7 @@
                 </div>
               </ng-template>
             </ngb-tab>
-            <ngb-tab title="Add Comments">
+            <ngb-tab title="Add Comments" *ngIf="isLoggedIn" >
               <ng-template ngbTabContent>
                 <div class="row">
                   <div class="col-12">

@@ -5,6 +5,8 @@ import { AuthCharityService } from './auth-charity.service';
 import { Observable } from 'rxjs/Observable';
 import { tap, map } from 'rxjs/operators';
 
+export const InterceptorSkipHeader = 'X-Skip-Interceptor';
+
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   constructor(private inj: Injector) {}
@@ -17,6 +19,10 @@ export class AuthInterceptor implements HttpInterceptor {
     const authCharityToken = authCharityService.getToken();
     // console.log("Interceptor: " + authToken);
     // Clone the request to add the new header.
+    if(req.headers.has(InterceptorSkipHeader)){
+      const headers = req.headers.delete(InterceptorSkipHeader);
+      return next.handle(req.clone({ headers }));
+    }
     console.log("auth interceptor", req.headers);
     if(authToken != undefined){
          const authReq = req.clone({headers: req.headers.set('Authorization', 'bearer ' + authToken)});

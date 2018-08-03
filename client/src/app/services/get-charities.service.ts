@@ -8,7 +8,9 @@ import { Restangular } from 'ngx-restangular';
 import { baseURL } from '../shared/baseurl';
 import { MapResponse } from '../utils/helpers';
 import { mergeMap } from 'rxjs/operators';
-
+import { googleAPI } from '../config';
+import { HttpHeaders } from '@angular/common/http';
+import { InterceptorSkipHeader } from './auth.interceptor';
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +45,9 @@ export class GetCharitiesService {
       .catch(err => this.processHTTPMsgService.handleError(err));
   }
   getGeocode(geoAddress: string): Observable<any> {
-       return this.http.get<MapResponse>('https://maps.googleapis.com/maps/api/geocode/json?address=' + geoAddress);
+       let headers = new HttpHeaders().set(InterceptorSkipHeader, '');
+       // headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+       return this.http.get<MapResponse>('https://maps.googleapis.com/maps/api/geocode/json?address=' + geoAddress, {headers:headers});
  }
   changeGeocoding(charityId: string, geoRes: MapResponse): Observable<any> {
     let geocode = geoRes.results[0].geometry.location;

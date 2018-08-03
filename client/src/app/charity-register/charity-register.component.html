@@ -31,7 +31,7 @@
           </div>
           <div class="form-group">
             <label for="tel">Registered telphone(*)</label>
-            <input type="tel" class="form-control" id="tel" formControlName="tel" name="tel" pattern="[0-9]*" placeholder="Enter telphone" required>
+            <input type="tel" class="form-control" id="tel" formControlName="tel" name="tel" placeholder="Enter telphone" required>
             <small>
         <span [hidden]="!charityDetailErrors.tel">{{charityDetailErrors.tel}}</span>
    </small>
@@ -245,7 +245,7 @@
     </div>
     <div class="row justify-content-center btn-group">
       <button mat-button matStepperPrevious class="btn-success">Back</button>
-      <button mat-button (click)="onSubmit()" (click)="stepper.reset()" class="btn-info">Submit</button>
+      <button mat-button (click)="onSubmit()" class="btn-info">Submit</button>
       <button mat-button (click)="stepper.reset()" class="btn-warning">Reset</button>
       {{this.basicInfoForm.value |json}}
     </div>

@@ -75,7 +75,6 @@ export class CharityRegisterComponent implements OnInit {
     },
     "tel": {
       'required': 'Charity telephone number is required.',
-      'pattern': 'Telephone number should be digits'
     },
     "web": {
       'pattern': 'website is not valid, please start with http(s)://www'
@@ -193,7 +192,7 @@ export class CharityRegisterComponent implements OnInit {
       line2: [''],
     });
     this.addressForm.valueChanges.subscribe(
-      data => this.onValueChanged(this.addressErrors, this.addressValidaMsg, this.addressForm)
+      data => this.onValueChanged(this.addressErrors, this.addressValidaMsg, data, this.addressForm)
     )
   }
   onCharityDetailsFormCreate() {
@@ -202,10 +201,10 @@ export class CharityRegisterComponent implements OnInit {
       rbody: [''],
       rno: [''],
       name: ['', Validators.required],
-      tel: ['', [Validators.required, Validators.pattern]],
+      tel: ['', [Validators.required]],
       web: ['', [Validators.pattern]],
       email: ['', [Validators.required, Validators.email]],
-      categories: [Category, Validators.required],
+      categories: [Category, Validators.required], //TODO:
       info: ['', [Validators.required, Validators.maxLength(200)]],
       details: ['', [Validators.required, Validators.maxLength(500)]],
       address: [''],

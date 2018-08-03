@@ -76,7 +76,7 @@
         <a class="panel-close close" data-dismiss="alert">×</a>
        {{pswMsg}}
       </div>
-      <form novalidate [formGroup]="passwordForm" >
+      <form novalidate [formGroup]="passwordForm" *ngIf="!user.facebookId"  >
         <div class="form-group">
           <label class="col-md-3 control-label">Password:</label>
           <div class="col-md-8">

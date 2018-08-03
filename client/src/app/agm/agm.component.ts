@@ -16,11 +16,15 @@ export class AgmComponent implements OnInit {
   lng: number = -0.196546;
   zoom = 10;
   baseUrl = baseURL;
+  msg;
   constructor(private http: HttpClient,
      private getCharitiesService: GetCharitiesService) { }
 
   markers:Marker[] = [];
   ngOnInit() {
+       //get geolocation
+       this.getLocation();
+
        this.getCharitiesService.getAllCharities()
        .subscribe(res => {
             console.log(res);
@@ -46,6 +50,16 @@ export class AgmComponent implements OnInit {
        })
   }
 
+  getLocation(): void{
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position)=>{
+          this.lng = position.coords.longitude;
+          this.lat = position.coords.latitude;
+        });
+    } else {
+       console.log("No support for geolocation")
+    }
+  }
 
 
 }

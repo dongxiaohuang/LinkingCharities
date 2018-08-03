@@ -55,7 +55,6 @@ import { CountryPickerModule } from 'ngx-country-picker';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { CharityRegisterComponent } from './charity-register/charity-register.component';
 import { PaymentComponent } from './payment/payment.component';
-import { NgxStripeModule } from 'ngx-stripe';
 import { SearchComponent } from './search/search.component';
 import { CardComponent } from './card/card.component';
 import { UserprofileComponent } from './userprofile/userprofile.component';
@@ -136,7 +135,6 @@ export function getAuthServiceConfigs() {
     HttpClientModule,
     CountryPickerModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
-    NgxStripeModule.forRoot(stripeAPI),
     ImageUploadModule.forRoot(),
     SocialLoginModule
   ],

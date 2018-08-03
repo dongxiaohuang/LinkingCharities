@@ -5,97 +5,84 @@
   <ngb-tab>
     <ng-template ngbTabTitle><i class="fas fa-user-alt"></i> <b> User profile</b></ng-template>
     <ng-template ngbTabContent>
-         <app-loading *ngIf="!profile" ></app-loading>
-         <div class="container" style="padding-top: 60px;" *ngIf="profile" >
-           <div class="row">
-             <div class="col-12 personal-info" >
-               <div class="alert alert-info alert-dismissable"  *ngIf="userMsg">
-                 <a class="panel-close close" data-dismiss="alert" (click)="userMsg=undefined">×</a>
-                {{userMsg}}
-               </div>
-               <h3 class="text-center">Personal info</h3>
-               <form class="form-horizontal" role="form" novalidate [formGroup]="userForm">
+      <app-loading *ngIf="!profile"></app-loading>
+      <div class="container" style="padding-top: 60px;" *ngIf="profile">
+        <div class="row">
+          <div class="col-12 personal-info">
+            <div class="alert alert-info alert-dismissable" *ngIf="userMsg">
+              <a class="panel-close close" data-dismiss="alert" (click)="userMsg=undefined">×</a> {{userMsg}}
+            </div>
+            <h3 class="text-center">Personal info</h3>
+            <form class="form-horizontal" role="form" novalidate [formGroup]="userForm">
 
-                 <div class="form-group">
-                   <label class="col-lg-3 control-label">Email/Username:</label>
-                   <div class="col-lg-8">
-                     <b>{{profile?.username}}</b>
-                   </div>
-                 </div>
-                 <div class="form-group">
-                   <label class="col-lg-3 control-label" for="firstname">First name:</label>
-                   <div class="col-lg-8">
-                     <input id="firstname" class="form-control" formControlName="firstname" value={{profile?.firstname}} type="text" [(ngModel)]="profile.firstname" >
-                     <small>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">Email/Username:</label>
+                <div class="col-lg-8">
+                  <b>{{profile?.username}}</b>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label" for="firstname">First name:</label>
+                <div class="col-lg-8">
+                  <input id="firstname" class="form-control" formControlName="firstname" value={{profile?.firstname}} type="text" [(ngModel)]="profile.firstname" required>
+                  <small>
                           <span [hidden]="!(userFormErrors.firstname)">{{userFormErrors.firstname}}</span>
                      </small>
-                   </div>
-                 </div>
-                 <div class="form-group">
-                   <label class="col-lg-3 control-label" for="lastname">Last name:</label>
-                   <div class="col-lg-8">
-                     <input id="lastname" class="form-control" formControlName="lastname" value={{profile?.lastname}} type="text" [(ngModel)]="profile.lastname" >
-                     <small>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label" for="lastname">Last name:</label>
+                <div class="col-lg-8">
+                  <input id="lastname" class="form-control" formControlName="lastname" value={{profile?.lastname}} type="text" [(ngModel)]="profile.lastname" required>
+                  <small>
                           <span [hidden]="!(userFormErrors.lastname)">{{userFormErrors.lastname}}</span>
                      </small>
-                   </div>
-                 </div>
-                 <!-- <div class="form-group">
-                   <label for="country" class="col-lg-3" for="country">Country: &nbsp;</label>
-                   <div class="col-lg-8">
-                     <select id="country" formControlName="country" class="form-control" [ngModel]="user?.country">
-                                               <option  *ngFor="let c of countries; let i = index;"  [value]="c.name">{{c.name}}</option>
-                                          </select>
-                     <small>
-                                               <span [hidden]="!(userFormErrors.country)">{{userFormErrors.country}}</span>
-                                          </small>
-                   </div>
-              </div> -->
-                   <div class="form-group">
-                     <label class="col-md-3 control-label"></label>
-                     <div class="col-md-8">
-                       <button name="submit" type="submit" class="btn btn-primary" (click)="changeProfile()">Update My Profile</button>
-                     </div>
-                   </div>
-                   <hr />
-                 {{userForm.value|json}}
-               </form>
-               <div class="alert alert-info alert-dismissable"  *ngIf="pswMsg">
-                 <a class="panel-close close" data-dismiss="alert">×</a>
-                {{pswMsg}}
-               </div>
-               <form novalidate [formGroup]="passwordForm" >
-                 <div class="form-group">
-                   <label class="col-md-3 control-label">Password:</label>
-                   <div class="col-md-8">
-                     <input class="form-control" formControlName="password" type="password">
-                     <small>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-3 control-label"></label>
+                <div class="col-md-8">
+                  <!-- {{userForm |json}} -->
+                  <button name="submit" type="submit" [disabled]="userForm.invalid" class="btn btn-primary" (click)="changeProfile()">Update My Profile</button>
+                </div>
+              </div>
+              <hr /> {{userForm.value|json}}
+            </form>
+            <div class="alert alert-info alert-dismissable" *ngIf="pswMsg">
+              <a class="panel-close close" data-dismiss="alert" (click)="pswMsg=undefined">×</a> {{pswMsg}}
+            </div>
+            <form novalidate [formGroup]="passwordForm">
+              <div class="form-group">
+                <label class="col-md-3 control-label">Password:</label>
+                <div class="col-md-8">
+                  <input class="form-control" formControlName="password" type="password">
+                  <small>
                           <span [hidden]="!(passwardFormErrors.password)">{{passwardFormErrors.password}}</span>
                      </small>
-                   </div>
-                 </div>
-                 <div class="form-group">
-                   <label class="col-md-3 control-label">Confirm password:</label>
-                   <div class="col-md-8">
-                     <input class="form-control" formControlName="confirmPSW" type="password">
-                     <small>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-3 control-label">Confirm password:</label>
+                <div class="col-md-8">
+                  <input class="form-control" formControlName="confirmPSW" type="password">
+                  <small>
                           <span [hidden]="!(passwardFormErrors.confirmPSW)">{{passwardFormErrors.confirmPSW}}</span>
                      </small>
-                   </div>
-                 </div>
-                 <div class="form-group">
-                   <label class="col-md-3 control-label"></label>
-                   <div class="col-md-8">
-                     <button name="submit" [disabled]="passwordForm.invalid" type="submit" class="btn btn-primary" (click)="changePSW()">Update Password</button>
-                     <button class="btn btn-warning" (click)="onCancel()">Cancel</button>
-                   </div>
-                 </div>
-               </form>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-3 control-label"></label>
+                <div class="col-md-8">
+                  <button name="submit" [disabled]="passwordForm.invalid" type="submit" class="btn btn-primary" (click)="changePSW()">Update Password</button>
+                  <button class="btn btn-warning" (click)="onCancel()">Cancel</button>
+                </div>
+              </div>
+            </form>
 
-             </div>
-           </div>
-         </div>
-{{profile|json}}
+          </div>
+        </div>
+      </div>
+      {{profile|json}}
 
 
     </ng-template>
@@ -103,36 +90,205 @@
   <ngb-tab>
     <ng-template ngbTabTitle><i class="fas fa-users-cog"></i> <b> My charity</b></ng-template>
     <ng-template ngbTabContent>
-         <app-loading *ngIf="!profile.charity" ></app-loading>
-         {{profile.charity |json}}
+         <div class="alert alert-info alert-dismissable" *ngIf="UpdateMsg">
+          <a class="panel-close close" data-dismiss="alert" (click)="UpdateMsg=undefined">×</a> {{UpdateMsg}}
+        </div>
+      <div class="row justify-content-center">
+        <div class="col-8 col-md-6 col-lg-5">
+          <form [formGroup]="charityDetailForm" novalidate>
+            {{charityDetailForm.value |json}} {{charityDetailForm.valid |json}}
+            <div class="form-group" *ngIf="profile.charity.ccn">
+              <label for="ccb">Charity Commission number</label>
+              <input readonly="true" type="text" class="form-control" id="ccn" formControlName="ccn" placeholder="Enter charity commission number" value={{profile.charity.ccn}}>
+            </div>
+            <div class="form-group" *ngIf="profile.charity.rBody">
+              <label for="rBody">Registered body</label>
+              <input type="text" readonly="true" class="form-control" id="rBody" formControlName="rbody" placeholder="Enter registered body">
+            </div>
+            <div class="form-group" *ngIf="profile.charity.rno">
+              <label for="rNumber">Registered number</label>
+              <input type="text" readonly="true" class="form-control" id="rNumber" formControlName="rno" pattern="[0-9]*" placeholder="Enter registered number">
+              <small>
+                 <span [hidden]="!charityDetailErrors.rno">{{charityDetailErrors.rno}}</span>
+            </small>
+            </div>
+            <div class="form-group">
+              <label for="rName">Registered name(*)</label>
+              <input type="text" readonly="true" class="form-control" id="rName" formControlName="name" placeholder="Enter registered name" value="{{profile.charity.name}}">
+              <small>
+        <span [hidden]="!(charityDetailErrors.name)" >{{charityDetailErrors.name}}</span>
+  </small>
+            </div>
+            <div class="form-group">
+              <label for="tel">Registered telphone(*)</label>
+              <input type="tel" class="form-control" id="tel" formControlName="tel" name="tel"  placeholder="Enter telphone" required>
+              <small>
+        <span [hidden]="!charityDetailErrors.tel">{{charityDetailErrors.tel}}</span>
+  </small>
+            </div>
+            <div class="form-group">
+              <label for="website">Website</label>
+              <input type="text" class="form-control" id="website" formControlName="web" name="website" pattern="https?://.+" placeholder="Enter website">
+              <small>
+        <span [hidden]="!charityDetailErrors.web">{{charityDetailErrors.web}}</span>
+  </small>
+            </div>
+            <div class="form-group">
+              <label for="charity_email">Contact Email(*)</label>
+              <input type="text" class="form-control" id="charity_email" formControlName="email" name="website" placeholder="Enter charity email" required>
+              <small>
+        <span [hidden]="!charityDetailErrors.email">{{charityDetailErrors.email}}</span>
+  </small>
+            </div>
+            <div class="form-group">
+              <label for="chooseTypes">Types(*)</label>
+              <ng-multiselect-dropdown #chooseTypes [placeholder]="'Please select type(s) of your charity'" [data]="categories" [settings]="dropdownSettings" formControlName="categories" (onSelectAll)="onSelectAll($event)" required>
+              </ng-multiselect-dropdown>
+              <small>
+            <span [hidden]="!charityDetailErrors.categories">{{charityDetailErrors.categories}}</span>
+            </small>
+            </div>
+
+            <div class="form-group">
+              <label for="info">brief description(*)</label>
+              <textarea id="info" maxlength="200" class="form-control" formControlName="info" placeholder="Charity Description 200 words at most" rows=4 required></textarea>
+              <small>
+              <span [hidden]="!charityDetailErrors.info">{{charityDetailErrors.info}}</span>
+        </small>
+              <hr />
+              <label for="detail">details description(*)</label>
+              <textarea id="detail" maxlength="500" class="form-control" formControlName="details" placeholder="Charity Details 500 words at most" rows=6 required></textarea>
+              <small>
+            <span [hidden]="!charityDetailErrors.details">{{charityDetailErrors.details}}</span>
+        </small>
+            </div>
+          </form>
+          <div class="btn-group text-center">
+               <button class="btn btn-success" [disabled]="charityDetailForm.invalid || !charityDetailForm.dirty"  (click)="changeCharity()">Update</button>
+               <button class="btn btn-warning" (click)="onReset()">Cancel</button>
+          </div>
+          <hr />
+          <div class="form-group">
+            <!-- Text input-->
+            <div class="alert alert-info alert-dismissable" *ngIf="addrUpdataMsg">
+            <a class="panel-close close" data-dismiss="alert" (click)="addrUpdataMsg=undefined">×</a> {{addrUpdataMsg}}
+          </div>
+            <form [formGroup]="addressForm" novalidate>
+              <div class="form-group">
+                <label class="control-label" for="textinput">Line 1(*)</label>
+                <input type="text" placeholder="Address Line 1" class="form-control" formControlName="line1" required [(ngModel)]="profile.charity.address.line1">
+               <small>
+                    <span [hidden]="!addressErrors.line1">{{addressErrors.line1}}</span>
+               </small>
+              </div>
+              <!-- Text input-->
+              <div class="form-group">
+                <label class="control-label" for="textinput">Line 2</label>
+                <input type="text" placeholder="Address Line 2" class="form-control" formControlName="line2" [(ngModel)]="profile.charity.address.line2">
+              </div>
+         </form>
+              <!-- {{addressForm.valid |json}} -->
+              {{addressForm?.value |json}}
+              <!-- {{this.profile.charity.address.line1}}
+              {{this.profile.charity.address.line2}} -->
+
+              <form [formGroup]="fullAddressForm" novalidate>
+              <!-- Text input-->
+              <div class="form-group">
+                <label class="control-label" for="city">City(*)</label>
+                <input type="text" placeholder="City" id="city" class="form-control" formControlName="city" required [(ngModel)]="this.profile.charity.city">
+                <small>
+                     <span [hidden]="!fullAddressErrors.city">{{fullAddressErrors.city}}</span>
+                </small>
+              </div>
+              <!-- Text input-->
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="control-label" for="state">State</label>
+                    <input type="text" placeholder="State" id="state" class="form-control" formControlName="state" [(ngModel)]="this.profile.charity.state">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="control-label" for="postcode">Postcode(*)</label>
+                    <input type="text" placeholder="Post Code" id="postcode" class="form-control" formControlName="postcode" required [(ngModel)]="this.profile.charity.postcode">
+                    <small>
+                         <span [hidden]="!fullAddressErrors.postcode">{{fullAddressErrors.postcode}}</span>
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label" for="country">Country(*)</label>
+                <select id="country" formControlName="country" class="form-control" required [(ngModel)]="this.profile.charity.country">
+                   <option  *ngFor="let c of countries; let i = index;"  [value]="c.name">{{c.name}}</option>
+               </select>
+                <small>
+                   <span [hidden]="!fullAddressErrors.country">{{fullAddressErrors.country}}</span>
+              </small>
+              </div>
+              {{fullAddressForm.value|json}}
+         </form>
+         <div class="btn-group text-center">
+              <button class="btn btn-success" (click)="changeAddress()" [disabled]="fullAddressForm.invalid || addressForm.invalid">Update</button>
+         </div>
+          </div>
+        </div>
+      </div>
     </ng-template>
   </ngb-tab>
-
+  <ngb-tab>
+    <ng-template ngbTabTitle><i class="fas fa-users-cog"></i> <b> My payment details</b></ng-template>
+    <ng-template ngbTabContent>
+      <div class="alert alert-info alert-dismissable" *ngIf="paymentMsg">
+        <a class="panel-close close" data-dismiss="alert" (click)="paymentMsg=undefined">×</a> {{paymentMsg}}
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-8 col-md-6 col-lg-5">
+          <form [formGroup]="paymentDetailsForm" novalidate>
+            <div class="form-group">
+              <i class="fas fa-credit-card"></i>
+              <label for="card_name">Name</label>
+              <input type="text" id="card_name" name="card_name" formControlName="name" placeholder="Card name" class="form-control" required [(ngModel)]="profile.charity.card.name">
+              <small>
+                 <span [hidden]="!(paymentDetailsErros.name)">{{paymentDetailsErros.name}}</span>
+            </small>
+            </div>
+            <div class="form-group">
+              <label for="card_number">card</label>
+              <input type="text" id="card_number" name="card_number" formControlName="number" pattern="[0-9]*" placeholder="Card number" class="form-control" required [(ngModel)]="profile.charity.card.number">
+              <small>
+                 <span [hidden]="!(paymentDetailsErros.number)">{{paymentDetailsErros.number}}</span>
+            </small>
+            </div>
+            <div class="form-group">
+              <label for="sort_code">Sort code</label>
+              <input type="text" id="sort_code" name="sort_code" formControlName="sortcode" placeholder="sort_code" pattern="[0-9]*" class="form-control" required [(ngModel)]="profile.charity.card.sortcode">
+              <small>
+                 <span [hidden]="!(paymentDetailsErros.sortcode)">{{paymentDetailsErros.sortcode}}</span>
+            </small>
+            </div>
+            <div class="form-group">
+              <label for="account_no">Account No.</label>
+              <input type="text" id="account_no" name="account_no" formControlName="account_no" placeholder="Account number" pattern="[0-9]*" class="form-control" required [(ngModel)]="profile.charity.card.account_no">
+              <small>
+                 <span [hidden]="!(paymentDetailsErros.account_no)">{{paymentDetailsErros.account_no}}</span>
+            </small>
+            </div>
+            <hr /> {{paymentDetailsForm.value |json}}
+            <div class="form-group">
+              <i class="fab fa-paypal"></i>
+              <label for="paypal_number">Paypal</label>
+              <input type="text" id="paypal_number" name="paypal_number" formControlName="paypal" placeholder="Paypal number" class="form-control" [(ngModel)]="profile.charity.card.paypal_number">
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="text-center">
+        <button class="btn btn-success" [disabled]="paymentDetailsForm.invalid" (click)="changePayment()">Update</button>
+      </div>
+    </ng-template>
+  </ngb-tab>
 </ngb-tabset>
-<!--
-<section id="profile">
-  <div class="container p-5">
-    <h4 class="display-4">My Profile</h4>
-    <hr>
-    <div *ngIf="!profile?.username" class="m-auto">
-      <h1 class="text-center display-3 mt-5">
-        <i class="fa fa-spinner fa-spin"></i>
-      </h1>
-    </div>
-    <div *ngIf="profile?.username" class="row mt-5">
-      <div class="col-md-3">
-        <img src="{{baseUrl+(profile?.charity.image)}}" alt="userimage" class="rounded-circle image img-fluid">
-      </div>
-      <div class="col-md-8 ml-3">
-        <p id="name" class="lead">{{ profile.name }}</p>
-        <a routerLink="" class="btn btn-warning">My charity</a>
-        <br>
-        <br>
-        <a routerLink="" class="btn btn-warning">Change Account Settings</a>
-        <br>
-        <br>
-        <br>
-      </div>
-    </div>
-  </div>
-</section> -->

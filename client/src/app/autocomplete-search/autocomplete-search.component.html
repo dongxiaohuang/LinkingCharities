@@ -1,7 +1,7 @@
 <form [formGroup]="searchForm" novalidate (ngSubmit)="doSearch()">
   <div class="row">
     <div class="col-11 bg-tp">
-      <input id="typeahead-basic" type="text" class="form-control" [(ngModel)]="searchKey" formControlName="keyword" [ngbTypeahead]="search"/>
+      <input id="typeahead-basic" type="text" class="form-control" [(ngModel)]="searchKey" formControlName="keyword" placeholder="Search by name/location/category" [ngbTypeahead]="search"/>
     </div>
     <div class="col-1 bg-tp">
       <button type="submit" class="btn btn-default pull-left bg-search" [disabled]="searchForm.invalid">

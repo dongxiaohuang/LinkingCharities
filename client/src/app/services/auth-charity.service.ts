@@ -6,6 +6,7 @@ import { ProcessHTTPMsgService } from './process-httpmsg.service';
 import { Subject } from 'rxjs/Subject';
 import { JWTResponse, AuthResponse, RegisterResponse } from '../utils/helpers';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class AuthCharityService {
   authToken: string = undefined;
 
   constructor(private http: HttpClient,
+       private router: Router,
     private processHTTPMsgService: ProcessHTTPMsgService) { }
 
   checkJWTtoken() {
@@ -94,6 +96,7 @@ export class AuthCharityService {
   };
   logOut() {
     this.destroyUserCredentials();
+    this.router.navigate(['/']);
   };
   isLoggedIn(): Boolean {
     return this.isAuthenticated;
@@ -125,7 +128,25 @@ export class AuthCharityService {
  }
 
   postPictures(fd: FormData): Observable<any> {
-      return  this.http.post(baseURL +'imageUpload/charitiesPics', fd
-)
+      return  this.http.post(baseURL +'imageUpload/charitiesPics', fd)
+      .catch(error => this.processHTTPMsgService.handleError(error));
  }
+
+ changePSW(psw): Observable<any> {
+      return this.http.put(baseURL + 'charityusers/newpassword', psw)
+      .catch(error => this.processHTTPMsgService.handleError(error));
+
+}
+ changeProfile(pf): Observable<any>{
+      return this.http.put(baseURL +'charityusers/profile', pf)
+      .catch(error => this.processHTTPMsgService.handleError(error));
+}
+ changePaymentDetail(cardId:string, paymentDetail): Observable<any> {
+      return this.http.put(baseURL + 'paymentdetails/'+cardId, paymentDetail)
+      .catch(error => this.processHTTPMsgService.handleError(error));
+}
+changeCharity(charityId: string, content:any){
+     return this.http.put(baseURL +'charities/'+charityId, content)
+     .catch(error => this.processHTTPMsgService.handleError(error));
+}
 }

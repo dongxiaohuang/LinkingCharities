@@ -64,7 +64,6 @@ export class UserprofileComponent implements OnInit {
     private http: HttpClient,
     private location: Location) { }
   ngOnInit() {
-
     this.authService.getProfile()
       .subscribe(profile => {
         this.user = profile;
