@@ -40,7 +40,7 @@ const charitySchema = new Schema({
           required: true,
      },
      tel:{
-          type: Number, //TODO:
+          type: String, //TODO:
           required: true
      },
      web:{
@@ -86,8 +86,12 @@ const charitySchema = new Schema({
           required: true
      },
      address: {
-          line1: String,
-          line2: String,
+          line1: {
+               type:String,
+               default: ''},
+          line2: {
+               type:String,
+               default: ''}
      },
      comments: [commentSchema] // TODO: changed to comments TypeID
      ,

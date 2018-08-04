@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const async = require('async');
 const Charities = require('../models/charities');
 const cors = require('./cors');
-var authenticate = require('../authenticate');
+var authenticate = require('../charityAuthenticate');
 const charityRouter = express.Router();
 
 charityRouter.use(bodyParser.json());

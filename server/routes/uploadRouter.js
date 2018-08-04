@@ -28,7 +28,7 @@ const storageCharity = multer.diskStorage({
 
 const imageFileFilter =(req, file, callback) => {
      // regular express only accept jpg jpeg png gif
-     if(!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)){
+     if(!file.originalname.toLowerCase().match(/\.(jpg|jpeg|png|gif)$/)){
           return callback(new Error("you can upload only image files!"), false);
      }
      callback(null, true);

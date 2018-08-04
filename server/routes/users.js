@@ -175,7 +175,7 @@ router.route('/profile')
      })
 router.route('/newpassword')
      .options(cors.corsWithOptions, (req, res) => {
-          sendStatus(200);
+          res.sendStatus(200);
      })
      .get(cors.corsWithOptions, authenticate.verifyUser, (req, res) => {
           res.statusCode = 403;

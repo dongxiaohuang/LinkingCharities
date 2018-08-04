@@ -111,7 +111,53 @@ charityRegisterRouter.route('/profile')
           res.statusCode = 403;
           res.end('POST is not supported on endpoint /charityuser/profile');
      })
-     .put()
+     .put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+          charityRegister.findByIdAndUpdate(req.user._id, {
+               $set: req.body
+          }, {
+               new: true
+          })
+       .then(user => {
+            res.statusCode = 200;
+            res.setHeader('Content-type', 'application/json');
+            res.json(user)
+       }, err => next(err))
+       .catch(err => next(err))})
+     .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+          res.statusCode = 403;
+          res.end('DELETE is not supported on endpoint /charityuser/profile');
+     })
+
+charityRegisterRouter.route('/newpassword')
+     .options(cors.corsWithOptions, (req, res) => {
+          res.sendStatus(200);
+     })
+     .get(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+          res.statusCode = 403;
+          res.end('GET is not supported on endpoint /charityuser/profile');
+     })
+     .post(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+          res.statusCode = 403;
+          res.end('POST is not supported on endpoint /charityuser/profile');
+     })
+     .put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+          charityRegister.findById(req.user._id).then(function(sanitizedUser) {
+               if (sanitizedUser) {
+                    sanitizedUser.setPassword(req.body.password, function() {
+                         sanitizedUser.save();
+                         res.status(200).json({
+                              message: 'password reset successful'
+                         });
+                    });
+               } else {
+                    res.status(500).json({
+                         message: 'This user does not exist'
+                    });
+               }
+          }, function(err) {
+               console.error(err);
+          })
+     })
      .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
           res.statusCode = 403;
           res.end('DELETE is not supported on endpoint /charityuser/profile');

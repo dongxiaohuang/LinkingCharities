@@ -10,7 +10,7 @@ favoriteRouter.use(bodyParser.json());
 
 favoriteRouter.route('/')
      .options(cors.corsWithOptions, (req, res) => {
-          sendStatus(200);
+          res.sendStatus(200);
      })
      .get(cors.cors, authenticate.verifyUser, (req, res, next) => {
           Favorites.findOne({
@@ -58,7 +58,7 @@ favoriteRouter.route('/')
 
 favoriteRouter.route('/:charityID')
      .options(cors.corsWithOptions, (req, res, next) => {
-          sendStatus(200);
+          res.sendStatus(200);
      })
      .get(cors.cors, authenticate.verifyUser, (req, res, next) => {
           Favorites.findOne({
