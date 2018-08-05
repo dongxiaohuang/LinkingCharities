@@ -149,4 +149,8 @@ changeCharity(charityId: string, content:any){
      return this.http.put(baseURL +'charities/'+charityId, content)
      .catch(error => this.processHTTPMsgService.handleError(error));
 }
+getDonations(page: number): Observable<any>{
+    return this.http.get(baseURL + 'donation?page='+page)
+    .catch(err => this.processHTTPMsgService.handleError(err));
+}
 }

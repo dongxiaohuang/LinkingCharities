@@ -4,9 +4,10 @@ import { FavoriteService } from '../services/favorite.service';
 import { Charity } from '../shared/charity';
 import { Params, ActivatedRoute } from '@angular/router';
 import { baseURL } from '../shared/baseurl';
-import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbRatingConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { PaymentComponent } from '../payment/payment.component';
 @Component({
   selector: 'app-charity-details',
   templateUrl: './charity-details.component.html',
@@ -37,6 +38,7 @@ export class CharityDetailsComponent implements OnInit {
   constructor(private charityService: GetCharitiesService,
     private favoriteService: FavoriteService,
     private fb: FormBuilder,
+    private modalService: NgbModal,
     private authService: AuthService,
     private route: ActivatedRoute,
     config: NgbRatingConfig) {
@@ -118,5 +120,11 @@ export class CharityDetailsComponent implements OnInit {
      rating: 5,
      comment: ''
    });
+  }
+
+  openVerticallyCentered() {
+     const modalRef = this.modalService.open(PaymentComponent);
+     modalRef.componentInstance.name = this.charity.name;
+     modalRef.componentInstance.charityId = this.charity._id;
   }
 }

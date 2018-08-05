@@ -143,4 +143,8 @@ export class AuthService {
     return this.http.put(baseURL + 'users/newpassword', newPSW)
       .catch(error => { return this.processHTTPMsgService.handleError(error); });
   }
+  getDonations(page: number): Observable<any>{
+       return this.http.get(baseURL + 'donation/user?page='+page)
+       .catch(err => this.processHTTPMsgService.handleError(err));
+ }
 }

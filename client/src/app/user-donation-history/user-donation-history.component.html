@@ -1,0 +1,38 @@
+<div class="bg">
+</div>
+<app-loading *ngIf="!donations" ></app-loading>
+<div class="container" *ngIf="donations">
+	<div class="row">
+		<div class="col-4">
+			 {{ lower }}-{{ upper }} of {{totalNumber}}
+		</div>
+		<div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Charity Name</th>
+            <th>Email</th>
+            <th>Donation amount</th>
+            <th>Message</th>
+		  <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let donation of donations.donations; let i = index" >
+            <td>{{i+1}}</td>
+            <td><a class="btn" [routerLink]="['/charitydetail', donation.charity._id]" >{{donation.charity.name}}</a></td>
+            <td>{{donation.charity.email}}</td>
+            <td>£{{donation.amount}}</td>
+            <td>{{donation.message}}</td>
+		  <td>{{donation.createdAt|date}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+	</div>
+	<ngb-pagination [collectionSize]="totalNumber" [pageSize]="perPage" [(page)]="page" (pageChange)="getDonations(page-1)"></ngb-pagination>
+	<p class="text-right">
+	Total :£{{totalAmount}}
+	</p>
+</div>

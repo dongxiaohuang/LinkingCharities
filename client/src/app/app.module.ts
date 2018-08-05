@@ -67,6 +67,8 @@ import {
   GoogleLoginProvider,
   FacebookLoginProvider,
 } from "angular5-social-login";
+import { UserDonationHistoryComponent } from './user-donation-history/user-donation-history.component';
+import { CharityDonationHistoryComponent } from './charity-donation-history/charity-donation-history.component';
 
 // Configs
 export function getAuthServiceConfigs() {
@@ -112,6 +114,8 @@ export function getAuthServiceConfigs() {
     CategoryComponent,
     CharityProfileComponent,
     CharityCardComponent,
+    UserDonationHistoryComponent,
+    CharityDonationHistoryComponent,
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [
@@ -167,7 +171,8 @@ export function getAuthServiceConfigs() {
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    LoginComponent
+    LoginComponent,
+    PaymentComponent
   ]
 })
 export class AppModule { }

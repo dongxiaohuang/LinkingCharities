@@ -11,6 +11,8 @@ import { SignupComponent } from '../signup/signup.component';
 import { VolunteerComponent } from '../volunteer/volunteer.component';
 import { SearchComponent } from '../search/search.component';
 import { UserprofileComponent } from '../userprofile/userprofile.component';
+import { UserDonationHistoryComponent } from '../user-donation-history/user-donation-history.component';
+import { CharityDonationHistoryComponent } from '../charity-donation-history/charity-donation-history.component';
 import { CharityProfileComponent } from '../charity-profile/charity-profile.component';
 import { CategoryComponent } from '../category/category.component';
 export const routes: Routes = [
@@ -25,7 +27,9 @@ export const routes: Routes = [
      { path: 'volunteer', component: VolunteerComponent},
      { path: 'search', component: SearchComponent},
      { path: 'user/profile', component: UserprofileComponent},
+     { path: 'user/donations', component: UserDonationHistoryComponent},
      { path: 'charityuser/profile', component: CharityProfileComponent},
+     { path: 'charityuser/donations', component: CharityDonationHistoryComponent},
      { path: 'category/:id', component: CategoryComponent},
      { path: '**', redirectTo: '/home'},
 ]

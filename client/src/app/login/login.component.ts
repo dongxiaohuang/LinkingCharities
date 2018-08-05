@@ -25,7 +25,8 @@ export class LoginComponent implements OnInit {
     private modalService: NgbModal,
     private authService: AuthService,
     private socialAuthService: FacebookAuthService,
-    private authCharityService: AuthCharityService) { }
+    private authCharityService: AuthCharityService) {
+    }
 
   openVerticallyCentered(content) {
     this.modalReference = this.modalService.open(content, { centered: true });
@@ -72,7 +73,6 @@ export class LoginComponent implements OnInit {
  public socialSignIn(socialPlatform : string) {
  let socialPlatformProvider;
     socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
-
  this.socialAuthService.signIn(socialPlatformProvider).then(
     (userData) => {
       console.log(userData.token);
