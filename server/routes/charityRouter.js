@@ -3,7 +3,8 @@ const bodyParser = require('body-parser');
 const async = require('async');
 const Charities = require('../models/charities');
 const cors = require('./cors');
-var authenticate = require('../charityAuthenticate');
+var charityAuthenticate = require('../charityAuthenticate');
+var authenticate = require('../authenticate');
 const charityRouter = express.Router();
 
 charityRouter.use(bodyParser.json());
@@ -56,11 +57,11 @@ charityRouter.route('/')
                }, (err) => next(err))
                .catch(err => next(err));
      })
-     .put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+     .put(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
           res.statusCode = 403;
           res.end('PUT is not supported on endpoint /charities');
      })
-     .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+     .delete(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
           Charities.remove({})
                .then((resp) => {
                     res.statusCode = 200;
@@ -83,15 +84,15 @@ charityRouter.route('/allcharities')
      }, err => next(err))
      .catch(err => next(err));
 })
-.post(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+.post(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
      res.statusCode = 403;
      res.end('POST is not supported in this endpoint /allcharities' + req.params.charityId);
 })
-.put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+.put(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
      res.statusCode = 403;
      res.end('PUT is not supported in this endpoint /allcharities' + req.params.charityId);
 })
-.delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+.delete(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
      res.statusCode = 403;
      res.end('DELETE is not supported in this endpoint /allcharities' + req.params.charityId);
 })
@@ -128,11 +129,11 @@ charityRouter.route('/:charityId')
                }, err => next(err))
                .catch(err => next(err));
      })
-     .post(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+     .post(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
           res.statusCode = 403;
           res.end('POST is not supported in this endpoint /charities' + req.params.charityId);
      })
-     .put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+     .put(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
           Charities.findByIdAndUpdate(req.params.charityId, {
                     $set: req.body
                }, {
@@ -145,7 +146,7 @@ charityRouter.route('/:charityId')
                }, (err) => next(err))
                .catch((err) => next(err));
      })
-     .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+     .delete(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
           Charities.findByIdAndRemove(req.params.charityId)
                .then((resp) => {
                     res.statusCode = 200;

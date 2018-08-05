@@ -15,6 +15,10 @@ const donationSchema = new Schema({
      amount:{
           type: Number,
           required:true
+     },
+     message:{
+          type:String,
+          default:''
      }
 },{
      timestamps:true
