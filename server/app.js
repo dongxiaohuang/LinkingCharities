@@ -25,6 +25,7 @@ var paymentDetailsRouter = require('./routes/paymentDetailsRouter');
 var charityUserRouter = require('./routes/charityUserRouter');
 var paymentRouter = require('./routes/paymentRouter');
 var donationRouter = require('./routes/donationRouter');
+var volunteerRouter = require('./routes/volunteerRouter');
 
 var app = express();
 
@@ -77,6 +78,7 @@ app.use('/categories', categoriesRouter);
 app.use('/paymentdetails', paymentDetailsRouter);
 app.use('/payment', paymentRouter);
 app.use('/donation', donationRouter);
+app.use('/volunteer', volunteerRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
