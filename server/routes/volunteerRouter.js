@@ -19,7 +19,7 @@ volunteerRouter.route('/')
      })
      .get(cors.cors, (req, res, next) => {
           var perPage = 10;
-          var page = req.body.page;
+          var page = req.query.page;
           async.parallel([
                (callback) => {
                     Volunteers.count({timeslots: {
