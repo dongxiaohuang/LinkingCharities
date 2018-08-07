@@ -16,6 +16,7 @@
     "http-errors": "~1.6.2",
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.3.0",
+    "moment": "^2.22.2",
     "mongoose": "^5.1.8",
     "mongoose-algolia": "^1.7.1",
     "mongoose-deep-populate": "^3.1.1",

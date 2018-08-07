@@ -4,8 +4,15 @@ const Schema = mongoose.Schema;
 const timeslotSchema = new Schema({
      date: Date,
      period:{
-          start:String,
-          end:String
+          start:
+               { "hour": Number, "minute": Number }
+          ,
+          end:{ "hour": Number, "minute": Number }
+          ,
+          duration:{
+               type: String,
+               required: true
+          }
      },
      requiredNumber:{
           type: Number,
@@ -25,12 +32,9 @@ const volunteerSchema = new Schema({
      },
      pay:{
           type: String,
-          required: true
+          default:''
      },
-     duration:{
-          type: String,
-          required: true
-     },
+
      description:{
           type: String,
           required: true
@@ -40,8 +44,8 @@ const volunteerSchema = new Schema({
           ref: 'Charity',
           requierd:true
      },
-
-
+},{
+     timestamps:true
 })
 
 let Volunteers = mongoose.model('Volunteer', volunteerSchema);

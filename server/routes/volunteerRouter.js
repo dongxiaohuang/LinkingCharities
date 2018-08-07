@@ -6,6 +6,9 @@ const CharityRegisters = require('../models/charityRegisters');
 const cors = require('./cors');
 var charityAuthenticate = require('../charityAuthenticate');
 var authenticate = require('../authenticate');
+var moment = require('moment')
+
+var today = moment().startOf('day')
 const volunteerRouter = express.Router();
 
 volunteerRouter.use(bodyParser.json());
@@ -19,16 +22,25 @@ volunteerRouter.route('/')
           var page = req.body.page;
           async.parallel([
                (callback) => {
-                    Volunteers.count({})
+                    Volunteers.count({timeslots: {
+                         $elemMatch:{
+                              date:{$gte:today.toDate()}
+                         }
+                    }})
                          .then(res => {
                               callback(null, res)
                          })
                          .catch(err => callback(err, null))
                },
                callback => {
-                    Volunteers.find({})
+                    Volunteers.find({timeslots: {
+                         $elemMatch:{
+                              date:{$gte:today.toDate()}
+                         }
+                    }})
                          .limit(perPage)
                          .skip(perPage * page)
+                         .sort('-createAt')
                          .then((res) => callback(null, res))
                          .catch(err => callback(err, null))
                }
