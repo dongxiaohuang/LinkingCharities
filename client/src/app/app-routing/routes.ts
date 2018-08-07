@@ -15,6 +15,7 @@ import { UserDonationHistoryComponent } from '../user-donation-history/user-dona
 import { CharityDonationHistoryComponent } from '../charity-donation-history/charity-donation-history.component';
 import { CharityProfileComponent } from '../charity-profile/charity-profile.component';
 import { CategoryComponent } from '../category/category.component';
+import { VolunteerAddComponent } from '../volunteer-add/volunteer-add.component';
 export const routes: Routes = [
      { path: '', redirectTo: '/home', pathMatch: 'full'},
      { path: 'aboutus', component: AboutusComponent},
@@ -25,6 +26,7 @@ export const routes: Routes = [
      { path: 'home', component: HomeComponent},
      { path: 'signup', component: SignupComponent},
      { path: 'volunteer', component: VolunteerComponent},
+     { path: 'volunteer/register', component: VolunteerAddComponent},
      { path: 'search', component: SearchComponent},
      { path: 'user/profile', component: UserprofileComponent},
      { path: 'user/donations', component: UserDonationHistoryComponent},

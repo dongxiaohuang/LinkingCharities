@@ -1,6 +1,130 @@
 <div class="bg">
-
 </div>
 <!-- <app-agm></app-agm> -->
 
-<app-payment></app-payment>
+<!-- <form class="form-inline">
+  <div class="form-group">
+    <div class="input-group">
+      <input class="form-control" placeholder="yyyy-mm-dd"
+             name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" [minDate]="today">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+          <i class="far fa-calendar-alt"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<hr/>
+<pre>Model: {{ model | json }}</pre>
+<div class="button-group">
+     <a class="btn" (click)="chooseStart = !chooseStart"><i class="fas fa-hourglass-start">{{chooseStart? 'save start' : 'choose start time' }}</i></a>
+     {{time1 |json}}
+     <a class="btn" (click)="chooseEnd = !chooseEnd"><i class="fas fa-hourglass-end">{{chooseEnd? 'save end': 'choose end time'}}</i></a>
+     {{time2 |json}}
+</div>
+<div class="row container">
+     <div class="col-6" *ngIf="chooseStart" >
+          <ngb-timepicker [(ngModel)]="time1" [meridian]="true"></ngb-timepicker>
+     </div>
+     <div class="col-6" *ngIf="chooseEnd">
+          <ngb-timepicker [(ngModel)]="time2" [meridian]="true"></ngb-timepicker>
+     </div>
+</div>
+{{duration}} -->
+<h4 class="display-4">Categories</h4>
+<hr>
+<div  class="list-group">
+     <!-- <a *ngFor="let category of categories" routerLink="/categories/{{ category._id }}" class="list-group-item list-group-item-action"> -->
+     category.name
+     <!-- </a> -->
+</div>
+<hr style="margin-top: 15rem;">
+<mat-horizontal-stepper #stepper linear>
+  <mat-step [stepControl]="">
+       <ng-template matStepLabel><i class="fas fa-pen-square"></i><b>&nbsp; Add New Volunteer Activity</b></ng-template>
+<div class="container p-5">
+    <!-- <app-message></app-message> -->
+    <div class="card bg-light mt-5">
+      <div class="card-body">
+        <h4 class="card-title">Add New Volunteer Activity</h4>
+        <hr>
+        <div class="form">
+          <div class="form-group">
+            <label>name</label>
+            <input type="text" name="name" class="form-control" [(ngModel)]="name">
+          </div>
+          <div class="form-group">
+            <label>location</label>
+            <input type="text" name="location" class="form-control" [(ngModel)]="location">
+          </div>
+          <div class="form-group">
+            <label>pay</label>
+            <input type="text" name="pay" class="form-control" [(ngModel)]="pay">
+          </div>
+          <div class="form-group">
+            <label>description</label>
+            <textarea type="text" name="description" class="form-control" [(ngModel)]="description"></textarea>
+          </div>
+          <button type="button" class="btn btn-info" (click)="addCategory()" [disabled]="btnDisabled">Add Volunteer Activity</button>
+        </div>
+      </div>
+    </div>
+</div>
+</mat-step>
+<mat-step [stepControl]="">
+     <ng-template matStepLabel><i class="fas fa-pen-square"></i><b>&nbsp; Add New Time slots</b></ng-template>
+
+    <div class="card bg-light mt-5">
+      <div class="card-body">
+        <h4 class="card-title">Add New Time slots</h4>
+        <hr>
+        <div class="form">
+          <div class="form-group">
+            <label>Date</label>
+              <div class="form-inline">
+                <div class="form-group">
+                  <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd"
+                           name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" [minDate]="today">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                        <i class="far fa-calendar-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+           </div>
+          </div>
+          <div class="form-group">
+            <label>Start Time</label>
+            <a class="btn" (click)="chooseStart = !chooseStart"><i class="fas fa-hourglass-start">{{chooseStart? 'save start' : 'choose start time' }}</i></a>
+            <div class="col-6" *ngIf="chooseStart" >
+                 <ngb-timepicker [(ngModel)]="time1" [meridian]="true"></ngb-timepicker>
+            </div>
+
+            {{time1 |json}}
+          </div>
+          <div class="form-group">
+            <label>End Time</label>
+            <a class="btn" (click)="chooseEnd = !chooseEnd"><i class="fas fa-hourglass-end">{{chooseEnd? 'save end': 'choose end time'}}</i></a>
+            <div class="col-6" *ngIf="chooseEnd">
+                 <ngb-timepicker [(ngModel)]="time2" [meridian]="true"></ngb-timepicker>
+            </div>
+            {{time2 |json}}
+       </div>
+          <button type="button" class="btn btn-info" (click)="addCategory()" [disabled]="btnDisabled">Add Timeslot</button>
+        </div>
+      </div>
+    </div>
+   </mat-step>
+   <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    You are now done.
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

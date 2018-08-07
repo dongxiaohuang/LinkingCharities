@@ -1,0 +1,152 @@
+<div class="bg">
+</div>
+
+
+<mat-horizontal-stepper #stepper>
+<!-- <mat-horizontal-stepper #stepper linear> -->
+  <mat-step [stepControl]="volunteerForm">
+    <ng-template matStepLabel><i class="fas fa-pen-square"></i><b>&nbsp; Add New Volunteer Activity</b></ng-template>
+    <div class="container p-5">
+      <!-- <app-message></app-message> -->
+      <div class="card bg-light mt-5">
+        <div class="card-body">
+          <h4 class="card-title">Add New Volunteer Activity</h4>
+          <hr>
+          <div class="form" [formGroup]="volunteerForm">
+            <div class="form-group">
+              <label>name</label>
+              <input type="text" class="form-control" [(ngModel)]="name" required formControlName="name">
+              <small>
+                  <span [hidden]="!volunteerFormErrors.name">{{volunteerFormErrors.name}}</span>
+            </small>
+            </div>
+            <div class="form-group">
+              <label>location</label>
+              <input type="text" class="form-control" required formControlName="location">
+              <small>
+                  <span [hidden]="!volunteerFormErrors.location">{{volunteerFormErrors.location}}</span>
+            </small>
+            </div>
+            <div class="form-group">
+              <label>pay</label>
+              <input type="text" class="form-control" formControlName="pay">
+            </div>
+            <div class="form-group">
+              <label>description</label>
+              <textarea type="text" class="form-control" [(ngModel)]="description" required formControlName="description"></textarea>
+              <small>
+                  <span [hidden]="!volunteerFormErrors.description">{{volunteerFormErrors.description}}</span>
+            </small>
+            </div>
+            <button type="button" class="btn btn-info" [disabled]="volunteerForm.invalid" matStepperNext>Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{volunteerForm.value |json}}
+  </mat-step>
+  <mat-step [stepControl]="">
+    <ng-template matStepLabel><i class="fas fa-pen-square"></i><b>&nbsp; Add New Time slots</b></ng-template>
+    <div class="container p-5">
+
+    <div class="card bg-light mt-5">
+      <div class="card-body">
+        <!-- <h4 class="card-title">Add New Time slots</h4> -->
+        <div *ngIf="timeslots.length">
+          <h4 class="display-4">Timeslots</h4>
+          <hr>
+          <div class="list-group">
+            <a *ngFor="let timeslot of timeslots" class="list-group-item list-group-item-action">
+                       {{timeslot|json}}
+                       <a class="panel-close close" (click)="delete(timeslot)" data-dismiss="alert">×</a>
+                  </a>
+          </div>
+          <hr style="margin-top: 15rem;">
+          <hr>
+        </div>
+        <div class="form" [formGroup]="timeslotForm">
+          <div class="form-group">
+            <label>Date</label>
+            <div class="form-inline">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" placeholder="yyyy-mm-dd" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" [minDate]="today" formControlName="date">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                        <i class="far fa-calendar-alt"></i>
+                      </button>
+                  </div>
+                  <small>
+                      <span [hidden]="!timeslotFormErrors.date">{{timeslotFormErrors.date}}</span>
+                </small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Number of people required</label>
+            <input id="requiredNumber" class="form-control" required formControlName="requiredNumber" pattern="[0-9]*"/>
+          </div>
+          <small>
+              <span [hidden]="!timeslotFormErrors.requiredNumber">{{timeslotFormErrors.requiredNumber}}</span>
+       </small>
+          {{timeslotForm.value|json}}
+     </div>
+     <div class="form" [formGroup]="periodForm">
+          <div class="row">
+               <div class="col-6">
+                    <div class="form-group">
+                         <label>Start Time</label>
+                         <a class="btn" (click)="chooseStart = !chooseStart"><i class="fas fa-hourglass-start">{{chooseStart? 'save start' : 'choose start time' }}</i></a>
+                         <div class="col-6" *ngIf="chooseStart">
+                              <ngb-timepicker [(ngModel)]="time1" [meridian]="true" formControlName="start" required></ngb-timepicker>
+                         </div>
+                         <small>
+                              <span [hidden]="!periodFormErrors.start">{{periodFormErrors.start}}</span>
+                         </small>
+                         {{time1 |json}}
+                    </div>
+               </div>
+               <div class="col-6">
+                    <div class="form-group">
+                         <label>End Time</label>
+                         <a class="btn" (click)="chooseEnd = !chooseEnd"><i class="fas fa-hourglass-end">{{chooseEnd? 'save end': 'choose end time'}}</i></a>
+                         <div class="col-6" *ngIf="chooseEnd">
+                              <ngb-timepicker [(ngModel)]="time2" [meridian]="true" formControlName="end" required></ngb-timepicker>
+                         </div>
+                         <small>
+                              <span [hidden]="!periodFormErrors.end">{{periodFormErrors.end}}</span>
+                         </small>
+                         <input [(ngModel)]="duration" hidden="true" formControlName="duration" />
+                         <small>
+                              <span [hidden]="duration>0 || !time1 || !time2">End time must be later than start time</span>
+                         </small>
+                         {{time2 |json}}
+                    </div>
+               </div>
+          </div>
+          {{periodForm.value|json}}
+          {{periodForm.valid}}
+{{periodMsg}}
+btnDisable {{btnDisable}}
+          <button type="button" class="btn btn-info" (click)="addToTimeslots()"  [disabled]="periodForm.invalid||timeslotForm.invalid">Add Timeslot</button>
+          <button type="button" class="btn btn-info"  matStepperNext [disabled]="!timeslots.length">Next</button>
+        </div>
+      </div>
+    </div>
+</div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel><i class="fas fa-check-circle"></i><b>&nbsp; Done</b></ng-template>
+    You are now done.
+    {{volunteerForm.value|json}}
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button type="button" class="btn btn-info" (click)="register()">Register volunteer Activity</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+      <div class="alert alert-info alert-dismissable" *ngIf="feedback">
+       <a class="panel-close close" routerLink="/" data-dismiss="alert">×</a> {{feedback}}
+     </div>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

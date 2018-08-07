@@ -24,6 +24,7 @@ import { AuthService } from './services/auth.service';
 import { FavoriteService } from './services/favorite.service';
 import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
 import { SearchService } from './services/search.service';
+import { VolunteerService } from './services/volunteer.service';
 
 import { DiscoverComponent } from './discover/discover.component';
 import { VolunteerComponent } from './volunteer/volunteer.component';
@@ -69,6 +70,8 @@ import {
 } from "angular5-social-login";
 import { UserDonationHistoryComponent } from './user-donation-history/user-donation-history.component';
 import { CharityDonationHistoryComponent } from './charity-donation-history/charity-donation-history.component';
+import { ActivityDetailsComponent } from './activity-details/activity-details.component';
+import { VolunteerAddComponent } from './volunteer-add/volunteer-add.component';
 
 // Configs
 export function getAuthServiceConfigs() {
@@ -116,6 +119,8 @@ export function getAuthServiceConfigs() {
     CharityCardComponent,
     UserDonationHistoryComponent,
     CharityDonationHistoryComponent,
+    ActivityDetailsComponent,
+    VolunteerAddComponent,
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [
@@ -151,6 +156,7 @@ export function getAuthServiceConfigs() {
     FavoriteService,
     ProcessHTTPMsgService,
     SearchService,
+    VolunteerService,
     //registers a value (baseURL) under the BaseURL injection token.
     //Angular can inject the BaseURL value into any class that it creates.
     { provide: 'BaseURL', useValue: baseURL },
