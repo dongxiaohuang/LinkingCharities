@@ -16,10 +16,14 @@ import { CharityDonationHistoryComponent } from '../charity-donation-history/cha
 import { CharityProfileComponent } from '../charity-profile/charity-profile.component';
 import { CategoryComponent } from '../category/category.component';
 import { VolunteerAddComponent } from '../volunteer-add/volunteer-add.component';
+import { VolunteerDetailsComponent } from '../volunteer-details/volunteer-details.component';
+import { VolunteerTimeslotsComponent } from '../volunteer-timeslots/volunteer-timeslots.component';
 export const routes: Routes = [
      { path: '', redirectTo: '/home', pathMatch: 'full'},
      { path: 'aboutus', component: AboutusComponent},
      { path: 'charitydetail/:id', component: CharityDetailsComponent},
+     { path: 'volunteerdetail/:id', component: VolunteerDetailsComponent},
+     { path: 'volunteerdetail/:id/timeslots', component: VolunteerTimeslotsComponent},
      { path: 'contact', component: ContactComponent},
      { path: 'discover', component: DiscoverComponent},
      { path: 'favorites', component: FavoritesComponent},

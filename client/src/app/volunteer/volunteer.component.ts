@@ -1,58 +1,52 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbDateAdapter, NgbDateStruct, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-
+import { VolunteerService } from '../services/volunteer.service';
 @Component({
   selector: 'app-volunteer',
   templateUrl: './volunteer.component.html',
   styleUrls: ['./volunteer.component.scss'],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
 export class VolunteerComponent implements OnInit {
-  time1: any;
-  time2: any;
-  chooseStart: boolean = false;
-  chooseEnd: boolean = false;
-  volunteerForm: FormGroup;
-  files: File[] = [];
-  volunteerFormErrors = {
-    'name': '',
-    'location': '',
-    'pay': '',
-    'description': ''
+  totalAmount: any;
+  perPage: any;
+  volunteerActivies;
+  page: number = 0;
+  totalNumber: number;
+  date;
+  constructor(private volunteerService: VolunteerService) { }
+  ngOnInit(): void {
+    this.getVolunteers(this.page, '','','')
   }
-  volunteerFormValidaMsg = {
-    'name': {
-      'required': 'Volunteer Activity Name is required'
-    },
-    'location': {
-      'required': 'Volunteer Activity Location is required'
-    },
-    'description': {
-      'required': 'Volunteer Activity Description is required'
-    },
-  }
-  constructor(
-    private fb: FormBuilder
-  ) { }
 
-  ngOnInit() {
+  getVolunteers(page, year, month, day) {
+    this.volunteerService.getVolunteers(page, year, month, day)
+      .subscribe(res => {
+        if (res.success) {
+          this.volunteerActivies = res.volunteers;
+          this.perPage = res.numberPerPage,
+            this.totalNumber = res.totalNumber,
+            this.totalAmount = res.totalNumber;
+        }
+      })
+
   }
   get today() {
-    const now = new Date();
-    return { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
+   const now = new Date();
+   return { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
   }
-  get duration() {
-    if (this.time2 && this.time1)
-      return this.time2.hour * 60 + this.time2.minute - this.time1.hour * 60 - this.time1.minute;
-    else return null;
+
+  get lower() {
+    return 1 + (this.page - 1) * this.perPage;
   }
-  onVolunteerFormCreate() {
-    this.volunteerForm = this.fb.group({
-      name: ['', Validators.required],
-      location: ['', Validators.required],
-      description: ['', Validators.required],
-      timeslots: ['']
-    })
+  get upper() {
+    return Math.min(this.totalNumber, (this.page + 1) * this.perPage);
   }
+
+  allVolunteer(){
+       this.getVolunteers(this.page-1,'','','')
+ }
+ chooseDate(){
+      // this.date = this.date.toJSON();
+      this.getVolunteers(this.page-1, this.date.year, this.date.month, this.date.day)
+}
 }

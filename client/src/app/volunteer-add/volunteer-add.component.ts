@@ -7,9 +7,6 @@ import { VolunteerService } from '../services/volunteer.service';
   selector: 'app-volunteer-add',
   templateUrl: './volunteer-add.component.html',
   styleUrls: ['./volunteer-add.component.scss'],
-  providers: [{provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}]
-
-
 })
 export class VolunteerAddComponent implements OnInit {
      feedback: string = undefined;
@@ -21,6 +18,7 @@ export class VolunteerAddComponent implements OnInit {
      timeslotForm: FormGroup;
      periodForm:FormGroup;
      timeslots=[];
+     date;
      periodMsg=undefined;
      btnDisable:boolean = true;
      volunteerFormErrors = {
@@ -92,7 +90,10 @@ export class VolunteerAddComponent implements OnInit {
          location: ['', Validators.required],
          description: ['', Validators.required],
          timeslots: [''],
-         pay:['']
+         pay:[''],
+         principal:[''],
+         restrictions:[''],
+         study_type:['']
        })
 
        this.volunteerForm.valueChanges.subscribe(
@@ -131,6 +132,7 @@ export class VolunteerAddComponent implements OnInit {
 
      register(){
           this.volunteerForm.value.timeslots = this.timeslots;
+          console.log(this.volunteerForm.value);
           this.volunteerService.postVolunteer(this.volunteerForm.value)
           .subscribe(data => {
                console.log('activity success')
@@ -148,4 +150,5 @@ export class VolunteerAddComponent implements OnInit {
           let idx = this.timeslots.indexOf(timeslot);
           this.timeslots.splice(idx, 1);
      }
+
 }

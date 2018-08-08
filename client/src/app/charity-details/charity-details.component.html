@@ -54,7 +54,67 @@
             </div>
           </div>
           <div id="collapseVnt" [ngbCollapse]="isCollapsedVnt">
-            Voluntary works details
+            <div class="alert alert-danger alert-dismissable" *ngIf="charityActivities && !charityActivities.length">
+              charity volunteer Activities is Empty
+           </div>
+            <div *ngIf="charityActivities && charityActivities.length" class="row">
+              <div class="col">
+                <!-- <h4 class="display-4">Volunteer Activies</h4>  -->
+                {{ lower }}-{{ upper }} of {{totalNumber}}
+                <div class="row">
+                  <div class="col-4 col-md-3  d-none d-md-block">
+                    <p>
+                      <small class="text-muted">Available?</small>
+                    </p>
+                  </div>
+                  <div class="col-5 col-md-7 d-none d-md-block">
+                    <p>
+                      <small class="text-muted">Volunteer Activities Information</small>
+                    </p>
+                  </div>
+                  <div class="col-2 d-none d-md-block">
+                    <p>
+                      <small class="text-muted">location</small>
+                    </p>
+                  </div>
+                </div>
+                <hr class="mt-0">
+                <div *ngFor="let activity of charityActivities">
+                  <div class="row">
+                    <div class="col-4 col-md-3">
+                      <a [routerLink]="['/volunteerdetail',activity._id]" class="btn">
+                        <div class="d-block d-sm-none">
+                          <i class="fas fa-external-link-alt"></i>
+                        </div>
+                        <div class="d-none d-sm-block">
+                             <div class='col-12'>
+                                  <i class="fas fa-external-link-alt"></i> &nbsp;Timeslots Available
+                             </div>
+                        </div>
+                      </a>
+                    </div>
+                    <div class="col-5 col-md-7">
+                      <h5>
+                          <h4>
+                               <b>
+                                    <a class="text-info" [routerLink]="['/volunteerdetail',activity._id]">{{ activity.name }}</a>
+
+                               </b>
+                          </h4>
+                          <p class="m-0">
+                            <small class="text-muted d-none d-sm-block">{{ activity.description }}</small>
+                          </p>
+                        </h5>
+                    </div>
+                    <div class="col-2">
+                      <h6 class="font-weight-bold text-danger">{{ activity.location }}</h6>
+                    </div>
+                  </div>
+                  <hr>
+                </div>
+                <ngb-pagination [collectionSize]="totalNumber" [pageSize]="10" [(page)]="page" (pageChange)="getVolunteers(page-1)"></ngb-pagination>
+              </div>
+            </div>
           </div>
           <hr />
           <div class="row">

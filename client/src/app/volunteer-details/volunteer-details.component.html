@@ -1,0 +1,113 @@
+<div class="bg">
+
+</div>
+<app-loading *ngIf="!activity"></app-loading>
+<div class="container" *ngIf="activity">
+  <div class="row">
+
+    <div class="col-sm-12">
+      <header class="panel-heading">
+        <h3>Activity Information</h3>
+      </header>
+
+      <div class="panel-body">
+        <table class="table col-sm-6 table-bordered table-striped">
+          <tbody>
+            <tr>
+              <td class="strongbold" style="width:20%">Activity Name</td>
+              <td style="width:80%">
+                <h4><span>{{activity.name}}</span></h4>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="strongbold">
+                Study Type</td>
+              <td>
+                   <!-- <span id="ctl00_ContentPlaceHolder1_lblWebStudy">This study is an online study on another website. To participate, sign up, and then you will be given access to the website to participate in the study</span> -->
+
+                <div class="col-md-11">
+                  <strong>{{activity.study_type}}</strong>&nbsp;
+                  <br>
+                </div>
+      </td>
+      </tr>
+      <tr>
+        <td class="strongbold">Duration</td>
+        <td><span *ngFor="let timeslot of activity.timeslots; let i = index">
+                   Timeslot {{i+1}} : {{timeslot.period.duration}} minutes <br />
+              </span></td>
+      </tr>
+
+
+      <tr>
+        <td class="strongbold">
+          Sign-Up Restrictions
+        </td>
+        <td>
+          <div class="col-md-12">&nbsp;</div>
+          <div class="col-md-12">
+{{activity?.restrictions}}
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="strongbold">
+          Pay
+        </td>
+        <td>
+          <span>{{activity?.pay}}</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="strongbold">
+          Location
+        </td>
+        <td>
+          <span>{{activity?.location}}</span>
+        </td>
+      </tr>
+
+
+
+      <tr>
+        <td class="strongbold">
+          Description
+        </td>
+        <td>
+          {{activity.description}}
+        </td>
+      </tr>
+      <tr>
+        <td class="strongbold">Website</td>
+        <td>
+          <p>
+            <a [routerLink]="['/charitydetail',activity.charity._id]" class="btn">{{activity.charity?.name}}</a>
+          </p>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="strongbold">People in Charge</td>
+        <td>
+          {{activity?.principal}}
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <a class="btn btn-success btn-block" [routerLink]="['/volunteerdetail/',id,'timeslots']">
+												<i class="fa fa-pencil-square-o"></i>&nbsp;
+											View Time Slots for This Study</a>
+
+        </td>
+      </tr>
+
+
+      </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+</div>

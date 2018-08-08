@@ -8,6 +8,7 @@ import { NgbRatingConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { PaymentComponent } from '../payment/payment.component';
+import { VolunteerService } from '../services/volunteer.service';
 @Component({
   selector: 'app-charity-details',
   templateUrl: './charity-details.component.html',
@@ -16,14 +17,19 @@ import { PaymentComponent } from '../payment/payment.component';
 })
 export class CharityDetailsComponent implements OnInit {
 
+  page: number = 0;
+  totalAmount: number;
+  totalNumber: number;
+  perPage: number;
   charity: Charity;
   isLoggedIn;
-  alertMsg: string= undefined;
+  alertMsg: string = undefined;
   // currentRate: number = 4;
   baseUrl: string = baseURL;
   favorite: boolean;
   id: string;
   selected: number = 0;
+  charityActivities;
   commentForm: FormGroup;
   formErrors = {
     'rating': '',
@@ -32,7 +38,7 @@ export class CharityDetailsComponent implements OnInit {
 
   validationMsg = {
     'rating': { 'min': 'rating is needed!' },
-      'comment': { 'required': 'comment is needed!' }
+    'comment': { 'required': 'comment is needed!' }
   };
 
   constructor(private charityService: GetCharitiesService,
@@ -41,6 +47,7 @@ export class CharityDetailsComponent implements OnInit {
     private modalService: NgbModal,
     private authService: AuthService,
     private route: ActivatedRoute,
+    private volunteerService: VolunteerService,
     config: NgbRatingConfig) {
     config.max = 5;
   }
@@ -50,18 +57,20 @@ export class CharityDetailsComponent implements OnInit {
     this.charityService.getCharity(this.id)
       .subscribe(charity => this.charity = charity);
     this.isLoggedIn = this.authService.isLoggedIn();
-    if(this.isLoggedIn){
-         this.favoriteService.isFavorite(this.id)
-         .subscribe(fav => {
-              console.log(fav);
-              this.favorite = fav.exists;
-         });
+    if (this.isLoggedIn) {
+      this.favoriteService.isFavorite(this.id)
+        .subscribe(fav => {
+          console.log(fav);
+          this.favorite = fav.exists;
+        });
     }
 
 
 
     //initial commentFrom
     this.createForm();
+
+    this.getVolunteers(this.page);
   }
 
   createForm() {
@@ -77,54 +86,73 @@ export class CharityDetailsComponent implements OnInit {
   }
 
   //
-  onValueChanged(data?:any){
-       if(!this.commentForm) return;
-       const form = this.commentForm;
-       for(const field in this.formErrors){
-            this.formErrors[field] = '';
-            const control = form.get(field);
-            if(control && control.dirty && !control.valid){
-                 const message = this.validationMsg[field];
-                 for(const key in control.errors){
-                      this.formErrors[field] += message[key] + ' ';
-                 }
-            }
-       }
- }
+  onValueChanged(data?: any) {
+    if (!this.commentForm) return;
+    const form = this.commentForm;
+    for (const field in this.formErrors) {
+      this.formErrors[field] = '';
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        const message = this.validationMsg[field];
+        for (const key in control.errors) {
+          this.formErrors[field] += message[key] + ' ';
+        }
+      }
+    }
+  }
   toggleFavorite() {
-       if(this.isLoggedIn){
-            if (this.favorite) {
-                 this.favoriteService.deleteFavorite(this.id)
-                 .subscribe(resp => {
-                      console.log(resp);
-                      this.favorite = false;
-                 }, err => console.log(err));
-            } else {
-                 this.favoriteService.postFavorite(this.id)
-                 .subscribe(resp => {
-                      console.log(resp);
-                      this.favorite = true;
-                 }, err => console.log(err));
-            }
-       }else{
-            this.alertMsg = "Please log in as a user!"
-       }
+    if (this.isLoggedIn) {
+      if (this.favorite) {
+        this.favoriteService.deleteFavorite(this.id)
+          .subscribe(resp => {
+            console.log(resp);
+            this.favorite = false;
+          }, err => console.log(err));
+      } else {
+        this.favoriteService.postFavorite(this.id)
+          .subscribe(resp => {
+            console.log(resp);
+            this.favorite = true;
+          }, err => console.log(err));
+      }
+    } else {
+      this.alertMsg = "Please log in as a user!"
+    }
   }
   onSubmit() {
     // this.charityService.postComment(this.id,)
     console.log(this.commentForm.value);
     this.charityService.postComment(this.id, this.commentForm.value)
-     .subscribe(comments => {this.charity.comments = comments},
-          err => console.log(err));
+      .subscribe(comments => { this.charity.comments = comments },
+        err => console.log(err));
     this.commentForm.reset({
-     rating: 5,
-     comment: ''
-   });
+      rating: 5,
+      comment: ''
+    });
   }
 
   openVerticallyCentered() {
-     const modalRef = this.modalService.open(PaymentComponent);
-     modalRef.componentInstance.name = this.charity.name;
-     modalRef.componentInstance.charityId = this.charity._id;
+    const modalRef = this.modalService.open(PaymentComponent);
+    modalRef.componentInstance.name = this.charity.name;
+    modalRef.componentInstance.charityId = this.charity._id;
+  }
+
+
+  getVolunteers(page: number) {
+    this.volunteerService.getVolunteerForCharity(this.id, page)
+      .subscribe(res => {
+        if (res.success) {
+          this.charityActivities = res.volunteers;
+          this.perPage = res.numberPerPage,
+            this.totalNumber = res.totalNumber,
+            this.totalAmount = res.totalNumber;
+        }
+      })
+  }
+  get lower() {
+    return 1 + (this.page - 1) * this.perPage;
+  }
+  get upper() {
+    return Math.min(this.totalNumber, (this.page + 1) * this.perPage);
   }
 }
