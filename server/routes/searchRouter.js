@@ -33,4 +33,4 @@ searchRouter.route('/')
                          .catch(err => next(err));
                }});
 
-          module.exports = searchRouter;
+module.exports = searchRouter;
