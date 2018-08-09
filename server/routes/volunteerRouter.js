@@ -79,7 +79,7 @@ volunteerRouter.route('/')
                               })
                               .limit(perPage)
                               .skip(perPage * page)
-                              // .populate('charity')
+                              .populate('charity')
                               .sort('-createAt')
                               .then((res) => callback(null, res))
                               .catch(err => callback(err, null))
@@ -159,6 +159,7 @@ volunteerRouter.route('/:volunteerId')
      })
      .get(cors.cors, (req, res, next) => {
           Volunteers.findById(req.params.volunteerId)
+               .populate('charity')
                .then(volunteer => {
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');
@@ -193,7 +194,7 @@ volunteerRouter.route('/:volunteerId')
                .catch(err => next(err));
      })
 
-volunteerRouter.route('/:volunteerId/timeslot')
+volunteerRouter.route('/:volunteerId/timeslots')
      .options(cors.corsWithOptions, (req, res) => {
           res.sendStatus(200);
      })
@@ -315,32 +316,56 @@ volunteerRouter.route('/charity/:charityId')
           var page = req.query.page;
           async.parallel([
                (callback) => {
-                    Volunteers.count({
-                              charity: req.params.charityId,
-                              timeslots: {
-                                   $elemMatch: {
-                                        date: {
-                                             $gte: today.toDate()
-                                        }
+                    Volunteers.count(
+                         {$and:[{charity: req.params.charityId},
+                              {$or:[
+                                   {
+                                        'timeslots.date.year': {$gt:yyyy}
+                                   },
+                                   {
+                                        $and:[
+                                             {'timeslots.date.year':yyyy},
+                                             {'timeslots.date.month':{$gt:mm}}
+                                        ]
+                                   },
+                                   {
+                                        $and:[
+                                             {'timeslots.date.year':yyyy},
+                                             {'timeslots.date.month':mm},
+                                             {'timeslots.date.day':{$gte:dd}}
+                                        ]
                                    }
-                              }
-                         })
+                              ]}
+                         ]
+                         }
+                    )
                          .then(res => {
                               callback(null, res)
                          })
                          .catch(err => callback(err, null))
                },
                callback => {
-                    Volunteers.find({
-                              charity: req.params.charityId,
-                              timeslots: {
-                                   $elemMatch: {
-                                        date: {
-                                             $gte: today.toDate()
-                                        }
-                                   }
+                    Volunteers.find({$and:[{charity: req.params.charityId},
+                         {$or:[
+                              {
+                                   'timeslots.date.year': {$gt:yyyy}
+                              },
+                              {
+                                   $and:[
+                                        {'timeslots.date.year':yyyy},
+                                        {'timeslots.date.month':{$gt:mm}}
+                                   ]
+                              },
+                              {
+                                   $and:[
+                                        {'timeslots.date.year':yyyy},
+                                        {'timeslots.date.month':mm},
+                                        {'timeslots.date.day':{$gte:dd}}
+                                   ]
                               }
-                         })
+                         ]}
+                    ]
+                    })
                          .limit(perPage)
                          .skip(perPage * page)
                          .sort('-createAt')

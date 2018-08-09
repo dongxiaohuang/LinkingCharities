@@ -2,7 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const timeslotSchema = new Schema({
-     date: Date,
+     date: {
+          "year":Number,
+          "month":Number,
+          "day":Number
+     },
      period:{
           start:
                { "hour": Number, "minute": Number }
@@ -44,6 +48,16 @@ const volunteerSchema = new Schema({
           ref: 'Charity',
           requierd:true
      },
+     principal:{
+          type: String,
+          default:''
+     },
+     restrictions:{
+          Type:String,
+     },
+     study_type:{
+          Type:String,
+     }
 },{
      timestamps:true
 })
