@@ -14,7 +14,7 @@
           <div class="form" [formGroup]="volunteerForm">
             <div class="form-group">
               <label>Name</label>
-              <input type="text" class="form-control" [(ngModel)]="name" required formControlName="name">
+              <input type="text" class="form-control" required formControlName="name">
               <small>
                   <span [hidden]="!volunteerFormErrors.name">{{volunteerFormErrors.name}}</span>
             </small>
@@ -54,7 +54,7 @@
             </div>
             <div class="form-group">
               <label>Description</label>
-              <textarea type="text" class="form-control" [(ngModel)]="description" required formControlName="description"></textarea>
+              <textarea type="text" class="form-control" required formControlName="description"></textarea>
               <small>
                   <span [hidden]="!volunteerFormErrors.description">{{volunteerFormErrors.description}}</span>
             </small>
@@ -136,7 +136,7 @@
                   <small>
                               <span [hidden]="!periodFormErrors.end">{{periodFormErrors.end}}</span>
                          </small>
-                  <input [(ngModel)]="duration" hidden="true" formControlName="duration" />
+                  <input [ngModel]="duration" hidden="true" formControlName="duration" />
                   <small>
                               <span [hidden]="duration>0 || !time1 || !time2">End time must be later than start time</span>
                          </small> {{time2 |json}}

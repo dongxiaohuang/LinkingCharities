@@ -1,4 +1,3 @@
-<button (click)="onregiste()">clikc</button>
 <mat-horizontal-stepper #stepper linear>
   <mat-step [stepControl]="charityDetailForm">
     <div class="row justify-content-center">
@@ -51,7 +50,7 @@
           </div>
           <div class="form-group">
             <label for="chooseTypes">Types(*)</label>
-            <ng-multiselect-dropdown #chooseTypes [placeholder]="'Please select type(s) of your charity'" [data]="categories" [settings]="dropdownSettings" formControlName="categories" (onSelectAll)="onSelectAll($event)" required>
+            <ng-multiselect-dropdown #chooseTypes [placeholder]="'Please select type(s) of your charity'" [data]="categories" [settings]="dropdownSettings" formControlName="categories" required>
             </ng-multiselect-dropdown>
             <small>
             <span [hidden]="!charityDetailErrors.categories">{{charityDetailErrors.categories}}</span>

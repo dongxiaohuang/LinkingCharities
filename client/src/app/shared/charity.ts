@@ -12,7 +12,7 @@ export class Charity {
      tel:number;
      web:string;
      email:string;
-     image: string;
+     images: string[];
      info: string;
      details:string;
      postcode:string;
@@ -25,6 +25,7 @@ export class Charity {
      comments: Comment[];
      geocoding:Geocoding;
      geoaddress:string;
+     updatedAt:string;
 };
 
 export class CharityIdName{

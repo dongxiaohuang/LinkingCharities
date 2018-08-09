@@ -149,8 +149,9 @@
                <h4 *ngIf="(advancedFilter.location.length>0 || advancedFilter.rating.length>0 || advancedFilter.categories.length>0) && !myfilter">
                     {{ (charities | filter: ' '|searchfilter:advancedFilter)?.length }} search results;
                </h4>
+               <!-- *ngFor="let charity of charities | orderBy: key : reverse| filter:myfilter | searchfilter:advancedFilter | paginate: { itemsPerPage: 10, currentPage: p};let i = index" -->
                     <div
-                    *ngFor="let charity of charities | orderBy: key : reverse| filter:myfilter | searchfilter:advancedFilter | paginate: { itemsPerPage: 10, currentPage: p};let i = index"
+                    *ngFor="let charity of charities | orderBy: key : reverse| filter:myfilter | searchfilter:advancedFilter ;let i = index"
                     class="col">
 
                          <app-card [charity]="charity"></app-card>

@@ -74,6 +74,7 @@ import { ActivityDetailsComponent } from './activity-details/activity-details.co
 import { VolunteerAddComponent } from './volunteer-add/volunteer-add.component';
 import { VolunteerDetailsComponent } from './volunteer-details/volunteer-details.component';
 import { VolunteerTimeslotsComponent } from './volunteer-timeslots/volunteer-timeslots.component';
+import { CharityVolunteerComponent } from './charity-volunteer/charity-volunteer.component';
 
 // Configs
 export function getAuthServiceConfigs() {
@@ -125,6 +126,7 @@ export function getAuthServiceConfigs() {
     VolunteerAddComponent,
     VolunteerDetailsComponent,
     VolunteerTimeslotsComponent,
+    CharityVolunteerComponent,
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [
