@@ -7,7 +7,7 @@
     <!-- left column -->
     <div class="col-md-4 col-sm-6 col-xs-12">
       <div class="text-center">
-        <img src="{{baseUrl+(user?.profile)}}" class="rounded-circle img-responsive img img-fluid">
+        <img src="{{user?.profile}}" class="rounded-circle img-responsive img img-fluid">
         <br />
         <ngb-progressbar *ngIf="progress>0 && progress<100" type="warning" [striped]="true" [animated]="true" [value]="progress">{{progress}}</ngb-progressbar>
         <p>

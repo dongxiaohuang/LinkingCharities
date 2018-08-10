@@ -16,6 +16,7 @@ import { baseURL } from '../shared/baseurl';
   styleUrls: ['./charity-register.component.scss']
 })
 export class CharityRegisterComponent implements OnInit {
+
   msg: any;
   files: File[] = [];
   categories: Category[] = [];
@@ -27,6 +28,7 @@ export class CharityRegisterComponent implements OnInit {
   dropdownSettings = {};
   countries = Countries;
   fd = new FormData();
+  isSubmitted:boolean= false;
   addressErrors = {
     'line1': ''
   };
@@ -263,27 +265,6 @@ export class CharityRegisterComponent implements OnInit {
       }
     }
   }
-
-
-  // onUpload() {
-  //   this.charityDetailForm.value.images = [];
-  //   for (let i = 0; i < this.files.length; i++) {
-  //     this.fd.append('imageFile', this.files[i], this.files[i].name.toLowerCase());
-  //     let newPic = 'images/charityPics/' + this.files[i].name.toLowerCase();
-  //     this.charityDetailForm.value.images.push(newPic);
-  //   }
-  //   this.authCharityService.postPictures(this.fd)
-  //     .subscribe(event => {
-  //       if (event.type === HttpEventType.UploadProgress) {
-  //         console.log('Upload Progree', Math.round(event.loaded / event.total * 100));
-  //         this.progress = Math.round(event.loaded / event.total * 100)
-  //       } else if (event.type === HttpEventType.Response) {
-  //         // if(event.)
-  //         console.log(event);
-  //       }
-  //     })
-  //
-  // }
   onSubmit() {
     let cardID;
     let charityID;
@@ -291,12 +272,6 @@ export class CharityRegisterComponent implements OnInit {
       .pipe(
         mergeMap(res => {
           cardID = res.details._id;
-          this.charityDetailForm.value.images = [];
-            for (let i = 0; i < this.files.length; i++) {
-              this.fd.append('imageFile', this.files[i], (cardID+'_'+this.files[i].name).toLowerCase());
-              let newPic = 'images/charityPics/' + (cardID+'_'+this.files[i].name).toLowerCase();
-              this.charityDetailForm.value.images.push(newPic);
-            }
           this.charityDetailForm.value.card = cardID;
           this.charityDetailForm.value.address = this.addressForm.value;
           console.log('charitydetails', this.charityDetailForm.value);
@@ -304,7 +279,10 @@ export class CharityRegisterComponent implements OnInit {
         })
         ,
         mergeMap(res => {
-          charityID = res._id;
+             charityID = res._id;
+             return this.onUpload(charityID)
+        }),
+        mergeMap(res => {
           let geoAddress = this.addressForm.value.line1 + ', ' + this.addressForm.value.line2 + ', ' + this.charityDetailForm.value.postcode + ',' + this.charityDetailForm.value.city + '' + this.charityDetailForm.value.country;
           console.log('geoAddress', geoAddress);
           return this.getCharityService.getGeocode(geoAddress);
@@ -312,12 +290,7 @@ export class CharityRegisterComponent implements OnInit {
         mergeMap(res => {
           return this.getCharityService.changeGeocoding(charityID, res)
         }),
-        mergeMap(res => {
-             return this.authCharityService.postPictures(this.fd)
-        }),
         mergeMap(event => {
-
-
           this.basicInfoForm.value.charity = charityID;
           console.log('charities successful, and the basicInform Value is ', this.basicInfoForm.value);
           return this.authCharityService.signUp(this.basicInfoForm.value);
@@ -325,18 +298,20 @@ export class CharityRegisterComponent implements OnInit {
       )
       .subscribe(
         res => {
+             this.isSubmitted = true;
           console.log(res);
           //{success: true, username: "imperial"}
           if (res.success) {
             this.msg = "register successfully!";
-
           } else {
             this.msg = res.err;
           }
-
-        }
+     }, err => {
+          this.msg = err;
+     }
       );
-    // this.onUpload();
+    this.onUpload(charityID);
+
   };
 
   matchOtherValidator(otherControlName: string) {
@@ -390,6 +365,11 @@ export class CharityRegisterComponent implements OnInit {
     this.files.splice(idx, 1);
     console.log("after removed", this.files)
   }
-
+  onUpload(charityId: string): any {
+     for (let i = 0; i < this.files.length; i++) {
+          this.fd.append('imageFile', this.files[i], this.files[i].name.toLowerCase());
+      }
+     return this.authCharityService.postPictures(this.fd, charityId);
+  }
 
 }

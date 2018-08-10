@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../services/auth.service';
 import { AuthCharityService } from '../services/auth-charity.service';
 import {
@@ -19,34 +19,31 @@ export class LoginComponent implements OnInit {
   modalReference: NgbModalRef;
   user = { username: '', password: '', remember: false };
   charity = { username: '', password: '', remember: false };
-  errMsg: string;
-  res;
+  errMsg: string = undefined;
   constructor(
     private modalService: NgbModal,
+    public activeModal: NgbActiveModal,
     private authService: AuthService,
     private socialAuthService: FacebookAuthService,
     private authCharityService: AuthCharityService) {
     }
 
-  openVerticallyCentered(content) {
-    this.modalReference = this.modalService.open(content, { centered: true });
-  }
+  // openVerticallyCentered(content) {
+  //   this.modalReference = this.modalService.open(content, { centered: true });
+  // }
   ngOnInit() {
   }
 
   onUserSubmit() {
-    console.log("User: ", this.user);
     this.authService.logIn(this.user)
       .subscribe(res => {
-           this.res = res;
         if (res.success) {
           // this.dialogRef.close(res.success);
-          this.modalReference.dismiss();
-
+          this.activeModal.dismiss('Cross click');
         }
         else {
           console.log(res);
-          this.errMsg = res.err.message;
+          this.errMsg = res.err;
         }
       },
         error => {
@@ -60,9 +57,9 @@ export class LoginComponent implements OnInit {
        this.authCharityService.logIn(this.charity)
           .subscribe(res => {
                if(res.success){
-                    this.modalReference.dismiss();
+                    // this.modalReference.dismiss();
+                    this.activeModal.dismiss('Cross click');
                }else{
-                    console.log(res);
                     this.errMsg = res.err.message;
                }
           },error => {
@@ -80,7 +77,7 @@ export class LoginComponent implements OnInit {
       this.authService.facebookLogIn(userData)
           .subscribe(res => {
                if(res.success){
-                    this.modalReference.dismiss();
+                    this.activeModal.dismiss('Cross click');
                }else{
                     console.log(res);
                     this.errMsg = res.err.message;

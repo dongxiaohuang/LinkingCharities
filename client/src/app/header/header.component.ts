@@ -44,11 +44,6 @@ export class HeaderComponent implements OnInit {
   }
   openLoginForm() {
     const modalRef = this.modalService.open(LoginComponent, { centered: true });
-
-    // modalRef.afterClosed()
-    //   .subscribe(result => {
-    //     console.log(result);
-    //   });
   }
 
   logOut() {

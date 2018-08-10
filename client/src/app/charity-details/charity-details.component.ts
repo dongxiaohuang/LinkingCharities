@@ -9,6 +9,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { PaymentComponent } from '../payment/payment.component';
 import { VolunteerService } from '../services/volunteer.service';
+import { LoginComponent } from '../login/login.component';
+// import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: 'app-charity-details',
   templateUrl: './charity-details.component.html',
@@ -101,6 +104,7 @@ export class CharityDetailsComponent implements OnInit {
     }
   }
   toggleFavorite() {
+       this.isLoggedIn = this.authService.isLoggedIn();
     if (this.isLoggedIn) {
       if (this.favorite) {
         this.favoriteService.deleteFavorite(this.id)
@@ -116,7 +120,8 @@ export class CharityDetailsComponent implements OnInit {
           }, err => console.log(err));
       }
     } else {
-      this.alertMsg = "Please log in as a user!"
+         const modalRef = this.modalService.open(LoginComponent, { centered: true });
+
     }
   }
   onSubmit() {

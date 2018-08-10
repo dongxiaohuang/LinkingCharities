@@ -102,18 +102,11 @@ export class UserprofileComponent implements OnInit {
             // if(event.)
             console.log(event);
             if (event.ok) {
-              this.changeImg();
+              this.user.profile = event.body.uploadFile.url;
             }
           }
         }
       )
-  }
-  changeImg(): any {
-    this.authService.changeProfile({ "profile": this.selectedFile.name.toLowerCase() })
-      .subscribe(res => console.log(res));
-    console.log("CHANGE profile image successful");
-    this.user.profile = 'images/userprofile/' + this.user._id + this.selectedFile.name;
-    console.log(this.user.profile);
   }
 
   changeProfile():any {

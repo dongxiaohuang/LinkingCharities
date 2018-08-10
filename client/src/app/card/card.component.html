@@ -2,7 +2,7 @@
 <div class="row box-shadow" *ngIf="charity" >
 <div class="col-5 col-lg-4 no-padding">
      <img [routerLink]="['/charitydetail', charity?._id]"
-     class="img-fluid fit-size " src="{{baseUrl}}{{charity?.images[0]}}" alt="{{charity?.name}}">
+     class="img-fluid fit-size " src="{{charity?.images[0]}}" alt="{{charity?.name}}">
 </div>
 <div class="col-7 col-lg-8">
      <div class="col-margin-1 mg-top">

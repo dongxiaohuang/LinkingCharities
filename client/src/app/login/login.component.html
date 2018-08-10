@@ -1,7 +1,6 @@
-<ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title">Login Via</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -62,10 +61,9 @@
       </ngb-tab>
     </ngb-tabset>
   </div>
-
-  <div class="modal-footer">
-    New here ? <a [routerLink]="['/signup']" (click)="modalReference.dismiss()"><b>Join Us</b></a>
+  <div class="alert alert-danger alert-dismissable" *ngIf="errMsg">
+    <a class="panel-close close" data-dismiss="alert" (click)="errMsg=undefined">×</a> {{errMsg}}
   </div>
-</ng-template>
-
-<a id="loginMenu" class="btn" (click)="openVerticallyCentered(content)"><i class="fas fa-sign-in-alt"></i> <b>Login</b></a>
+  <div class="modal-footer">
+    New here ? <a [routerLink]="['/signup']" (click)="activeModal.dismiss('Cross click')"><b>Join Us</b></a>
+  </div>

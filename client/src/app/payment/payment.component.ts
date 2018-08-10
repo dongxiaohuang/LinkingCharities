@@ -5,7 +5,7 @@ import { baseURL } from '../shared/baseurl';
 import { HttpClient } from '@angular/common/http';
 import { Input } from '@angular/core';
 import { onValueChanged } from '../utils/helpers';
-import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',

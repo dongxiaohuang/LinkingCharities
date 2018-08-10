@@ -32,7 +32,9 @@
     </div>
   </div>
   <div #userInfo class="col col-lg-1 text-right">
-         <app-login *ngIf="!username && !charityUsername"></app-login>
+         <div *ngIf="!username && !charityUsername">
+              <a id="loginMenu" class="btn" (click)="openLoginForm()"><i class="fas fa-sign-in-alt"></i> <b>Login</b></a>
+         </div>
          <div ngbDropdown *ngIf="username">
               <a class="btn" id="dropdown" ngbDropdownToggle><i class="fas fa-user"></i></a>
               <div ngbDropdownMenu aria-labelledby="dropdown">

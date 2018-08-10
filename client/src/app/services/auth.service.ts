@@ -58,6 +58,7 @@ export class AuthService {
     console.log("storeUserCredentials ", credentials);
     localStorage.setItem(this.tokenKey, JSON.stringify(credentials));
     this.useCredentials(credentials);
+    this.isAuthenticated = true;
   }
 
   useCredentials(credentials: any) {
@@ -68,6 +69,7 @@ export class AuthService {
 
   destroyUserCredentials() {
     this.authToken = undefined;
+    this.isAuthenticated = false;
     this.clearUsername();
     this.isAuthenticated = false;
     localStorage.removeItem(this.tokenKey);
@@ -89,8 +91,11 @@ export class AuthService {
       { "username": user.username, "password": user.password })
       .pipe(
         map(res => {
-          this.storeUserCredentials({ username: user.username, token: res.token });
-          return { 'success': true, 'username': user.username };
+             if(res.success){
+                  this.storeUserCredentials({ username: user.username, token: res.token });
+             }
+             console.log(res)
+          return res;
         })
       )
       .catch(error => { return this.processHTTPMsgService.handleError(error); });

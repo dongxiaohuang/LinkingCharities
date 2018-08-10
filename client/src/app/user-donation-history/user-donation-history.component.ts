@@ -6,7 +6,7 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./user-donation-history.component.scss']
 })
 export class UserDonationHistoryComponent implements OnInit {
-     totalAmount: any;
+  totalAmount: any;
   totalPage: number;
   totalNumber: number;
   donations;

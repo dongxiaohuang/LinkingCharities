@@ -127,8 +127,8 @@ export class AuthCharityService {
 
  }
 
-  postPictures(fd: FormData): Observable<any> {
-      return  this.http.post(baseURL +'imageUpload/charitiesPics', fd)
+  postPictures(fd: FormData, charityId:string): Observable<any> {
+      return  this.http.post(baseURL +'imageUpload/charitiesPics/'+charityId, fd)
       .catch(error => this.processHTTPMsgService.handleError(error));
  }
 

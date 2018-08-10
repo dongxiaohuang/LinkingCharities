@@ -33,7 +33,7 @@
     <div class="container col-11 col-md-5">
          <ngb-carousel>
               <ng-template ngbSlide *ngFor="let image of charity.images">
-                   <img class="img-fluid rounded text-center img img-size col-12" src="{{baseUrl+(image)}}" alt="{{charity.name}}" />
+                   <img class="img-fluid rounded text-center img img-size col-12" src="{{image}}" alt="{{charity.name}}" />
               </ng-template>
          </ngb-carousel>
     </div>
@@ -143,7 +143,7 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col-2">
-                        <img src="{{baseUrl+(comment?.author.profile)}}" class="img img-rounded img-fluid" />
+                        <img src="{{(comment?.author.profile)}}" class="img img-rounded img-fluid" />
                         <p class="text-secondary text-center"><small>{{comment?.createdAt |date}}</small></p>
                       </div>
                       <div class="col-10">

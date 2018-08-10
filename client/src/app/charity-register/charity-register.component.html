@@ -243,7 +243,7 @@
     </div>
     <div class="row justify-content-center btn-group">
       <button mat-button matStepperPrevious class="btn-success">Back</button>
-      <button mat-button (click)="onSubmit()" class="btn-info">Submit</button>
+      <button mat-button (click)="onSubmit()" class="btn-info" [disabled]="isSubmitted && !msg">Submit</button>
       <button mat-button (click)="stepper.reset()" class="btn-warning">Reset</button>
       {{this.basicInfoForm.value |json}}
     </div>

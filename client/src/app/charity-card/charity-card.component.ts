@@ -9,7 +9,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import * as $ from 'jquery';
 import { onValueChanged } from '../utils/helpers';
 import { PaymentComponent } from '../payment/payment.component';
-
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-charity-card',
@@ -50,20 +50,14 @@ export class CharityCardComponent implements OnInit {
           this.isFavorite = fav.exists;
         });
    };
-
-    // this.amountForm = this.fb.group({
-    //   amount: ['', [Validators.required,
-    //         Validators.min(1),
-    //         Validators.pattern]]
-    // })
-    // this.amountForm.valueChanges.subscribe(data => onValueChanged(this.amountErrors, this.amountValidMsg, data, this.amountForm))
   }
   display(classId: string) { $('.' + classId).slideToggle('slow'); }
   getUrl(img): string {
-    return "url(" + this.baseUrl + img + ") center/cover no-repeat";
+    return "url(" +  img + ") center/cover no-repeat";
   }
 
   toggleFavorite() {
+    this.isLoggedIn = this.authService.isLoggedIn();
     if (this.isLoggedIn) {
       if (this.isFavorite) {
         this.favoriteService.deleteFavorite(this.charity._id)
@@ -80,10 +74,11 @@ export class CharityCardComponent implements OnInit {
       }
     } else {
       this.alertMsg = "Please log in as a user!"
+      const modalRef = this.modalService.open(LoginComponent, { centered: true });
     }
   }
   openVerticallyCentered() {
-     const modalRef = this.modalService.open(PaymentComponent);
+     const modalRef = this.modalService.open(PaymentComponent, { centered: true });
      modalRef.componentInstance.name = this.charity.name;
      modalRef.componentInstance.charityId = this.charity._id;
   }
