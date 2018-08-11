@@ -10,6 +10,7 @@ const Users = require('../models/users');
 const storageAzure = require('azure-storage');
 storageAzure.connectionString = config.azureStorageConnectionString;
 const blobService = storageAzure.createBlobService(config.azureStorage.accountName, config.azureStorage.accountKey);
+const Charities = require('../models/charities');
 //multer config
 
 
@@ -66,7 +67,7 @@ uploadRouter.route('/')
                          }); // mul
                     }
                     //if any delete image
-                    if(user.blobName){
+                    if(user.blobName && user.blobName !='defaultuserpic.png'){
                          blobService.deleteBlobIfExists('userprofile', user.blobName, err => {
                                      if(err) {
                                          console.log(err)
@@ -96,36 +97,45 @@ uploadRouter.route('/')
           res.end('PUT is not supported on endpoint /upload');
      })
      .delete(cors.cors, (req, res, next) => {
-          const blobName ='imageFile-1355d829-fbd5-44c1-9019-fa8c679707e2.jpg';
-          // blobService.connectionString = config.azureStorageConnectionString;
-          blobService.deleteBlobIfExists('userprofile', blobName, err => {
-                      if(err) {
-                          console.log(err);
-                          res.statusCode = 200;
-                          res.setHeader('Content-Type', 'application/json');
-                          res.json({
-                               err:err
-                          });
-                      } else {
-                          console.log({ message: `Block blob '${blobName}' deleted` });
-                          res.statusCode = 200;
-                          res.setHeader('Content-Type', 'application/json');
-                          res.json({
-                              success :"success"
-                          });
-                      }
-                  });
+          res.statusCode = 403;
+          res.end('DELETE is not supported on endpoint /upload');
 
      });
 
-uploadRouter.route('/charitiesPics')
+uploadRouter.route('/charitiesPics/:chairtyId')
      .options(cors.corsWithOptions, (req, res) => {
           sendStatus(200);
      })
-     .post(cors.corsWithOptions, uploadCharity.array('imageFile', 3), (req, res) => {
-          res.statusCode = 200;
-          res.setHeader('Content-Type', 'application/json');
-          res.json(req.files); // multer will provide file for us for array upoload
+     .post(cors.corsWithOptions, uploadCharity.array('imageFile', 3), (req, res, next) => {
+          Charities.findById(req.params.chairtyId)
+          .then(charity => {
+               // charity.images = req.files
+               if(!req.files){
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json({
+                         success:'true',
+                         message:'no pictures uploaded'
+                    });
+               }else{
+                    let images = [];
+                    for(let i=0; i<req.files.length; i++){
+                         images.push(req.files[i].url)
+                    }
+                    charity.images = images;
+                    charity.save()
+                    .then(charity => {
+                         res.statusCode = 200;
+                         res.setHeader('Content-Type', 'application/json');
+                         res.json({
+                              uploadedFiles: req.files,
+                              charity:charity
+                         }); // multer will provide file for us for array upoload
+                    }, err => next(err))
+                    .catch(err => next(err))
+               }
+          }, err => next(err))
+          .catch(err => next(err))
      })
 
 module.exports = uploadRouter;

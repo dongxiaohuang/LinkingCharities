@@ -17,7 +17,7 @@ const userSchema = new Schema({
      },
      profile: {
           type: String,
-          default: 'images/defaultuserpic.png'
+          default: 'https://linkingcharitystorage.blob.core.windows.net/userprofile/defaultuserpic.png'
      },
      type:{
           type: String,

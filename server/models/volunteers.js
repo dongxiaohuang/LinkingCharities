@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const timeslotSchema = new Schema({
      date: {
-          "year":Number,
-          "month":Number,
-          "day":Number
+          "year": Number,
+          "month": Number,
+          "day": Number
      },
      period:{
           start:
@@ -21,7 +21,8 @@ const timeslotSchema = new Schema({
      requiredNumber:{
           type: Number,
           requierd:true
-     }
+     },
+     dateTimestamp:Number
 });
 
 const volunteerSchema = new Schema({

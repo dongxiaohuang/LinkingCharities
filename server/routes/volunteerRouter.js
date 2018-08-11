@@ -12,6 +12,8 @@ var today = new Date();
 var dd = today.getDate();
 var mm = today.getMonth()+1; //January is 0!
 var yyyy = today.getFullYear();
+let date = new Date(yyyy,mm,dd);
+let timestamp = date.getTime();
 
 const volunteerRouter = express.Router();
 
@@ -42,25 +44,9 @@ volunteerRouter.route('/')
                               })
                               .catch(err => callback(err, null))
                     } else {
+                         console.log(yyyy, mm, dd);
                          Volunteers.count({
-                                   $or:[
-                                        {
-                                        'timeslots.date.year': {$gt:yyyy}
-                                   },
-                                   {
-                                        $and:[
-                                             {'timeslots.date.year':yyyy},
-                                             {'timeslots.date.month':{$gt:mm}}
-                                        ]
-                                   },
-                                   {
-                                        $and:[
-                                             {'timeslots.date.year':yyyy},
-                                             {'timeslots.date.month':mm},
-                                             {'timeslots.date.day':{$gte:dd}}
-                                        ]
-                                   }
-                              ]
+                              'timeslots': {$elemMatch:{dateTimestamp:{$gte:timestamp}}}
                               })
                               .then(res => {
                                    callback(null, res)
@@ -80,35 +66,19 @@ volunteerRouter.route('/')
                               .limit(perPage)
                               .skip(perPage * page)
                               .populate('charity')
-                              .sort('-createAt')
+                              // .sort({'createdAt':-1})
                               .then((res) => callback(null, res))
                               .catch(err => callback(err, null))
                     } else {
                          console.log(yyyy, mm, dd)
+
                          Volunteers.find({
-                                   $or:[
-                                        {
-                                        'timeslots.date.year': {$gt:yyyy}
-                                   },
-                                   {
-                                        $and:[
-                                             {'timeslots.date.year':yyyy},
-                                             {'timeslots.date.month':{$gt:mm}}
-                                        ]
-                                   },
-                                   {
-                                        $and:[
-                                             {'timeslots.date.year':yyyy},
-                                             {'timeslots.date.month':mm},
-                                             {'timeslots.date.day':{$gte:dd}}
-                                        ]
-                                   }
-                              ]
+                              'timeslots': {$elemMatch:{dateTimestamp:{$gte:timestamp}}}
                               })
                               .limit(perPage)
                               .skip(perPage * page)
                               .populate('charity')
-                              .sort('-createAt')
+                              .sort({'createdAt':-1}) //not working in azure mongo db
                               .then((res) => callback(null, res))
                               .catch(err => callback(err, null))
                     }
@@ -368,7 +338,7 @@ volunteerRouter.route('/charity/:charityId')
                     })
                          .limit(perPage)
                          .skip(perPage * page)
-                         .sort('-createAt')
+                         .sort('-createdAt')
                          .then((res) => callback(null, res))
                          .catch(err => callback(err, null))
                }
