@@ -24,7 +24,7 @@ totalAmount:number;
  }
 
   getVolunteers(page: number) {
-    this.volunteerService.getVolunteerForCharity(this.charityId, page)
+    this.volunteerService.getAllVolunteerForCharity(page)
       .subscribe(res => {
         if (res.success) {
           this.charityActivities = res.volunteers;

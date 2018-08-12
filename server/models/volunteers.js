@@ -22,7 +22,19 @@ const timeslotSchema = new Schema({
           type: Number,
           requierd:true
      },
-     dateTimestamp:Number
+     dateTimestamp:Number,
+     registers:[{
+          type: Schema.Types.ObjectId,
+          ref: 'User',
+     }]
+},{
+     timestamps:true,
+     toObject: {
+          virtuals: true
+     },
+     toJSON: {
+          virtuals: true
+     }
 });
 
 const volunteerSchema = new Schema({
@@ -60,8 +72,21 @@ const volunteerSchema = new Schema({
           Type:String,
      }
 },{
-     timestamps:true
+     timestamps:true,
+     toObject: {
+          virtuals: true
+     },
+     toJSON: {
+          virtuals: true
+     }
 })
+
+timeslotSchema
+     .virtual('registers_no')
+     .get(function(){
+          // console.log(this.registers)
+          return this.registers.length;
+     })
 
 let Volunteers = mongoose.model('Volunteer', volunteerSchema);
 module.exports = Volunteers;

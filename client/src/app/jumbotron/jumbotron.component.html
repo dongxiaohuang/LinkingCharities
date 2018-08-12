@@ -1,6 +1,6 @@
 <ngb-carousel>
   <ng-template ngbSlide *ngFor="let pic of coverPics" >
-    <img src="{{baseUrl}}{{pic.url}}" class="responsive" alt={{pic.label}}>
+    <img src="{{pic.url}}" class="responsive" alt={{pic.label}}>
     <div class="carousel-caption">
       <h3>{{pic.label}}</h3>
       <p>{{pic.description}}</p>

@@ -1,0 +1,77 @@
+<div class="bg">
+</div>
+<p class="text-right">
+	<button class="btn btn-outline-warning" (click)="getTimeslots(id)"><i class="fas fa-sync-alt"></i>Refresh</button>
+</p>
+<app-loading *ngIf="!res.timeslots" ></app-loading>
+<div *ngIf="res.timeslots && !res.timeslots.length" >
+     no results
+</div>
+<div class="col-md-12" *ngIf="res.timeslots && res.timeslots.length ">
+  <section class="panel">
+    <header class="panel-heading">
+      <h3>
+           Timeslots for Volunteer Activity
+      </h3>
+    </header>
+    <div class="panel-body">
+      <div class="form-horizontal tasi-form">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:40%" class="text-center"><span >Participation Time</span></th>
+                <th style="width:10%" class="text-center">
+                     <span >Duration</span>
+                </th>
+                <th style="width:20%" class="text-center">
+                     <span >Required Number</span>
+                </th>
+                <th style="width:30%" class="text-center">
+                  <span >Registers'email</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+
+            <tr *ngFor="let timeslot of res.timeslots">
+                <td class="text-center" style="width:40%">
+                     <span>{{timeslot.date.month}}/{{timeslot.date.day}}/{{timeslot.date.year}}</span>
+                     <br /><small>(mm/dd/yyyy)</small>
+                     <p>Start:
+                          <strong>
+                               {{timeslot.period.start.hour <10? '0'+timeslot.period.start.hour:timeslot.period.start.hour }}:{{timeslot.period.start.minute <10? '0'+timeslot.period.start.minute:timeslot.period.start.minute}}
+                          </strong>
+                     to End:
+                     <strong>
+                          {{timeslot.period.end.hour <10? '0'+timeslot.period.end.hour:timeslot.period.end.hour }}:{{timeslot.period.end.minute <10? '0'+timeslot.period.end.minute:timeslot.period.start.minute}}
+                     </strong>
+                </p>
+                </td>
+                <td style="width:20%">
+                     <p>
+                     </p>
+                     <p class="text-center">
+                          <span>{{timeslot.period.duration}} minutes</span>
+                     </p>
+                </td>
+                <td style="width:10%">
+                     <p>
+                     </p>
+                     <p class="text-center">
+                          <span>{{timeslot.registers_no}} / {{timeslot.requiredNumber}} people</span>
+                     </p>
+                </td>
+                <td style="width:30%">
+                     <p class="text-center" *ngFor="let register of timeslot.registers" >{{register.username}}</p>
+                     <p *ngIf="!timeslot.registers.length" class="text-center">
+                          <strong>No people registered</strong>
+                     </p>
+                </td>
+           </tr>
+            </tbody>
+       </table>
+      </div>
+
+        </div>
+  </section>
+</div>

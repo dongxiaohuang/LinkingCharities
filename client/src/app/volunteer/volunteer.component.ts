@@ -43,10 +43,10 @@ export class VolunteerComponent implements OnInit {
   }
 
   allVolunteer(){
-       this.getVolunteers(this.page-1,'','','')
+       this.getVolunteers(Math.max(0,this.page-1),'','','')
  }
  chooseDate(){
       // this.date = this.date.toJSON();
-      this.getVolunteers(this.page-1, this.date.year, this.date.month, this.date.day)
+      this.getVolunteers(Math.max(0,this.page-1), this.date.year, this.date.month, this.date.day)
 }
 }

@@ -10,8 +10,8 @@ import { VolunteerService } from '../services/volunteer.service';
 })
 export class VolunteerAddComponent implements OnInit {
      feedback: string = undefined;
-     time1: any;
-     time2: any;
+     time1: any = undefined;
+     time2: any = undefined;
      chooseStart: boolean = false;
      chooseEnd: boolean = false;
      volunteerForm: FormGroup;
@@ -19,12 +19,14 @@ export class VolunteerAddComponent implements OnInit {
      periodForm:FormGroup;
      timeslots=[];
      date;
+     isSuccessPosted:boolean = false;
      periodMsg=undefined;
-     btnDisable:boolean = true;
+     btnDisable:boolean = false;
      volunteerFormErrors = {
        'name': '',
        'location': '',
-       'description': ''
+       'description': '',
+       'study_type':''
      }
      periodFormErrors = {
        'start': '',
@@ -45,6 +47,9 @@ export class VolunteerAddComponent implements OnInit {
        'description': {
          'required': 'Volunteer Activity Description is required'
        },
+       'study_type': {
+         'required': 'Volunteer Activity Type is required'
+       },
      }
      periodFormValidaMsg = {
        'start': {
@@ -62,7 +67,9 @@ export class VolunteerAddComponent implements OnInit {
          'required': 'Volunteer Activity Date is required'
        },
        'requiredNumber': {
-         'pattern': 'Please input right format of number of people'
+         'pattern': 'Please input right format of number of people',
+         'required': 'Volunteer Activity Number of people is required'
+
        },
      }
      constructor(
@@ -93,7 +100,7 @@ export class VolunteerAddComponent implements OnInit {
          pay:[''],
          principal:[''],
          restrictions:[''],
-         study_type:['']
+         study_type:['', Validators.required]
        })
 
        this.volunteerForm.valueChanges.subscribe(
@@ -116,6 +123,7 @@ export class VolunteerAddComponent implements OnInit {
        this.timeslotForm = this.fb.group({
          date: ['', Validators.required],
          period: [''],
+         dateTimestamp:[''],
          requiredNumber:['', [Validators.required, Validators.pattern]],
        })
 
@@ -124,6 +132,9 @@ export class VolunteerAddComponent implements OnInit {
        })
      }
      addToTimeslots(){
+          let date = new Date(this.timeslotForm.value.date.year,this.timeslotForm.value.date.month,this.timeslotForm.value.date.day);
+          console.log(date)
+          this.timeslotForm.value.dateTimestamp = date.getTime();
           this.timeslotForm.value.period = this.periodForm.value;
           this.timeslots.push(this.timeslotForm.value);
           this.timeslotForm.reset();
@@ -136,15 +147,13 @@ export class VolunteerAddComponent implements OnInit {
           this.volunteerService.postVolunteer(this.volunteerForm.value)
           .subscribe(data => {
                console.log('activity success')
-          //      this.router.navigate(['/profile/myproducts'])
-          //   .then(() => this.data.success(data['message']))
-          //   .catch(error => this.data.error(error))
-          // : this.data.error(data['message']);
                this.feedback ="post successful";
+               this.isSuccessPosted = true;
           }, err=> {
                     console.log('activity failed');
                this.feedback ="post failed";
-          })
+          });
+          this.btnDisable = true;
      }
      delete(timeslot){
           let idx = this.timeslots.indexOf(timeslot);

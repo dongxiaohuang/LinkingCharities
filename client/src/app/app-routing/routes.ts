@@ -18,11 +18,15 @@ import { CategoryComponent } from '../category/category.component';
 import { VolunteerAddComponent } from '../volunteer-add/volunteer-add.component';
 import { VolunteerDetailsComponent } from '../volunteer-details/volunteer-details.component';
 import { VolunteerTimeslotsComponent } from '../volunteer-timeslots/volunteer-timeslots.component';
+import { CharityVolunteerComponent } from '../charity-volunteer/charity-volunteer.component';
+import { CharityVolunteersRegistersComponent } from '../charity-volunteers-registers/charity-volunteers-registers.component';
+import { EditVolunteerComponent } from '../edit-volunteer/edit-volunteer.component';
 export const routes: Routes = [
      { path: '', redirectTo: '/home', pathMatch: 'full'},
      { path: 'aboutus', component: AboutusComponent},
      { path: 'charitydetail/:id', component: CharityDetailsComponent},
      { path: 'volunteerdetail/:id', component: VolunteerDetailsComponent},
+     { path: 'volunteerdetail/:id/registers', component: CharityVolunteersRegistersComponent},
      { path: 'volunteerdetail/:id/timeslots', component: VolunteerTimeslotsComponent},
      { path: 'contact', component: ContactComponent},
      { path: 'discover', component: DiscoverComponent},
@@ -36,6 +40,8 @@ export const routes: Routes = [
      { path: 'user/donations', component: UserDonationHistoryComponent},
      { path: 'charityuser/profile', component: CharityProfileComponent},
      { path: 'charityuser/donations', component: CharityDonationHistoryComponent},
+     { path: 'charityuser/volunteer', component: CharityVolunteerComponent},
+     { path: 'charityuser/volunteer/:id', component: EditVolunteerComponent},
      { path: 'category/:id', component: CategoryComponent},
      { path: '**', redirectTo: '/home'},
 ]

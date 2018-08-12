@@ -40,7 +40,7 @@
       </table>
     </div>
   </div>
-  <ngb-pagination [collectionSize]="totalNumber" [pageSize]="perPage" [(page)]="page" (pageChange)="getDonations(page-1)"></ngb-pagination>
+  <ngb-pagination class="d-flex justify-content-center" [collectionSize]="totalNumber" [pageSize]="perPage" [(page)]="page" (pageChange)="getDonations(page-1)"></ngb-pagination>
   <p class="text-right">
     Total :£{{totalAmount}}
   </p>

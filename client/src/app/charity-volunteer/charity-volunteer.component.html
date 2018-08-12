@@ -1,3 +1,5 @@
+<div class="bg">
+</div>
 <div class="alert alert-danger alert-dismissable" *ngIf="charityActivities && !charityActivities.length">
  charity volunteer Activities is Empty
 </div>
@@ -31,13 +33,13 @@
     <div *ngFor="let activity of charityActivities">
       <div class="row">
         <div class="col-4 col-md-3">
-          <a [routerLink]="['/volunteerdetail',activity._id]" class="btn">
+          <a [routerLink]="['/volunteerdetail',activity._id, 'registers']" class="btn">
             <div class="d-block d-sm-none">
               <i class="fas fa-external-link-alt"></i>
             </div>
             <div class="d-none d-sm-block">
                  <div class='col-12'>
-                      <i class="fas fa-external-link-alt"></i> &nbsp;Timeslots Available
+                      <i class="fas fa-external-link-alt"></i> &nbsp;See Registers of Timeslots
                  </div>
             </div>
           </a>
@@ -59,14 +61,14 @@
           <h6 class="font-weight-bold text-danger">{{ activity.location }}</h6>
         </div>
         <div class="col-1">
-             <p>
+             <a [routerLink]="['/charityuser','volunteer',activity._id]">
                <i class="fas fa-edit"></i><small class="text-muted">Edit</small>
-             </p>
+             </a>
         </div>
       </div>
       <hr>
     </div>
-         <ngb-pagination [collectionSize]="totalNumber" [pageSize]="10" [(page)]="page" (pageChange)="getVolunteers(page-1)"></ngb-pagination>
+         <ngb-pagination class="d-flex justify-content-center" [collectionSize]="totalNumber" [pageSize]="10" [(page)]="page" (pageChange)="getVolunteers(page-1)"></ngb-pagination>
  </div>
 </div>
 <hr />

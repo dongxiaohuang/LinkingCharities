@@ -10,9 +10,9 @@ var moment = require('moment')
 
 var today = new Date();
 var dd = today.getDate();
-var mm = today.getMonth()+1; //January is 0!
+var mm = today.getMonth() + 1; //January is 0!
 var yyyy = today.getFullYear();
-let date = new Date(yyyy,mm,dd);
+let date = new Date(yyyy, mm, dd);
 let timestamp = date.getTime();
 
 const volunteerRouter = express.Router();
@@ -31,12 +31,17 @@ volunteerRouter.route('/')
           var day = req.query.day;
           async.parallel([
                (callback) => {
-                    if (year||month||day) {
+                    if (year || month || day) {
                          Volunteers.count({
-                                   $and:[
-                                        {'timeslots.date.year':year},
-                                        {'timeslots.date.month':month},
-                                        {'timeslots.date.day':day},
+                                   $and: [{
+                                             'timeslots.date.year': year
+                                        },
+                                        {
+                                             'timeslots.date.month': month
+                                        },
+                                        {
+                                             'timeslots.date.day': day
+                                        },
                                    ]
                               })
                               .then(res => {
@@ -46,7 +51,13 @@ volunteerRouter.route('/')
                     } else {
                          console.log(yyyy, mm, dd);
                          Volunteers.count({
-                              'timeslots': {$elemMatch:{dateTimestamp:{$gte:timestamp}}}
+                                   'timeslots': {
+                                        $elemMatch: {
+                                             dateTimestamp: {
+                                                  $gte: timestamp
+                                             }
+                                        }
+                                   }
                               })
                               .then(res => {
                                    callback(null, res)
@@ -55,12 +66,17 @@ volunteerRouter.route('/')
                     }
                },
                callback => {
-                    if (year||month||day) {
+                    if (year || month || day) {
                          Volunteers.find({
-                                   $and:[
-                                        {'timeslots.date.year':year},
-                                        {'timeslots.date.month':month},
-                                        {'timeslots.date.day':day},
+                                   $and: [{
+                                             'timeslots.date.year': year
+                                        },
+                                        {
+                                             'timeslots.date.month': month
+                                        },
+                                        {
+                                             'timeslots.date.day': day
+                                        },
                                    ]
                               })
                               .limit(perPage)
@@ -73,12 +89,20 @@ volunteerRouter.route('/')
                          console.log(yyyy, mm, dd)
 
                          Volunteers.find({
-                              'timeslots': {$elemMatch:{dateTimestamp:{$gte:timestamp}}}
+                                   'timeslots': {
+                                        $elemMatch: {
+                                             dateTimestamp: {
+                                                  $gte: timestamp
+                                             }
+                                        }
+                                   }
                               })
                               .limit(perPage)
                               .skip(perPage * page)
                               .populate('charity')
-                              .sort({'createdAt':-1}) //not working in azure mongo db
+                              .sort({
+                                   'createdAt': -1
+                              }) //not working in azure mongo db
                               .then((res) => callback(null, res))
                               .catch(err => callback(err, null))
                     }
@@ -277,6 +301,156 @@ volunteerRouter.route('/:volunteerId/timeslot/:timeslotId')
                .catch((err) => next(err));
      })
 
+// get the volunteer activities registers
+volunteerRouter.route('/:volunteerId/timeslot/:timeslotId/getregisters')
+     .options(cors.corsWithOptions, (req, res) => {
+          res.sendStatus(200);
+     })
+     .get(cors.cors, charityAuthenticate.verifyUser, (req, res, next) => {
+          CharityRegisters.findById(req.user._id)
+               .then(charityUser => {
+                    Volunteers.find({
+                              _id: req.params.volunteerId,
+                              charity: charityUser.charity
+                         })
+                         .then((volunteer) => {
+                              volunteer = volunteer[0];
+                              // if (volunteer != null && volunteer.timeslots.id(req.params.timeslotId) != null) {
+                              if (volunteer != null && volunteer.timeslots.id(req.params.timeslotId) != null) {
+                                   // console.log('ss',volunteer.timeslots.id(req.params.timeslotId).registers.length)
+                                   res.statusCode = 200;
+                                   res.setHeader('Content-Type', 'application/json');
+                                   res.json(volunteer.timeslots.id(req.params.timeslotId));
+                              } else if (volunteer == null) {
+                                   err = new Error('volunteer ' + req.params.volunteerId + ' not found');
+                                   err.status = 404;
+                                   return next(err);
+                              } else {
+                                   err = new Error('Timeslot ' + req.params.timeslotId + ' not found');
+                                   err.status = 404;
+                                   return next(err);
+                              }
+                         }, (err) => next(err))
+                         .catch((err) => next(err));
+               }, err => next(err))
+               .catch(err => next(err))
+     });
+
+//register to volunteer activities
+volunteerRouter.route('/:volunteerId/timeslot/:timeslotId/register')
+     .options(cors.corsWithOptions, (req, res) => {
+          res.sendStatus(200);
+     })
+     .get(cors.cors, authenticate.verifyUser, (req, res, next) => {
+          Volunteers.findById(req.params.volunteerId)
+               .then((volunteer) => {
+                    if (volunteer != null && volunteer.timeslots.id(req.params.timeslotId) != null) {
+                         if (volunteer.timeslots.id(req.params.timeslotId).registers.indexOf(req.user._id) < 0) {
+                              res.statusCode = 200;
+                              res.setHeader('Content-Type', 'application/json');
+                              return res.json({
+                                   "exists": false,
+                                   "favorites": volunteer.timeslots.id(req.params.timeslotId)
+                              });
+                         } else {
+                              res.statusCode = 200;
+                              res.setHeader('Content-Type', 'application/json');
+                              return res.json({
+                                   "exists": true,
+                                   "favorites": volunteer
+                              });
+                         }
+                    } else {
+                         res.statusCode = 200;
+                         res.setHeader('Content-Type', 'application/json');
+                         return res.json({
+                              "exists": false,
+                              "register": volunteer
+                         });
+                    }
+               }, (err) => next(err))
+               .catch((err) => next(err));
+     })
+     .post(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+          Volunteers.findById(req.params.volunteerId)
+               .then((volunteer) => {
+                    if (volunteer != null && volunteer.timeslots.id(req.params.timeslotId) != null) {
+                         let register_no = volunteer.timeslots.id(req.params.timeslotId).registers.length;
+                         let allow_no = volunteer.timeslots.id(req.params.timeslotId).registers.requiredNumber;
+                         if (register_no >= allow_no) {
+                              res.statusCode = 403;
+                              res.setHeader('Content-Type', 'application/json');
+                              res.json({
+                                   success: false,
+                                   status: 'register failed',
+                                   err: 'The amount of people registered is full'
+                              });
+                         } else {
+                              volunteer.timeslots.id(req.params.timeslotId).registers.push(req.user._id);
+                              volunteer.save()
+                                   .then(resp => {
+                                        res.statusCode = 200;
+                                        res.setHeader('Content-Type', 'application/json');
+                                        res.json({
+                                             success: true,
+                                             status: 'register successful',
+                                             result: resp
+                                        });
+                                   }, err => next(err))
+                                   .catch(err => next(err))
+                         }
+                    } else if (volunteer == null) {
+                         err = new Error('volunteer ' + req.params.volunteerId + ' not found');
+                         err.status = 404;
+                         return next(err);
+                    } else {
+                         err = new Error('Timeslot ' + req.params.timeslotId + ' not found');
+                         err.status = 404;
+                         return next(err);
+                    }
+               }, (err) => next(err))
+               .catch((err) => next(err));
+     })
+     .put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+          res.statusCode = 403;
+          res.setHeader('Content-Type', 'text/html');
+          res.end(req.method + " not supported!");
+     })
+     .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+          Volunteers.findById(req.params.volunteerId)
+               .then((volunteer) => {
+                    if (volunteer != null && volunteer.timeslots.id(req.params.timeslotId) != null) {
+                         let registers = volunteer.timeslots.id(req.params.timeslotId).registers;
+                         let idx = registers.indexOf(req.user._id);
+                         if (idx != -1) {
+                              registers.splice(idx, 1);
+                         }
+                         volunteer.save()
+                              .then(resp => {
+                                   res.statusCode = 200;
+                                   res.setHeader('Content-Type', 'application/json');
+                                   res.json({
+                                        success: true,
+                                        status: 'unregister successful',
+                                        result: resp
+                                   });
+                              }, err => next(err))
+                              .catch(err => next(err))
+                    } else if (volunteer == null) {
+                         err = new Error('volunteer ' + req.params.volunteerId + ' not found');
+                         err.status = 404;
+                         return next(err);
+                    } else {
+                         err = new Error('Timeslot ' + req.params.timeslotId + ' not found');
+                         err.status = 404;
+                         return next(err);
+                    }
+               }, (err) => next(err))
+               .catch((err) => next(err));
+     })
+
+
+
 volunteerRouter.route('/charity/:charityId')
      .options(cors.corsWithOptions, (req, res) => {
           res.sendStatus(200);
@@ -286,56 +460,42 @@ volunteerRouter.route('/charity/:charityId')
           var page = req.query.page;
           async.parallel([
                (callback) => {
-                    Volunteers.count(
-                         {$and:[{charity: req.params.charityId},
-                              {$or:[
-                                   {
-                                        'timeslots.date.year': {$gt:yyyy}
+                    Volunteers.count({
+                              $and: [{
+                                        charity: req.params.charityId
                                    },
                                    {
-                                        $and:[
-                                             {'timeslots.date.year':yyyy},
-                                             {'timeslots.date.month':{$gt:mm}}
-                                        ]
-                                   },
-                                   {
-                                        $and:[
-                                             {'timeslots.date.year':yyyy},
-                                             {'timeslots.date.month':mm},
-                                             {'timeslots.date.day':{$gte:dd}}
-                                        ]
+                                        'timeslots': {
+                                             $elemMatch: {
+                                                  dateTimestamp: {
+                                                       $gte: timestamp
+                                                  }
+                                             }
+                                        }
                                    }
-                              ]}
-                         ]
-                         }
-                    )
+                              ]
+                         })
                          .then(res => {
                               callback(null, res)
                          })
                          .catch(err => callback(err, null))
                },
                callback => {
-                    Volunteers.find({$and:[{charity: req.params.charityId},
-                         {$or:[
-                              {
-                                   'timeslots.date.year': {$gt:yyyy}
-                              },
-                              {
-                                   $and:[
-                                        {'timeslots.date.year':yyyy},
-                                        {'timeslots.date.month':{$gt:mm}}
-                                   ]
-                              },
-                              {
-                                   $and:[
-                                        {'timeslots.date.year':yyyy},
-                                        {'timeslots.date.month':mm},
-                                        {'timeslots.date.day':{$gte:dd}}
-                                   ]
-                              }
-                         ]}
-                    ]
-                    })
+                    Volunteers.find({
+                              $and: [{
+                                        charity: req.params.charityId
+                                   },
+                                   {
+                                        'timeslots': {
+                                             $elemMatch: {
+                                                  dateTimestamp: {
+                                                       $gte: timestamp
+                                                  }
+                                             }
+                                        }
+                                   }
+                              ]
+                         })
                          .limit(perPage)
                          .skip(perPage * page)
                          .sort('-createdAt')
@@ -369,5 +529,7 @@ volunteerRouter.route('/charity/:charityId')
           res.statusCode = 403;
           res.end('DELETE is not supported in this endpoint /charity/' + req.params.charityId);
      })
+
+
 
 module.exports = volunteerRouter;

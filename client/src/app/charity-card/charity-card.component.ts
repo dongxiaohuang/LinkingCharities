@@ -73,7 +73,6 @@ export class CharityCardComponent implements OnInit {
           }, err => console.log(err));
       }
     } else {
-      this.alertMsg = "Please log in as a user!"
       const modalRef = this.modalService.open(LoginComponent, { centered: true });
     }
   }

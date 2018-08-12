@@ -57,6 +57,7 @@ export class AuthCharityService {
     console.log("storeCharityCredentials ", credentials);
     localStorage.setItem(this.tokenKey, JSON.stringify(credentials));
     this.useCredentials(credentials);
+    this.isAuthenticated = true;
   };
 
   useCredentials(credentials: any) {
@@ -70,6 +71,7 @@ export class AuthCharityService {
     this.clearUsername();
     this.isAuthenticated = false;
     localStorage.removeItem(this.tokenKey);
+    this.isAuthenticated = false;
   }
 
 

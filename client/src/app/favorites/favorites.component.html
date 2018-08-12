@@ -1,5 +1,9 @@
 <div class="bg">
 </div>
-<!-- <app-loading *ngIf="favorite" ></app-loading> -->
-<app-topcharities [charities]="favorite?.charities"></app-topcharities>
+<app-loading *ngIf="!favorite.charities" ></app-loading>
+<div class="container alert alert-info alert-dismissable" *ngIf="favorite.charities && !favorite.charities.length">
+	<h3>Favorite is <strong>Empty</strong>
+	</h3>
+</div>
+<app-topcharities *ngIf="favorite.charities && favorite.charities.length" [charities]="favorite?.charities"></app-topcharities>
 {{favorite?.charities |json}}

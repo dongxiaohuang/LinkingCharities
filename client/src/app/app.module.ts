@@ -75,6 +75,10 @@ import { VolunteerAddComponent } from './volunteer-add/volunteer-add.component';
 import { VolunteerDetailsComponent } from './volunteer-details/volunteer-details.component';
 import { VolunteerTimeslotsComponent } from './volunteer-timeslots/volunteer-timeslots.component';
 import { CharityVolunteerComponent } from './charity-volunteer/charity-volunteer.component';
+import { TimeslotComponent } from './timeslot/timeslot.component';
+import { CharityVolunteersRegistersComponent } from './charity-volunteers-registers/charity-volunteers-registers.component';
+import { EditVolunteerComponent } from './edit-volunteer/edit-volunteer.component';
+import { EditTimeslotComponent } from './edit-timeslot/edit-timeslot.component';
 
 // Configs
 export function getAuthServiceConfigs() {
@@ -127,6 +131,10 @@ export function getAuthServiceConfigs() {
     VolunteerDetailsComponent,
     VolunteerTimeslotsComponent,
     CharityVolunteerComponent,
+    TimeslotComponent,
+    CharityVolunteersRegistersComponent,
+    EditVolunteerComponent,
+    EditTimeslotComponent,
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [
@@ -184,7 +192,8 @@ export function getAuthServiceConfigs() {
   bootstrap: [AppComponent],
   entryComponents: [
     LoginComponent,
-    PaymentComponent
+    PaymentComponent,
+    EditTimeslotComponent
   ]
 })
 export class AppModule { }

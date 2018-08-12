@@ -54,7 +54,7 @@ export class DiscoverComponent implements OnInit {
   }
 
   getCharities(page: number) {
-    this.charityService.getChairties(this.page - 1)
+    this.charityService.getChairties(Math.max(0,this.page-1))
       .subscribe(
         charities => {
           this.charities = charities.charities;

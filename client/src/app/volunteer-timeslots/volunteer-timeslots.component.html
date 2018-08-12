@@ -1,5 +1,8 @@
 <div class="bg">
 </div>
+<p class="text-right">
+	<button class="btn btn-outline-warning" (click)="getTimeslots(id)"><i class="fas fa-sync-alt"></i>Refresh</button>
+</p>
 <app-loading *ngIf="!timeslots" ></app-loading>
 <div class="col-md-12" *ngIf="timeslots">
   <section class="panel">
@@ -10,7 +13,6 @@
     </header>
     <div class="panel-body">
       <div class="form-horizontal tasi-form">
-        <div >
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -26,37 +28,11 @@
                 </th>
               </tr>
             </thead>
-            <tbody >
-                      <tr *ngFor="let timeslot of timeslots" >
-                           <td class="text-center">
-                                <span >{{timeslot.date.month}}/{{timeslot.date.day}}/{{timeslot.date.year}}</span>
-                                <br /><small>(mm/dd/yyyy)</small>
-                                <p >Start: <strong>{{timeslot.period.start.hour}}:{{timeslot.period.start.minute}}</strong>  to
-                                End: <strong>{{timeslot.period.end.hour}}:{{timeslot.period.end.minute}}</strong></p>
-                           </td>
-                           <td >
-                                <p>
-                                </p>
-                                <p class="text-center">
-                                     <span >{{timeslot.period.duration}} minutes</span>
-                                </p>
-                           </td>
-                           <td >
-                                <p>
-                                </p>
-                                <p class="text-center">
-                                     <span >{{timeslot.requiredNumber}} people</span>
-                                </p>
-                           </td>
-                           <td >
-                                <p></p>
-                                <a  class="btn btn-xs btn-success text-white">Sign Up <i class="fa fa-chevron-circle-right"></i></a>
-                           </td>
-                      </tr>
-            </tbody>
-          </table>
-        </div>
+       </table>
       </div>
-    </div>
+                 <div *ngFor="let timeslot of timeslots" class="form-horizontal tasi-form">
+                      <app-timeslot [timeslot]="timeslot" [volunteerId]="id"></app-timeslot>
+                 </div>
+        </div>
   </section>
 </div>

@@ -20,7 +20,9 @@
                <span class="badge badge-pill badge-success"><a class="link" [routerLink]="['/category', category._id]">{{category.name}}</a></span>
           </div>
      </div>
-     <a class="button" href="#">Donate</a>
+     <div class='text-right'>
+          <a class="btn btn-info far fa-donate text-white" (click)="openVerticallyCentered()">Donate</a>
+     </div>
 
      <a class="btn" *ngIf="charity?.website"  href="{{charity?.website}}"><span>   |  </span>website</a>
      </div>

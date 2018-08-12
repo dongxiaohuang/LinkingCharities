@@ -112,7 +112,7 @@ router.route('/checkJWTToken')
      .options(cors.corsWithOptions, (req, res) => {
           sendStatus(200);
      })
-     .get(cors.corsWithOptions, (req, res) => {
+     .get(cors.corsWithOptions, (req, res, next) => {
           passport.authenticate('jwtPassportUser', {
                session: false
           }, (err, user, info) => {

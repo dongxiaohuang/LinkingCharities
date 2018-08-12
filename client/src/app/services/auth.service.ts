@@ -105,8 +105,8 @@ export class AuthService {
        return this.http.get<AuthResponse>(baseURL + 'users/facebook/token?access_token='+SocialUser.token)
         .pipe(
           map(res => {
-            this.storeUserCredentials({ username: SocialUser.name, token: res.token });
-            return { 'success': true, 'username': SocialUser.name };
+            this.storeUserCredentials({ username: SocialUser.email, token: res.token });
+            return { 'success': true, 'username': SocialUser.email };
           })
         )
         .catch(error => { return this.processHTTPMsgService.handleError(error); });

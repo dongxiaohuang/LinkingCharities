@@ -121,7 +121,6 @@ export class CharityDetailsComponent implements OnInit {
       }
     } else {
          const modalRef = this.modalService.open(LoginComponent, { centered: true });
-
     }
   }
   onSubmit() {
@@ -137,7 +136,7 @@ export class CharityDetailsComponent implements OnInit {
   }
 
   openVerticallyCentered() {
-    const modalRef = this.modalService.open(PaymentComponent);
+    const modalRef = this.modalService.open(PaymentComponent, {centered:true});
     modalRef.componentInstance.name = this.charity.name;
     modalRef.componentInstance.charityId = this.charity._id;
   }

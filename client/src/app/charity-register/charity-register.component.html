@@ -83,8 +83,6 @@
                 <label class="control-label" for="textinput">Line 2</label>
                 <input type="text" placeholder="Address Line 2" class="form-control" formControlName="line2">
               </div>
-              <!-- {{addressForm.valid |json}} -->
-              {{addressForm.value |json}}
             </form>
 
             <!-- Text input-->
@@ -168,7 +166,6 @@
                   <span [hidden]="!(basicInfoErrors.lastname)">{{basicInfoErrors.lastname}}</span>
              </small>
           </div>
-          {{basicInfoForm.value |json}}
           <div class="row justify-content-center">
             <button mat-button matStepperPrevious class="btn btn-success">Back</button>
             <button mat-button [style.background-color]="basicInfoForm.invalid ? 'grey' : 'green'" matStepperNext>Next</button>
@@ -245,7 +242,6 @@
       <button mat-button matStepperPrevious class="btn-success">Back</button>
       <button mat-button (click)="onSubmit()" class="btn-info" [disabled]="isSubmitted && !msg">Submit</button>
       <button mat-button (click)="stepper.reset()" class="btn-warning">Reset</button>
-      {{this.basicInfoForm.value |json}}
     </div>
   </mat-step>
 </mat-horizontal-stepper>

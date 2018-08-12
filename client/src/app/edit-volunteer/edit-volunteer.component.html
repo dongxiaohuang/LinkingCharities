@@ -1,0 +1,189 @@
+<div class="bg">
+</div>
+<div class="container p-5">
+ <div class="card bg-light mt-5">
+    <div class="card-body">
+      <h4 class="card-title"><strong>Volunteer Activity Information</strong></h4>
+      <hr>
+      <div class="alert alert-info alert-dismissable" *ngIf="volunteerMsg">
+       <a class="panel-close close" data-dismiss="alert" (click)="volunteerMsg=undefined">×</a> {{volunteerMsg}}
+     </div>
+      <div class="form" *ngIf="volunteerForm" [formGroup]="volunteerForm">
+        <div class="form-group">
+         <label>Name</label>
+         <input type="text" class="form-control" required formControlName="name">
+         <small>
+              <span [hidden]="!volunteerFormErrors.name">{{volunteerFormErrors.name}}</span>
+        </small>
+        </div>
+        <div class="form-group">
+         <label>Location</label>
+         <input type="text" class="form-control" required formControlName="location">
+         <small>
+              <span [hidden]="!volunteerFormErrors.location">{{volunteerFormErrors.location}}</span>
+        </small>
+        </div>
+        <div class="form-group">
+         <label>Pay</label>
+         <input type="text" class="form-control" formControlName="pay">
+        </div>
+        <div class="form-group">
+         <label>People in Charge</label>
+         <input type="text" class="form-control" formControlName="principal">
+        </div>
+        <div class="form-group">
+         <label>Restrictions</label>
+         <textarea type="text" class="form-control" formControlName="restrictions"></textarea>
+        </div>
+        <div class="form-group">
+         <label>Study Type(*)</label>
+         <!-- <input type="text" class="form-control" formControlName="restrictions"> -->
+         <div class='col'>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" id="inlineRadio1" value="On site" [checked]="this.volunteerForm.value.study_type=='On site'" formControlName="study_type">
+              <label class="form-check-label" for="inlineRadio1">On site</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" id="inlineRadio2" value="Remote" [checked]="this.volunteerForm.value.study_type=='Remote'" formControlName="study_type">
+              <label class="form-check-label" for="inlineRadio2">Remote</label>
+            </div>
+         </div>
+        </div>
+        <div class="form-group">
+         <label>Description</label>
+         <textarea type="text" class="form-control" required formControlName="description"></textarea>
+         <small>
+              <span [hidden]="!volunteerFormErrors.description">{{volunteerFormErrors.description}}</span>
+        </small>
+        </div>
+        <div class="form-group text-center">
+             <button type="button" class="btn btn-danger" [disabled]="volunteerForm.invalid || !volunteerForm.dirty" (click)="changeVolunteer()">Save</button>
+             <button type="button" class="btn btn-info" (click)="onVolunteerFormReset()" >Reset</button>
+        </div>
+      </div>
+    </div>
+ </div>
+</div>
+
+<hr />
+
+<div class="container p-5">
+
+ <div class="card bg-light mt-5">
+    <div class="card-body">
+      <!-- <h4 class="card-title">Add New Time slots</h4> -->
+      <div>
+       <h4 class="card-title"><strong>Current Timeslots</strong></h4>
+       <hr>
+       <div class="list-group">
+           <div class="alert alert-danger alert-dismissable" *ngIf="!acticityTimeslots.length">
+            Timeslots can not be empty
+          </div>
+          <div class="alert alert-info alert-dismissable" *ngIf="deleteMsg">
+           <a class="panel-close close" data-dismiss="alert" (click)="deleteMsg=undefined">×</a> {{deleteMsg}}
+         </div>
+         <a *ngFor="let timeslot of acticityTimeslots" class="list-group-item list-group-item-action" >
+                   <p>
+                        <strong>Date</strong>: {{timeslot?.date.day}}.{{timeslot?.date.month}}.{{timeslot?.date.year}}
+                        <button  class="panel-close close" (click)="openEditModel(timeslot)" data-dismiss="alert">Edit</button>
+                   </p>
+                   <p>
+                        <strong>Start from</strong>: {{timeslot?.period.start.hour}}:{{timeslot?.period.start.minute}}
+                        <strong>End at</strong>: {{timeslot?.period.end.hour}}:{{timeslot?.period.end.minute}}
+                   </p>
+                   <p>
+                        <strong>No. people</strong>: {{timeslot?.requiredNumber}}
+                        <button [disabled]="acticityTimeslots.length ===1" class="panel-close close" (click)="delete(timeslot)" data-dismiss="alert">×</button>
+                   </p>
+                   <small *ngIf="acticityTimeslots.length ===1" class="text-danger">There must be at least one timeslot</small>
+         </a>
+         {{acticityTimeslots|json}}
+       </div>
+       <hr style="margin-top: 5rem;">
+       <!-- <div class="form-group text-center">
+            <button class="btn btn-danger" [disabled]="!acticityTimeslots.length">Save</button>
+            <button class="btn btn-info" (click) = "timeslotReset()">Reset</button>
+       </div> -->
+       <hr>
+      </div>
+      <div class="alert alert-info alert-dismissable" *ngIf="addTimeslotMsg">
+       <a class="panel-close close" data-dismiss="alert" (click)="addTimeslotMsg=undefined">×</a> {{addTimeslotMsg}}
+     </div>
+      <div class="form" [formGroup]="timeslotForm">
+       <div class="form-group">
+         <label>Date</label>
+         <div class="form-inline">
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" [(ngModel)]="date" ngbDatepicker #d="ngbDatepicker" [minDate]="today" formControlName="date">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                    <i class="far fa-calendar-alt"></i>
+                  </button>
+                </div>
+                <small>
+                  <span [hidden]="!timeslotFormErrors.date">{{timeslotFormErrors.date}}</span>
+            </small>
+              </div>
+            </div>
+         </div>
+       </div>
+       <div class="form-group">
+         <label>Number of people required</label>
+         <input id="requiredNumber" class="form-control" required formControlName="requiredNumber" pattern="[0-9]*" />
+       </div>
+       <small>
+         <span [hidden]="!timeslotFormErrors.requiredNumber">{{timeslotFormErrors.requiredNumber}}</span>
+  </small>
+      </div>
+      <div class="form" [formGroup]="periodForm">
+       <div class="row">
+         <div class="col-6">
+            <div class="form-group">
+              <label>Start Time</label>
+              <a class="btn" (click)="chooseStart = !chooseStart"><i class="fas fa-hourglass-start">{{chooseStart? 'save start' : 'choose start time' }}</i></a>
+              <div class="col-6" *ngIf="chooseStart">
+                <ngb-timepicker [(ngModel)]="time1" [meridian]="true" formControlName="start" required></ngb-timepicker>
+              </div>
+              <p>
+                   <strong *ngIf="!chooseStart && time1">
+                        {{time1?.hour}}:{{time1?.minute}}
+                   </strong>
+              </p>
+              <small>
+                          <span [hidden]="!periodFormErrors.start">{{periodFormErrors.start}}</span>
+                     </small>
+            </div>
+         </div>
+         <div class="col-6">
+            <div class="form-group">
+              <label>End Time</label>
+              <a class="btn" (click)="chooseEnd = !chooseEnd"><i class="fas fa-hourglass-end">{{chooseEnd? 'save end': 'choose end time'}}</i></a>
+              <div class="col-6" *ngIf="chooseEnd">
+                <ngb-timepicker [(ngModel)]="time2" [meridian]="true" formControlName="end" required></ngb-timepicker>
+              </div>
+              <p>
+                   <strong *ngIf="!chooseEnd && time2">
+                        {{time2?.hour}}:{{time2?.minute}}
+                   </strong>
+              </p>
+              <small>
+                          <span [hidden]="!periodFormErrors.end">{{periodFormErrors.end}}</span>
+                     </small>
+              <input [ngModel]="duration" hidden="true" formControlName="duration" />
+              <small>
+                          <span [hidden]="duration>0 || !time1 || !time2">End time must be later than start time</span>
+                     </small>
+            </div>
+         </div>
+       </div>
+       <div class="form-group text-center">
+            <button type="button" class="btn btn-warning" (click)="addToTimeslots()" [disabled]="periodForm.invalid||timeslotForm.invalid">Add Timeslot</button>
+       </div>
+      </div>
+    </div>
+ </div>
+</div>
+<div class="text-center">
+     <button class="btn btn-danger">Delete Activity</button>
+</div>
