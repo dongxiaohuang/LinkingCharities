@@ -61,7 +61,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
-
+// app.use('public/javascripts', express.static(path.join(__dirname, 'public/scripts.806effac119676237f10.js')));
+// app.use('public/stylesheets', express.static(path.join(__dirname, 'public/styles.5457866b71b5dfe969b9.css')));
 
 
 app.use(passport.initialize());

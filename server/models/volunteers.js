@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 const timeslotSchema = new Schema({
      date: {
@@ -7,28 +8,31 @@ const timeslotSchema = new Schema({
           "month": Number,
           "day": Number
      },
-     period:{
-          start:
-               { "hour": Number, "minute": Number }
-          ,
-          end:{ "hour": Number, "minute": Number }
-          ,
-          duration:{
+     period: {
+          start: {
+               "hour": Number,
+               "minute": Number
+          },
+          end: {
+               "hour": Number,
+               "minute": Number
+          },
+          duration: {
                type: String,
                required: true
           }
      },
-     requiredNumber:{
+     requiredNumber: {
           type: Number,
-          requierd:true
+          requierd: true
      },
-     dateTimestamp:Number,
-     registers:[{
+     dateTimestamp: Number,
+     registers: [{
           type: Schema.Types.ObjectId,
           ref: 'User',
      }]
-},{
-     timestamps:true,
+}, {
+     timestamps: true,
      toObject: {
           virtuals: true
      },
@@ -38,41 +42,41 @@ const timeslotSchema = new Schema({
 });
 
 const volunteerSchema = new Schema({
-     timeslots:[timeslotSchema],
+     timeslots: [timeslotSchema],
      name: {
-          type: String,
-          required:true
-     },
-     location:{
-          type:String,
-          requierd:true
-     },
-     pay:{
-          type: String,
-          default:''
-     },
-
-     description:{
           type: String,
           required: true
      },
-     charity:{
+     location: {
+          type: String,
+          requierd: true
+     },
+     pay: {
+          type: String,
+          default: ''
+     },
+
+     description: {
+          type: String,
+          required: true
+     },
+     charity: {
           type: Schema.Types.ObjectId,
           ref: 'Charity',
-          requierd:true
+          requierd: true
      },
-     principal:{
+     principal: {
           type: String,
-          default:''
+          default: ''
      },
-     restrictions:{
-          Type:String,
+     restrictions: {
+          Type: String,
      },
-     study_type:{
-          Type:String,
+     study_type: {
+          Type: String,
      }
-},{
-     timestamps:true,
+}, {
+     timestamps: true,
      toObject: {
           virtuals: true
      },
@@ -83,10 +87,11 @@ const volunteerSchema = new Schema({
 
 timeslotSchema
      .virtual('registers_no')
-     .get(function(){
+     .get(function() {
           // console.log(this.registers)
           return this.registers.length;
      })
 
+volunteerSchema.plugin(deepPopulate);
 let Volunteers = mongoose.model('Volunteer', volunteerSchema);
 module.exports = Volunteers;

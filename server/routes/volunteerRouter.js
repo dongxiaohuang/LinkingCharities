@@ -146,7 +146,6 @@ volunteerRouter.route('/')
           res.end('DELETE is not supported in this endpoint /volunteer');
      })
 
-
 volunteerRouter.route('/:volunteerId')
      .options(cors.corsWithOptions, (req, res) => {
           res.sendStatus(200);
@@ -209,7 +208,7 @@ volunteerRouter.route('/:volunteerId/timeslots')
                          .then((volunteer) => {
                               res.statusCode = 200;
                               res.setHeader('Content-Type', 'application/json');
-                              res.json(volunteer);
+                              res.json(volunteer.timeslots);
                          }, err => next(err))
                }, err => next(err))
                .catch(err => next(err))
@@ -260,49 +259,70 @@ volunteerRouter.route('/:volunteerId/timeslot/:timeslotId')
      })
      .put(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
           Volunteers.findOneAndUpdate({
-                    "_id": req.params.volunteerId,
-                    "timeslots._id": req.params.timeslotId
-               }, {
-                    "$set": {
-                         "timeslots.$": req.body
+               "_id": req.params.volunteerId,
+               "timeslots._id": req.params.timeslotId
+          }, {
+               $set: {
+                    "timeslots.$": req.body
+               }
+          }, {new:true})
+          .then(result => {
+
+               // Volunteers.findById(req.params.volunteerId)
+               // .then(volunteer => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(result);
+               // })
+          }, err=> next(err))
+          .catch(err => next(err))
+     })
+     .delete(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
+
+
+          Volunteers.update({}, {
+                    $pull: {
+                         timeslots: {
+                              _id: req.params.timeslotId
+                         }
                     }
                }, {
                     new: true
                })
-               .then(volunteer => {
-                    res.statusCode = 200;
-                    res.setHeader('Content-Type', 'application/json');
-                    res.json(volunteer.timeslots.id(req.params.timeslotId));
+               .then(resp => {
+                    Volunteers.findById(req.params.volunteerId)
+                         .then(volunteer => {
+                              res.statusCode = 200;
+                              res.setHeader('Content-Type', 'application/json');
+                              res.json(volunteer);
+                         })
                }, err => next(err))
                .catch(err => next(err))
-     })
-     .delete(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-          Volunteers.findById(req.params.volunteerId)
-               .then((volunteer) => {
-                    if (volunteer != null && volunteer.timeslots.id(req.params.timeslotId) != null) {
-                         volunteer.timeslots.id(req.params.timeslotId).remove(); // make sure Id is different
-                         volunteer.save()
-                              .then(volunteer => {
-                                   res.statusCode = 200;
-                                   res.setHeader('Content-Type', 'application/json');
-                                   res.json(volunteer);
-                              }, err => next(err))
-                              .catch(err => next(err))
-                    } else if (volunteer == null) {
-                         err = new Error('volunteer ' + req.params.volunteerId + ' not found');
-                         err.status = 404;
-                         return next(err);
-                    } else {
-                         err = new Error('Timeslot ' + req.params.timeslotId + ' not found');
-                         err.status = 404;
-                         return next(err);
-                    }
-               }, (err) => next(err))
-               .catch((err) => next(err));
+          // .then((volunteer) => {
+          //      if (volunteer != null && volunteer.timeslots.id(req.params.timeslotId) != null) {
+          //           volunteer.timeslots.id(req.params.timeslotId).remove(); // make sure Id is different
+          //           volunteer.save()
+          //                .then(volunteer => {
+          //                     res.statusCode = 200;
+          //                     res.setHeader('Content-Type', 'application/json');
+          //                     res.json(volunteer);
+          //                }, err => next(err))
+          //                .catch(err => next(err))
+          //      } else if (volunteer == null) {
+          //           err = new Error('volunteer ' + req.params.volunteerId + ' not found');
+          //           err.status = 404;
+          //           return next(err);
+          //      } else {
+          //           err = new Error('Timeslot ' + req.params.timeslotId + ' not found');
+          //           err.status = 404;
+          //           return next(err);
+          //      }
+          // }, (err) => next(err))
+          // .catch((err) => next(err));
      })
 
 // get the volunteer activities registers
-volunteerRouter.route('/:volunteerId/timeslot/:timeslotId/getregisters')
+volunteerRouter.route('/:volunteerId/timeslots/getregisters')
      .options(cors.corsWithOptions, (req, res) => {
           res.sendStatus(200);
      })
@@ -313,27 +333,36 @@ volunteerRouter.route('/:volunteerId/timeslot/:timeslotId/getregisters')
                               _id: req.params.volunteerId,
                               charity: charityUser.charity
                          })
-                         .then((volunteer) => {
-                              volunteer = volunteer[0];
+                         .deepPopulate(['timeslots.registers'])
+                         .then((volunteers) => {
                               // if (volunteer != null && volunteer.timeslots.id(req.params.timeslotId) != null) {
-                              if (volunteer != null && volunteer.timeslots.id(req.params.timeslotId) != null) {
-                                   // console.log('ss',volunteer.timeslots.id(req.params.timeslotId).registers.length)
-                                   res.statusCode = 200;
-                                   res.setHeader('Content-Type', 'application/json');
-                                   res.json(volunteer.timeslots.id(req.params.timeslotId));
-                              } else if (volunteer == null) {
-                                   err = new Error('volunteer ' + req.params.volunteerId + ' not found');
-                                   err.status = 404;
-                                   return next(err);
-                              } else {
-                                   err = new Error('Timeslot ' + req.params.timeslotId + ' not found');
-                                   err.status = 404;
-                                   return next(err);
-                              }
+                              res.statusCode = 200;
+                              res.setHeader('Content-Type', 'application/json');
+                              res.json({
+                                   success: true,
+                                   message: 'registers found for this activity',
+                                   results: volunteers
+                              })
                          }, (err) => next(err))
                          .catch((err) => next(err));
                }, err => next(err))
                .catch(err => next(err))
+     });
+// get all the volunteer activities that registered by user
+volunteerRouter.route('/user/volunteers')
+     .options(cors.corsWithOptions, (req, res) => {
+          res.sendStatus(200);
+     })
+     .get(cors.cors, authenticate.verifyUser, (req, res, next) => {
+          Volunteers.find({
+               'timeslots.registers':req.user._id
+          })
+          .then(result => {
+               res.statusCode = 200;
+               res.setHeader('Content-Type', 'application/json');
+               res.json(result)
+          }, err=> next(err))
+          .catch(err=>next(err))
      });
 
 //register to volunteer activities
@@ -450,7 +479,7 @@ volunteerRouter.route('/:volunteerId/timeslot/:timeslotId/register')
      })
 
 
-
+// get volunteers activities that availeble from now
 volunteerRouter.route('/charity/:charityId')
      .options(cors.corsWithOptions, (req, res) => {
           res.sendStatus(200);
@@ -528,6 +557,69 @@ volunteerRouter.route('/charity/:charityId')
      .delete(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
           res.statusCode = 403;
           res.end('DELETE is not supported in this endpoint /charity/' + req.params.charityId);
+     })
+// get volunteers activities that availeble from now
+volunteerRouter.route('/charity/activities/all')
+     .options(cors.corsWithOptions, (req, res) => {
+          res.sendStatus(200);
+     })
+     .get(cors.cors, charityAuthenticate.verifyUser, (req, res, next) => {
+          CharityRegisters.findById(req.user._id)
+               .then(charityUser => {
+                    var perPage = 10;
+                    var page = req.query.page;
+                    // console.log(charityUser)
+                    let user = charityUser
+                    async.parallel([
+                         (callback) => {
+                              Volunteers.count({
+                                        charity: user.charity
+                                   })
+                                   .then(res => {
+                                        callback(null, res)
+                                   })
+                                   .catch(err => callback(err, null))
+                         },
+                         callback => {
+                              Volunteers.find({
+                                        charity: user.charity
+                                   })
+                                   .limit(perPage)
+                                   .skip(perPage * page)
+                                   .sort('-createdAt')
+                                   .then((res) => callback(null, res))
+                                   .catch(err => callback(err, null))
+                         }
+                    ], (err, results) => {
+                         var totalNumber = results[0];
+                         var volunteers = results[1];
+                         res.statusCode = 200;
+                         res.setHeader('Content-Type', 'application/json');
+                         res.json({
+                              success: true,
+                              message: 'load all volunteer activities for ' + user.charity,
+                              volunteers: volunteers,
+                              totalNumber: totalNumber,
+                              page: Math.ceil(totalNumber / perPage),
+                              numberPerPage: perPage
+                         }), (err) => next(err)
+                    })
+               })
+               .catch(err => next(err))
+
+
+     })
+     .post(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
+          res.statusCode = 403;
+          res.end('POST is not supported in this endpoint /charity/' + '/allactivities');
+     })
+     .put(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
+          res.statusCode = 403;
+          res.end('PUT is not supported in this endpoint /charity/' + '/allactivities');
+     })
+     .delete(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
+          res.statusCode = 403;
+          res.end('DELETE is not supported in this endpoint /charity/' + '/allactivities');
      })
 
 

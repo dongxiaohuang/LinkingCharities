@@ -6,6 +6,7 @@ const cors = require('./cors');
 var charityAuthenticate = require('../charityAuthenticate');
 var authenticate = require('../authenticate');
 const charityRouter = express.Router();
+const Categories = require('../models/categories');
 
 charityRouter.use(bodyParser.json());
 
@@ -72,30 +73,30 @@ charityRouter.route('/')
      });
 
 charityRouter.route('/allcharities')
-.options(cors.corsWithOptions, (req, res) => {
-     res.sendStatus(200);
-})
-.get(cors.cors, (req, res, next) => {
-     Charities.find({})
-     .then((charities) => {
-          res.statusCode = 200;
-          res.setHeader('Content-Type', 'application/json');
-          res.json(charities);
-     }, err => next(err))
-     .catch(err => next(err));
-})
-.post(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-     res.statusCode = 403;
-     res.end('POST is not supported in this endpoint /allcharities' + req.params.charityId);
-})
-.put(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-     res.statusCode = 403;
-     res.end('PUT is not supported in this endpoint /allcharities' + req.params.charityId);
-})
-.delete(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-     res.statusCode = 403;
-     res.end('DELETE is not supported in this endpoint /allcharities' + req.params.charityId);
-})
+     .options(cors.corsWithOptions, (req, res) => {
+          res.sendStatus(200);
+     })
+     .get(cors.cors, (req, res, next) => {
+          Charities.find({})
+               .then((charities) => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(charities);
+               }, err => next(err))
+               .catch(err => next(err));
+     })
+     .post(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
+          res.statusCode = 403;
+          res.end('POST is not supported in this endpoint /allcharities' + req.params.charityId);
+     })
+     .put(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
+          res.statusCode = 403;
+          res.end('PUT is not supported in this endpoint /allcharities' + req.params.charityId);
+     })
+     .delete(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
+          res.statusCode = 403;
+          res.end('DELETE is not supported in this endpoint /allcharities' + req.params.charityId);
+     })
 charityRouter.route('/newCharities')
      .options(cors.corsWithOptions, (req, res) => {
           res.sendStatus(200);
@@ -157,50 +158,50 @@ charityRouter.route('/:charityId')
      });
 
 charityRouter.route('/:charityId/geocode')
-.options(cors.corsWithOptions, (req, res) => {
-     res.sendStatus(200);
-})
-.get(cors.cors, (req, res, next) => {
-     Charities.findById(req.params.charityId)
-     .then((charity) => {
-          if (charity != null) {
-               res.statusCode = 200;
-               res.setHeader('Content-Type', 'application/json');
-               res.json(charity.geocoding);
-          } else {
-               var err = new Error('Charity' + req.params.charityId + ' not found!');
-               err.status = 404;
-               return next(err);
-          }
-     }, err => next(err))
-     .catch(err => next(err));
-})
-.post(cors.corsWithOptions, (req, res, next) => {
-     Charities.findById(req.params.charityId)
-          .then((charity) => {
-               charity.geocoding = req.body;
-               charity.save()
+     .options(cors.corsWithOptions, (req, res) => {
+          res.sendStatus(200);
+     })
+     .get(cors.cors, (req, res, next) => {
+          Charities.findById(req.params.charityId)
                .then((charity) => {
-                    res.statusCode = 200;
-                    res.setHeader('Content-Type', 'application/json');
-                    res.json(charity.geocoding);
-               })
-          }, err => next(err))
-          .catch(err => next(err));
-})
-.put(cors.corsWithOptions, (req, res, next) => {
-     Charities.findById(req.params.charityId)
-          .then((charity) => {
-               charity.geocoding = req.body;
-               charity.save()
+                    if (charity != null) {
+                         res.statusCode = 200;
+                         res.setHeader('Content-Type', 'application/json');
+                         res.json(charity.geocoding);
+                    } else {
+                         var err = new Error('Charity' + req.params.charityId + ' not found!');
+                         err.status = 404;
+                         return next(err);
+                    }
+               }, err => next(err))
+               .catch(err => next(err));
+     })
+     .post(cors.corsWithOptions, (req, res, next) => {
+          Charities.findById(req.params.charityId)
                .then((charity) => {
-                    res.statusCode = 200;
-                    res.setHeader('Content-Type', 'application/json');
-                    res.json(charity.geocoding);
-               })
-          }, err => next(err))
-          .catch(err => next(err));
-})
+                    charity.geocoding = req.body;
+                    charity.save()
+                         .then((charity) => {
+                              res.statusCode = 200;
+                              res.setHeader('Content-Type', 'application/json');
+                              res.json(charity.geocoding);
+                         })
+               }, err => next(err))
+               .catch(err => next(err));
+     })
+     .put(cors.corsWithOptions, (req, res, next) => {
+          Charities.findById(req.params.charityId)
+               .then((charity) => {
+                    charity.geocoding = req.body;
+                    charity.save()
+                         .then((charity) => {
+                              res.statusCode = 200;
+                              res.setHeader('Content-Type', 'application/json');
+                              res.json(charity.geocoding);
+                         })
+               }, err => next(err))
+               .catch(err => next(err));
+     })
 
 
 charityRouter.route('/:charityId/comments')
@@ -275,4 +276,84 @@ charityRouter.route('/:charityId/comments')
                .catch(err => next(err));
      })
 
+charityRouter.route('/search/by')
+     .options(cors.corsWithOptions, (req, res) => {
+          sendStatus(200);
+     })
+     .get(cors.cors, (req, res, next) => {
+          var perPage = 10;
+          var page = req.query.page;
+
+          console.log(req.query.q)
+          let query = req.query.q.toLowerCase();
+          let queryExpress = [
+               {
+                    "name":
+                         { "$regex": req.query.q, "$options": "i" }
+               },
+               {
+                    "city":{
+                         "$regex": req.query.q, "$options": "i"
+                    }
+               },
+               {
+                    "country":{
+                         "$regex": req.query.q, "$options": "i"
+                    }
+               },
+               {
+                    "state":{
+                         "$regex": req.query.q, "$options": "i"
+                    }
+               }
+          ]
+          Categories.findOne({
+               "name":
+                    { "$regex": query, "$options": "i" }
+          })
+          .then(result => {
+               if(result){
+                    queryExpress.push({categories:result._id})
+               }
+               console.log(queryExpress);
+
+
+
+               // begin to search
+               async.parallel([
+                    function(callback) {
+                         Charities.count({
+                              $or: queryExpress
+                         }, (err, count) => {
+                              callback(err, count);
+                         })
+                    },
+                    function(callback) {
+                         Charities.find({
+                              $or: queryExpress
+                         })
+                              .limit(perPage)
+                              .skip(perPage * page)
+                              .populate('categories')
+                              .exec((err, charities) => {
+                                   if (err) return next(err);
+                                   callback(err, charities);
+                              })
+                    }
+               ], (err, results) => {
+                    var totalNumber = results[0];
+                    var charities = results[1];
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json({
+                         success: true,
+                         message: 'charities for' + query,
+                         search_result: charities,
+                         search_key: query,
+                         totalNumber: totalNumber,
+                         page: Math.ceil(totalNumber / perPage),
+                         numberPerPage: perPage
+                    }), (err) => next(err)
+               })
+     })})
 module.exports = charityRouter;

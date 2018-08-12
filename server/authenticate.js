@@ -64,8 +64,9 @@ exports.facebookPassport = passport.use(new FacebookTokenStrategy({
           if (!err && user !== null) {
                return done(null, user);
           } else {
+               console.log(profile)
                user = new User({
-                    username: profile.displayName
+                    username: profile.emails[0].value
                });
                user.facebookId = profile.id;
                user.firstname = profile.name.givenName;
