@@ -26,7 +26,6 @@ export class UserDonationHistoryComponent implements OnInit {
         this.perPage = donations.numberPerPage,
         this.totalNumber = donations.totalNumber,
         this.totalAmount = donations.totalDonations[0].totalamount;
-
       })
   }
   get lower() {

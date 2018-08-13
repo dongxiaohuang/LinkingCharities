@@ -45,6 +45,10 @@ export class VolunteerService {
       return this.http.put(baseURL +'volunteer/'+volunteerId, newVolunteer)
      .catch(err => this.processHTTPMsgService.handleError(err));
 }
+ deleteVolunteer(volunteerId:string):Observable<any> {
+      return this.http.delete(baseURL + 'volunteer/'+volunteerId)
+      .catch(err => this.processHTTPMsgService.handleError(err));
+}
   getTimeslots(volunteerId:string):Observable<any>{
        //https://localhost:8443/volunteer/5b6ac594c0176dc9f234d4d4/timeslots
        return this.http.get(baseURL + 'volunteer/'+volunteerId+'/timeslots')
@@ -59,6 +63,11 @@ export class VolunteerService {
   getTimeslot(volunteerId:string, timeslotId: string):Observable<any>{
        //https://localhost:8443/volunteer/5b6ac594c0176dc9f234d4d4/timeslots
        return this.http.get(baseURL + 'volunteer/'+volunteerId+'/timeslot/'+ timeslotId)
+       .catch(err => this.processHTTPMsgService.handleError(err));
+ }
+  changeTimeslot(volunteerId:string, timeslotId: string, newTimeslot):Observable<any>{
+       //https://localhost:8443/volunteer/5b6ac594c0176dc9f234d4d4/timeslots
+       return this.http.put(baseURL + 'volunteer/'+volunteerId+'/timeslot/'+ timeslotId, newTimeslot)
        .catch(err => this.processHTTPMsgService.handleError(err));
  }
   deleteTimeslot(volunteerId:string, timeslotId: string):Observable<any>{
@@ -86,6 +95,11 @@ export class VolunteerService {
  getRegisters(volunteerId):Observable<any> {
       return this.http.get(baseURL + 'volunteer/'+ volunteerId +'/timeslots/getregisters')
       .catch(err => this.processHTTPMsgService.handleError(err));
+}
+
+getRegistedTimeslots():Observable<any>{
+     return this.http.get(baseURL + 'volunteer/user/volunteers')
+     .catch(err => this.processHTTPMsgService.handleError(err));
 }
 
 

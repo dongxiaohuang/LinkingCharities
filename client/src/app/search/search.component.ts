@@ -9,14 +9,16 @@ import { baseURL } from '../shared/baseurl';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
+     charities: any;
+  numberPerPage: number;
+  totalNumber: number;
+  search_key: number;
   constructor(private searchService: SearchService,
     private activatedRoute: ActivatedRoute,
     private http: HttpClient) { }
   query: string;
   page: number = 1;
-  baseUrl = baseURL;
-  content: any;
-
+  content;
 
 
   ngOnInit() {
@@ -30,25 +32,23 @@ export class SearchComponent implements OnInit {
   }
 
   get lower() {
-    return 1 + this.content.search_result.hitsPerPage * this.content.search_result.page;
+    return 1 + this.numberPerPage * this.page-1;
   }
 
   get upper() {
     return Math.min(
-      this.content.search_result.hitsPerPage * (this.content.search_result.page + 1),
-      this.content.search_result.nbHits,
+      this.totalNumber, this.page * this.numberPerPage
     );
   }
 
   getCharities(query: string, page: number) {
     this.searchService.getSearchResults(query, page - 1)
       .subscribe((res) => {
-        this.content = res;
-        this.content.search_result.hits.forEach(charity => {
-            charity._id = charity.objectID;
-            delete charity.objectID;
-        });
-
+       this.content = res;
+       this.search_key = res.search_key;
+       this.totalNumber = res.totalNumber;
+       this.numberPerPage = res.numberPerPage;
+       this.charities = res.search_result;
       })
   }
 

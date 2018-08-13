@@ -12,7 +12,7 @@ export class SearchService {
   private processHTTPMsgService: ProcessHTTPMsgService) { }
 
   getSearchResults(query: string, page: number): Observable<any> {
-       return this.http.get(baseURL + 'search?query=' + query+ '&page='+page)
+       return this.http.get(baseURL + 'search?q=' + query+ '&page='+page)
           .catch(err => this.processHTTPMsgService.handleError(err));
  }
 }

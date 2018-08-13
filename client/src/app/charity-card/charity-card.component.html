@@ -23,7 +23,7 @@
         <p class="text">{{charity.info}}</p>
         <!-- <div class="row text"> -->
         <div class="col-4 col-md-3 col-lg-2" *ngFor="let category of charity?.categories">
-          <span class="badge badge-pill badge-warning"><a class="link" [routerLink]="['/category', category._id]">{{category.name}}</a></span>
+          <span class="badge badge-pill badge-warning"><a class="link" [routerLink]="['/search', { query: category.name, page: 1 }]">{{category.name}}</a></span>
         </div>
         <!-- </div> -->
         <a [routerLink]="['/charitydetail', charity._id]" class="button">Read more</a>

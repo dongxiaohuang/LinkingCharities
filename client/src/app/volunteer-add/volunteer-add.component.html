@@ -162,7 +162,7 @@
                 </div>
               </div>
             </div>
-            <div class="btn-group text-center">
+            <div class="form-group text-center">
                  <button type="button" class="btn btn-success" matStepperPrevious>Back</button>
                  <button type="button" class="btn btn-warning" (click)="addToTimeslots()" [disabled]="periodForm.invalid||timeslotForm.invalid">Add Timeslot</button>
                  <button type="button" class="btn btn-info" matStepperNext [disabled]="!timeslots.length">Next</button>
@@ -174,7 +174,7 @@
   </mat-step>
   <mat-step>
     <ng-template matStepLabel><i class="fas fa-check-circle"></i><b>&nbsp; Done</b></ng-template>
-    You are now done.
+
     <div #preview>
          <div class="container">
            <div class="row">
@@ -213,8 +213,10 @@
                            <strong>Date</strong>: {{timeslot.date.day}}.{{timeslot.date.month}}.{{timeslot.date.year}}
                       </p>
                       <p>
-                           <strong>Start from</strong>: {{timeslot.period.start.hour}}:{{timeslot.period.start.minute}}
-                           <strong>End at</strong>: {{timeslot.period.end.hour}}:{{timeslot.period.end.minute}}
+                           <strong>Start from</strong>:
+                           {{timeslot.period.start.hour <10? '0'+timeslot.period.start.hour:timeslot.period.start.hour }}:{{timeslot.period.start.minute <10? '0'+timeslot.period.start.minute:timeslot.period.start.minute}}
+                           <strong>End at</strong>:
+                           {{timeslot.period.end.hour <10? '0'+timeslot.period.end.hour:timeslot.period.end.hour }}:{{timeslot.period.end.minute <10? '0'+timeslot.period.end.minute:timeslot.period.start.minute}}
                       </p>
                       <p>
                            <strong>No. people</strong>: {{timeslot.requiredNumber}}
@@ -277,7 +279,7 @@
          </div>
     </div>
     <div>
-       <div class="btn-group" *ngIf="!isSuccessPosted" >
+       <div class="form-group text-center" *ngIf="!isSuccessPosted" >
             <button type="button" class="btn btn-success" matStepperPrevious>Back</button>
             <button type="button" class="btn btn-info" (click)="register()" [disabled]="btnDisable && !feedback">Register volunteer Activity</button>
             <button type="button" class="btn btn-danger" (click)="stepper.reset()">Reset</button>

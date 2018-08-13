@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { VolunteerService } from '../services/volunteer.service';
 import { onValueChanged } from '../utils/helpers';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-edit-timeslot',
@@ -9,6 +10,7 @@ import { onValueChanged } from '../utils/helpers';
   styleUrls: ['./edit-timeslot.component.scss']
 })
 export class EditTimeslotComponent implements OnInit {
+  responseMsg: string = undefined;
   @Input()
   timeslot
   @Input()
@@ -52,6 +54,7 @@ export class EditTimeslotComponent implements OnInit {
   }
   constructor(
        private fb: FormBuilder,
+       public activeModal: NgbActiveModal,
        private volunteerService: VolunteerService
  ) { }
 
@@ -84,8 +87,6 @@ export class EditTimeslotComponent implements OnInit {
     this.timeslotForm = this.fb.group({
       date: [this.timeslot.date, Validators.required],
       period: [this.timeslot.period],
-      id:[this.timeslot.id],
-      registers:[this.timeslot.registers],
       dateTimestamp: [this.timeslot.dateTimestamp],
       requiredNumber: [this.timeslot.requiredNumber, [Validators.required, Validators.pattern]],
     })
@@ -99,8 +100,10 @@ export class EditTimeslotComponent implements OnInit {
        console.log(date)
        this.timeslotForm.value.dateTimestamp = date.getTime();
        this.timeslotForm.value.period = this.periodForm.value;
-       // this.volunteerService.changeVolunteer(this.volunteerId, this.timeslotForm.value)
-       // .subscribe()
+       this.volunteerService.changeTimeslot(this.volunteerId, this.timeslot._id, this.timeslotForm.value, )
+       .subscribe(res => {
+            this.responseMsg = "Update Successfully";
+       }, err => this.responseMsg = "Update Failed")
  }
 
 }

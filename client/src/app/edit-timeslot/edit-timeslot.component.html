@@ -1,76 +1,82 @@
-{{timeslot|json}}
 <div class='container'>
-     <h3><strong>Edit timeslot</strong></h3>
-     <div class="form" [formGroup]="timeslotForm">
-     <div class="form-group">
+  <h3><strong>Edit timeslot</strong></h3>
+  <div *ngIf="!responseMsg">
+    <div class="form" [formGroup]="timeslotForm">
+      <div class="form-group">
         <label>Date</label>
         <div class="form-inline">
-           <div class="form-group">
-             <div class="input-group">
-               <input class="form-control" placeholder="yyyy-mm-dd" [(ngModel)]="this.timeslotForm.value.date" ngbDatepicker #d="ngbDatepicker" [minDate]="today" formControlName="date">
-               <div class="input-group-append">
-                 <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                   <i class="far fa-calendar-alt"></i>
-                 </button>
-               </div>
-               <small>
-                 <span [hidden]="!timeslotFormErrors.date">{{timeslotFormErrors.date}}</span>
-           </small>
-             </div>
-           </div>
+          <div class="form-group">
+            <div class="input-group">
+              <input class="form-control" placeholder="yyyy-mm-dd" [(ngModel)]="this.timeslotForm.value.date" ngbDatepicker #d="ngbDatepicker" [minDate]="today" formControlName="date">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                                             <i class="far fa-calendar-alt"></i>
+                                        </button>
+              </div>
+              <small>
+                                        <span [hidden]="!timeslotFormErrors.date">{{timeslotFormErrors.date}}</span>
+                                   </small>
+            </div>
+          </div>
         </div>
-     </div>
-     <div class="form-group">
+      </div>
+      <div class="form-group">
         <label>Number of people required</label>
         <input id="requiredNumber" class="form-control" required formControlName="requiredNumber" pattern="[0-9]*" />
-     </div>
-     <small>
-        <span [hidden]="!timeslotFormErrors.requiredNumber">{{timeslotFormErrors.requiredNumber}}</span>
-     </small>
-     </div>
-     <div class="form" [formGroup]="periodForm">
-     <div class="row">
+      </div>
+      <small>
+                    <span [hidden]="!timeslotFormErrors.requiredNumber">{{timeslotFormErrors.requiredNumber}}</span>
+               </small>
+    </div>
+    <div class="form" [formGroup]="periodForm">
+      <div class="row">
         <div class="col-6">
-           <div class="form-group">
-             <label>Start Time</label>
-             <a class="btn" (click)="chooseStart = !chooseStart"><i class="fas fa-hourglass-start">{{chooseStart? 'save start' : 'choose start time' }}</i></a>
-             <div class="col-12" *ngIf="chooseStart">
-               <ngb-timepicker [(ngModel)]="time1" [meridian]="true" formControlName="start" required></ngb-timepicker>
-             </div>
-             <p>
-                 <strong *ngIf="!chooseStart && time1">
-                       {{time1?.hour}}:{{time1?.minute}}
-                 </strong>
-             </p>
-             <small>
-                         <span [hidden]="!periodFormErrors.start">{{periodFormErrors.start}}</span>
-                    </small>
-           </div>
+          <div class="form-group">
+            <label>Start Time</label>
+            <a class="btn" (click)="chooseStart = !chooseStart"><i class="fas fa-hourglass-start">{{chooseStart? 'save start' : 'choose start time' }}</i></a>
+            <div class="col-12" *ngIf="chooseStart">
+              <ngb-timepicker [(ngModel)]="time1" [meridian]="true" formControlName="start" required></ngb-timepicker>
+            </div>
+            <p>
+              <strong *ngIf="!chooseStart && time1">
+                                        {{time1?.hour}}:{{time1?.minute}}
+                                   </strong>
+            </p>
+            <small>
+                                   <span [hidden]="!periodFormErrors.start">{{periodFormErrors.start}}</span>
+                              </small>
+          </div>
         </div>
         <div class="col-6">
-           <div class="form-group">
-             <label>End Time</label>
-             <a class="btn" (click)="chooseEnd = !chooseEnd"><i class="fas fa-hourglass-end">{{chooseEnd? 'save end': 'choose end time'}}</i></a>
-             <div class="col-12" *ngIf="chooseEnd">
-               <ngb-timepicker [(ngModel)]="time2" [meridian]="true" formControlName="end" required></ngb-timepicker>
-             </div>
-             <p>
-                 <strong *ngIf="!chooseEnd && time2">
-                       {{time2?.hour}}:{{time2?.minute}}
-                 </strong>
-             </p>
-             <small>
-                         <span [hidden]="!periodFormErrors.end">{{periodFormErrors.end}}</span>
-                    </small>
-             <input [ngModel]="duration" hidden="true" formControlName="duration" />
-             <small>
-                         <span [hidden]="duration>0 || !time1 || !time2">End time must be later than start time</span>
-                    </small>
-           </div>
+          <div class="form-group">
+            <label>End Time</label>
+            <a class="btn" (click)="chooseEnd = !chooseEnd"><i class="fas fa-hourglass-end">{{chooseEnd? 'save end': 'choose end time'}}</i></a>
+            <div class="col-12" *ngIf="chooseEnd">
+              <ngb-timepicker [(ngModel)]="time2" [meridian]="true" formControlName="end" required></ngb-timepicker>
+            </div>
+            <p>
+              <strong *ngIf="!chooseEnd && time2">
+                                        {{time2?.hour}}:{{time2?.minute}}
+                                   </strong>
+            </p>
+            <small>
+                                   <span [hidden]="!periodFormErrors.end">{{periodFormErrors.end}}</span>
+                              </small>
+            <input [ngModel]="duration" hidden="true" formControlName="duration" />
+            <small>
+                                   <span [hidden]="duration>0 || !time1 || !time2">End time must be later than start time</span>
+                              </small>
+          </div>
         </div>
-     </div>
-     <div class="form-group text-center">
-           <button type="button" class="btn btn-warning" (click)="saveChanges()" [disabled]="periodForm.invalid||timeslotForm.invalid">Update</button>
-     </div>
-     </div>
+      </div>
+      <div class="form-group text-center">
+        <button type="button" class="btn btn-warning" (click)="saveChanges()" [disabled]="periodForm.invalid||timeslotForm.invalid || (!periodForm.dirty && !timeslotForm.dirty)">Update</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="responseMsg">
+    <ngb-alert [dismissible]="true" (click)="activeModal.dismiss('Cross click')">
+      <strong>{{responseMsg}}</strong>
+    </ngb-alert>
+  </div>
 </div>

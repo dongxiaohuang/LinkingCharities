@@ -4,17 +4,21 @@
 <section id="search">
   <div class="container p-3 p-md-5">
     <app-loading *ngIf="!content" ></app-loading>
-    <h3 *ngIf="content && !content.search_result.nbHits" class="display-2 text-center mt-5">No Results</h3>
-    <div *ngIf="content && content.search_result.nbHits">
-      <p>{{ lower }}-{{ upper }} of {{ content?.search_result.nbHits }} results for
+    <h3 *ngIf="content && !totalNumber" class="display-2 text-center mt-5">
+         <ngb-alert [dismissible]="false">
+        <strong>No Results for <span class="text-warning">"{{ query }}"</span></strong>
+      </ngb-alert>
+</h3>
+    <div *ngIf="content && totalNumber">
+      <p>{{ lower }}-{{ upper }} of {{ totalNumber }} results for
         <span class="text-warning">"{{ query }}"</span>
       </p>
       <hr>
-     <div *ngFor="let charity of content.search_result.hits">
+     <div *ngFor="let charity of charities">
           <app-card [charity]="charity"></app-card>
       </div>
 
-      <ngb-pagination [collectionSize]="content.search_result.nbHits" [pageSize]="10" [(page)]="page" (pageChange)="getCharities(query, page)"></ngb-pagination>
+      <ngb-pagination [collectionSize]="totalNumber" [pageSize]="perPage" [(page)]="page" (pageChange)="getCharities(query, page)"></ngb-pagination>
     </div>
   </div>
 </section>

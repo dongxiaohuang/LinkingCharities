@@ -1,9 +1,9 @@
 <div class="bg">
 </div>
 <div *ngIf="!charity">
-     <app-loading></app-loading>
+  <app-loading></app-loading>
 </div>
-<div class="bgcolor" *ngIf="charity" >
+<div class="bgcolor" *ngIf="charity">
   <div class="row ">
     <div class="col-11 col-md-5 info container">
       <h1><b class="col text-center">{{charity?.name}}</b></h1>
@@ -19,8 +19,8 @@
       <div>
 
       </div>
-      <p *ngIf="alertMsg" >
-           <ngb-alert type='danger' (close)="alertMsg = undefined">{{ alertMsg }}</ngb-alert>
+      <p *ngIf="alertMsg">
+        <ngb-alert type='danger' (close)="alertMsg = undefined">{{ alertMsg }}</ngb-alert>
       </p>
       <div class="align-bottom">
         <div class="row text">
@@ -31,11 +31,11 @@
       </div>
     </div>
     <div class="container col-11 col-md-5">
-         <ngb-carousel>
-              <ng-template ngbSlide *ngFor="let image of charity.images">
-                   <img class="img-fluid rounded text-center img img-size col-12" src="{{image}}" alt="{{charity.name}}" />
-              </ng-template>
-         </ngb-carousel>
+      <ngb-carousel>
+        <ng-template ngbSlide *ngFor="let image of charity.images">
+          <img class="img-fluid rounded text-center img img-size col-12" src="{{image}}" alt="{{charity.name}}" />
+        </ng-template>
+      </ngb-carousel>
     </div>
   </div>
   <div class="row">
@@ -56,7 +56,7 @@
           <div id="collapseVnt" [ngbCollapse]="isCollapsedVnt">
             <div class="alert alert-danger alert-dismissable" *ngIf="charityActivities && !charityActivities.length">
               charity volunteer Activities is Empty
-           </div>
+            </div>
             <div *ngIf="charityActivities && charityActivities.length" class="row">
               <div class="col">
                 <!-- <h4 class="display-4">Volunteer Activies</h4>  -->
@@ -87,9 +87,9 @@
                           <i class="fas fa-external-link-alt"></i>
                         </div>
                         <div class="d-none d-sm-block">
-                             <div class='col-12'>
-                                  <i class="fas fa-external-link-alt"></i> &nbsp;Timeslots Available
-                             </div>
+                          <div class='col-12'>
+                            <i class="fas fa-external-link-alt"></i> &nbsp;Timeslots Available
+                          </div>
                         </div>
                       </a>
                     </div>
@@ -167,8 +167,11 @@
                 </div>
               </ng-template>
             </ngb-tab>
-            <ngb-tab title="Add Comments" *ngIf="isLoggedIn" >
+            <ngb-tab title="Add Comments" *ngIf="isLoggedIn">
               <ng-template ngbTabContent>
+                <div class="alert alert-info alert-dismissable" *ngIf="postMsg">
+                  <a class="panel-close close" data-dismiss="alert" (click)="postMsg=undefined">×</a> {{postMsg}}
+                </div>
                 <div class="row">
                   <div class="col-12">
                     <div class="widget-area no-padding blank">
@@ -184,7 +187,7 @@
                          </small>
                           <button type="submit" [disabled]="!commentForm.valid" class="btn btn-success green"><i class="fa fa-share"></i> Share</button>
                         </form>
-                        {{commentForm.value|json}}
+                        <!-- {{commentForm.value|json}} -->
                       </div>
                       <!-- Status Upload  -->
                     </div>

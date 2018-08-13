@@ -1,0 +1,41 @@
+<div class="bg">
+</div>
+
+<app-loading *ngIf="!timeslots"></app-loading>
+<div class="col-md-12" *ngIf="timeslots">
+  <section class="panel">
+    <header class="panel-heading">
+      <h3>
+           <strong>Registered Activity Timeslots</strong>
+      </h3>
+    </header>
+    <div class="panel-body">
+      <div class="form-horizontal tasi-form">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th style="width:40%"><span>Participation Time</span></th>
+              <th style="width:20%">
+                <span>Duration</span>
+              </th>
+              <th style="width:10%">
+                <span>Required Number</span>
+              </th>
+              <th style="width:30%">
+                <span>Sign Up?</span>
+              </th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div *ngIf="!timeslots.length">
+        <ngb-alert [dismissible]="false">
+          <strong>You are not registered to any activities</strong> <a [routerLink]="['/volunteer']">Try to find one. </a>
+        </ngb-alert>
+      </div>
+      <div *ngFor="let timeslot of timeslots" class="form-horizontal tasi-form">
+        <app-timeslot [timeslot]="timeslot" [volunteerId]="id"></app-timeslot>
+      </div>
+    </div>
+  </section>
+</div>

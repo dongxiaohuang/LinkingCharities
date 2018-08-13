@@ -17,7 +17,7 @@
      <h5 >categories:</h5>
      <div class="row">
           <div class="col-6" *ngFor="let category of charity?.categories" >
-               <span class="badge badge-pill badge-success"><a class="link" [routerLink]="['/category', category._id]">{{category.name}}</a></span>
+               <span class="badge badge-pill badge-success"><a class="link" [routerLink]="['/search', { query: category.name, page: 1 }]">{{category.name}}</a></span>
           </div>
      </div>
      <div class='text-right'>

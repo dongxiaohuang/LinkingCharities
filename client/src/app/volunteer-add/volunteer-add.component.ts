@@ -3,6 +3,7 @@ import {NgbDateAdapter, NgbDateStruct, NgbDateNativeAdapter} from '@ng-bootstrap
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { onValueChanged } from '../utils/helpers';
 import { VolunteerService } from '../services/volunteer.service';
+import { mergeMap } from 'rxjs/operators';
 @Component({
   selector: 'app-volunteer-add',
   templateUrl: './volunteer-add.component.html',
@@ -96,7 +97,7 @@ export class VolunteerAddComponent implements OnInit {
          name: ['', Validators.required],
          location: ['', Validators.required],
          description: ['', Validators.required],
-         timeslots: [''],
+         timeslots: [[]],
          pay:[''],
          principal:[''],
          restrictions:[''],
@@ -142,13 +143,22 @@ export class VolunteerAddComponent implements OnInit {
      }
 
      register(){
-          this.volunteerForm.value.timeslots = this.timeslots;
-          console.log(this.volunteerForm.value);
+          let volunteerId;
+          // this.volunteerForm.value.timeslots = this.timeslots;
+          // console.log(this.volunteerForm.value);
           this.volunteerService.postVolunteer(this.volunteerForm.value)
+          .pipe(
+               mergeMap(volunteer =>{
+                    volunteerId = volunteer._id;
+                    return this.volunteerService.postToTimeslots(volunteerId, this.timeslots)
+               })
+          )
           .subscribe(data => {
-               console.log('activity success')
-               this.feedback ="post successful";
-               this.isSuccessPosted = true;
+               if(data.success){
+                    console.log('activity success')
+                    this.feedback ="post successful";
+                    this.isSuccessPosted = true;
+               }
           }, err=> {
                     console.log('activity failed');
                this.feedback ="post failed";

@@ -20,6 +20,7 @@ import { LoginComponent } from '../login/login.component';
 })
 export class CharityDetailsComponent implements OnInit {
 
+  postMsg: string = undefined;
   page: number = 0;
   totalAmount: number;
   totalNumber: number;
@@ -127,8 +128,12 @@ export class CharityDetailsComponent implements OnInit {
     // this.charityService.postComment(this.id,)
     console.log(this.commentForm.value);
     this.charityService.postComment(this.id, this.commentForm.value)
-      .subscribe(comments => { this.charity.comments = comments },
-        err => console.log(err));
+      .subscribe(comments => {
+            this.charity.comments = comments;
+            this.postMsg = "Post Comment Successful"
+        },
+        err => {console.log(err);
+        this.postMsg = "Post Comment Failed"});
     this.commentForm.reset({
       rating: 5,
       comment: ''

@@ -3,11 +3,13 @@
 <div class="alert alert-danger alert-dismissable" *ngIf="charityActivities && !charityActivities.length">
  charity volunteer Activities is Empty
 </div>
+<a class="btn btn-warning text-white text-center" [routerLink]="['/volunteer/register']">Register New Volunteer Activity</a>
+<hr />
 <div *ngIf="charityActivities && charityActivities.length" class="row">
  <div class="col">
     <!-- <h4 class="display-4">Volunteer Activies</h4>  -->
     {{ lower }}-{{ upper }} of {{totalNumber}}
-    <div class="row">
+    <div class="row container">
       <div class="col-4 col-md-3  d-none d-md-block">
         <p>
           <small class="text-muted">Available?</small>
@@ -72,4 +74,3 @@
  </div>
 </div>
 <hr />
-<a class="btn btn-success text-white text-center" [routerLink]="['/volunteer/register']">Register New Volunteer Activity</a>

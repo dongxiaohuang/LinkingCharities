@@ -6,6 +6,7 @@ import { onValueChanged } from '../utils/helpers';
 import { mergeMap } from 'rxjs/operators';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { EditTimeslotComponent } from '../edit-timeslot/edit-timeslot.component'
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-edit-volunteer',
   templateUrl: './edit-volunteer.component.html',
@@ -77,6 +78,7 @@ export class EditVolunteerComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private fb: FormBuilder,
     private modalService: NgbModal,
+    private router: Router,
     private volunteerService: VolunteerService) { }
 
   ngOnInit() {
@@ -149,21 +151,26 @@ export class EditVolunteerComponent implements OnInit {
     console.log(date)
     this.timeslotForm.value.dateTimestamp = date.getTime();
     this.timeslotForm.value.period = this.periodForm.value;
-    this.acticityTimeslots.push(this.timeslotForm.value);
+    console.log(this.timeslotForm.value)
     this.volunteerService.postToTimeslots(this.volunteerId, this.timeslotForm.value)
-     .subscribe(timeslots => {
-          this.acticityTimeslots = timeslots;
-          this.timeslotForm.reset();
-          this.periodForm.reset();
-          this.addTimeslotMsg ="Add Timeslot Successfully";
+     .subscribe(res => {
+          if(res.success){
+               this.acticityTimeslots = res.results;
+               this.timeslotForm.reset();
+               this.periodForm.reset();
+               this.addTimeslotMsg ="Add Timeslot Successfully";
+          }else{
+               this.addTimeslotMsg ="Add Timeslot Failed"
+          }
      }, err => this.addTimeslotMsg ="Add Timeslot Failed")
   }
+
   delete(timeslot) {
        this.volunteerService.deleteTimeslot(this.volunteerId, timeslot._id)
           .subscribe(res => {
                this.acticityTimeslots = res.timeslots;
                this.deleteMsg = "Delete Successfully"
-          }, err => {this.deleteMsg = "Delete Successfully"});
+          }, err => {this.deleteMsg = "Delete Failed"});
   }
   get today() {
    const now = new Date();
@@ -187,5 +194,17 @@ export class EditVolunteerComponent implements OnInit {
     modalRef.componentInstance.timeslot = timeslot;
     modalRef.componentInstance.volunteerId = this.volunteerId;
  }
+
+ getTimeslots(){
+      this.volunteerService.getTimeslots(this.volunteerId)
+      .subscribe(timeslots => this.acticityTimeslots = timeslots)
+}
+
+deleteActicity(){
+     this.volunteerService.deleteVolunteer(this.volunteerId)
+          .subscribe(res => {
+               console.log(res);
+     this.router.navigate(["/"]);})
+}
 
 }

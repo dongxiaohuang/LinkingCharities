@@ -21,6 +21,7 @@ import { VolunteerTimeslotsComponent } from '../volunteer-timeslots/volunteer-ti
 import { CharityVolunteerComponent } from '../charity-volunteer/charity-volunteer.component';
 import { CharityVolunteersRegistersComponent } from '../charity-volunteers-registers/charity-volunteers-registers.component';
 import { EditVolunteerComponent } from '../edit-volunteer/edit-volunteer.component';
+import { UserVolunteerHistoryComponent } from '../user-volunteer-history/user-volunteer-history.component';
 export const routes: Routes = [
      { path: '', redirectTo: '/home', pathMatch: 'full'},
      { path: 'aboutus', component: AboutusComponent},
@@ -38,6 +39,7 @@ export const routes: Routes = [
      { path: 'search', component: SearchComponent},
      { path: 'user/profile', component: UserprofileComponent},
      { path: 'user/donations', component: UserDonationHistoryComponent},
+     { path: 'user/volunteer', component: UserVolunteerHistoryComponent},
      { path: 'charityuser/profile', component: CharityProfileComponent},
      { path: 'charityuser/donations', component: CharityDonationHistoryComponent},
      { path: 'charityuser/volunteer', component: CharityVolunteerComponent},

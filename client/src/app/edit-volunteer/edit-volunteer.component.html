@@ -73,23 +73,27 @@
     <div class="card-body">
       <!-- <h4 class="card-title">Add New Time slots</h4> -->
       <div>
-       <h4 class="card-title"><strong>Current Timeslots</strong></h4>
+       <h4 class="card-title text-center"><strong>Current Timeslots</strong>
+     <div class="text-right">
+          <button class="btn btn-outline-warning" (click)="getTimeslots()"><i class="fas fa-sync-alt"></i>Refresh</button>
+     </div>
+     </h4>
        <hr>
        <div class="list-group">
-           <div class="alert alert-danger alert-dismissable" *ngIf="!acticityTimeslots.length">
-            Timeslots can not be empty
-          </div>
+
           <div class="alert alert-info alert-dismissable" *ngIf="deleteMsg">
            <a class="panel-close close" data-dismiss="alert" (click)="deleteMsg=undefined">×</a> {{deleteMsg}}
          </div>
          <a *ngFor="let timeslot of acticityTimeslots" class="list-group-item list-group-item-action" >
                    <p>
                         <strong>Date</strong>: {{timeslot?.date.day}}.{{timeslot?.date.month}}.{{timeslot?.date.year}}
-                        <button  class="panel-close close" (click)="openEditModel(timeslot)" data-dismiss="alert">Edit</button>
+                        <button  class="panel-close close" (click)="openEditModel(timeslot)" data-dismiss="alert"><i class="far fa-edit"></i></button>
                    </p>
                    <p>
-                        <strong>Start from</strong>: {{timeslot?.period.start.hour}}:{{timeslot?.period.start.minute}}
-                        <strong>End at</strong>: {{timeslot?.period.end.hour}}:{{timeslot?.period.end.minute}}
+                        <strong>Start from</strong>:
+                        {{timeslot.period.start.hour <10? '0'+timeslot.period.start.hour:timeslot.period.start.hour }}:{{timeslot.period.start.minute <10? '0'+timeslot.period.start.minute:timeslot.period.start.minute}}
+                        <strong>End at</strong>:
+                        {{timeslot.period.end.hour <10? '0'+timeslot.period.end.hour:timeslot.period.end.hour }}:{{timeslot.period.end.minute <10? '0'+timeslot.period.end.minute:timeslot.period.start.minute}}
                    </p>
                    <p>
                         <strong>No. people</strong>: {{timeslot?.requiredNumber}}
@@ -97,18 +101,17 @@
                    </p>
                    <small *ngIf="acticityTimeslots.length ===1" class="text-danger">There must be at least one timeslot</small>
          </a>
-         {{acticityTimeslots|json}}
        </div>
        <hr style="margin-top: 5rem;">
        <!-- <div class="form-group text-center">
             <button class="btn btn-danger" [disabled]="!acticityTimeslots.length">Save</button>
             <button class="btn btn-info" (click) = "timeslotReset()">Reset</button>
        </div> -->
+       <div class="alert alert-info alert-dismissable" *ngIf="addTimeslotMsg">
+            <a class="panel-close close" data-dismiss="alert" (click)="addTimeslotMsg=undefined">×</a> {{addTimeslotMsg}}
+       </div>
        <hr>
       </div>
-      <div class="alert alert-info alert-dismissable" *ngIf="addTimeslotMsg">
-       <a class="panel-close close" data-dismiss="alert" (click)="addTimeslotMsg=undefined">×</a> {{addTimeslotMsg}}
-     </div>
       <div class="form" [formGroup]="timeslotForm">
        <div class="form-group">
          <label>Date</label>
@@ -185,5 +188,5 @@
  </div>
 </div>
 <div class="text-center">
-     <button class="btn btn-danger">Delete Activity</button>
+     <button class="btn btn-danger" (click) = "deleteActicity()">Delete Activity</button>
 </div>

@@ -79,6 +79,7 @@ import { TimeslotComponent } from './timeslot/timeslot.component';
 import { CharityVolunteersRegistersComponent } from './charity-volunteers-registers/charity-volunteers-registers.component';
 import { EditVolunteerComponent } from './edit-volunteer/edit-volunteer.component';
 import { EditTimeslotComponent } from './edit-timeslot/edit-timeslot.component';
+import { UserVolunteerHistoryComponent } from './user-volunteer-history/user-volunteer-history.component';
 
 // Configs
 export function getAuthServiceConfigs() {
@@ -135,6 +136,7 @@ export function getAuthServiceConfigs() {
     CharityVolunteersRegistersComponent,
     EditVolunteerComponent,
     EditTimeslotComponent,
+    UserVolunteerHistoryComponent,
   ],
   // Other modules whose exported classes are needed by component templates declared in this NgModule.
   imports: [
