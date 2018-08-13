@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const async = require('async');
 const Volunteers = require('../models/volunteers');
 const CharityRegisters = require('../models/charityRegisters');
+const Timeslots = require('../models/timeslots');
 const cors = require('./cors');
 var charityAuthenticate = require('../charityAuthenticate');
 var authenticate = require('../authenticate');
@@ -29,82 +30,106 @@ volunteerRouter.route('/')
           var year = req.query.year;
           var month = req.query.month;
           var day = req.query.day;
+          let timeslots;
           async.parallel([
                (callback) => {
                     if (year || month || day) {
-                         Volunteers.count({
-                                   $and: [{
-                                             'timeslots.date.year': year
-                                        },
-                                        {
-                                             'timeslots.date.month': month
-                                        },
-                                        {
-                                             'timeslots.date.day': day
-                                        },
-                                   ]
+                         Timeslots.find({
+                                   'date.year': year,
+                                   'date.month': month,
+                                   'date.day': day
                               })
-                              .then(res => {
-                                   callback(null, res)
-                              })
-                              .catch(err => callback(err, null))
-                    } else {
-                         console.log(yyyy, mm, dd);
-                         Volunteers.count({
-                                   'timeslots': {
-                                        $elemMatch: {
-                                             dateTimestamp: {
-                                                  $gte: timestamp
+                              .then(results => {
+                                   let timeslotsId = results.map(result =>
+                                        result._id
+                                   )
+                                   console.log(timeslotsId)
+                                   Volunteers.count({
+                                             timeslots: {
+                                                  $in: timeslotsId
                                              }
-                                        }
+                                        })
+                                        .then(res => {
+                                             callback(null, res)
+                                        })
+                                        .catch(err => callback(err, null))
+
+                              })
+                    } else {
+                         // console.log(yyyy, mm, dd);
+                         Timeslots.find({
+                                   dateTimestamp: {
+                                        $gte: timestamp
                                    }
                               })
-                              .then(res => {
-                                   callback(null, res)
+                              .then(results => {
+                                   let timeslotsIds = results.map(result =>
+                                        result._id
+                                   )
+                                   Volunteers.count({
+                                             timeslots: {
+                                                  $in: timeslotsIds
+                                             }
+                                        })
+                                        .then(res => {
+                                             callback(null, res)
+                                        })
+                                        .catch(err => callback(err, null))
                               })
-                              .catch(err => callback(err, null))
                     }
                },
                callback => {
                     if (year || month || day) {
-                         Volunteers.find({
-                                   $and: [{
-                                             'timeslots.date.year': year
-                                        },
-                                        {
-                                             'timeslots.date.month': month
-                                        },
-                                        {
-                                             'timeslots.date.day': day
-                                        },
-                                   ]
+                         Timeslots.find({
+                                   'date.year': year,
+                                   'date.month': month,
+                                   'date.day': day
                               })
-                              .limit(perPage)
-                              .skip(perPage * page)
-                              .populate('charity')
-                              // .sort({'createdAt':-1})
-                              .then((res) => callback(null, res))
-                              .catch(err => callback(err, null))
-                    } else {
-                         console.log(yyyy, mm, dd)
-
-                         Volunteers.find({
-                                   'timeslots': {
-                                        $elemMatch: {
-                                             dateTimestamp: {
-                                                  $gte: timestamp
+                              .then(results => {
+                                   let timeslotsId = results.map(result =>
+                                        result._id
+                                   )
+                                   console.log(timeslotsId)
+                                   Volunteers.find({
+                                             timeslots: {
+                                                  $in: timeslotsId
                                              }
-                                        }
+                                        })
+                                        .limit(perPage)
+                                        .skip(perPage * page)
+                                        .populate('charity')
+                                        .populate('timeslots')
+                                        .then(res => {
+                                             callback(null, res)
+                                        })
+                                        .catch(err => callback(err, null))
+
+                              })
+                    } else {
+                         console.log(yyyy, mm, dd);
+                         Timeslots.find({
+                                   dateTimestamp: {
+                                        $gte: timestamp
                                    }
                               })
-                              .limit(perPage)
-                              .skip(perPage * page)
-                              .populate('charity')
-                              .sort({
-                                   'createdAt': -1
-                              }) //not working in azure mongo db
-                              .then((res) => callback(null, res))
-                              .catch(err => callback(err, null))
+                              .then(results => {
+                                   let timeslotsId = results.map(result =>
+                                        result._id
+                                   )
+                                   Volunteers.find({
+                                             timeslots: {
+                                                  $in: timeslotsId
+                                             }
+                                        })
+                                        .limit(perPage)
+                                        .skip(perPage * page)
+                                        .populate('charity')
+                                        .populate('timeslots')
+                                        .then(res => {
+                                             callback(null, res)
+                                        })
+                                        .catch(err => callback(err, null))
+                              })
                     }
                }
           ], (err, results) => {
@@ -153,6 +178,7 @@ volunteerRouter.route('/:volunteerId')
      .get(cors.cors, (req, res, next) => {
           Volunteers.findById(req.params.volunteerId)
                .populate('charity')
+               .populate('timeslots')
                .then(volunteer => {
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');
@@ -193,6 +219,7 @@ volunteerRouter.route('/:volunteerId/timeslots')
      })
      .get(cors.cors, (req, res, next) => {
           Volunteers.findById(req.params.volunteerId)
+               .populate('timeslots')
                .then(volunteer => {
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');
@@ -201,17 +228,28 @@ volunteerRouter.route('/:volunteerId/timeslots')
                .catch(err => next(err))
      })
      .post(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-          Volunteers.findById(req.params.volunteerId)
-               .then(volunteer => {
-                    volunteer.timeslots.push(req.body);
-                    volunteer.save()
-                         .then((volunteer) => {
-                              res.statusCode = 200;
-                              res.setHeader('Content-Type', 'application/json');
-                              res.json(volunteer.timeslots);
+          let timeslotId;
+          Timeslots.create(req.body)
+               .then(timeslot => {
+                    timeslotId = timeslot._id;
+                    Volunteers.findById(req.params.volunteerId)
+                         .then(volunteer => {
+                              volunteer.timeslots.push(timeslotId);
+                              volunteer.save()
+                                   .then((volunteer) => {
+                                        res.statusCode = 200;
+                                        res.setHeader('Content-Type', 'application/json');
+                                        res.json({
+                                             success: true,
+                                             message:"add timeslot successfully",
+                                             results: volunteer.timeslots
+                                        });
+                                   }, err => next(err))
                          }, err => next(err))
+                         .catch(err => next(err))
                }, err => next(err))
                .catch(err => next(err))
+
      })
      .put(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
           res.statusCode = 403;
@@ -230,74 +268,74 @@ volunteerRouter.route('/:volunteerId/timeslots')
                }, err => next(err))
                .catch(err => next(err))
      })
+
 volunteerRouter.route('/:volunteerId/timeslot/:timeslotId')
      .options(cors.corsWithOptions, (req, res) => {
           res.sendStatus(200);
      })
      .get(cors.cors, (req, res, next) => {
-          Volunteers.findById(req.params.volunteerId)
-               .then((volunteer) => {
-                    if (volunteer != null && volunteer.timeslots.id(req.params.timeslotId) != null) {
-                         res.statusCode = 200;
-                         res.setHeader('Content-Type', 'application/json');
-                         res.json(volunteer.timeslots.id(req.params.timeslotId));
-                    } else if (volunteer == null) {
-                         err = new Error('volunteer ' + req.params.volunteerId + ' not found');
-                         err.status = 404;
-                         return next(err);
-                    } else {
-                         err = new Error('Timeslot ' + req.params.timeslotId + ' not found');
-                         err.status = 404;
-                         return next(err);
-                    }
-               }, (err) => next(err))
-               .catch((err) => next(err));
+          Timeslots.findById(req.params.timeslotId)
+               .then(timeslot => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(timeslot);
+               }, err => next(err))
+               .catch(err => next(err))
      })
      .post(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
           res.statusCode = 403;
           res.end('POST is not supported in this endpoint /volunteer' + req.params.volunteerId + '/timeslot/' + req.params.timeslotId);
      })
      .put(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-          Volunteers.findOneAndUpdate({
-               "_id": req.params.volunteerId,
-               "timeslots._id": req.params.timeslotId
-          }, {
-               $set: {
-                    "timeslots.$": req.body
-               }
-          }, {new:true})
-          .then(result => {
-
-               // Volunteers.findById(req.params.volunteerId)
-               // .then(volunteer => {
-                    res.statusCode = 200;
-                    res.setHeader('Content-Type', 'application/json');
-                    res.json(result);
-               // })
-          }, err=> next(err))
-          .catch(err => next(err))
-     })
-     .delete(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-
-
-          Volunteers.update({}, {
-                    $pull: {
-                         timeslots: {
-                              _id: req.params.timeslotId
-                         }
-                    }
+          Timeslots.findByIdAndUpdate(req.params.timeslotId, {
+                    $set: req.body
                }, {
                     new: true
                })
+               .then(result => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(result);
+               }, err => next(err))
+               .catch(err => next(err))
+     })
+     .delete(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
+          Timeslots.findByIdAndRemove(req.params.timeslotId)
                .then(resp => {
                     Volunteers.findById(req.params.volunteerId)
                          .then(volunteer => {
-                              res.statusCode = 200;
-                              res.setHeader('Content-Type', 'application/json');
-                              res.json(volunteer);
+                              let idx = volunteer.timeslots.indexOf(req.params.timeslotId);
+                              if (idx != -1) {
+                                   volunteer.timeslots.splice(idx, 1);
+                              }
+                              volunteer.save()
+                                   .then(resp => {
+                                        res.statusCode = 200;
+                                        res.setHeader('Content-Type', 'application/json');
+                                        res.json(resp);
+                                   }, err => next(err))
+                                   .catch(err => next(err))
                          })
                }, err => next(err))
                .catch(err => next(err))
+          // Volunteers.update({}, {
+          //           $pull: {
+          //                timeslots: {
+          //                     _id: req.params.timeslotId
+          //                }
+          //           }
+          //      }, {
+          //           new: true
+          //      })
+          //      .then(resp => {
+          //           Volunteers.findById(req.params.volunteerId)
+          //                .then(volunteer => {
+          //                     res.statusCode = 200;
+          //                     res.setHeader('Content-Type', 'application/json');
+          //                     res.json(volunteer);
+          //                })
+          //      }, err => next(err))
+          //      .catch(err => next(err))
           // .then((volunteer) => {
           //      if (volunteer != null && volunteer.timeslots.id(req.params.timeslotId) != null) {
           //           volunteer.timeslots.id(req.params.timeslotId).remove(); // make sure Id is different
@@ -333,6 +371,7 @@ volunteerRouter.route('/:volunteerId/timeslots/getregisters')
                               _id: req.params.volunteerId,
                               charity: charityUser.charity
                          })
+                         .populate('timeslots')
                          .deepPopulate(['timeslots.registers'])
                          .then((volunteers) => {
                               // if (volunteer != null && volunteer.timeslots.id(req.params.timeslotId) != null) {
@@ -354,15 +393,14 @@ volunteerRouter.route('/user/volunteers')
           res.sendStatus(200);
      })
      .get(cors.cors, authenticate.verifyUser, (req, res, next) => {
-          Volunteers.find({
-               'timeslots.registers':req.user._id
-          })
-          .then(result => {
-               res.statusCode = 200;
-               res.setHeader('Content-Type', 'application/json');
-               res.json(result)
-          }, err=> next(err))
-          .catch(err=>next(err))
+          Timeslots.find({
+                    registers: req.user._id
+               })
+               .then(timeslots => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(timeslots)
+               })
      });
 
 //register to volunteer activities
@@ -371,52 +409,58 @@ volunteerRouter.route('/:volunteerId/timeslot/:timeslotId/register')
           res.sendStatus(200);
      })
      .get(cors.cors, authenticate.verifyUser, (req, res, next) => {
-          Volunteers.findById(req.params.volunteerId)
-               .then((volunteer) => {
-                    if (volunteer != null && volunteer.timeslots.id(req.params.timeslotId) != null) {
-                         if (volunteer.timeslots.id(req.params.timeslotId).registers.indexOf(req.user._id) < 0) {
-                              res.statusCode = 200;
-                              res.setHeader('Content-Type', 'application/json');
-                              return res.json({
-                                   "exists": false,
-                                   "favorites": volunteer.timeslots.id(req.params.timeslotId)
-                              });
-                         } else {
-                              res.statusCode = 200;
-                              res.setHeader('Content-Type', 'application/json');
-                              return res.json({
-                                   "exists": true,
-                                   "favorites": volunteer
-                              });
-                         }
+          Timeslots.findById(req.params.timeslotId)
+               .then(timeslot => {
+                    let idx = timeslot.registers.indexOf(req.user._id);
+                    if (idx != -1) {
+                         res.statusCode = 200;
+                         res.setHeader('Content-Type', 'application/json');
+                         return res.json({
+                              "exists": true,
+                              "timeslot": timeslot
+                         });
                     } else {
                          res.statusCode = 200;
                          res.setHeader('Content-Type', 'application/json');
                          return res.json({
                               "exists": false,
-                              "register": volunteer
+                              "timeslot": timeslot
                          });
                     }
-               }, (err) => next(err))
-               .catch((err) => next(err));
+               }, err => next(err))
+               .catch(err => next(err))
      })
      .post(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
-          Volunteers.findById(req.params.volunteerId)
-               .then((volunteer) => {
-                    if (volunteer != null && volunteer.timeslots.id(req.params.timeslotId) != null) {
-                         let register_no = volunteer.timeslots.id(req.params.timeslotId).registers.length;
-                         let allow_no = volunteer.timeslots.id(req.params.timeslotId).registers.requiredNumber;
+          Timeslots.findById(req.params.timeslotId)
+               .then(timeslot => {
+                    if(!timeslot){
+                         err = new Error('timeslot ' + req.params.timeslotId + ' not found');
+                         err.status = 404;
+                         return next(err);
+                    }
+                    let idx = timeslot.registers.indexOf(req.user._id);
+                    if (idx != -1) {
+                         res.statusCode = 200;
+                         res.setHeader('Content-Type', 'application/json');
+                         return res.json({
+                              success: true,
+                              status: 'already registered successful',
+                              result: timeslot
+                         });
+                    } else {
+                         let register_no = timeslot.registers.length;
+                         let allow_no = timeslot.requiredNumber;
                          if (register_no >= allow_no) {
                               res.statusCode = 403;
                               res.setHeader('Content-Type', 'application/json');
-                              res.json({
+                              return res.json({
                                    success: false,
                                    status: 'register failed',
                                    err: 'The amount of people registered is full'
                               });
                          } else {
-                              volunteer.timeslots.id(req.params.timeslotId).registers.push(req.user._id);
-                              volunteer.save()
+                              timeslot.registers.push(req.user._id);
+                                   timeslot.save()
                                    .then(resp => {
                                         res.statusCode = 200;
                                         res.setHeader('Content-Type', 'application/json');
@@ -428,17 +472,9 @@ volunteerRouter.route('/:volunteerId/timeslot/:timeslotId/register')
                                    }, err => next(err))
                                    .catch(err => next(err))
                          }
-                    } else if (volunteer == null) {
-                         err = new Error('volunteer ' + req.params.volunteerId + ' not found');
-                         err.status = 404;
-                         return next(err);
-                    } else {
-                         err = new Error('Timeslot ' + req.params.timeslotId + ' not found');
-                         err.status = 404;
-                         return next(err);
                     }
-               }, (err) => next(err))
-               .catch((err) => next(err));
+               }, err => next(err))
+               .catch(err => next(err))
      })
      .put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
           res.statusCode = 403;
@@ -446,15 +482,17 @@ volunteerRouter.route('/:volunteerId/timeslot/:timeslotId/register')
           res.end(req.method + " not supported!");
      })
      .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
-          Volunteers.findById(req.params.volunteerId)
-               .then((volunteer) => {
-                    if (volunteer != null && volunteer.timeslots.id(req.params.timeslotId) != null) {
-                         let registers = volunteer.timeslots.id(req.params.timeslotId).registers;
-                         let idx = registers.indexOf(req.user._id);
-                         if (idx != -1) {
-                              registers.splice(idx, 1);
-                         }
-                         volunteer.save()
+          Timeslots.findById(req.params.timeslotId)
+               .then(timeslot => {
+                    if (!timeslot) {
+                         err = new Error('timeslot ' + req.params.timeslotId + ' not found');
+                         err.status = 404;
+                         return next(err);
+                    }
+                    let idx = timeslot.registers.indexOf(req.user._id);
+                    if (idx != -1) {
+                         timeslot.registers.splice(idx, 1);
+                         timeslot.save()
                               .then(resp => {
                                    res.statusCode = 200;
                                    res.setHeader('Content-Type', 'application/json');
@@ -464,18 +502,17 @@ volunteerRouter.route('/:volunteerId/timeslot/:timeslotId/register')
                                         result: resp
                                    });
                               }, err => next(err))
-                              .catch(err => next(err))
-                    } else if (volunteer == null) {
-                         err = new Error('volunteer ' + req.params.volunteerId + ' not found');
-                         err.status = 404;
-                         return next(err);
                     } else {
-                         err = new Error('Timeslot ' + req.params.timeslotId + ' not found');
-                         err.status = 404;
-                         return next(err);
+                         res.statusCode = 200;
+                         res.setHeader('Content-Type', 'application/json');
+                         res.json({
+                              success: true,
+                              status: 'unregister successful, not registered before',
+                              result: timeslot
+                         });
                     }
-               }, (err) => next(err))
-               .catch((err) => next(err));
+               }, err => next(err))
+               .catch(err => next(err))
      })
 
 
@@ -489,47 +526,56 @@ volunteerRouter.route('/charity/:charityId')
           var page = req.query.page;
           async.parallel([
                (callback) => {
-                    Volunteers.count({
-                              $and: [{
-                                        charity: req.params.charityId
-                                   },
-                                   {
-                                        'timeslots': {
-                                             $elemMatch: {
-                                                  dateTimestamp: {
-                                                       $gte: timestamp
-                                                  }
+                    Timeslots.find({
+                              dateTimestamp: {
+                                   $gte: timestamp
+                              }
+                         })
+                         .then(results => {
+                              let timeslotsIds = results.map(result =>
+                                   result._id
+                              )
+                              Volunteers.count({
+                                        $and: [{
+                                             charity: req.params.charityId
+                                        }, {
+                                             timeslots: {
+                                                  $in: timeslotsIds
                                              }
-                                        }
-                                   }
-                              ]
+                                        }]
+                                   })
+                                   .then(res => {
+                                        callback(null, res)
+                                   })
+                                   .catch(err => next(err, null))
                          })
-                         .then(res => {
-                              callback(null, res)
-                         })
-                         .catch(err => callback(err, null))
                },
                callback => {
-                    Volunteers.find({
-                              $and: [{
-                                        charity: req.params.charityId
-                                   },
-                                   {
-                                        'timeslots': {
-                                             $elemMatch: {
-                                                  dateTimestamp: {
-                                                       $gte: timestamp
-                                                  }
-                                             }
-                                        }
-                                   }
-                              ]
+                    Timeslots.find({
+                              dateTimestamp: {
+                                   $gte: timestamp
+                              }
                          })
-                         .limit(perPage)
-                         .skip(perPage * page)
-                         .sort('-createdAt')
-                         .then((res) => callback(null, res))
-                         .catch(err => callback(err, null))
+                         .then(results => {
+                              let timeslotsIds = results.map(result =>
+                                   result._id
+                              )
+                              Volunteers.find({
+                                        $and: [{
+                                             charity: req.params.charityId
+                                        }, {
+                                             timeslots: {
+                                                  $in: timeslotsIds
+                                             }
+                                        }]
+                                   })
+                                   .limit(perPage)
+                                   .skip(perPage * page)
+                                   .sort('-createdAt')
+                                   .then((res) => callback(null, res))
+                                   .catch(err => callback(err, null))
+                         })
+
                }
           ], (err, results) => {
                var totalNumber = results[0];
@@ -558,7 +604,7 @@ volunteerRouter.route('/charity/:charityId')
           res.statusCode = 403;
           res.end('DELETE is not supported in this endpoint /charity/' + req.params.charityId);
      })
-// get volunteers activities that availeble from now
+// get all charity registered volunteer activities
 volunteerRouter.route('/charity/activities/all')
      .options(cors.corsWithOptions, (req, res) => {
           res.sendStatus(200);
@@ -587,6 +633,7 @@ volunteerRouter.route('/charity/activities/all')
                                    .limit(perPage)
                                    .skip(perPage * page)
                                    .sort('-createdAt')
+                                   .populate('timeslots')
                                    .then((res) => callback(null, res))
                                    .catch(err => callback(err, null))
                          }
@@ -621,7 +668,6 @@ volunteerRouter.route('/charity/activities/all')
           res.statusCode = 403;
           res.end('DELETE is not supported in this endpoint /charity/' + '/allactivities');
      })
-
 
 
 module.exports = volunteerRouter;
