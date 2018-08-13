@@ -231,19 +231,32 @@ volunteerRouter.route('/:volunteerId/timeslots')
           let timeslotId;
           Timeslots.create(req.body)
                .then(timeslot => {
-                    timeslotId = timeslot._id;
+                    if(timeslot instanceof Array)
+                    { timeslotId = timeslot.map(timeslot => timeslot._id.toString())}
+                    else{
+                         timeslotId = timeslot._id;
+                    }
+                    console.log(timeslotId)
                     Volunteers.findById(req.params.volunteerId)
                          .then(volunteer => {
-                              volunteer.timeslots.push(timeslotId);
+                              if(timeslotId instanceof Array)
+                              {volunteer.timeslots = volunteer.timeslots.concat(timeslotId)}
+                              else {volunteer.timeslots.push(timeslotId);}
+                              console.log(volunteer.timeslots)
                               volunteer.save()
                                    .then((volunteer) => {
-                                        res.statusCode = 200;
-                                        res.setHeader('Content-Type', 'application/json');
-                                        res.json({
-                                             success: true,
-                                             message:"add timeslot successfully",
-                                             results: volunteer.timeslots
-                                        });
+                                        Volunteers.findById(volunteer._id)
+                                             .populate('timeslots')
+                                             .then(volunteer => {
+                                                  res.statusCode = 200;
+                                                  res.setHeader('Content-Type', 'application/json');
+                                                  res.json({
+                                                       success: true,
+                                                       message:"add timeslot successfully",
+                                                       results: volunteer.timeslots
+                                                  });
+                                             }, err => next(err))
+                                             .catch(err => next(err))
                                    }, err => next(err))
                          }, err => next(err))
                          .catch(err => next(err))
@@ -261,9 +274,9 @@ volunteerRouter.route('/:volunteerId/timeslots')
                     volunteer.timeslots = [];
                     volunteer.save()
                          .then((volunteer) => {
-                              res.statusCode = 200;
-                              res.setHeader('Content-Type', 'application/json');
-                              res.json(volunteer);
+                                   res.statusCode = 200;
+                                   res.setHeader('Content-Type', 'application/json');
+                                   res.json(volunteer);
                          }, err => next(err))
                }, err => next(err))
                .catch(err => next(err))
@@ -310,53 +323,18 @@ volunteerRouter.route('/:volunteerId/timeslot/:timeslotId')
                               }
                               volunteer.save()
                                    .then(resp => {
-                                        res.statusCode = 200;
-                                        res.setHeader('Content-Type', 'application/json');
-                                        res.json(resp);
+                                        Volunteers.findById(req.params.volunteerId)
+                                        .populate('timeslots')
+                                        .then(volunteer => {
+                                             res.statusCode = 200;
+                                             res.setHeader('Content-Type', 'application/json');
+                                             res.json(volunteer);
+                                        })
                                    }, err => next(err))
                                    .catch(err => next(err))
                          })
                }, err => next(err))
                .catch(err => next(err))
-          // Volunteers.update({}, {
-          //           $pull: {
-          //                timeslots: {
-          //                     _id: req.params.timeslotId
-          //                }
-          //           }
-          //      }, {
-          //           new: true
-          //      })
-          //      .then(resp => {
-          //           Volunteers.findById(req.params.volunteerId)
-          //                .then(volunteer => {
-          //                     res.statusCode = 200;
-          //                     res.setHeader('Content-Type', 'application/json');
-          //                     res.json(volunteer);
-          //                })
-          //      }, err => next(err))
-          //      .catch(err => next(err))
-          // .then((volunteer) => {
-          //      if (volunteer != null && volunteer.timeslots.id(req.params.timeslotId) != null) {
-          //           volunteer.timeslots.id(req.params.timeslotId).remove(); // make sure Id is different
-          //           volunteer.save()
-          //                .then(volunteer => {
-          //                     res.statusCode = 200;
-          //                     res.setHeader('Content-Type', 'application/json');
-          //                     res.json(volunteer);
-          //                }, err => next(err))
-          //                .catch(err => next(err))
-          //      } else if (volunteer == null) {
-          //           err = new Error('volunteer ' + req.params.volunteerId + ' not found');
-          //           err.status = 404;
-          //           return next(err);
-          //      } else {
-          //           err = new Error('Timeslot ' + req.params.timeslotId + ' not found');
-          //           err.status = 404;
-          //           return next(err);
-          //      }
-          // }, (err) => next(err))
-          // .catch((err) => next(err));
      })
 
 // get the volunteer activities registers

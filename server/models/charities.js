@@ -4,12 +4,6 @@ const config = require('../config');
 const Schema = mongoose.Schema;
 
 const commentSchema = new Schema({
-     rating: {
-          type: Number,
-          max: 5,
-          min: 1,
-          required: true
-     },
      author: {
           type: Schema.Types.ObjectId,
           ref: 'User'
@@ -21,6 +15,7 @@ const commentSchema = new Schema({
 }, {
      timestamps: true
 });
+
 
 const charitySchema = new Schema({
      ccn:{
@@ -93,7 +88,7 @@ const charitySchema = new Schema({
                type:String,
                default: ''}
      },
-     comments: [commentSchema] // TODO: changed to comments TypeID
+     comments: [commentSchema]
      ,
      card:{
           type: Schema.Types.ObjectId,
@@ -115,20 +110,20 @@ const charitySchema = new Schema({
      }
 });
 
-charitySchema
-     .virtual('averageRating')
-     .get(function(){ // cannot use arrow function
-          var rating = 0;
-          if (this.comments.length == 0)
-               {rating = 0}
-          else {
-               this.comments.map((comment) => {
-                    rating += comment.rating;
-               });
-               rating /= this.comments.length;
-          }
-          return rating;
-     });
+// charitySchema
+//      .virtual('averageRating')
+//      .get(function(){ // cannot use arrow function
+//           var rating = 0;
+//           if (this.comments.length == 0)
+//                {rating = 0}
+//           else {
+//                this.comments.map((comment) => {
+//                     rating += comment.rating;
+//                });
+//                rating /= this.comments.length;
+//           }
+//           return rating;
+//      });
 charitySchema
      .virtual('geoaddress')
      .get(function(){ // cannot use arrow function
@@ -145,15 +140,15 @@ charitySchema
      });
 
 //TODO: config to store keys
-charitySchema.plugin(mongooseAlgolia, {
-     appId: config.algolia.appId,
-     apiKey: config.algolia.apiKey,
-     indexName: config.algolia.indexName,
-     selector: '_id name country city categories info averageRating images rateLen', //which you would like to asyn with algolia
-     populate: {
-          path: 'categories',
-          select:'name'
-     },
+// charitySchema.plugin(mongooseAlgolia, {
+//      appId: config.algolia.appId,
+//      apiKey: config.algolia.apiKey,
+//      indexName: config.algolia.indexName,
+//      selector: '_id name country city categories info averageRating images rateLen', //which you would like to asyn with algolia
+//      populate: {
+//           path: 'categories',
+//           select:'name'
+//      },
      // defaults: {},
      // mappings: {},
      // virtuals: {
@@ -170,14 +165,14 @@ charitySchema.plugin(mongooseAlgolia, {
      //           return rating;
      //      }
      // },
-     debug: true
-});
+//      debug: true
+// });
 
 let Charities = mongoose.model('Charity', charitySchema);
-Charities.SyncToAlgolia();
-Charities.SetAlgoliaSettings({
-     searchableAttributes: ['name', 'country', 'city', 'categories']
-})
+// Charities.SyncToAlgolia();
+// Charities.SetAlgoliaSettings({
+//      searchableAttributes: ['name', 'country', 'city', 'categories']
+// })
 
 
 module.exports = Charities;
