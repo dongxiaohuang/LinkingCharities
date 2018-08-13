@@ -8,9 +8,37 @@
     <div class="col-11 col-md-5 info container">
       <h1><b class="col text-center">{{charity?.name}}</b></h1>
       <!-- <h2>{{charity?.info}}</h2> -->
-      <ngb-rating [rate]="charity?.averageRating" placement="top" ngbTooltip="{{charity?.comments.length}} ratings" [readonly]="true"></ngb-rating>
-      <span>Rating: {{charity?.averageRating |number : '1.2-2' }}</span>
-      <br />
+     amount {{ratingAmount}}
+      <div *ngIf="ratingAmount">
+           Overall Rating:<ngb-rating [rate]="avgRating" placement="top" ngbTooltip="{{ratingAmount}} ratings" [readonly]="true"></ngb-rating>
+           <span>Rating: {{avgRating |number : '1.2-2' }}</span>
+      </div>
+
+      <div class="col">
+           <ngb-alert [dismissible]="false" *ngIf="!ratingAmount">
+                No ratings so far
+           </ngb-alert>
+           <p>
+           </p>
+      </div>
+      <ng-template #t let-fill="fill">
+           <span class="star" [class.full]="fill === 100">
+                <span class="half" [style.width.%]="fill">&hearts;</span>&hearts;
+           </span>
+      </ng-template>
+      Your Rating:
+       <form [formGroup]="ratingForm" (ngSubmit)="onRatingSubmit()" *ngIf="!hasRated" >
+<ngb-rating [(rate)]="ratingForm.value.rating"  [starTemplate]="t" [readonly]="readonly" ></ngb-rating>
+<button type="submit" class="btn btn-info">submit</button>
+Selected: <b>{{ratingForm.value.rating}}</b>
+<p *ngIf="msg" >
+     {{msg}}
+</p>
+
+</form>
+     <ngb-rating *ngIf="hasRated" [(rate)]="rating" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
+     <p>
+     </p>
       <div class="btn-group btn-group-sm demoPadder" role="group" aria-label="Small button group">
         <button *ngIf="!favorite" (click)="toggleFavorite()" type="button" class="btn btn-ept btn-like"><i class="fas fa-heart">Add to favorite</i></button>
         <button *ngIf="favorite" (click)="toggleFavorite()" type="button" class="btn btn-ept btn-dislike"><i class="far fa-heart">Remove from Favorite</i></button>
@@ -150,17 +178,17 @@
                         <p>
                           <a class="float-left"><strong>{{comment?.author.lastname}}, {{comment?.author.firstname}}</strong></a>
                         </p>
-                        <div class="float-right">
+                        <!-- <div class="float-right">
                           <ngb-rating [rate]="comment.rating" [readonly]="true"></ngb-rating>
                           {{comment?.rating}}
-                        </div>
+                        </div> -->
 
                         <div class="clearfix"></div>
                         <p>{{comment?.comment}}</p>
-                        <p class="align-bottom float-right">
+                        <!-- <p class="align-bottom float-right">
                           <a class="float-right btn btn-primary text-white ml-2"> <i class="fa fa-reply"></i> Reply</a>
                           <a class="float-right btn text-white btn-danger"> <i class="fa fa-heart"></i> Like</a>
-                        </p>
+                        </p> -->
                       </div>
                     </div>
                   </div>
@@ -180,10 +208,6 @@
                           <textarea placeholder="What are you doing right now?" formControlName="comment"></textarea>
                           <small>
                               <span [hidden]="!(formErrors.comment)">{{formErrors.comment}}</span>
-                         </small>
-                          <ngb-rating [(rate)]="commentForm.value.rating" (hover)="hovered=$event" (leave)="hovered=0" [readonly]="readonly"></ngb-rating>Selected: <b>{{commentForm.value.rating}}</b>
-                          <small>
-                              <span [hidden]="!(formErrors.rating)">{{formErrors.rating}}</span>
                          </small>
                           <button type="submit" [disabled]="!commentForm.valid" class="btn btn-success green"><i class="fa fa-share"></i> Share</button>
                         </form>

@@ -47,10 +47,30 @@ export class GetCharitiesService {
   getGeocode(geoAddress: string): Observable<any> {
        let headers = new HttpHeaders().set(InterceptorSkipHeader, '');
        // headers = headers.set('Content-Type', 'application/json; charset=utf-8');
-       return this.http.get<MapResponse>('https://maps.googleapis.com/maps/api/geocode/json?address=' + geoAddress, {headers:headers});
+       return this.http.get<MapResponse>('https://maps.googleapis.com/maps/api/geocode/json?address=' + geoAddress, {headers:headers})
+       .catch(err => this.processHTTPMsgService.handleError(err));
+
  }
   changeGeocoding(charityId: string, geoRes: MapResponse): Observable<any> {
     let geocode = geoRes.results[0].geometry.location;
     return this.http.put(baseURL + 'charities/'+charityId + '/geocode', geocode)
+    .catch(err => this.processHTTPMsgService.handleError(err));
+
   }
+
+  getAverageRating(charityId): Observable<any> {
+       // https://localhost:8443/rating/5b71dd55e4cc047b0d430051/averageRating
+       return this.http.get(baseURL + 'rating/'+charityId + '/averageRating')
+       .catch(err => this.processHTTPMsgService.handleError(err));
+ }
+  hasRate(charityId):Observable<any> {
+       // https://localhost:8443/rating/5b71dd55e4cc047b0d430051/averageRating
+       return this.http.get(baseURL + 'rating/'+charityId )
+       .catch(err => this.processHTTPMsgService.handleError(err));
+ }
+  postRating(charityId, rating):Observable<any> {
+       // https://localhost:8443/rating/5b71dd55e4cc047b0d430051/averageRating
+       return this.http.post(baseURL + 'rating/'+charityId , rating)
+       .catch(err => this.processHTTPMsgService.handleError(err));
+ }
 }

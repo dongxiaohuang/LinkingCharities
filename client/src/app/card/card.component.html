@@ -13,7 +13,7 @@
      </h3>
      <!-- <h4>description: {{charity?.info}}</h4> -->
      <h5>location: {{charity?.city}}, {{charity.country}}</h5>
-      <ngb-rating [rate]="charity?.averageRating" ngbTooltip="{{charity?.rateLen}} ratings" [readonly]="true">{{charity?.averageRating | number : '1.2-2'}}</ngb-rating>
+      <ngb-rating [rate]="avgRating" ngbTooltip="{{ratingAmount? ratingAmount:0}} ratings with average rating: {{avgRating? avgRating:'NULL'}}" [readonly]="true"></ngb-rating>
      <h5 >categories:</h5>
      <div class="row">
           <div class="col-6" *ngFor="let category of charity?.categories" >

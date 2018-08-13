@@ -10,6 +10,7 @@ import { AuthService } from '../services/auth.service';
 import { PaymentComponent } from '../payment/payment.component';
 import { VolunteerService } from '../services/volunteer.service';
 import { LoginComponent } from '../login/login.component';
+import { mergeMap } from 'rxjs/operators';
 // import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -20,6 +21,7 @@ import { LoginComponent } from '../login/login.component';
 })
 export class CharityDetailsComponent implements OnInit {
 
+     msg: string;
   postMsg: string = undefined;
   page: number = 0;
   totalAmount: number;
@@ -35,13 +37,16 @@ export class CharityDetailsComponent implements OnInit {
   selected: number = 0;
   charityActivities;
   commentForm: FormGroup;
+  ratingForm: FormGroup;
+  hasRated: boolean = false;
+  rating: number = 0;
+  avgRating;
+  ratingAmount = 0;
   formErrors = {
-    'rating': '',
     'comment': ''
   };
 
   validationMsg = {
-    'rating': { 'min': 'rating is needed!' },
     'comment': { 'required': 'comment is needed!' }
   };
 
@@ -57,6 +62,7 @@ export class CharityDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.id = this.route.snapshot.params['id']; //'+' convert a string into interger value
     this.charityService.getCharity(this.id)
       .subscribe(charity => this.charity = charity);
@@ -67,20 +73,43 @@ export class CharityDetailsComponent implements OnInit {
           console.log(fav);
           this.favorite = fav.exists;
         });
+      this.charityService.hasRate(this.id)
+        .subscribe(res => {
+          if (res.exists) {
+            this.hasRated = true;
+            this.rating = res.rating;
+          }
+        })
     }
+    this.charityService.getAverageRating(this.id)
+      .subscribe(res => {
+        if (res) {
+          this.avgRating = res.avgRating;
+          this.ratingAmount = res.count;
+        }
+      })
 
 
 
     //initial commentFrom
     this.createForm();
-
+    this.createRatingForm();
     this.getVolunteers(this.page);
   }
 
   createForm() {
     this.commentForm = this.fb.group({
-      rating: 5,
       comment: ['', [Validators.required, Validators.min(1)]]
+    });
+
+    this.commentForm.valueChanges
+      .subscribe(data => this.onValueChanged(data));
+
+    this.onValueChanged(); // reset formErrors
+  }
+  createRatingForm() {
+    this.ratingForm = this.fb.group({
+      rating: [5, [Validators.required, Validators.min(1)]]
     });
 
     this.commentForm.valueChanges
@@ -105,7 +134,7 @@ export class CharityDetailsComponent implements OnInit {
     }
   }
   toggleFavorite() {
-       this.isLoggedIn = this.authService.isLoggedIn();
+    this.isLoggedIn = this.authService.isLoggedIn();
     if (this.isLoggedIn) {
       if (this.favorite) {
         this.favoriteService.deleteFavorite(this.id)
@@ -121,7 +150,7 @@ export class CharityDetailsComponent implements OnInit {
           }, err => console.log(err));
       }
     } else {
-         const modalRef = this.modalService.open(LoginComponent, { centered: true });
+      const modalRef = this.modalService.open(LoginComponent, { centered: true });
     }
   }
   onSubmit() {
@@ -129,19 +158,20 @@ export class CharityDetailsComponent implements OnInit {
     console.log(this.commentForm.value);
     this.charityService.postComment(this.id, this.commentForm.value)
       .subscribe(comments => {
-            this.charity.comments = comments;
-            this.postMsg = "Post Comment Successful"
-        },
-        err => {console.log(err);
-        this.postMsg = "Post Comment Failed"});
+        this.charity.comments = comments;
+        this.postMsg = "Post Comment Successful"
+      },
+        err => {
+          console.log(err);
+          this.postMsg = "Post Comment Failed"
+        });
     this.commentForm.reset({
-      rating: 5,
       comment: ''
     });
   }
 
   openVerticallyCentered() {
-    const modalRef = this.modalService.open(PaymentComponent, {centered:true});
+    const modalRef = this.modalService.open(PaymentComponent, { centered: true });
     modalRef.componentInstance.name = this.charity.name;
     modalRef.componentInstance.charityId = this.charity._id;
   }
@@ -163,5 +193,29 @@ export class CharityDetailsComponent implements OnInit {
   }
   get upper() {
     return Math.min(this.totalNumber, (this.page + 1) * this.perPage);
+  }
+  onRatingSubmit() {
+    this.isLoggedIn = this.authService.isLoggedIn();
+    if (this.isLoggedIn) {
+
+      this.charityService.postRating(this.id, this.ratingForm.value)
+        .pipe(
+          mergeMap(res => {
+            this.hasRated = true;
+            this.rating = res.result.rating;
+            if(res.exists)
+            {this.msg = "Please do not submit twice"}
+            return this.charityService.getAverageRating(this.id)
+          })
+        )
+        .subscribe(res => {
+          if (res) {
+            this.avgRating = res.avgRating;
+            this.ratingAmount = res.count;
+          }
+        })
+    } else {
+      const modalRef = this.modalService.open(LoginComponent, { centered: true });
+    }
   }
 }
