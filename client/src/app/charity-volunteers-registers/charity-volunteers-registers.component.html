@@ -1,7 +1,7 @@
 <div class="bg">
 </div>
 <p class="text-right">
-	<button class="btn btn-outline-warning" (click)="getTimeslots(id)"><i class="fas fa-sync-alt"></i>Refresh</button>
+	<button class="btn btn-outline-warning" (click)="getRegisters()"><i class="fas fa-sync-alt"></i>Refresh</button>
 </p>
 <app-loading *ngIf="!res.timeslots" ></app-loading>
 <div *ngIf="res.timeslots && !res.timeslots.length" >

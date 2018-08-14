@@ -18,6 +18,7 @@ export class SearchComponent implements OnInit {
     private http: HttpClient) { }
   query: string;
   page: number = 1;
+  perPage:number =10;
   content;
 
 

@@ -8,7 +8,6 @@
     <div class="col-11 col-md-5 info container">
       <h1><b class="col text-center">{{charity?.name}}</b></h1>
       <!-- <h2>{{charity?.info}}</h2> -->
-     amount {{ratingAmount}}
       <div *ngIf="ratingAmount">
            Overall Rating:<ngb-rating [rate]="avgRating" placement="top" ngbTooltip="{{ratingAmount}} ratings" [readonly]="true"></ngb-rating>
            <span>Rating: {{avgRating |number : '1.2-2' }}</span>

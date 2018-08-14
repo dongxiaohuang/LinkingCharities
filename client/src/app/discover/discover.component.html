@@ -1,10 +1,16 @@
 <div class="bg">
 </div>
 <div class="container">
-  <div class="d-sm-none d-block search-form-trigger" (click)="isCollapsed = !isCollapsed"
-          [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">Filters<i class="fa btn fa-filter"></i></div>
+  <!-- <div class="d-sm-none d-block search-form-trigger" (click)="isCollapsed = !isCollapsed"
+          [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">Filters<i class="fa btn fa-filter"></i></div> -->
+          <app-loading *ngIf="!charities" ></app-loading>
+          <h3 *ngIf="charities && !charities.length" class="display-2 text-center mt-5">
+               <ngb-alert [dismissible]="false">
+              <strong>No Results</strong>
+          </ngb-alert>
+       </h3>
      <div class="row">
-          <div class="container col-12 col-sm-3 col-sm-offset-1" id="collapseExample" [ngbCollapse]="isCollapsed">
+          <!-- <div class="container col-12 col-sm-3 col-sm-offset-1" id="collapseExample" [ngbCollapse]="isCollapsed">
                <br />
                <div class="col-12">
                     <div class="row">
@@ -16,8 +22,8 @@
                          </div>
                     </div>
                </div>
-               <hr />
-               <ngb-accordion activeIds="a1">
+               <hr /> -->
+               <!-- <ngb-accordion activeIds="a1">
                     <ngb-panel title="location" id="a1">
                          <ng-template ngbPanelContent>
                               <div class="form-check">
@@ -92,7 +98,7 @@
                               </div>
                          </ng-template>
                     </ngb-panel>
-               </ngb-accordion>
+               </ngb-accordion> -->
                <!-- <ngb-accordion activeIds="a3">
                     <ngb-panel title="rating" id="a3">
                          <ng-template ngbPanelContent>
@@ -122,13 +128,12 @@
                               </div>
                          </ng-template>
                     </ngb-panel>
-               </ngb-accordion> -->
-          </div>
+               </ngb-accordion>
+           </div> -->
 
-          <div class="container col-12 col-md-8">
+          <div class="container col-12 col-md-8" *ngIf="charities && charities.length">
                <div class="row">
                     <div class="col-4">
-                         <h3>Search Result :</h3>
                           {{ lower }}-{{ upper }} of {{totalNumber}}
                     </div>
                     <div class="col-4">
@@ -138,32 +143,31 @@
                                    name
                               </option>
                               <option>
-                                   rating
+                                   location
                               </option>
                          </select>
                     </div>
-               <button *ngIf="isCollapsed" (click) ="isCollapsed = !isCollapsed" class="d-none d-sm-block btn">filter</button>
+               <!-- <button *ngIf="isCollapsed" (click) ="isCollapsed = !isCollapsed" class="d-none d-sm-block btn">filter</button> -->
                </div>
 
-               <h4 *ngIf="myfilter" > {{ (charities| filter:myfilter | searchfilter:advancedFilter)?.length }} search results for <b>{{myfilter}}</b></h4>
-               <h4 *ngIf="(advancedFilter.location.length>0 || advancedFilter.rating.length>0 || advancedFilter.categories.length>0) && !myfilter">
+               <!-- <h4 *ngIf="myfilter" > {{ (charities| filter:myfilter | searchfilter:advancedFilter)?.length }} search results for <b>{{myfilter}}</b></h4> -->
+               <!-- <h4 *ngIf="(advancedFilter.location.length>0 || advancedFilter.rating.length>0 || advancedFilter.categories.length>0) && !myfilter">
                     {{ (charities | filter: ' '|searchfilter:advancedFilter)?.length }} search results;
-               </h4>
+               </h4> -->
                <!-- *ngFor="let charity of charities | orderBy: key : reverse| filter:myfilter | searchfilter:advancedFilter | paginate: { itemsPerPage: 10, currentPage: p};let i = index" -->
                     <div
-                    *ngFor="let charity of charities | orderBy: key : reverse| filter:myfilter | searchfilter:advancedFilter ;let i = index"
+                    *ngFor="let charity of charities | orderBy: key : reverse;let i = index"
                     class="col">
-
                          <app-card [charity]="charity"></app-card>
                </div>
                <ngb-pagination [collectionSize]="totalNumber" [pageSize]="10" [(page)]="page" (pageChange)="getCharities(page)"></ngb-pagination>
           </div>
      </div>
 </div>
-<p>
+<!-- <p>
      criterial {{advancedFilter | json}}
-</p>
+</p> -->
 
-<button (click)="clear()">
+<!-- <button (click)="clear()">
      clear
-</button>
+</button> -->

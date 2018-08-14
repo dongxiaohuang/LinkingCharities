@@ -17,6 +17,9 @@ export class CharityVolunteersRegistersComponent implements OnInit {
 
   ngOnInit() {
        this.volunteerId = this.route.snapshot.params['id']; //'+' convert a string into interger value
+       this.getRegisters();
+  }
+  getRegisters(){
        this.volunteerService.getRegisters(this.volunteerId)
           .subscribe(res => {
                if(res.success){
@@ -24,6 +27,6 @@ export class CharityVolunteersRegistersComponent implements OnInit {
                     this.res = res.results[0]
                }
           })
-  }
+ }
 
 }

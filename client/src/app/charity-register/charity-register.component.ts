@@ -17,7 +17,7 @@ import { baseURL } from '../shared/baseurl';
 })
 export class CharityRegisterComponent implements OnInit {
 
-  msg: any;
+  msg: any = {success:'', message:''};
   files: File[] = [];
   categories: Category[] = [];
   charityDetailForm: FormGroup;
@@ -108,8 +108,8 @@ export class CharityRegisterComponent implements OnInit {
   }
   BasicInfoValidaMsg = {
     'username': {
-      'required': 'Username is required.',
-      'minlength': 'Username should have at least 6 characters.'
+      'required': 'Name is required.',
+      'minlength': 'Name should have at least 6 characters.'
     },
     'password': {
       'required': 'Password is required.',
@@ -132,8 +132,8 @@ export class CharityRegisterComponent implements OnInit {
   }
   PaymentDetailsValidaMsg = {
     'name': {
-      'required': 'Username is required.',
-      'minlength': 'Username should have at least 6 characters.'
+      'required': 'Name is required.',
+      'minlength': 'Name should have at least 6 characters.'
     },
     'number': {
       'required': 'Card number is required',
@@ -268,6 +268,7 @@ export class CharityRegisterComponent implements OnInit {
   onSubmit() {
     let cardID;
     let charityID;
+    this.isSubmitted = true;
     this.authCharityService.postCard(this.paymentDetailsForm.value)
       .pipe(
         mergeMap(res => {
@@ -286,10 +287,10 @@ export class CharityRegisterComponent implements OnInit {
           let geoAddress = this.addressForm.value.line1 + ', ' + this.addressForm.value.line2 + ', ' + this.charityDetailForm.value.postcode + ',' + this.charityDetailForm.value.city + '' + this.charityDetailForm.value.country;
           console.log('geoAddress', geoAddress);
           return this.getCharityService.getGeocode(geoAddress);
-        }),
+     }),
         mergeMap(res => {
           return this.getCharityService.changeGeocoding(charityID, res)
-        }),
+        }, err=> {return this.getCharityService.deleteCharity(charityID)}),
         mergeMap(event => {
           this.basicInfoForm.value.charity = charityID;
           console.log('charities successful, and the basicInform Value is ', this.basicInfoForm.value);
@@ -298,19 +299,24 @@ export class CharityRegisterComponent implements OnInit {
       )
       .subscribe(
         res => {
-             this.isSubmitted = true;
           console.log(res);
           //{success: true, username: "imperial"}
           if (res.success) {
-            this.msg = "register successfully!";
+               this.msg.success = true;
+            this.msg.message = "register successfully!";
           } else {
-            this.msg = res.err;
+               this.msg.success = false;
+               this.msg.message = res.err;
+               this.getCharityService.deleteCharity(charityID)
+                    .subscribe(res => console.log(res))
           }
      }, err => {
-          this.msg = err;
+          this.msg.success = false;
+          this.msg.message = err;
+          this.getCharityService.deleteCharity(charityID)
+               .subscribe(res => console.log(res))
      }
       );
-    this.onUpload(charityID);
 
   };
 

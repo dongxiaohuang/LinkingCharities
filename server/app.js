@@ -32,7 +32,7 @@ var app = express();
 
 // connect to mongodb
 var url = config.mongoUrl;
-const connect = mongoose.connect(url);
+const connect = mongoose.connect(url, { useNewUrlParser: true });
 //Mongoose creates a default connection when you call mongoose.connect().
 //You can access the default connection using mongoose.connection.
 connect.then(() => {
@@ -51,10 +51,18 @@ app.all('*', (req, res, next) =>{
      }
 });
 
+// app.all('/*', function(req, res, next) {
+//     // Just send the index.html for other files to support HTML5Mode
+//     res.sendFile('public/index.html', { root: __dirname });
+// });
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+// app.set('views', path.join(__dirname, 'public') );
+// app.set('view engine', 'ejs');
+// app.engine('html', require('ejs').renderFile);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -62,9 +70,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use('public/javascripts', express.static(path.join(__dirname, 'public/scripts.806effac119676237f10.js')));
-// app.use('public/stylesheets', express.static(path.join(__dirname, 'public/styles.5457866b71b5dfe969b9.css')));
-
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -85,8 +90,16 @@ app.use('/rating', ratingRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+  // next(createError(404));
+//   app.all('/*', function(req, res, next) {
+//     // Just send the index.html for other files to support HTML5Mode
+//     res.sendFile('index.html', { root: __dirname });
+// });
+
+  res.sendFile(path.join(__dirname)); // angular router processing
 });
+
+
 
 // error handler
 app.use(function(err, req, res, next) {

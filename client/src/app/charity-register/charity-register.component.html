@@ -122,7 +122,7 @@
         </form>
       </div>
     </div>
-    <div class="text-center">
+    <div class="form-group text-center">
       <button mat-button [style.background-color]="charityDetailForm.invalid ? 'grey' : 'green'" matStepperNext>Next</button>
     </div>
   </mat-step>
@@ -166,8 +166,8 @@
                   <span [hidden]="!(basicInfoErrors.lastname)">{{basicInfoErrors.lastname}}</span>
              </small>
           </div>
-          <div class="row justify-content-center">
-            <button mat-button matStepperPrevious class="btn btn-success">Back</button>
+          <div class="form-group text-center">
+            <button mat-button matStepperPrevious class="btn btn-warning">Back</button>
             <button mat-button [style.background-color]="basicInfoForm.invalid ? 'grey' : 'green'" matStepperNext>Next</button>
           </div>
         </form>
@@ -217,14 +217,14 @@
         </form>
       </div>
     </div>
-    <div class="row justify-content-center">
-      <button mat-button matStepperPrevious class="btn btn-success">Back</button>
+    <div class="text-center form-group">
+      <button mat-button matStepperPrevious class="btn btn-warning">Back</button>
       <button mat-button [style.background-color]="paymentDetailsForm.invalid ? 'grey' : 'green'" matStepperNext>Next</button>
     </div>
   </mat-step>
   <mat-step>
-    <div class="alert alert-info alert-dismissable" *ngIf="msg">
-      <a class="panel-close close" routerLink="/" data-dismiss="alert">×</a> {{msg}}
+    <div class="alert {{msg.success? 'alert-info': 'alert-danger'}} alert-dismissable" *ngIf="msg.message">
+      <a class="panel-close close" routerLink="/" data-dismiss="alert">×</a> {{msg.message}}
     </div>
     <ng-template matStepLabel><i class="fas fa-check-circle"></i><b>&nbsp; Image Upload</b></ng-template>
     <div>
@@ -238,9 +238,9 @@
       </div>
       <!-- <button class="btn btn-success" (click)="onUpload()"> click</button> -->
     </div>
-    <div class="row justify-content-center btn-group">
+    <div class="text-center form-group">
       <button mat-button matStepperPrevious class="btn-success">Back</button>
-      <button mat-button (click)="onSubmit()" class="btn-info" [disabled]="isSubmitted && !msg">Submit</button>
+      <button mat-button (click)="onSubmit()" class="btn-info" [disabled]="isSubmitted && !msg.message">Submit</button>
       <button mat-button (click)="stepper.reset()" class="btn-warning">Reset</button>
     </div>
   </mat-step>

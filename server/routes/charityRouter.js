@@ -146,7 +146,7 @@ charityRouter.route('/:charityId')
                }, (err) => next(err))
                .catch((err) => next(err));
      })
-     .delete(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
+     .delete(cors.corsWithOptions, (req, res, next) => {
           Charities.findByIdAndRemove(req.params.charityId)
                .then((resp) => {
                     res.statusCode = 200;

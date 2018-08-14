@@ -36,6 +36,10 @@ export class GetCharitiesService {
   getCharity(id: string): Observable<Charity> {
     return this.restangular.one('charities', id).get();
   }
+  deleteCharity(charityId:string): Observable<any> {
+       return this.http.delete(baseURL + '/charities/'+charityId)
+       .catch(err => this.processHTTPMsgService.handleError(err));
+ }
   postComment(charityId: string, comment: any): Observable<Comment[]> {
     return this.http.post<Comment[]>(baseURL + 'charities/' + charityId + "/comments", comment)
       .catch(err => this.processHTTPMsgService.handleError(err));
