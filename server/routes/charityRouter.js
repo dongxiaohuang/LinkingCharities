@@ -228,7 +228,7 @@ charityRouter.route('/:charityId/comments')
                .then((charity) => {
                     if (charity != null) {
                          req.body.author = req.user._id;
-                         charity.comments.push(req.body);
+                         charity.comments.unshift(req.body);
                          charity.save()
                               .then(charity => {
                                    Charities.findById(charity._id)

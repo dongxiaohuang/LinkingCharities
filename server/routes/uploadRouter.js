@@ -109,12 +109,20 @@ uploadRouter.route('/charitiesPics/:chairtyId')
      .post(cors.corsWithOptions, uploadCharity.array('imageFile', 3), (req, res, next) => {
           Charities.findById(req.params.chairtyId)
           .then(charity => {
+               if(!charity){
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json({
+                         success:false,
+                         message:'no charity found'
+                    });
+               }
                // charity.images = req.files
                if(!req.files){
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');
                     res.json({
-                         success:'true',
+                         success:true,
                          message:'no pictures uploaded'
                     });
                }else{
@@ -128,6 +136,7 @@ uploadRouter.route('/charitiesPics/:chairtyId')
                          res.statusCode = 200;
                          res.setHeader('Content-Type', 'application/json');
                          res.json({
+                              success:true,
                               uploadedFiles: req.files,
                               charity:charity
                          }); // multer will provide file for us for array upoload

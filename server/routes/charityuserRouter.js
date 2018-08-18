@@ -95,11 +95,13 @@ charityRegisterRouter.route('/logout')
           res.redirect('/');
      });
 charityRegisterRouter.route('/profile')
-     .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200);})
+     .options(cors.corsWithOptions, (req, res) => {
+          res.sendStatus(200);
+     })
      .get(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
           charityRegister.findById(req.user._id)
                .populate('charity')
-               .deepPopulate(['charity.card','charity.categories'])
+               .deepPopulate(['charity.card', 'charity.categories'])
                .then((charityUser) => {
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');
@@ -113,16 +115,17 @@ charityRegisterRouter.route('/profile')
      })
      .put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
           charityRegister.findByIdAndUpdate(req.user._id, {
-               $set: req.body
-          }, {
-               new: true
-          })
-       .then(user => {
-            res.statusCode = 200;
-            res.setHeader('Content-type', 'application/json');
-            res.json(user)
-       }, err => next(err))
-       .catch(err => next(err))})
+                    $set: req.body
+               }, {
+                    new: true
+               })
+               .then(user => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-type', 'application/json');
+                    res.json(user)
+               }, err => next(err))
+               .catch(err => next(err))
+     })
      .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
           res.statusCode = 403;
           res.end('DELETE is not supported on endpoint /charityuser/profile');
@@ -192,5 +195,30 @@ charityRegisterRouter.route('/checkJWTToken')
                }
           })(req, res);
      })
+charityRegisterRouter.route('/checkId')
+     .options(cors.corsWithOptions, (req, res) => {
+          res.sendStatus(200);
+     })
+     .post(cors.corsWithOptions, (req, res, next) => {
+          charityRegister.findOne({
+                    username: req.body.username
+               })
+               .then(user => {
+                    if (user) {
+                         res.statusCode = 200;
+                         res.setHeader('Content-Type', 'application/json');
+                         res.json({
+                              exists: true
+                         })
+                    } else {
+                         res.statusCode = 200;
+                         res.setHeader('Content-Type', 'application/json');
+                         res.json({
+                              exists: false
+                         })
+                    }
+               }, err => next(err))
+               .catch(err => next(err))
 
+     })
 module.exports = charityRegisterRouter;

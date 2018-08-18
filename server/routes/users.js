@@ -220,4 +220,28 @@ router.route('/facebook/token')
           })
      }
 } )
+router.route('/checkId')
+.options(cors.corsWithOptions, (req, res) => {
+     res.sendStatus(200);
+})
+.post(cors.corsWithOptions, (req, res, next) => {
+     User.findOne({username:req.body.username})
+          .then(user => {
+               if(user){
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json({
+                         exists: true
+                    })
+               }else{
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json({
+                         exists: false
+                    })
+               }
+          }, err => next(err))
+          .catch(err => next(err))
+
+})
 module.exports = router;

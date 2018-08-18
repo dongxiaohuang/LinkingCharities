@@ -41,15 +41,15 @@ connect.then(() => {
 
 
 // redirect to secure ports
-app.all('*', (req, res, next) =>{
-     // request coming through secure port
-     if(req.secure){
-          next();//do nothing
-     }
-     else{
-          res.redirect(307, 'https://' + req.hostname + ':' + app.get('secPort') + req.url);
-     }
-});
+// app.all('*', (req, res, next) =>{
+//      // request coming through secure port
+//      if(req.secure){
+//           next();//do nothing
+//      }
+//      else{
+//           res.redirect(307, 'https://' + req.hostname + ':' + app.get('secPort') + req.url);
+//      }
+// });
 
 // app.all('/*', function(req, res, next) {
 //     // Just send the index.html for other files to support HTML5Mode
