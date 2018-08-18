@@ -75,17 +75,24 @@
                              </small>
             </div>
             <div>
-              <button mat-button [style.background-color]="personalInfoForm.invalid ? 'grey' : 'green'" matStepperNext>Next</button>
+              <button mat-button [style.background-color]="personalInfoForm.invalid ? 'grey' : 'green'" matStepperNext (click)="check()">Next</button>
             </div>
           </form>
         </mat-step>
-       
+
         <mat-step>
           <ng-template matStepLabel> <i class="fas fa-check-circle"></i><b>&nbsp; Done</b></ng-template>
-          You are now done.
+          <div>
+               <p class="text-danger font-weight-bold" *ngIf="!valid" >
+                    Your email address is used. Please choose another email.
+               </p>
+               <h3 class="text-warning font-weight-bold" *ngIf="valid" >
+                    You are now done.
+               </h3>
+          </div>
           <div>
             <button mat-button matStepperPrevious>Back</button>
-            <button mat-button (click)="onSubmit(content)">Submit</button>
+            <button class="btn btn-success" (click)="onSubmit(content)" *ngIf="valid" >Submit</button>
           </div>
         </mat-step>
       </mat-vertical-stepper>

@@ -155,4 +155,8 @@ getDonations(page: number): Observable<any>{
     return this.http.get(baseURL + 'donation?page='+page)
     .catch(err => this.processHTTPMsgService.handleError(err));
 }
+checkId(username): Observable<any>{
+     return this.http.post(baseURL + 'charityusers/checkId', {username:username})
+     .catch(err => this.processHTTPMsgService.handleError(err));
+}
 }

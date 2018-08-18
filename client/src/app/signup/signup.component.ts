@@ -5,12 +5,14 @@ import { AuthService } from '../services/auth.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { matchOtherValidator } from '../utils/helpers';
 import { Countries } from '../shared/countries';
+import { mergeMap } from 'rxjs/operators';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
+  valid: boolean = false;
   tab_pos = 'center';
   personalInfoForm: FormGroup;
   secondFormGroup: FormGroup;
@@ -92,6 +94,11 @@ export class SignupComponent implements OnInit {
                  }
             }
        }
+ }
+  check(){
+       this.authService.checkId(this.personalInfoForm.value.username)
+          .subscribe(res => {this.valid = !res.exists;
+          console.log(res.exists)})
  }
  onSubmit(content){
       console.log(this.personalInfoForm.value);

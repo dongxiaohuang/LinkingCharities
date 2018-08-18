@@ -152,4 +152,9 @@ export class AuthService {
        return this.http.get(baseURL + 'donation/user?page='+page)
        .catch(err => this.processHTTPMsgService.handleError(err));
  }
+
+ checkId(username:string): Observable<any>{
+      return this.http.post(baseURL + 'users/checkId', {username:username})
+      .catch(err => this.processHTTPMsgService.handleError(err));
+}
 }

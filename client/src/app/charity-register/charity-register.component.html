@@ -1,4 +1,5 @@
-<mat-horizontal-stepper #stepper linear>
+<mat-horizontal-stepper #stepper>
+<!-- <mat-horizontal-stepper #stepper linear> -->
   <mat-step [stepControl]="charityDetailForm">
     <div class="row justify-content-center">
       <div class="col-8 col-md-6 col-lg-5">
@@ -167,7 +168,7 @@
           </div>
           <div class="form-group text-center">
             <button mat-button matStepperPrevious class="btn btn-warning">Back</button>
-            <button mat-button [style.background-color]="basicInfoForm.invalid ? 'grey' : 'green'" matStepperNext>Next</button>
+            <button mat-button [style.background-color]="basicInfoForm.invalid ? 'grey' : 'green'" matStepperNext (click)="check()">Next</button>
           </div>
         </form>
       </div>
@@ -176,6 +177,11 @@
   <mat-step [stepControl]="paymentDetailsForm">
     <div class="row justify-content-center">
       <div class="col-8 col-md-6 col-lg-5">
+           <div>
+                <p class="text-danger font-weight-bold" *ngIf="!usernameValid" >
+                     Your username is used. Please choose another one.
+                </p>
+           </div>
         <form [formGroup]="paymentDetailsForm" novalidate>
           <ng-template matStepLabel><i class="far fa-money-check-alt"></i><b>&nbsp; Donation details</b></ng-template>
           <div class="form-group">
@@ -217,8 +223,8 @@
       </div>
     </div>
     <div class="text-center form-group">
-      <button mat-button matStepperPrevious class="btn btn-warning">Back</button>
-      <button mat-button [style.background-color]="paymentDetailsForm.invalid ? 'grey' : 'green'" matStepperNext>Next</button>
+      <button class="btn btn-warning" matStepperPrevious class="btn btn-warning">Back</button>
+      <button [disabled]="paymentDetailsForm.invalid || !usernameValid" class="btn {{paymentDetailsForm.invalid || !usernameValid ? 'btn-secondary' : 'btn-success'}}"matStepperNext>Next</button>
     </div>
   </mat-step>
   <mat-step>

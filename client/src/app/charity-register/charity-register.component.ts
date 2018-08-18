@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, ValidatorFn } from '@angular/forms';
 import { CategoriesService } from '../services/categories.service';
 import { AuthCharityService } from '../services/auth-charity.service';
 import { GetCharitiesService } from '../services/get-charities.service';
@@ -17,6 +17,7 @@ import { baseURL } from '../shared/baseurl';
 })
 export class CharityRegisterComponent implements OnInit {
 
+  usernameValid: boolean = false;
   msg: any = {success:'', message:''};
   files: File[] = [];
   categories: Category[] = [];
@@ -108,8 +109,9 @@ export class CharityRegisterComponent implements OnInit {
   }
   BasicInfoValidaMsg = {
     'username': {
-      'required': 'Name is required.',
-      'minlength': 'Name should have at least 6 characters.'
+      'required': 'Username is required.',
+      'minlength': 'Username should have at least 6 characters.',
+      'whitespace': 'Username can not contain space'
     },
     'password': {
       'required': 'Password is required.',
@@ -237,7 +239,7 @@ export class CharityRegisterComponent implements OnInit {
   };
   onBasicFormCreate() {
     this.basicInfoForm = this._formBuilder.group({
-      username: ['', [Validators.required, Validators.minLength(6)]],
+      username: ['', [Validators.required, Validators.minLength(6), this.trimValidator]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPSW: ['', [Validators.required, this.matchOtherValidator('password')]],
       firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
@@ -378,5 +380,22 @@ export class CharityRegisterComponent implements OnInit {
       console.log("uploading images", this.fd);
      return this.authCharityService.postPictures(this.fd, charityId);
   }
+
+  check(){
+       this.authCharityService.checkId(this.basicInfoForm.value.username)
+       .subscribe(res => {
+            this.usernameValid = !res.exists;
+       })
+ }
+
+ trimValidator: ValidatorFn = (control: FormControl) => {
+  if(control.value.indexOf(' ')>=0){
+       return {
+        whitespace: true //validator symbol
+      };
+ }
+  return null;
+};
+
 
 }
