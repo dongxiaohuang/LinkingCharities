@@ -163,10 +163,14 @@ Selected: <b>{{ratingForm.value.rating}}</b>
               <i *ngIf="!isCollapsedCm" class="fas fa-angle-double-up fa-2x"></i>
             </div>
           </div>
-          <ngb-tabset id="collapseCm" [ngbCollapse]="isCollapsedCm">
-            <ngb-tab title="Comments">
+          <ngb-tabset id="collapseCm" #commentTabs [ngbCollapse]="isCollapsedCm">
+            <ngb-tab id="tab-comment" title="Comments">
               <ng-template ngbTabContent>
-                <div class="card" *ngFor="let comment of charity?.comments">
+                   <div class="alert alert-info alert-dismissable" *ngIf="postMsg">
+                        this is a post message
+                    <a class="panel-close close" data-dismiss="alert" (click)="postMsg=undefined">×</a> {{postMsg}}
+                  </div>
+                <div class="card" *ngFor="let comment of charity?.comments | paginate: { itemsPerPage: 5, currentPage: p }">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-2">
@@ -192,23 +196,22 @@ Selected: <b>{{ratingForm.value.rating}}</b>
                     </div>
                   </div>
                 </div>
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
               </ng-template>
             </ngb-tab>
             <ngb-tab title="Add Comments" *ngIf="isLoggedIn">
               <ng-template ngbTabContent>
-                <div class="alert alert-info alert-dismissable" *ngIf="postMsg">
-                  <a class="panel-close close" data-dismiss="alert" (click)="postMsg=undefined">×</a> {{postMsg}}
-                </div>
+
                 <div class="row">
                   <div class="col-12">
                     <div class="widget-area no-padding blank">
                       <div class="status-upload">
-                        <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+                        <form [formGroup]="commentForm">
                           <textarea placeholder="What are you doing right now?" formControlName="comment"></textarea>
                           <small>
                               <span [hidden]="!(formErrors.comment)">{{formErrors.comment}}</span>
                          </small>
-                          <button type="submit" [disabled]="!commentForm.valid" class="btn btn-success green"><i class="fa fa-share"></i> Share</button>
+                          <button type="submit" [disabled]="!commentForm.valid" class="btn btn-success green" (click)="onSubmit()" (click)="commentTabs.select('tab-comment')"><i class="fa fa-share"></i> Share</button>
                         </form>
                         <!-- {{commentForm.value|json}} -->
                       </div>

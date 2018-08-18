@@ -4,7 +4,6 @@
       <div class="col-8 col-md-6 col-lg-5">
         <form [formGroup]="charityDetailForm" novalidate>
           <ng-template matStepLabel><i class="far fa-info"></i><b>&nbsp; Charity details</b></ng-template>
-          {{charityDetailForm.value |json}} {{charityDetailForm.valid |json}}
           <div class="form-group">
             <label for="ccb">Charity Commission number</label>
             <input type="text" class="form-control" id="ccn" formControlName="ccn" placeholder="Enter charity commission number">
@@ -208,7 +207,7 @@
                  <span [hidden]="!(paymentDetailsErros.account_no)">{{paymentDetailsErros.account_no}}</span>
             </small>
           </div>
-          <hr /> {{paymentDetailsForm.value |json}}
+          <hr />
           <div class="form-group">
             <i class="fab fa-paypal"></i>
             <label for="paypal_number">Paypal</label>
@@ -240,7 +239,7 @@
     </div>
     <div class="text-center form-group">
       <button mat-button matStepperPrevious class="btn-success">Back</button>
-      <button mat-button (click)="onSubmit()" class="btn-info" [disabled]="isSubmitted && !msg.message">Submit</button>
+      <button mat-button (click)="onSubmit()" class="btn-info" *ngIf="!isSubmitted">Submit</button>
       <button mat-button (click)="stepper.reset()" class="btn-warning">Reset</button>
     </div>
   </mat-step>

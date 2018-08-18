@@ -33,7 +33,7 @@ export class SearchComponent implements OnInit {
   }
 
   get lower() {
-    return 1 + this.numberPerPage * this.page-1;
+    return 1 + this.numberPerPage * (this.page-1);
   }
 
   get upper() {

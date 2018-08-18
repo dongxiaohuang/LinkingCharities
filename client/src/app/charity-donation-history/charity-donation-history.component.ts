@@ -8,7 +8,7 @@ import { AuthCharityService } from '../services/auth-charity.service';
 export class CharityDonationHistoryComponent implements OnInit {
 
   totalNumber: number;
-  page: number = 0;
+  page: number = 1;
   perPage: number;
   totalPage: number;
   donations: any;
@@ -16,7 +16,7 @@ export class CharityDonationHistoryComponent implements OnInit {
   constructor(private authCharityService: AuthCharityService) { }
 
   ngOnInit() {
-    this.getDonations(this.page)
+    this.getDonations(this.page-1)
   }
   getDonations(page) {
     this.authCharityService.getDonations(page)

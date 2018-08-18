@@ -133,7 +133,7 @@ export class CharityRegisterComponent implements OnInit {
   PaymentDetailsValidaMsg = {
     'name': {
       'required': 'Name is required.',
-      'minlength': 'Name should have at least 6 characters.'
+      'minlength': 'Name should have at least 2 characters.'
     },
     'number': {
       'required': 'Card number is required',
@@ -289,8 +289,8 @@ export class CharityRegisterComponent implements OnInit {
           return this.getCharityService.getGeocode(geoAddress);
      }),
         mergeMap(res => {
-          return this.getCharityService.changeGeocoding(charityID, res)
-        }, err=> {return this.getCharityService.deleteCharity(charityID)}),
+                  return this.getCharityService.changeGeocoding(charityID, res)
+        }),
         mergeMap(event => {
           this.basicInfoForm.value.charity = charityID;
           console.log('charities successful, and the basicInform Value is ', this.basicInfoForm.value);
@@ -375,6 +375,7 @@ export class CharityRegisterComponent implements OnInit {
      for (let i = 0; i < this.files.length; i++) {
           this.fd.append('imageFile', this.files[i], this.files[i].name.toLowerCase());
       }
+      console.log("uploading images", this.fd);
      return this.authCharityService.postPictures(this.fd, charityId);
   }
 

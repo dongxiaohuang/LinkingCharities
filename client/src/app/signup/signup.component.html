@@ -3,7 +3,7 @@
 
 <ngb-tabset [justify]="tab_pos">
   <ngb-tab>
-    <ng-template ngbTabTitle><b>Register as a donator</b></ng-template>
+    <ng-template ngbTabTitle><b>Register as a donor</b></ng-template>
     <ng-template ngbTabContent>
       <mat-vertical-stepper linear #stepper>
         <mat-step [stepControl]="personalInfoForm">
@@ -74,23 +74,12 @@
                                   <span [hidden]="!(basicInfoErrors.country)">{{basicInfoErrors.country}}</span>
                              </small>
             </div>
-            {{personalInfoForm.value |json}}
             <div>
               <button mat-button [style.background-color]="personalInfoForm.invalid ? 'grey' : 'green'" matStepperNext>Next</button>
             </div>
           </form>
         </mat-step>
-        <!-- TODO: username cannot be the same -->
-        <!-- TODO: upload profile -->
-        <mat-step [stepControl]="secondFormGroup" [optional]="true">
-          <form [formGroup]="secondFormGroup">
-            <ng-template matStepLabel><i class="fas fa-credit-card"></i> <b>&nbsp; Payment Info(Optional)</b></ng-template>
-            <div>
-              <button mat-button matStepperPrevious>Back</button>
-              <button mat-button matStepperNext>Next</button>
-            </div>
-          </form>
-        </mat-step>
+       
         <mat-step>
           <ng-template matStepLabel> <i class="fas fa-check-circle"></i><b>&nbsp; Done</b></ng-template>
           You are now done.

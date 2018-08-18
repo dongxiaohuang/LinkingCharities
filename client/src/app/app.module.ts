@@ -25,7 +25,7 @@ import { FavoriteService } from './services/favorite.service';
 import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
 import { SearchService } from './services/search.service';
 import { VolunteerService } from './services/volunteer.service';
-
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { DiscoverComponent } from './discover/discover.component';
 import { VolunteerComponent } from './volunteer/volunteer.component';
 import { HomeComponent } from './home/home.component';
@@ -173,6 +173,7 @@ export function getAuthServiceConfigs() {
     ProcessHTTPMsgService,
     SearchService,
     VolunteerService,
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
     //registers a value (baseURL) under the BaseURL injection token.
     //Angular can inject the BaseURL value into any class that it creates.
     { provide: 'BaseURL', useValue: baseURL },

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { GetCharitiesService } from '../services/get-charities.service';
 import { FavoriteService } from '../services/favorite.service';
 import { Charity } from '../shared/charity';
@@ -12,16 +12,16 @@ import { VolunteerService } from '../services/volunteer.service';
 import { LoginComponent } from '../login/login.component';
 import { mergeMap } from 'rxjs/operators';
 // import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-
+import {NgxPaginationModule} from 'ngx-pagination';
 @Component({
   selector: 'app-charity-details',
   templateUrl: './charity-details.component.html',
   styleUrls: ['./charity-details.component.scss'],
-  providers: [NgbRatingConfig] // add NgbRatingConfig to the component providers
+  providers: [NgbRatingConfig], // add NgbRatingConfig to the component providers
 })
 export class CharityDetailsComponent implements OnInit {
 
-     msg: string;
+  msg: string;
   postMsg: string = undefined;
   page: number = 0;
   totalAmount: number;
@@ -56,6 +56,7 @@ export class CharityDetailsComponent implements OnInit {
     private modalService: NgbModal,
     private authService: AuthService,
     private route: ActivatedRoute,
+    private element: ElementRef,
     private volunteerService: VolunteerService,
     config: NgbRatingConfig) {
     config.max = 5;
@@ -155,11 +156,12 @@ export class CharityDetailsComponent implements OnInit {
   }
   onSubmit() {
     // this.charityService.postComment(this.id,)
-    console.log(this.commentForm.value);
+    // console.log(this.commentForm.value);
     this.charityService.postComment(this.id, this.commentForm.value)
       .subscribe(comments => {
         this.charity.comments = comments;
-        this.postMsg = "Post Comment Successful"
+        this.postMsg = "Post Comment Successful";
+        // console.log(this.postMsg);
       },
         err => {
           console.log(err);

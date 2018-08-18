@@ -9,7 +9,7 @@
                <i *ngIf="isFavorite"  class="fas fa-heart"></i>
                <i *ngIf="!isFavorite" class="far fa-heart"></i>
           </a> </li>
-        <li><a class="btn far fa-donate" (click)="openVerticallyCentered()"></a> </li>
+        <li><a class="fas fa-hand-holding-usd" (click)="openVerticallyCentered()"></a> </li>
         <li><a [routerLink]="['/charitydetail', charity._id]" fragment="comments" class="btn far fa-comment"><span>{{charity.comments.length}}</span></a></li>
         <p *ngIf="alertMsg">
           <ngb-alert type='danger' (close)="alertMsg = undefined">{{ alertMsg }}</ngb-alert>

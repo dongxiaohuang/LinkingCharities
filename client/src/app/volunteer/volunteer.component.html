@@ -14,7 +14,6 @@
                  <i class="far fa-calendar-alt"></i>
             </button>
        </div>
-       {{date|json}}
        <button (click)=chooseDate() class="btn btn-info" [disabled]="!date">search</button>
        <button (click)=allVolunteer() class="btn btn-success">All Dates Available</button>
  </div>
@@ -24,7 +23,7 @@
   <div *ngIf="volunteerActivies && volunteerActivies.length" class="row">
     <div class="col">
       <!-- <h4 class="display-4">Volunteer Activies</h4>  -->
-      {{ lower }}-{{ upper }} of {{totalNumber}} for <span *ngIf="!date" >all dates</span> <span *ngIf="date" >{{date|json}}</span>
+      {{ lower }}-{{ upper }} of {{totalNumber}} for <span *ngIf="!date" >all dates</span> <span *ngIf="date" >{{date.day}}/{{date.month}}/{{date.year}}</span>
 
       <div class="row">
         <div class="col-3 col-md-2  d-none d-md-block">

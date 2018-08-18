@@ -56,7 +56,15 @@ export class GetCharitiesService {
 
  }
   changeGeocoding(charityId: string, geoRes: MapResponse): Observable<any> {
-    let geocode = geoRes.results[0].geometry.location;
+       let geocode;
+       if(geoRes.results){
+            geocode = geoRes.results[0].geometry.location;
+       }else{
+            geocode = {
+            "lat":"" ,
+            "lng":""
+        };
+       }
     return this.http.put(baseURL + 'charities/'+charityId + '/geocode', geocode)
     .catch(err => this.processHTTPMsgService.handleError(err));
 
