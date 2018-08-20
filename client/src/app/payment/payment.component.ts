@@ -6,6 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import { Input } from '@angular/core';
 import { onValueChanged } from '../utils/helpers';
 import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { ShareButtons } from '@ngx-share/core';
+
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
@@ -36,7 +38,8 @@ export class PaymentComponent implements OnInit {
   handler: any;
   constructor(private http: HttpClient,
        private fb: FormBuilder,
-       public activeModal: NgbActiveModal
+       public activeModal: NgbActiveModal,
+       public share: ShareButtons,
  ) { }
   ngOnInit(): void {
     this.handler = StripeCheckout.configure({

@@ -11,6 +11,7 @@ import { PaymentComponent } from '../payment/payment.component';
 import { VolunteerService } from '../services/volunteer.service';
 import { LoginComponent } from '../login/login.component';
 import { mergeMap } from 'rxjs/operators';
+import { ShareButtons } from '@ngx-share/core';
 // import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import {NgxPaginationModule} from 'ngx-pagination';
 @Component({
@@ -56,6 +57,7 @@ export class CharityDetailsComponent implements OnInit {
     private modalService: NgbModal,
     private authService: AuthService,
     private route: ActivatedRoute,
+    public share: ShareButtons,
     private element: ElementRef,
     private volunteerService: VolunteerService,
     config: NgbRatingConfig) {

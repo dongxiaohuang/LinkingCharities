@@ -9,35 +9,35 @@
       <h1><b class="col text-center">{{charity?.name}}</b></h1>
       <!-- <h2>{{charity?.info}}</h2> -->
       <div *ngIf="ratingAmount">
-           Overall Rating:<ngb-rating [rate]="avgRating" placement="top" ngbTooltip="{{ratingAmount}} ratings" [readonly]="true"></ngb-rating>
-           <span>Rating: {{avgRating |number : '1.2-2' }}</span>
+        Overall Rating:
+        <ngb-rating [rate]="avgRating" placement="top" ngbTooltip="{{ratingAmount}} ratings" [readonly]="true"></ngb-rating>
+        <span>Rating: {{avgRating |number : '1.2-2' }}</span>
       </div>
 
       <div class="col">
-           <ngb-alert [dismissible]="false" *ngIf="!ratingAmount">
-                No ratings so far
-           </ngb-alert>
-           <p>
-           </p>
+        <ngb-alert [dismissible]="false" *ngIf="!ratingAmount">
+          No ratings so far
+        </ngb-alert>
+        <p>
+        </p>
       </div>
       <ng-template #t let-fill="fill">
-           <span class="star" [class.full]="fill === 100">
+        <span class="star" [class.full]="fill === 100">
                 <span class="half" [style.width.%]="fill">&hearts;</span>&hearts;
-           </span>
+        </span>
       </ng-template>
       Your Rating:
-       <form [formGroup]="ratingForm" (ngSubmit)="onRatingSubmit()" *ngIf="!hasRated" >
-<ngb-rating [(rate)]="ratingForm.value.rating"  [starTemplate]="t" [readonly]="readonly" ></ngb-rating>
-<button type="submit" class="btn btn-info">submit</button>
-Selected: <b>{{ratingForm.value.rating}}</b>
-<p *ngIf="msg" >
-     {{msg}}
-</p>
+      <form [formGroup]="ratingForm" (ngSubmit)="onRatingSubmit()" *ngIf="!hasRated">
+        <ngb-rating [(rate)]="ratingForm.value.rating" [starTemplate]="t" [readonly]="readonly"></ngb-rating>
+        <button type="submit" class="btn btn-info">submit</button> Selected: <b>{{ratingForm.value.rating}}</b>
+        <p *ngIf="msg">
+          {{msg}}
+        </p>
 
-</form>
-     <ngb-rating *ngIf="hasRated" [(rate)]="rating" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
-     <p>
-     </p>
+      </form>
+      <ngb-rating *ngIf="hasRated" [(rate)]="rating" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
+      <p>
+      </p>
       <div class="btn-group btn-group-sm demoPadder" role="group" aria-label="Small button group">
         <button *ngIf="!favorite" (click)="toggleFavorite()" type="button" class="btn btn-ept btn-like"><i class="fas fa-heart">Add to favorite</i></button>
         <button *ngIf="favorite" (click)="toggleFavorite()" type="button" class="btn btn-ept btn-dislike"><i class="far fa-heart">Remove from Favorite</i></button>
@@ -166,10 +166,10 @@ Selected: <b>{{ratingForm.value.rating}}</b>
           <ngb-tabset id="collapseCm" #commentTabs [ngbCollapse]="isCollapsedCm">
             <ngb-tab id="tab-comment" title="Comments">
               <ng-template ngbTabContent>
-                   <div class="alert alert-info alert-dismissable" *ngIf="postMsg">
-                        this is a post message
-                    <a class="panel-close close" data-dismiss="alert" (click)="postMsg=undefined">×</a> {{postMsg}}
-                  </div>
+                <div class="alert alert-info alert-dismissable" *ngIf="postMsg">
+                  this is a post message
+                  <a class="panel-close close" data-dismiss="alert" (click)="postMsg=undefined">×</a> {{postMsg}}
+                </div>
                 <div class="card" *ngFor="let comment of charity?.comments | paginate: { itemsPerPage: 5, currentPage: p }">
                   <div class="card-body">
                     <div class="row">
@@ -231,12 +231,24 @@ Selected: <b>{{ratingForm.value.rating}}</b>
           </div>
           <hr />
           <div class="col-xs-12 col-sm-12">
-               <div class="btn-group">
-                 <fb-like url="{{baseUrl}}#/charitydetail/{{id}}"></fb-like>
-                 <pin-it url="{{baseUrl}}#/charitydetail/{{id}}" ></pin-it>
-                 <google-plus url="{{baseUrl}}#/charitydetail/{{id}}" ></google-plus>
-                 <tweet url="{{baseUrl}}#/charitydetail/{{id}}" text="I have found an amazing charity, let's have a look!"></tweet>
-               </div>
+            <div class="btn-group">
+              <a class="btn" shareButton="twitter" description="I have found an amazing charity, let's have a look!" url="{{baseUrl}}#/charitydetail/{{id}}" [style.backgroundColor]="share.prop.twitter.color">
+                  <i class="fab fa-twitter"></i>
+             </a>
+              <a class="btn" shareButton="facebook" description="I have found an amazing charity, let's have a look!" url="{{baseUrl}}#/charitydetail/{{id}}" [style.backgroundColor]="share.prop.facebook.color">
+                 <i class="fab fa-facebook-f"></i>
+             </a>
+              <a class="btn" shareButton="pinterest" description="I have found an amazing charity, let's have a look!" url="{{baseUrl}}#/charitydetail/{{id}}" [style.backgroundColor]="share.prop.pinterest.color">
+                  <i class="fab fa-pinterest-p"></i>
+             </a>
+              <a class="btn" shareButton="reddit" description="I have found an amazing charity, let's have a look!" url="{{baseUrl}}#/charitydetail/{{id}}" [style.backgroundColor]="share.prop.reddit.color">
+                  <i class="fab fa-reddit-alien"></i>
+             </a>
+              <a class="btn" shareButton="whatsapp" description="I have found an amazing charity, let's have a look!" url="{{baseUrl}}#/charitydetail/{{id}}" [style.backgroundColor]="share.prop.whatsapp.color">
+                  <i class="fab fa-whatsapp"></i>
+             </a>
+            </div>
+
           </div>
           <hr />
           <h2><b>Contact</b></h2>

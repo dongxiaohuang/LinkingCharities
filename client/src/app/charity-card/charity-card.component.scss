@@ -88,11 +88,7 @@
 .panel .header {
   color: #fff;
   padding: .65em;
-}
-.header-bg {
-     background-color: black;
-     opacity: 0.3;
-     z-index:-1;
+  background-color:rgba(0,0,0,0.3);
 }
 .panel .header::before, .panel .header::after {
   content: '';
