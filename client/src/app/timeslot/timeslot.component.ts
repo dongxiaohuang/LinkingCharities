@@ -36,7 +36,7 @@ export class TimeslotComponent implements OnInit {
   }
 
   isValid() {
-    return this.timeslot.registers_no < this.timeslot.requiredNumber;
+    return this.timeslot.registers_no < this.timeslot.requiredNumber || this.isRegistered;
   }
   toggleRegister() {
 

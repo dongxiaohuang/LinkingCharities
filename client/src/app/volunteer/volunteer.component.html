@@ -1,10 +1,8 @@
 <div class="bg">
 </div>
 <div class="container p-5">
+     <app-loading *ngIf="!volunteerActivies"></app-loading>
   <!-- <app-message></app-message> -->
-  <div *ngIf="!volunteerActivies" class="m-auto">
-    <app-loading></app-loading>
-  </div>
   <div class="form-inline" *ngIf="volunteerActivies">
        <div class="input-group-append">
             <input class="form-control" placeholder="yyyy-mm-dd" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" [minDate]="today" [(ngModel)]="date">

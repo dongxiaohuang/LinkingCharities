@@ -36,7 +36,10 @@
 //     100% { transform: rotate(360deg); }
 // }
 
-
+.loading-container{
+     height:320px;
+     width: 100%;
+}
 .animationload {
     background-color: #fff;
     height: 50%;
@@ -44,7 +47,6 @@
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 10000;
 }
 .osahanloading {
     animation: 1.5s linear 0s normal none infinite running osahanloading;
