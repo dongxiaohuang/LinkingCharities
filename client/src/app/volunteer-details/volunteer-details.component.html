@@ -96,9 +96,12 @@
       <tr>
         <td></td>
         <td>
-          <a class="btn btn-success btn-block" [routerLink]="['/volunteerdetail/',id,'timeslots']">
+          <a *ngIf="isLoginIn"  class="btn btn-success btn-block" [routerLink]="['/volunteerdetail/',id,'timeslots']">
 												<i class="fa fa-pencil-square-o"></i>&nbsp;
 											View Time Slots for This Study</a>
+          <a *ngIf="!isLoginIn"  class="btn btn-danger btn-block" (click)="OpenLogin()">
+												<i class="fa fa-pencil-square-o"></i>&nbsp;
+											Please click to login</a>
 
         </td>
       </tr>

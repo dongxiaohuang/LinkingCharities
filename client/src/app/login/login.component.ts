@@ -8,6 +8,7 @@ import {
   GoogleLoginProvider
 } from 'angular5-social-login';
 import * as $ from 'jquery';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
     private modalService: NgbModal,
     public activeModal: NgbActiveModal,
     private authService: AuthService,
+    private router: Router,
     private socialAuthService: FacebookAuthService,
     private authCharityService: AuthCharityService) {
   }
@@ -42,6 +44,7 @@ export class LoginComponent implements OnInit {
       .subscribe(res => {
         if (res.success) {
           // this.dialogRef.close(res.success);
+          this.onRefresh();
           this.activeModal.dismiss('Cross click');
         }
         else {
@@ -61,6 +64,7 @@ export class LoginComponent implements OnInit {
       .subscribe(res => {
         if (res.success) {
           // this.modalReference.dismiss();
+          this.onRefresh();
           this.activeModal.dismiss('Cross click');
         } else {
           this.errMsg = res.err.message;
@@ -80,7 +84,9 @@ export class LoginComponent implements OnInit {
         this.authService.facebookLogIn(userData)
           .subscribe(res => {
             if (res.success) {
+              this.onRefresh();
               this.activeModal.dismiss('Cross click');
+
             } else {
               console.log(res);
               this.errMsg = res.err.message;
@@ -91,6 +97,18 @@ export class LoginComponent implements OnInit {
           })
       }
     );
+  }
+
+  onRefresh() {
+  this.router.routeReuseStrategy.shouldReuseRoute = function(){return false;};
+
+  let currentUrl = this.router.url + '?';
+
+  this.router.navigateByUrl(currentUrl)
+    .then(() => {
+      this.router.navigated = false;
+      this.router.navigate([this.router.url]);
+    });
   }
 
 
