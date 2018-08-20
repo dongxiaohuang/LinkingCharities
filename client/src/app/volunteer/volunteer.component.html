@@ -8,8 +8,8 @@
       </h1>
   </div>
   <div class="form-inline" *ngIf="volunteerActivies">
-       <input class="form-control" placeholder="yyyy-mm-dd" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" [minDate]="today" [(ngModel)]="date">
        <div class="input-group-append">
+            <input class="form-control" placeholder="yyyy-mm-dd" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" [minDate]="today" [(ngModel)]="date">
             <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                  <i class="far fa-calendar-alt"></i>
             </button>
@@ -24,26 +24,26 @@
     <div class="col">
       <!-- <h4 class="display-4">Volunteer Activies</h4>  -->
       {{ lower }}-{{ upper }} of {{totalNumber}} for <span *ngIf="!date" >all dates</span> <span *ngIf="date" >{{date.day}}/{{date.month}}/{{date.year}}</span>
-
+<hr />
       <div class="row">
-        <div class="col-3 col-md-2  d-none d-md-block">
-          <p>
-            <small class="text-muted">Available?</small>
+        <div class="col-3 col-md-2  d-none d-md-block ">
+          <p class="text-muted text-center font-weight-bold">
+            Available?
           </p>
         </div>
         <div class="col-5 col-md-6 d-none d-md-block">
-          <p>
-            <small class="text-muted">Volunteer Activities Information</small>
+          <p class="text-muted text-center font-weight-bold">
+           Volunteer Activities Information
           </p>
         </div>
         <div class="col-2 d-none d-md-block">
-          <p>
-            <small class="text-muted">location</small>
+          <p class="text-muted text-center font-weight-bold">
+            Location
           </p>
         </div>
-        <div class="col-2 d-none d-md-block">
-          <p>
-            <small class="text-muted">charity</small>
+        <div class="col-2 d-none d-md-block font-weight-bold">
+          <p class="text-muted text-center">
+            Charity
           </p>
         </div>
       </div>
@@ -69,16 +69,15 @@
                 <h4>
                      <b>
                           <a class="text-info" [routerLink]="['/volunteerdetail',activity._id]">{{ activity.name }}</a>
-
                      </b>
                 </h4>
                 <p class="m-0">
-                  <small class="text-muted d-none d-sm-block text-responsive">{{ activity.description }}</small>
+                  <small class="text-muted d-none d-sm-block text-responsive" ngbPopover="{{ activity.description }}" triggers="mouseenter:mouseleave">{{ activity.description }}</small>
                 </p>
 
               </h5>
           </div>
-          <div class="col-2 text-responsive">
+          <div class="col-2">
             <h6 class="font-weight-bold text-danger">{{ activity.location }}</h6>
           </div>
           <div class="col-2 text-responsive">
