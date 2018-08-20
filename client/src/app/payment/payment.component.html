@@ -1,42 +1,65 @@
 <div #content>
-     <div class="modal-header">
-          <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
-     </div>
-     <div class="modal-body">
-          <p>I would like to donate to <strong>{{name}}</strong></p>
-          <div class="row">
-               <div class="btn-group col-12 text-center">
-                    <button type="button" class="btn btn-info" (click)="amountForm.value.amount=5">5</button>
-                    <button type="button" class="btn btn-primary" (click)="amountForm.value.amount=50">50</button>
-                    <button type="button" class="btn btn-success" (click)="amountForm.value.amount=100">100</button>
-                    <button type="button" class="btn btn-warning" (click)="amountForm.value.amount=undefined">other</button>
-               </div>
-          </div>
-          <hr />
+  </div>
+  <div class="modal-body">
+    <div *ngIf="!isSubmited">
+      <p>I would like to donate to <strong>{{name}}</strong></p>
+      <div class="row">
+        <div class="btn-group col-12 text-center">
+          <button type="button" class="btn btn-info" (click)="amountForm.value.amount=5">5</button>
+          <button type="button" class="btn btn-primary" (click)="amountForm.value.amount=50">50</button>
+          <button type="button" class="btn btn-success" (click)="amountForm.value.amount=100">100</button>
+          <button type="button" class="btn btn-warning" (click)="amountForm.value.amount=undefined">other</button>
+        </div>
+      </div>
+      <hr />
 
-          <div class="row">
-               <form [formGroup]="amountForm" novalidate>
-                    <div class="form-group">
-                         <div class="col-sm">
-                              <label for="amount" class="text-xl-right font-weight-bold">donate GBP:</label>
-                         </div>
-                         <div class="col-sm-6">
-                              <input id="amount" class="form-control " placeholder="amount" pattern="[0-9]*" [(ngModel)]="amountForm.value.amount" formControlName="amount" required/>
-                         </div>
+      <div class="row">
+        <form [formGroup]="amountForm" novalidate>
+          <div class="form-group">
+            <div class="col-sm">
+              <label for="amount" class="text-xl-right font-weight-bold">donate GBP:</label>
+            </div>
+            <div class="col-sm-6">
+              <input id="amount" class="form-control " placeholder="amount" pattern="[0-9]*" [(ngModel)]="amountForm.value.amount" formControlName="amount" required/>
+            </div>
 
-                         <small>
+            <small>
                               <span [hidden]="!(amountFormErrors.amount)">{{amountFormErrors.amount}}</span>
                          </small>
-                    </div>
-                    <div class="form-group col-12">
-                              <label for="msg" class="font-weight-bold">Leave a message: </label>
-                              <input id="msg" class="form-control " placeholder="leave a message" [(ngModel)]="amountForm.value.message" formControlName="message"/>
-                    </div>
-               </form>
           </div>
-          <hr />
-          <button class="btn btn-warning btn-block" (click)="checkout()" [disabled]="amountForm.invalid">Checkout</button>
-     </div>
+          <div class="form-group col-12">
+            <label for="msg" class="font-weight-bold">Leave a message: </label>
+            <input id="msg" class="form-control " placeholder="leave a message" [(ngModel)]="amountForm.value.message" formControlName="message" />
+          </div>
+        </form>
+      </div>
+      <hr />
+      <button class="btn btn-warning btn-block" (click)="checkout()" [disabled]="amountForm.invalid">Checkout</button>
+    </div>
+    <div *ngIf="isSubmited">
+      <div *ngIf="isSuccessPayed == undefined">
+                <app-loading></app-loading>
+      </div>
+      <div *ngIf="isSuccessPayed && isSuccessPayed != undefined">
+           <ngb-alert [dismissible]="false" type="success">
+             <strong>You have successfully donated {{amount}} for {{name}};</strong>
+           </ngb-alert>
+        <div class="btn-group">
+          <fb-like url="{{baseUrl}}#/home" ></fb-like>
+          <pin-it url="{{baseUrl}}#/home" ></pin-it>
+          <google-plus url="{{baseUrl}}#/home" ></google-plus>
+          <tweet url="{{baseUrl}}#/home" text="I have donated {{amount}} to {{name}} on website: {{baseUrl}}, let's make a contribution!"></tweet>
+        </div>
+      </div>
+      <div *ngIf="!isSuccessPayed && isSuccessPayed != undefined">
+        <ngb-alert [dismissible]="false">
+          <strong>Donate failed!</strong>
+        </ngb-alert>
+      </div>
+    </div>
+  </div>
 </div>

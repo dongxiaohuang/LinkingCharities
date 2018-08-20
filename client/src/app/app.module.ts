@@ -68,6 +68,7 @@ import {
   GoogleLoginProvider,
   FacebookLoginProvider,
 } from "angular5-social-login";
+import { JwSocialButtonsModule } from 'jw-angular-social-buttons';
 import { UserDonationHistoryComponent } from './user-donation-history/user-donation-history.component';
 import { CharityDonationHistoryComponent } from './charity-donation-history/charity-donation-history.component';
 import { ActivityDetailsComponent } from './activity-details/activity-details.component';
@@ -161,7 +162,8 @@ export function getAuthServiceConfigs() {
     CountryPickerModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
     ImageUploadModule.forRoot(),
-    SocialLoginModule
+    SocialLoginModule,
+    JwSocialButtonsModule
   ],
   // Defines the set of injectable objects that are available in the injector of this module.
   providers: [

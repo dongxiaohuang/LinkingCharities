@@ -18,6 +18,9 @@ export class PaymentComponent implements OnInit {
      charityId:string
   amount;
   able;
+  baseUrl = baseURL;
+  isSubmited:boolean = false;
+  isSuccessPayed:boolean = undefined;
   amountForm: FormGroup;
 
   amountFormErrors = {
@@ -48,9 +51,18 @@ export class PaymentComponent implements OnInit {
              "message":this.amountForm.value.message
         })
         .subscribe(res => {
-             this.activeModal.dismiss('Cross click');
-             if(res['success']){ console.log("success")}
-             else{ console.log("stripe failed")}
+             // this.activeModal.dismiss('Cross click');
+             //
+             console.log(res)
+             if(
+                  res['success']){ console.log("success");
+                  this.isSuccessPayed = true;
+
+          }
+             else{
+                  console.log("stripe failed");
+                  this.isSuccessPayed = false;
+             }
         })
       },
     });
@@ -68,6 +80,8 @@ export class PaymentComponent implements OnInit {
           closed: () => {
           },
         });
+        this.isSubmited = true;
+        this.amount = this.amountForm.value.amount;
 
     } catch (error) {
       // this.data.error(error);

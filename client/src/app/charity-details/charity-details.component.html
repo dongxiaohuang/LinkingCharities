@@ -230,6 +230,15 @@ Selected: <b>{{ratingForm.value.rating}}</b>
             <button class="btn btn-warning" (click)="openVerticallyCentered()">Donate</button>
           </div>
           <hr />
+          <div class="col-xs-12 col-sm-12">
+               <div class="btn-group">
+                 <fb-like url="{{baseUrl}}#/charitydetail/{{id}}"></fb-like>
+                 <pin-it url="{{baseUrl}}#/charitydetail/{{id}}" ></pin-it>
+                 <google-plus url="{{baseUrl}}#/charitydetail/{{id}}" ></google-plus>
+                 <tweet url="{{baseUrl}}#/charitydetail/{{id}}" text="I have found an amazing charity, let's have a look!"></tweet>
+               </div>
+          </div>
+          <hr />
           <h2><b>Contact</b></h2>
           <div class="col-xs-12 col-sm-12">
             <ul class="list-unstyled">
