@@ -198,6 +198,7 @@ export function getAuthServiceConfigs() {
   entryComponents: [
     LoginComponent,
     PaymentComponent,
+    AgmComponent,
     EditTimeslotComponent
   ]
 })

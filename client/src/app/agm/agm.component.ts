@@ -5,6 +5,7 @@ import { tap, mergeMap } from 'rxjs/operators';
 import { MapResponse } from '../utils/helpers';
 import { GetCharitiesService } from '../services/get-charities.service';
 import { baseURL } from '../shared/baseurl';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-agm',
   templateUrl: './agm.component.html',
@@ -18,6 +19,7 @@ export class AgmComponent implements OnInit {
   baseUrl = baseURL;
   msg;
   constructor(private http: HttpClient,
+       public activeModal: NgbActiveModal,
      private getCharitiesService: GetCharitiesService) { }
 
   markers:Marker[] = [];

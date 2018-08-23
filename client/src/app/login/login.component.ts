@@ -99,6 +99,7 @@ export class LoginComponent implements OnInit {
     );
   }
 
+// refresh the current page
   onRefresh() {
   this.router.routeReuseStrategy.shouldReuseRoute = function(){return false;};
 

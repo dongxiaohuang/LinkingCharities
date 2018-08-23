@@ -3,6 +3,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Charity } from '../shared/charity';
 import { GetCharitiesService } from '../services/get-charities.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AgmComponent } from '../agm/agm.component';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+// import { PaymentComponent } from '../payment/payment.component';
 
 @Component({
   selector: 'app-discover',
@@ -33,7 +36,8 @@ export class DiscoverComponent implements OnInit {
     this.reverse = !this.reverse;
   }
   constructor(private charityService: GetCharitiesService,
-    private router: Router) {
+       private modalService: NgbModal,
+       private router: Router) {
 
   }
 
@@ -109,5 +113,9 @@ export class DiscoverComponent implements OnInit {
   //     this.advancedFilter.rating.push(val);
   //   }
   // }
+
+  launchMap(){
+       const modalRef = this.modalService.open(AgmComponent, { centered: true,  size: 'lg' });
+ }
 
 }
