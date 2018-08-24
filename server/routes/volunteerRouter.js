@@ -163,11 +163,11 @@ volunteerRouter.route('/')
                .catch(err => next(err))
      })
      .put(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('PUT is not supported in this endpoint /volunteer');
      })
      .delete(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('DELETE is not supported in this endpoint /volunteer');
      })
 
@@ -187,7 +187,7 @@ volunteerRouter.route('/:volunteerId')
                .catch(err => next(err))
      })
      .post(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('POST is not supported in this endpoint /volunteer' + req.params.volunteerId);
      })
      .put(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
@@ -265,7 +265,7 @@ volunteerRouter.route('/:volunteerId/timeslots')
 
      })
      .put(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('PUT is not supported in this endpoint /volunteer' + req.params.volunteerId);
      })
      .delete(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
@@ -296,9 +296,10 @@ volunteerRouter.route('/:volunteerId/timeslot/:timeslotId')
                .catch(err => next(err))
      })
      .post(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('POST is not supported in this endpoint /volunteer' + req.params.volunteerId + '/timeslot/' + req.params.timeslotId);
      })
+     //Method not allowed (405) &Update the time slot with id:timeslotId for the voluntary activity with id:volunteerId
      .put(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
           Timeslots.findByIdAndUpdate(req.params.timeslotId, {
                     $set: req.body
@@ -312,6 +313,7 @@ volunteerRouter.route('/:volunteerId/timeslot/:timeslotId')
                }, err => next(err))
                .catch(err => next(err))
      })
+     //Delete the time slot with id:timeslotId for the voluntary activity with id:volunteerId
      .delete(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
           Timeslots.findByIdAndRemove(req.params.timeslotId)
                .then(resp => {
@@ -429,7 +431,7 @@ volunteerRouter.route('/:volunteerId/timeslot/:timeslotId/register')
                          let register_no = timeslot.registers.length;
                          let allow_no = timeslot.requiredNumber;
                          if (register_no >= allow_no) {
-                              res.statusCode = 403;
+                              res.statusCode = 405;
                               res.setHeader('Content-Type', 'application/json');
                               return res.json({
                                    success: false,
@@ -455,7 +457,7 @@ volunteerRouter.route('/:volunteerId/timeslot/:timeslotId/register')
                .catch(err => next(err))
      })
      .put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.setHeader('Content-Type', 'text/html');
           res.end(req.method + " not supported!");
      })
@@ -571,15 +573,15 @@ volunteerRouter.route('/charity/:charityId')
           })
      })
      .post(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('POST is not supported in this endpoint /charity/' + req.params.charityId);
      })
      .put(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('PUT is not supported in this endpoint /charity/' + req.params.charityId);
      })
      .delete(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('DELETE is not supported in this endpoint /charity/' + req.params.charityId);
      })
 // get all charity registered volunteer activities
@@ -635,15 +637,15 @@ volunteerRouter.route('/charity/activities/all')
 
      })
      .post(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('POST is not supported in this endpoint /charity/' + '/allactivities');
      })
      .put(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('PUT is not supported in this endpoint /charity/' + '/allactivities');
      })
      .delete(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('DELETE is not supported in this endpoint /charity/' + '/allactivities');
      })
 

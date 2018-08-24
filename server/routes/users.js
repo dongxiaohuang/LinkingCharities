@@ -151,7 +151,7 @@ router.route('/profile')
                })
      })
      .post(cors.corsWithOptions, authenticate.verifyUser, (req, res) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end("POST is not supported on this endpoint");
      })
      .put(cors.corsWithOptions, authenticate.verifyUser, (req, res) => {
@@ -170,7 +170,7 @@ router.route('/profile')
                .catch(err => next(err));
      })
      .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end("DELETE is not supported on this endpoint");
      })
 router.route('/newpassword')
@@ -178,11 +178,11 @@ router.route('/newpassword')
           res.sendStatus(200);
      })
      .get(cors.corsWithOptions, authenticate.verifyUser, (req, res) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end("GET is not supported on this endpoint");
      })
      .post(cors.corsWithOptions, authenticate.verifyUser, (req, res) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end("POST is not supported on this endpoint");
      })
      .put(cors.corsWithOptions, authenticate.verifyUser, (req, res) => {
@@ -204,7 +204,7 @@ router.route('/newpassword')
           })
      })
      .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end("DELETE is not supported on this endpoint");
      })
 router.route('/facebook/token')

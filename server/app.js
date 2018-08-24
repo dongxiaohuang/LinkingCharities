@@ -77,16 +77,16 @@ app.use(passport.session());
 app.use('/users', usersRouter);
 app.use('/charityusers', charityUserRouter);
 app.use('/charities', charityRouter);
-app.use('/coverpics', coverPicRouter);
 app.use('/favorites', favoriteRouter);
 app.use('/imageUpload', uploadRouter);
+app.use('/paymentdetails', paymentDetailsRouter);
 app.use('/search', searchRouter);
 app.use('/categories', categoriesRouter);
-app.use('/paymentdetails', paymentDetailsRouter);
 app.use('/payment', paymentRouter);
 app.use('/donation', donationRouter);
 app.use('/volunteer', volunteerRouter);
 app.use('/rating', ratingRouter);
+app.use('/coverpics', coverPicRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

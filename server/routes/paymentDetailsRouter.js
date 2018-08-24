@@ -10,7 +10,7 @@ cardRouter.use(bodyParser.json());
 cardRouter.route('/')
 .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200);})
 .get(cors.corsWithOptions, (req, res, next) => {
-     res.statusCode = 403;
+     res.statusCode = 405;
      res.end('GET is not supported on endpoint /payments');
 })
 .post(cors.corsWithOptions, (req, res, next) => {
@@ -27,16 +27,17 @@ cardRouter.route('/')
           .catch(err => next(err));
 })
 .put(cors.corsWithOptions, (req, res, next) => {
-     res.statusCode = 403;
+     res.statusCode = 405;
      res.end('PUT is not supported on endpoint /categories');
 })
 .delete(cors.corsWithOptions, (req, res, next) => {
-     res.statusCode = 403;
+     res.statusCode = 405;
      res.end('DELETE is not supported on endpoint /payments');
 })
 
 cardRouter.route('/:cardId')
      .options(cors.corsWithOptions, authenticate.verifyUser, (req, res) => { res.sendStatus(200);})
+     // Return the payment detail with id:cardId
      .get(cors.cors, authenticate.verifyUser, (req, res, next) => {
           PaymentDetail.findById(req.params.cardId)
                .then(payment => {
@@ -53,6 +54,7 @@ cardRouter.route('/:cardId')
                .catch(err => next(err))
 
      })
+     // Update the payment detail with id:cardId
      .put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
           PaymentDetail.findByIdAndUpdate(req.params.cardId, {
                $set:req.body
@@ -71,11 +73,11 @@ cardRouter.route('/:cardId')
           .catch(err => next(err))
      })
      .post(cors.corsWithOptions, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('PUT is not supported on endpoint /payment/'+req.params.cardId);
      })
      .delete(cors.corsWithOptions, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('DELETE is not supported on endpoint /payment/'+req.params.cardId);
      })
 

@@ -50,6 +50,7 @@ paymentRouter.route('/')
                                    res.statusCode = 200;
                                    res.setHeader('Content-Type', 'application/json');
                                    res.json({
+                                        success:true,
                                         charge:charge,
                                         results:result
                                    });
@@ -66,6 +67,7 @@ paymentRouter.route('/')
                                    res.statusCode = 200;
                                    res.setHeader('Content-Type', 'application/json');
                                    res.json({
+                                        success:true,
                                         charge:charge,
                                         results:result
                                    });

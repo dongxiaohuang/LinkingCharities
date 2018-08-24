@@ -38,7 +38,7 @@ categoriesRouter.route('/')
           .catch(err => next(err));
 })
 .put(cors.corsWithOptions, (req, res, next) => {
-     res.statusCode = 403;
+     res.statusCode = 405;
      res.end('PUT is not supported on endpoint /categories');
 })
 .delete(cors.corsWithOptions, (req, res, next) => {

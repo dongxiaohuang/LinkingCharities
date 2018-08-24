@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const mongooseAlgolia = require('mongoose-algolia');
+// const mongooseAlgolia = require('mongoose-algolia');
 const config = require('../config');
 const Schema = mongoose.Schema;
 

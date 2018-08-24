@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const async = require('async');
 const Charities = require('../models/charities');
+const UKCharities = require('../models/ukcharities');
+const extractCharities = require('../models/extract_charity');
 const cors = require('./cors');
 var charityAuthenticate = require('../charityAuthenticate');
 var authenticate = require('../authenticate');
@@ -58,7 +60,7 @@ charityRouter.route('/')
                .catch(err => next(err));
      })
      .put(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('PUT is not supported on endpoint /charities');
      })
      .delete(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
@@ -85,15 +87,15 @@ charityRouter.route('/allcharities')
                .catch(err => next(err));
      })
      .post(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('POST is not supported in this endpoint /allcharities' + req.params.charityId);
      })
      .put(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('PUT is not supported in this endpoint /allcharities' + req.params.charityId);
      })
      .delete(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('DELETE is not supported in this endpoint /allcharities' + req.params.charityId);
      })
 charityRouter.route('/newCharities')
@@ -114,6 +116,73 @@ charityRouter.route('/newCharities')
                }, err => next(err))
                .catch(err => next(err));
      });
+
+charityRouter.route('/ccn/:regno')
+     .options(cors.corsWithOptions, (req, res) => {
+          res.sendStatus(200);
+     })
+     .get(cors.cors, (req, res, next) => {
+          let charity_info;
+          let extract_charity;
+          UKCharities.findOne({
+                    $or: [{
+                              regno: req.params.regno
+                         },
+                         {
+                              regno: (req.params.regno).toString()
+                         }
+                    ]
+               })
+               .then(charity => {
+                    if (charity) {
+                         charity_info = charity;
+                    }
+                    extractCharities.findOne({
+                              regno: (req.params.regno).toString()
+                         })
+                         .then(extract_charity => {
+                              if (extract_charity) {
+                                   extract_charity = extract_charity;
+                              }
+                              if (charity_info || extract_charity) {
+                                   res.statusCode = 200;
+                                   res.setHeader('Content-Type', 'application/json');
+                                   res.json({
+                                        exists: true,
+                                        charity: charity_info,
+                                        extract_charity: extract_charity
+                                   });
+                              } else {
+                                   res.statusCode = 200;
+                                   res.setHeader('Content-Type', 'application/json');
+                                   res.json({
+                                        exists: false,
+                                        charity: null,
+                                        extract_charity: null
+                                   });
+                              }
+                         }, err => next(err))
+                         .catch(err => next(err));
+
+               }, err => next(err))
+               .catch(err => next(err))
+
+
+
+     })
+     .post(cors.corsWithOptions, (req, res, next) => {
+          res.statusCode = 405;
+          res.end('POST is not supported in this endpoint /ccn' + req.params.regno);
+     })
+     .put(cors.corsWithOptions, (req, res, next) => {
+          res.statusCode = 405;
+          res.end('PUT is not supported in this endpoint /ccn' + req.params.regno);
+     })
+     .delete(cors.corsWithOptions, (req, res, next) => {
+          res.statusCode = 405;
+          res.end('DELETE is not supported in this endpoint /ccn' + req.params.regno);
+
+     })
 charityRouter.route('/:charityId')
      .options(cors.corsWithOptions, (req, res) => {
           res.sendStatus(200);
@@ -130,7 +199,7 @@ charityRouter.route('/:charityId')
                .catch(err => next(err));
      })
      .post(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('POST is not supported in this endpoint /charities' + req.params.charityId);
      })
      .put(cors.corsWithOptions, charityAuthenticate.verifyUser, (req, res, next) => {
@@ -244,7 +313,7 @@ charityRouter.route('/:charityId/comments')
                .catch(err => next(err));
      })
      .put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end(req.method + 'operation is not supported on /dishes' + req.params.dishID + '/comments');
      })
      .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {

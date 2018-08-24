@@ -103,16 +103,16 @@ donationRouter.route('/')
           //           .catch(err => next(err))
           //      }
           // })(req, res);
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('POST is not supported on endpoint /donation');
 
      })
      .put(cors.corsWithOptions, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('PUT is not supported on endpoint /donation');
      })
      .delete(cors.corsWithOptions, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('DELETE is not supported on endpoint /donation');
      });
 
@@ -176,15 +176,15 @@ donationRouter.route('/user')
           })
      })
      .post(cors.corsWithOptions, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('POST is not supported on endpoint /donation');
      })
      .put(cors.corsWithOptions, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('PUT is not supported on endpoint /donation');
      })
      .delete(cors.corsWithOptions, (req, res, next) => {
-          res.statusCode = 403;
+          res.statusCode = 405;
           res.end('DELETE is not supported on endpoint /donation');
      });
 
