@@ -5,8 +5,14 @@
         <form [formGroup]="charityDetailForm" novalidate>
           <ng-template matStepLabel><i class="far fa-info"></i><b>&nbsp; Charity details</b></ng-template>
           <div class="form-group">
-            <label for="ccb">Charity Commission number</label>
-            <input type="text" class="form-control" id="ccn" formControlName="ccn" placeholder="Enter charity commission number">
+            <label for="ccn">Charity Commission number</label>
+            <div class="row">
+                 <input type="text" class="form-control col-10" id="ccn" formControlName="ccn" placeholder="Enter charity commission number">
+                 <button class="btn btn-primary col-2" (click)="getCharityByCCN()" [disabled]="!charityDetailForm.value.ccn"> Search</button>
+            </div>
+          </div>
+          <div class="alert alert-danger alert-dismissable" *ngIf="hasFound != undefined && !hasFound">
+               <a class="panel-close close" data-dismiss="alert" (click)="hasFound=undefined">×</a> Nothing found. Please try to input by yourself
           </div>
           <div class="form-group">
             <label for="rBody">Registered body</label>
@@ -14,35 +20,35 @@
           </div>
           <div class="form-group">
             <label for="rNumber">Registered number</label>
-            <input type="text" class="form-control" id="rNumber" formControlName="rno" pattern="[0-9]*" placeholder="Enter registered number">
+            <input type="text" class="form-control" id="rNumber" formControlName="rno" pattern="[0-9]*" placeholder="Enter registered number" [(ngModel)]="regno" [readonly]="regnoReadOnly">
             <small>
                  <span [hidden]="!charityDetailErrors.rno">{{charityDetailErrors.rno}}</span>
             </small>
           </div>
           <div class="form-group">
             <label for="rName">Registered name(*)</label>
-            <input type="text" class="form-control" id="rName" formControlName="name" placeholder="Enter registered name" required>
+            <input type="text" class="form-control" id="rName" formControlName="name" [(ngModel)]="name"  placeholder="Enter registered name" required [readonly]="nameReadOnly">
             <small>
         <span [hidden]="!(charityDetailErrors.name)" >{{charityDetailErrors.name}}</span>
    </small>
           </div>
           <div class="form-group">
             <label for="tel">Registered telphone(*)</label>
-            <input type="tel" class="form-control" id="tel" formControlName="tel" name="tel" placeholder="Enter telphone" required>
+            <input type="tel" class="form-control" id="tel" formControlName="tel" [(ngModel)]="tel"  placeholder="Enter telphone" required [readonly]="telReadOnly">
             <small>
         <span [hidden]="!charityDetailErrors.tel">{{charityDetailErrors.tel}}</span>
    </small>
           </div>
           <div class="form-group">
             <label for="website">Website</label>
-            <input type="text" class="form-control" id="website" formControlName="web" name="website" pattern="https?://.+" placeholder="Enter website">
+            <input type="text" class="form-control" id="website" formControlName="web" [(ngModel)]="web"  pattern="https?://.+" placeholder="Enter website" [readonly]="webReadOnly">
             <small>
         <span [hidden]="!charityDetailErrors.web">{{charityDetailErrors.web}}</span>
    </small>
           </div>
           <div class="form-group">
             <label for="charity_email">Contact Email(*)</label>
-            <input type="text" class="form-control" id="charity_email" formControlName="email" name="website" placeholder="Enter charity email" required>
+            <input type="text" class="form-control" id="charity_email" formControlName="email" [(ngModel)]="email"  placeholder="Enter charity email" required [readonly]="emailReadOnly">
             <small>
         <span [hidden]="!charityDetailErrors.email">{{charityDetailErrors.email}}</span>
    </small>
@@ -74,13 +80,13 @@
             <form [formGroup]="addressForm" novalidate>
               <div class="form-group">
                 <label class="control-label" for="textinput">Line 1(*)</label>
-                <input type="text" placeholder="Address Line 1" class="form-control" formControlName="line1" required>
+                <input type="text" placeholder="Address Line 1" class="form-control" formControlName="line1" [(ngModel)]="line1" required [readonly]="line1ReadOnly">
                 <span [hidden]="!addressErrors.line1">{{addressErrors.line1}}</span>
               </div>
               <!-- Text input-->
               <div class="form-group">
                 <label class="control-label" for="textinput">Line 2</label>
-                <input type="text" placeholder="Address Line 2" class="form-control" formControlName="line2">
+                <input type="text" placeholder="Address Line 2" class="form-control" formControlName="line2" [(ngModel)]="line2" [readonly]="line2ReadOnly" >
               </div>
             </form>
 
@@ -101,7 +107,7 @@
               <div class="col-lg-6">
                 <div class="form-group">
                   <label class="control-label" for="postcode">Postcode(*)</label>
-                  <input type="text" placeholder="Post Code" id="postcode" class="form-control" formControlName="postcode" required>
+                  <input type="text" placeholder="Post Code" id="postcode" class="form-control" [(ngModel)]="postcode" formControlName="postcode" required>
                   <span [hidden]="!charityDetailErrors.postcode">{{charityDetailErrors.postcode}}</span>
                 </div>
               </div>

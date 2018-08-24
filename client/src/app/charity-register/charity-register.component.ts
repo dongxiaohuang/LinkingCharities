@@ -18,7 +18,7 @@ import { baseURL } from '../shared/baseurl';
 export class CharityRegisterComponent implements OnInit {
 
   usernameValid: boolean = false;
-  msg: any = {success:'', message:''};
+  msg: any = { success: '', message: '' };
   files: File[] = [];
   categories: Category[] = [];
   charityDetailForm: FormGroup;
@@ -29,7 +29,7 @@ export class CharityRegisterComponent implements OnInit {
   dropdownSettings = {};
   countries = Countries;
   fd = new FormData();
-  isSubmitted:boolean= false;
+  isSubmitted: boolean = false;
   addressErrors = {
     'line1': ''
   };
@@ -217,7 +217,8 @@ export class CharityRegisterComponent implements OnInit {
       postcode: ['', [Validators.required]],
       country: ['', [Validators.required]],
       card: [''],
-      images: [['images/people2.jpg']]
+      images: [['images/people2.jpg']],
+      verified:[false]
     });
     this.charityDetailForm.valueChanges.subscribe(
       data => this.onValueChanged(this.charityDetailErrors, this.CharityDetailValidaMsg, data, this.charityDetailForm)
@@ -282,16 +283,16 @@ export class CharityRegisterComponent implements OnInit {
         })
         ,
         mergeMap(res => {
-             charityID = res._id;
-             return this.onUpload(charityID)
+          charityID = res._id;
+          return this.onUpload(charityID)
         }),
         mergeMap(res => {
           let geoAddress = this.addressForm.value.line1 + ', ' + this.addressForm.value.line2 + ', ' + this.charityDetailForm.value.postcode + ',' + this.charityDetailForm.value.city + '' + this.charityDetailForm.value.country;
           console.log('geoAddress', geoAddress);
           return this.getCharityService.getGeocode(geoAddress);
-     }),
+        }),
         mergeMap(res => {
-                  return this.getCharityService.changeGeocoding(charityID, res)
+          return this.getCharityService.changeGeocoding(charityID, res)
         }),
         mergeMap(event => {
           this.basicInfoForm.value.charity = charityID;
@@ -304,20 +305,20 @@ export class CharityRegisterComponent implements OnInit {
           console.log(res);
           //{success: true, username: "imperial"}
           if (res.success) {
-               this.msg.success = true;
+            this.msg.success = true;
             this.msg.message = "register successfully!";
           } else {
-               this.msg.success = false;
-               this.msg.message = res.err;
-               this.getCharityService.deleteCharity(charityID)
-                    .subscribe(res => console.log(res))
+            this.msg.success = false;
+            this.msg.message = res.err;
+            this.getCharityService.deleteCharity(charityID)
+              .subscribe(res => console.log(res))
           }
-     }, err => {
+        }, err => {
           this.msg.success = false;
           this.msg.message = err;
           this.getCharityService.deleteCharity(charityID)
-               .subscribe(res => console.log(res))
-     }
+            .subscribe(res => console.log(res))
+        }
       );
 
   };
@@ -374,28 +375,124 @@ export class CharityRegisterComponent implements OnInit {
     console.log("after removed", this.files)
   }
   onUpload(charityId: string): any {
-     for (let i = 0; i < this.files.length; i++) {
-          this.fd.append('imageFile', this.files[i], this.files[i].name.toLowerCase());
-      }
-      console.log("uploading images", this.fd);
-     return this.authCharityService.postPictures(this.fd, charityId);
+    for (let i = 0; i < this.files.length; i++) {
+      this.fd.append('imageFile', this.files[i], this.files[i].name.toLowerCase());
+    }
+    console.log("uploading images", this.fd);
+    return this.authCharityService.postPictures(this.fd, charityId);
   }
 
-  check(){
-       this.authCharityService.checkId(this.basicInfoForm.value.username)
-       .subscribe(res => {
-            this.usernameValid = !res.exists;
-       })
- }
+  check() {
+    this.authCharityService.checkId(this.basicInfoForm.value.username)
+      .subscribe(res => {
+        this.usernameValid = !res.exists;
+      })
+  }
 
- trimValidator: ValidatorFn = (control: FormControl) => {
-  if(control.value.indexOf(' ')>=0){
-       return {
+  trimValidator: ValidatorFn = (control: FormControl) => {
+    if (control.value.indexOf(' ') >= 0) {
+      return {
         whitespace: true //validator symbol
       };
- }
-  return null;
-};
+    }
+    return null;
+  };
+
+  email;
+  web;
+  regno;
+  name;
+  postcode;
+  tel;
+  line1;
+  line2;
+  hasFound:boolean = undefined;
+  emailReadOnly: boolean = false;
+  regnoReadOnly: boolean = false;
+  webReadOnly: boolean = false;
+  nameReadOnly: boolean = false;
+  postcodeReadOnly: boolean = false;
+  telReadOnly: boolean = false;
+  line1ReadOnly: boolean = false;
+  line2ReadOnly: boolean = false;
+  getCharityByCCN() {
+       this.email = "";
+      this.web ="";
+      this.regno ="";
+      this.name ="";
+      this.postcode ="";
+      this.tel ="";
+      this.line1 ="";
+      this.line2 ="";
+    this.emailReadOnly = false;
+    this.regnoReadOnly = false;
+    this.webReadOnly = false;
+    this.nameReadOnly = false;
+    this.postcodeReadOnly = false;
+    this.telReadOnly = false;
+    this.line1ReadOnly = false;
+    this.line2ReadOnly = false;
+    this.getCharityService.getCharityByCCN(this.charityDetailForm.value.ccn)
+      .subscribe(
+        res => {
+             this.hasFound = undefined;
+          if (res.exists) {
+            console.log(res);
+            this.regno = this.charityDetailForm.value.ccn;
+            this.regnoReadOnly = true;
+            let charity = res.charity;
+            if (charity) {
+              console.log(charity)
+              if (charity.email) {
+                this.email = charity.email;
+                this.emailReadOnly = true;
+              }
+              if (charity.web) {
+                this.web = charity.web;
+                this.webReadOnly = true;
+
+              }
+            }
+            let extract_charity = res.extract_charity;
+            if (extract_charity) {
+              if (extract_charity.name) {
+                this.name = extract_charity.name;
+                this.nameReadOnly = true;
+              }
+              if (extract_charity.postcode) {
+                this.postcode = extract_charity.postcode;
+                this.postcodeReadOnly = true;
+
+              }
+              if (extract_charity.phone) {
+                this.tel = extract_charity.phone;
+                this.telReadOnly = true;
+
+              }
+              if (extract_charity.add1 || extract_charity.add2) {
+                if (extract_charity.add2)
+                  this.line1 = extract_charity.add1 + ', ' + extract_charity.add2;
+                else
+                  this.line1 = extract_charity.add1;
+                this.line1ReadOnly = true;
+
+              }
+              if (extract_charity.add3 || extract_charity.add4) {
+                if (extract_charity.add4)
+                  this.line2 = extract_charity.add3 + ', ' + extract_charity.add4;
+                else
+                  this.line2 = extract_charity.add3;
+                this.line2ReadOnly = true;
+
+              }
+            }
+          }
+          else {
+            this.hasFound = false;
+          }
+        }
+      )
+  }
 
 
 }

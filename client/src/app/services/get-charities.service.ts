@@ -85,4 +85,8 @@ export class GetCharitiesService {
        return this.http.post(baseURL + 'rating/'+charityId , rating)
        .catch(err => this.processHTTPMsgService.handleError(err));
  }
+ getCharityByCCN(regno:number): Observable<any> {
+      return this.http.get(baseURL + 'charities/ccn/'+regno)
+      .catch(err => this.processHTTPMsgService.handleError(err));
+}
 }
