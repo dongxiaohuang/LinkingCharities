@@ -8,6 +8,10 @@ import { JWTResponse, AuthResponse, RegisterResponse } from '../utils/helpers';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
+interface upLoadImgResponse {
+     exists: boolean,
+     urls:any[]
+};
 @Injectable({
   providedIn: 'root'
 })
@@ -133,6 +137,10 @@ export class AuthCharityService {
       return  this.http.post(baseURL +'imageUpload/charitiesPics/'+charityId, fd)
       .catch(error => this.processHTTPMsgService.handleError(error));
  }
+ uploadPictures(fd: FormData): Observable<upLoadImgResponse>{
+     return  this.http.post<upLoadImgResponse>(baseURL +'imageUpload/charitiesPics/', fd)
+     .catch(error => this.processHTTPMsgService.handleError(error));
+}
 
  changePSW(psw): Observable<any> {
       return this.http.put(baseURL + 'charityusers/newpassword', psw)

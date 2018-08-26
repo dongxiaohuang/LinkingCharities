@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { Countries } from '../shared/countries';
 import { mergeMap } from 'rxjs/operators';
 import { GetCharitiesService } from '../services/get-charities.service';
+import { ShareButtons } from '@ngx-share/core';
 
 @Component({
   selector: 'app-charity-profile',
@@ -31,8 +32,9 @@ export class CharityProfileComponent implements OnInit {
   fullAddressForm: FormGroup;
   charityDetailForm: FormGroup;
   dropdownList = [];
+  imgfiles = [];
   dropdownSettings = {};
-
+  fd = new FormData();
   userFormErrors = {
     'firstname': '',
     'lastname': '',
@@ -160,6 +162,7 @@ export class CharityProfileComponent implements OnInit {
     private categoriesService: CategoriesService,
     private router: Router,
     private getCharityService: GetCharitiesService,
+    public share: ShareButtons,//social button
     private fb: FormBuilder) { }
   profile;
   ngOnInit() {
@@ -181,6 +184,9 @@ export class CharityProfileComponent implements OnInit {
       .pipe(
         mergeMap(profile => {
           this.profile = profile;
+            for (let i = 0; i < this.profile.charity.images.length; i++) {
+                this.imgfiles.push(this.profile.charity.images[i])
+            }
           this.dropdownSettings = {
             singleSelection: false,
             idField: '_id',
@@ -343,4 +349,96 @@ export class CharityProfileComponent implements OnInit {
         }
       )
   }
+
+  files = [];
+  //upload Images
+  onUploadFinished(event) {
+       // this.readUrl(event);
+    this.imgfiles.push(event);
+    console.log(this.imgfiles)
+    this.files.push(event.file);
+    console.log(this.files);
+  }
+  onUploadStateChanged(status) {
+    console.log("upload status ", status)
+  }
+  onRemoved(event) {
+    console.log('onRemove', event);
+    let idx1 = this.imgfiles.indexOf(event);
+    this.imgfiles.splice(idx1, 1);
+    console.log("after removed", this.imgfiles)
+
+    let idx2 = this.files.indexOf(event.file);
+    this.files.splice(idx2, 1);
+    console.log("after removed", this.files)
+  }
+  // onUpload(): any {
+  //   for (let i = 0; i < this.files.length; i++) {
+  //     this.fd.append('imageFile', this.files[i], this.files[i].name.toLowerCase());
+  //   }
+  //   console.log("uploading images", this.fd);
+  //   return this.authCharityService.uploadPictures(this.fd);
+  // }
+  get pre_imgs(){
+       let imgs = [];
+       for (let i = 0; i < this.imgfiles.length; i++) {
+            // val instanceof Object
+           if(this.imgfiles[i] instanceof Object){
+                imgs.push(this.imgfiles[i].src)
+           }else{
+                imgs.push(this.imgfiles[i])
+           }
+       }
+       return imgs;
+ }
+//  onResetImgs(){
+//       this.imgfiles = [];
+//       for (let i = 0; i < this.profile.charity.images.length; i++) {
+//           this.imgfiles.push(this.profile.charity.images[i])
+//       }
+// }
+ canSave(){
+      if(this.imgfiles.length != this.profile.charity.images.length)
+      return true;
+      for (let i = 0; i < this.imgfiles.length; i++) {
+          if(this.imgfiles[i] != this.profile.charity.images[i])
+          return true;
+      }
+      return false;
+}
+uploadMsg= {
+     message:'',
+     success:false
+};
+ updateImg(){
+      let newimgs = [];
+      for (let i = 0; i < this.files.length; i++) {
+       this.fd.append('imageFile', this.files[i], this.files[i].name.toLowerCase());
+     }
+     console.log("uploading images", this.fd);
+      this.authCharityService.uploadPictures(this.fd)
+          .pipe(
+               mergeMap( result => {
+                    let urls = result.urls;
+                    for (let i = 0; i < urls.length; i++) {
+                        newimgs.push(urls[i].url);
+                    }
+                    for (let i = 0; i < this.imgfiles.length; i++) {
+                         // val instanceof Object
+                        if(!(this.imgfiles[i] instanceof Object)){
+                             newimgs.push(this.imgfiles[i])
+                        }
+                        //TODO delete existance images
+                    }
+                    return this.authCharityService.changeCharity(this.profile.charity._id, {"images":newimgs})
+               })
+          )
+          .subscribe(res => {
+               this.uploadMsg.success = true;
+               this.uploadMsg.message = "Upload Successfully";
+          }, err => {
+               this.uploadMsg.success = false;
+               this.uploadMsg.message = "Upload Failed";
+          })
+}
 }

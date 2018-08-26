@@ -41,7 +41,7 @@
           </div>
           <div class="form-group">
             <label for="website">Website</label>
-            <input type="text" class="form-control" id="website" formControlName="web" [(ngModel)]="web"  pattern="https?://.+" placeholder="Enter website" [readonly]="webReadOnly">
+            <input type="text" class="form-control" id="website" formControlName="web" [(ngModel)]="web"  placeholder="Enter website" [readonly]="webReadOnly">
             <small>
         <span [hidden]="!charityDetailErrors.web">{{charityDetailErrors.web}}</span>
    </small>
@@ -80,13 +80,13 @@
             <form [formGroup]="addressForm" novalidate>
               <div class="form-group">
                 <label class="control-label" for="textinput">Line 1(*)</label>
-                <input type="text" placeholder="Address Line 1" class="form-control" formControlName="line1" [(ngModel)]="line1" required [readonly]="line1ReadOnly">
+                <input type="text" placeholder="Address Line 1" class="form-control" formControlName="line1" [(ngModel)]="line1" required >
                 <span [hidden]="!addressErrors.line1">{{addressErrors.line1}}</span>
               </div>
               <!-- Text input-->
               <div class="form-group">
                 <label class="control-label" for="textinput">Line 2</label>
-                <input type="text" placeholder="Address Line 2" class="form-control" formControlName="line2" [(ngModel)]="line2" [readonly]="line2ReadOnly" >
+                <input type="text" placeholder="Address Line 2" class="form-control" formControlName="line2" [(ngModel)]="line2"  >
               </div>
             </form>
 
@@ -128,6 +128,8 @@
       </div>
     </div>
     <div class="form-group text-center">
+         {{charityDetailForm.value|json}}
+         {{charityDetailForm.valid|json}}
       <button mat-button [style.background-color]="charityDetailForm.invalid ? 'grey' : 'green'" matStepperNext>Next</button>
     </div>
   </mat-step>
@@ -233,13 +235,18 @@
     </div>
   </mat-step>
   <mat-step>
-    <div class="alert {{msg.success? 'alert-info': 'alert-danger'}} alert-dismissable" *ngIf="msg.message">
-      <a class="panel-close close" routerLink="/" data-dismiss="alert">×</a> {{msg.message}}
-    </div>
+
     <ng-template matStepLabel><i class="fas fa-check-circle"></i><b>&nbsp; Image Upload</b></ng-template>
     <div>
-      <image-upload #iu [max]="3" #iu [extensions]="['jpeg','png']" [maxFileSize]="1048576" dropBoxMessage="Drop Charities promotion images here (1M size at most for each picture, and 3 pictures at most)" (uploadFinished)="onUploadFinished($event)" (uploadStateChanged)="onUploadStateChanged($event)"
-           (removed)="onRemoved($event)"></image-upload>
+         <!-- [uploadedFiles]="imgfiles[0].src" -->
+      <image-upload #iu
+      [max]="4"
+      [extensions]="['jpeg','png','jpg']"
+      [maxFileSize]="1048576"
+      dropBoxMessage="Drop Charities promotion images here (1M size at most for each picture, and 3 pictures at most)"
+      (uploadFinished)="onUploadFinished($event)"
+      (uploadStateChanged)="onUploadStateChanged($event)"
+      (removed)="onRemoved($event)"></image-upload>
       <div>
         <ngb-progressbar *ngIf="progress>0 && progress<100" type="warning" [striped]="true" [animated]="true" [value]="progress">{{progress}}</ngb-progressbar>
         <p>
@@ -248,6 +255,164 @@
       </div>
       <!-- <button class="btn btn-success" (click)="onUpload()"> click</button> -->
     </div>
+    <div class="text-center form-group">
+      <button class="btn btn-warning" matStepperPrevious class="btn btn-warning">Back</button>
+      <button [disabled]="!imgfiles.length" class="btn {{!imgfiles.length || !usernameValid ? 'btn-secondary' : 'btn-success'}}" matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel><i class="far fa-eye"></i><b>&nbsp; Preview</b></ng-template>
+    <!--  -->
+      <div class="row">
+        <div class="col-11 col-md-5 info container">
+          <h1><b class="col text-center">{{charityDetailForm.value.name}}</b></h1>
+          <!-- <h2>{{charity?.info}}</h2> -->
+          <div >
+            Overall Rating:
+            <ngb-rating rate="5" placement="top" ngbTooltip="Number of Ratings" max=5 [readonly]="true"></ngb-rating>
+            <span>Rating: 5</span>
+          </div>
+
+          <ng-template #t let-fill="fill">
+            <span class="star" [class.full]="fill === 100">
+                    <span class="half" [style.width.%]="fill">&hearts;</span>&hearts;
+            </span>
+          </ng-template>
+          Your Rating:
+            <ngb-rating rate="5" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
+            <!-- <button type="submit" class="btn btn-info">submit</button> Selected: <b>{{ratingForm.value.rating}}</b> -->
+
+          <!-- <ngb-rating *ngIf="hasRated" [(rate)]="rating" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating> -->
+          <p>
+          </p>
+          <div class="btn-group btn-group-sm demoPadder" role="group" aria-label="Small button group">
+            <button type="button" class="btn btn-ept btn-like"><i class="fas fa-heart">Add to favorite</i></button>
+          </div>
+          <br />
+          <div>
+
+          </div>
+          <div class="align-bottom" *ngIf="charityDetailForm.value.categories" >
+            <div class="row text">
+              <div class="col" *ngFor="let cate of hack(charityDetailForm.value.categories)">
+                <span class="badge badge-pill badge-warning"><a class="link" >{{cate.name}}</a></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container col-11 col-md-5">
+          <ngb-carousel *ngIf="imgfiles.length" >
+            <ng-template ngbSlide *ngFor="let image of imgfiles">
+              <img class="img-fluid rounded text-center img img-size col-12" src="{{image.src}}" />
+            </ng-template>
+          </ngb-carousel>
+        </div>
+      </div>
+      <div class="row">
+        <div class="container" *ngIf="charityDetailForm" >
+
+          <hr />
+          <div class="row">
+
+            <div class="col-sm-9">
+              <div class="row">
+                <h2 class="col-10"><b>Voluntary works</b></h2>
+              </div>
+              <div id="collapseVnt" >
+              <div id="collapseVnt" [ngbCollapse]="isCollapsedVnt">
+                <div class="alert alert-danger alert-dismissable" >
+                  charity volunteer Activities is Empty
+                </div>
+
+              </div>
+              <hr />
+              <!-- <div class="row"> -->
+                <h2 class="col-10"><b>Financial data</b></h2>
+                <div class="alert alert-danger alert-dismissable" >
+                  Financial data is Empty
+                </div>
+              <!-- </div> -->
+              <div id="collapseFd" >
+              <!-- <div id="collapseFd" [ngbCollapse]="isCollapsedFd"> -->
+                financial data details
+              </div>
+              <hr />
+
+              <div class="row" id="comments">
+                <h2 class="col-10"><b>Comments</b></h2>
+
+              </div>
+              <ngb-tabset id="collapseCm" #commentTabs >
+                <ngb-tab id="tab-comment" title="Comments">
+                  <ng-template ngbTabContent>
+                       <div class="alert alert-danger alert-dismissable" >
+                        Comments are Empty
+                      </div>
+                  </ng-template>
+                </ngb-tab>
+                <ngb-tab title="Add Comments">
+                  <ng-template ngbTabContent>
+
+                  </ng-template>
+                </ngb-tab>
+              </ngb-tabset>
+              <br />
+            </div>
+
+          </div>
+          <div class="col-sm-3">
+          <div class="btn-group">
+              <button class="btn btn-warning" >Donate</button>
+          </div>
+          <hr />
+          <div class="col-xs-12 col-sm-12">
+              <div class="btn-group">
+               <a class="btn" shareButton="twitter" description="I have found an amazing charity, let's have a look!" [style.backgroundColor]="share.prop.twitter.color">
+                    <i class="fab fa-twitter"></i>
+              </a>
+               <a class="btn" shareButton="facebook" description="I have found an amazing charity, let's have a look!" [style.backgroundColor]="share.prop.facebook.color">
+                   <i class="fab fa-facebook-f"></i>
+              </a>
+               <a class="btn" shareButton="pinterest" description="I have found an amazing charity, let's have a look!" [style.backgroundColor]="share.prop.pinterest.color">
+                    <i class="fab fa-pinterest-p"></i>
+              </a>
+               <a class="btn" shareButton="reddit" description="I have found an amazing charity, let's have a look!" [style.backgroundColor]="share.prop.reddit.color">
+                    <i class="fab fa-reddit-alien"></i>
+              </a>
+               <a class="btn" shareButton="whatsapp" description="I have found an amazing charity, let's have a look!"  [style.backgroundColor]="share.prop.whatsapp.color">
+                    <i class="fab fa-whatsapp"></i>
+              </a>
+              </div>
+
+          </div>
+          <hr />
+          <h2><b>Contact</b></h2>
+          <div class="col-xs-12 col-sm-12">
+              <ul class="list-unstyled">
+               <li>
+                  <span class="fa fa-map-marker-alt fa-lg"></span><a >&nbsp;{{charityDetailForm?.value.address}}</a>
+               </li>
+               <li>
+                  <span class="fa fa-phone text-muted c-info"></span> &nbsp;{{charityDetailForm?.value.tel}}
+               </li>
+               <li>
+                  <span class="fa fa-envelope text-muted c-info"></span> &nbsp;{{charityDetailForm?.value.email}}
+               </li>
+               <li *ngIf="charity?.website">
+                  <i class="fas fa-link"></i>{{charityDetailForm?.value.website}}
+               </li>
+              </ul>
+          </div>
+         </div>
+        </div>
+      </div>
+    </div>
+
+    <!--  -->
+    <div class="alert {{msg.success? 'alert-info': 'alert-danger'}} alert-dismissable" *ngIf="msg.message">
+      <a class="panel-close close" routerLink="/" data-dismiss="alert">×</a> {{msg.message}}
+    </div>
+
     <div class="text-center form-group">
       <button mat-button matStepperPrevious class="btn-success">Back</button>
       <button mat-button (click)="onSubmit()" class="btn-info" *ngIf="!isSubmitted">Submit</button>
