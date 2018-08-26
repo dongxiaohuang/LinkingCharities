@@ -13,5 +13,5 @@ const mainCharitySchema = new Schema({
     email : { type:String},
     web : { type:String}
 });
-let UKCharities = mongoose.model('UK_Charity', mainCharitySchema);
+let UKCharities = mongoose.model('New_Main_Charity', mainCharitySchema);
 module.exports = UKCharities;

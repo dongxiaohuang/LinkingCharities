@@ -147,4 +147,27 @@ uploadRouter.route('/charitiesPics/:chairtyId')
           .catch(err => next(err))
      })
 
+uploadRouter.route('/charitiesPics')
+          .options(cors.corsWithOptions, (req, res) => {
+               sendStatus(200);
+          })
+          .post(cors.corsWithOptions, uploadCharity.array('imageFile', 3), (req, res, next) => {
+               if(!req.files){
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json({
+                         success:false,
+                         message:'no pictures uploaded'
+                    });}
+               else{
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json({
+                         success:true,
+                         urls:req.files
+                    });}
+               }
+
+          )
+
 module.exports = uploadRouter;

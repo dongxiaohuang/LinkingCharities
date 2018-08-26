@@ -22,5 +22,5 @@ const extractCharitySchema = new Schema(
     phone : { type:String},
     fax : { type:String}
 });
-let extractCharities = mongoose.model('Extract_Charity', extractCharitySchema);
+let extractCharities = mongoose.model('All_Charity', extractCharitySchema);
 module.exports = extractCharities;
