@@ -3,7 +3,6 @@ import { VolunteerService } from '../services/volunteer.service';
 import { Params, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-volunteer-timeslots',

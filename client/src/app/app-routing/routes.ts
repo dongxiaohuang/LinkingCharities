@@ -14,7 +14,6 @@ import { UserprofileComponent } from '../userprofile/userprofile.component';
 import { UserDonationHistoryComponent } from '../user-donation-history/user-donation-history.component';
 import { CharityDonationHistoryComponent } from '../charity-donation-history/charity-donation-history.component';
 import { CharityProfileComponent } from '../charity-profile/charity-profile.component';
-import { CategoryComponent } from '../category/category.component';
 import { VolunteerAddComponent } from '../volunteer-add/volunteer-add.component';
 import { VolunteerDetailsComponent } from '../volunteer-details/volunteer-details.component';
 import { VolunteerTimeslotsComponent } from '../volunteer-timeslots/volunteer-timeslots.component';
@@ -44,6 +43,5 @@ export const routes: Routes = [
      { path: 'charityuser/donations', component: CharityDonationHistoryComponent},
      { path: 'charityuser/volunteer', component: CharityVolunteerComponent},
      { path: 'charityuser/volunteer/:id', component: EditVolunteerComponent},
-     { path: 'category/:id', component: CategoryComponent},
      { path: '**', redirectTo: '/home'},
 ]

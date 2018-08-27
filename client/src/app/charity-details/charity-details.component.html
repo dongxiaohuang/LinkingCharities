@@ -170,6 +170,7 @@
                   this is a post message
                   <a class="panel-close close" data-dismiss="alert" (click)="postMsg=undefined">×</a> {{postMsg}}
                 </div>
+                <!-- {{charity.comments|json}} -->
                 <div class="card" *ngFor="let comment of charity?.comments | paginate: { itemsPerPage: 5, currentPage: p }">
                   <div class="card-body">
                     <div class="row">
@@ -207,7 +208,7 @@
                     <div class="widget-area no-padding blank">
                       <div class="status-upload">
                         <form [formGroup]="commentForm">
-                          <textarea placeholder="What are you doing right now?" formControlName="comment"></textarea>
+                          <textarea placeholder="Please leave a comment" formControlName="comment"></textarea>
                           <small>
                               <span [hidden]="!(formErrors.comment)">{{formErrors.comment}}</span>
                          </small>

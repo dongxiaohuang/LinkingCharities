@@ -22,6 +22,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
 })
 export class CharityDetailsComponent implements OnInit {
 
+     // user: any;
   msg: string;
   postMsg: string = undefined;
   page: number = 0;
@@ -76,6 +77,8 @@ export class CharityDetailsComponent implements OnInit {
           console.log(fav);
           this.favorite = fav.exists;
         });
+        // this.authService.getProfile()
+        //   .subscribe(user => this.user = user)
       this.charityService.hasRate(this.id)
         .subscribe(res => {
           if (res.exists) {
@@ -157,13 +160,10 @@ export class CharityDetailsComponent implements OnInit {
     }
   }
   onSubmit() {
-    // this.charityService.postComment(this.id,)
-    // console.log(this.commentForm.value);
     this.charityService.postComment(this.id, this.commentForm.value)
       .subscribe(comments => {
         this.charity.comments = comments;
         this.postMsg = "Post Comment Successful";
-        // console.log(this.postMsg);
       },
         err => {
           console.log(err);

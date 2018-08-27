@@ -6,7 +6,6 @@ import { GetCharitiesService } from '../services/get-charities.service';
 import { Category } from '../shared/category';
 import { mergeMap } from 'rxjs/operators';
 import { Countries } from '../shared/countries';
-import { HttpEventType, HttpClient } from '@angular/common/http';
 import { MapResponse } from '../utils/helpers';
 import { baseURL } from '../shared/baseurl';
 import { ShareButtons } from '@ngx-share/core';
@@ -82,9 +81,6 @@ export class CharityRegisterComponent implements OnInit {
     "tel": {
       'required': 'Charity telephone number is required.',
     },
-    // "web": {
-    //   'pattern': 'website is not valid, please start with http(s)://www'
-    // },
     "email": {
       'required': 'Email is required.',
       'email': 'email not in valid format.'
@@ -156,7 +152,6 @@ export class CharityRegisterComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder,
     private categoriesService: CategoriesService,
     private getCharityService: GetCharitiesService,
-    private http: HttpClient,
      public share: ShareButtons,//social button
     private authCharityService: AuthCharityService) { }
 

@@ -63,21 +63,24 @@
           <div class="col-5 col-md-6">
             <h5>
                 <h4>
-                     <b>
-                          <a class="text-info" [routerLink]="['/volunteerdetail',activity._id]">{{ activity.name }}</a>
+                     <b >
+                          <a class="text-info text-center" [routerLink]="['/volunteerdetail',activity._id]">
+                               <p class="text-center">
+                               {{ activity.name }}
+                          </p></a>
                      </b>
                 </h4>
                 <p class="m-0">
-                  <small class="text-muted d-none d-sm-block text-responsive" ngbPopover="{{ activity.description }}" triggers="mouseenter:mouseleave">{{ activity.description }}</small>
+                  <small class="text-muted d-none d-sm-block text-responsive text-center" ngbPopover="{{ activity.description }}" triggers="mouseenter:mouseleave">{{ activity.description }}</small>
                 </p>
 
               </h5>
           </div>
           <div class="col-2">
-            <h6 class="font-weight-bold text-danger">{{ activity.location }}</h6>
+            <h6 class="font-weight-bold text-danger text-center">{{ activity.location }}</h6>
           </div>
           <div class="col-2 text-responsive">
-                 <a class="font-weight-bold " routerLink="/charitydetail/{{ activity.charity._id }}">
+                 <a class="font-weight-bold text-center" routerLink="/charitydetail/{{ activity.charity._id }}">
                       {{ activity.charity.name }}</a>
           </div>
         </div>

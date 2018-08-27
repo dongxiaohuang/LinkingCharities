@@ -59,7 +59,6 @@ import { PaymentComponent } from './payment/payment.component';
 import { SearchComponent } from './search/search.component';
 import { CardComponent } from './card/card.component';
 import { UserprofileComponent } from './userprofile/userprofile.component';
-import { CategoryComponent } from './category/category.component';
 import { CharityProfileComponent } from './charity-profile/charity-profile.component';
 import { CharityCardComponent } from './charity-card/charity-card.component';
 import {
@@ -71,7 +70,6 @@ import {
 import { ShareModule } from '@ngx-share/core';
 import { UserDonationHistoryComponent } from './user-donation-history/user-donation-history.component';
 import { CharityDonationHistoryComponent } from './charity-donation-history/charity-donation-history.component';
-import { ActivityDetailsComponent } from './activity-details/activity-details.component';
 import { VolunteerAddComponent } from './volunteer-add/volunteer-add.component';
 import { VolunteerDetailsComponent } from './volunteer-details/volunteer-details.component';
 import { VolunteerTimeslotsComponent } from './volunteer-timeslots/volunteer-timeslots.component';
@@ -123,12 +121,10 @@ export function getAuthServiceConfigs() {
     SearchComponent,
     CardComponent,
     UserprofileComponent,
-    CategoryComponent,
     CharityProfileComponent,
     CharityCardComponent,
     UserDonationHistoryComponent,
     CharityDonationHistoryComponent,
-    ActivityDetailsComponent,
     VolunteerAddComponent,
     VolunteerDetailsComponent,
     VolunteerTimeslotsComponent,

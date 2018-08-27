@@ -364,7 +364,7 @@ export class CharityProfileComponent implements OnInit {
   }
   onRemoved(event) {
     console.log('onRemove', event);
-    let idx1 = this.imgfiles.indexOf(event);
+    let idx1 = this.imgfiles.indexOf(event.file.name);
     this.imgfiles.splice(idx1, 1);
     console.log("after removed", this.imgfiles)
 

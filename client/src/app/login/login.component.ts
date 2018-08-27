@@ -77,6 +77,9 @@ export class LoginComponent implements OnInit {
   public socialSignIn(socialPlatform: string) {
     let socialPlatformProvider;
     socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
+    if(this.authCharityService.isLoggedIn()){
+         this.authCharityService.logOut();
+    }
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
         console.log(userData);

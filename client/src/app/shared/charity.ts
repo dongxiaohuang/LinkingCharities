@@ -1,4 +1,3 @@
-import { Comment } from './comment';
 import { Card } from './card';
 import { Category } from './category';
 import { Geocoding } from './geocoding';
@@ -22,7 +21,7 @@ export class Charity {
      averageRating: number;
      address: string;
      card: Card;
-     comments: Comment[];
+     comments: any[];
      geocoding:Geocoding;
      geoaddress:string;
      updatedAt:string;

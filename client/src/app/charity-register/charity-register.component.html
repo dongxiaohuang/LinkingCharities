@@ -42,9 +42,9 @@
           <div class="form-group">
             <label for="website">Website</label>
             <input type="text" class="form-control" id="website" formControlName="web" [(ngModel)]="web"  placeholder="Enter website" [readonly]="webReadOnly">
-            <small>
+            <!-- <small>
         <span [hidden]="!charityDetailErrors.web">{{charityDetailErrors.web}}</span>
-   </small>
+   </small> -->
           </div>
           <div class="form-group">
             <label for="charity_email">Contact Email(*)</label>
@@ -128,8 +128,6 @@
       </div>
     </div>
     <div class="form-group text-center">
-         {{charityDetailForm.value|json}}
-         {{charityDetailForm.valid|json}}
       <button mat-button [style.background-color]="charityDetailForm.invalid ? 'grey' : 'green'" matStepperNext>Next</button>
     </div>
   </mat-step>

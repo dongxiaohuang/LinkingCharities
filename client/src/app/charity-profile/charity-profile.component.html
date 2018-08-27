@@ -46,7 +46,7 @@
                   <button name="submit" type="submit" [disabled]="userForm.invalid" class="btn btn-primary" (click)="changeProfile()">Update My Profile</button>
                 </div>
               </div>
-              <hr /> {{userForm.value|json}}
+              <hr />
             </form>
             <div class="alert alert-info alert-dismissable" *ngIf="pswMsg">
               <a class="panel-close close" data-dismiss="alert" (click)="pswMsg=undefined">×</a> {{pswMsg}}
@@ -99,7 +99,7 @@
       <div class="row justify-content-center">
         <div class="col-8 col-md-6 col-lg-5">
           <form [formGroup]="charityDetailForm" novalidate>
-            {{charityDetailForm.value |json}} {{charityDetailForm.valid |json}}
+
             <div class="form-group" *ngIf="profile.charity.ccn">
               <label for="ccb">Charity Commission number</label>
               <input readonly="true" type="text" class="form-control" id="ccn" formControlName="ccn" placeholder="Enter charity commission number" value={{profile.charity.ccn}}>
@@ -191,7 +191,6 @@
               </div>
          </form>
               <!-- {{addressForm.valid |json}} -->
-              {{addressForm?.value |json}}
               <!-- {{this.profile.charity.address.line1}}
               {{this.profile.charity.address.line2}} -->
 
@@ -232,7 +231,7 @@
                    <span [hidden]="!fullAddressErrors.country">{{fullAddressErrors.country}}</span>
               </small>
               </div>
-              {{fullAddressForm.value|json}}
+
          </form>
          <div class="btn-group text-center">
               <button class="btn btn-success" (click)="changeAddress()" [disabled]="fullAddressForm.invalid || addressForm.invalid">Update</button>
@@ -244,8 +243,7 @@
 
 <mat-step>
      <ng-template matStepLabel><i class="far fa-images"></i><b>&nbsp; Images</b></ng-template>
-     {{imgfiles|json}}
-     {{files|json}}
+
   <!-- <image-upload #iu
   [max]="4"
   [extensions]="['jpeg','png','jpg']"
@@ -466,7 +464,7 @@
                  <span [hidden]="!(paymentDetailsErros.account_no)">{{paymentDetailsErros.account_no}}</span>
             </small>
             </div>
-            <hr /> {{paymentDetailsForm.value |json}}
+            <hr />
             <div class="form-group">
               <i class="fab fa-paypal"></i>
               <label for="paypal_number">Paypal</label>
