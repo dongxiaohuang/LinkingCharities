@@ -3,30 +3,30 @@
 <div class="alert alert-danger alert-dismissable" *ngIf="charityActivities && !charityActivities.length">
  charity volunteer Activities is Empty
 </div>
-<a class="btn btn-warning text-white text-center" [routerLink]="['/volunteer/register']">Register New Volunteer Activity</a>
+<a class="btn btn-warning text-white text-center" [routerLink]="['/volunteer/register']">Create New Volunteer Activity</a>
 <hr />
 <div *ngIf="charityActivities && charityActivities.length" class="row">
  <div class="col">
     <!-- <h4 class="display-4">Volunteer Activies</h4>  -->
     {{ lower }}-{{ upper }} of {{totalNumber}}
-    <div class="row container">
+    <div class="row">
       <div class="col-4 col-md-3  d-none d-md-block">
-        <p>
+        <p class="text-center">
           <small class="text-muted">Available?</small>
         </p>
       </div>
       <div class="col-4 col-md-6 d-none d-md-block">
-        <p>
+        <p class="text-center">
           <small class="text-muted">Volunteer Activities Information</small>
         </p>
       </div>
       <div class="col-2 d-none d-md-block">
-        <p>
+        <p class="text-center">
           <small class="text-muted">location</small>
         </p>
       </div>
       <div class="col-1 d-none d-md-block">
-        <p>
+        <p class="text-left">
           <small class="text-muted">Edit?</small>
         </p>
       </div>
@@ -50,12 +50,14 @@
           <h5>
               <h4>
                    <b>
-                        <a class="text-info text-center" [routerLink]="['/volunteerdetail',activity._id]">{{ activity.name }}</a>
+                        <a class="text-info text-center" [routerLink]="['/volunteerdetail',activity._id]"><p class="text-center">
+                        {{ activity.name }}
+                   </p></a>
 
                    </b>
               </h4>
               <p class="m-0">
-               <small class="text-muted d-none d-sm-block text-center">{{ activity.description }}</small>
+               <small class="text-muted d-none d-sm-block text-center" ngbPopover="{{ activity.description }}" triggers="mouseenter:mouseleave">{{ activity.description }}</small>
               </p>
             </h5>
         </div>

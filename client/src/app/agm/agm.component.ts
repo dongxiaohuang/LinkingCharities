@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Marker } from '../shared/marker';
-import { HttpClient } from '@angular/common/http';
 import { tap, mergeMap } from 'rxjs/operators';
 import { MapResponse } from '../utils/helpers';
 import { GetCharitiesService } from '../services/get-charities.service';
@@ -18,7 +17,7 @@ export class AgmComponent implements OnInit {
   zoom = 10;
   baseUrl = baseURL;
   msg;
-  constructor(private http: HttpClient,
+  constructor(
        public activeModal: NgbActiveModal,
      private getCharitiesService: GetCharitiesService) { }
 

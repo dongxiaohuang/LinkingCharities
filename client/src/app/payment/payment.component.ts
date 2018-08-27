@@ -1,13 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { environment } from '../../environments/environment';
-import { baseURL } from '../shared/baseurl';
-import { HttpClient } from '@angular/common/http';
 import { Input } from '@angular/core';
 import { onValueChanged } from '../utils/helpers';
 import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { ShareButtons } from '@ngx-share/core';
-
+import { PaymentService } from '../services/payment.service';
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
@@ -20,7 +18,6 @@ export class PaymentComponent implements OnInit {
      charityId:string
   amount;
   able;
-  baseUrl = baseURL;
   isSubmited:boolean = false;
   isSuccessPayed:boolean = undefined;
   amountForm: FormGroup;
@@ -36,7 +33,7 @@ export class PaymentComponent implements OnInit {
       }
 }
   handler: any;
-  constructor(private http: HttpClient,
+  constructor(private paymentService: PaymentService,
        private fb: FormBuilder,
        public activeModal: NgbActiveModal,
        public share: ShareButtons,
@@ -47,15 +44,19 @@ export class PaymentComponent implements OnInit {
       image: 'assets/img/logo-charity.png',
       locale: 'auto',
       token: async stripeToken => {
-        this.http.post(baseURL +'payment',{
-             "amount": this.amountForm.value.amount,
-             "stripeToken":stripeToken,
-             "charity":this.charityId,
-             "message":this.amountForm.value.message
-        })
+        // this.http.post(baseURL +'payment',{
+        //      "amount": this.amountForm.value.amount,
+        //      "stripeToken":stripeToken,
+        //      "charity":this.charityId,
+        //      "message":this.amountForm.value.message
+        // })
+        this.paymentService.makeDonation(
+             this.amountForm.value.amount,
+             stripeToken,
+             this.charityId,
+             this.amountForm.value.message
+        )
         .subscribe(res => {
-             // this.activeModal.dismiss('Cross click');
-             //
              console.log(res)
              if(
                   res['success']){ console.log("success");

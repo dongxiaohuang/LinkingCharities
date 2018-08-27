@@ -1,7 +1,10 @@
 <div class="bg">
 </div>
 <p class="text-right">
-	<button class="btn btn-outline-warning" (click)="getTimeslots(id)"><i class="fas fa-sync-alt"></i>Refresh</button>
+	<span class="btn-group">
+		<button class="btn btn-outline-info" (click)="back()"><i class="fas fa-backward"></i>Back</button>
+		<button class="btn btn-outline-success" (click)="getTimeslots(id)"><i class="fas fa-sync-alt"></i>Refresh</button>
+	</span>
 </p>
 <app-loading *ngIf="!timeslots" ></app-loading>
 <div class="col-md-12" *ngIf="timeslots">

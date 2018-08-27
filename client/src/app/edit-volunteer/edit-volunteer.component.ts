@@ -204,7 +204,7 @@ deleteActicity(){
      this.volunteerService.deleteVolunteer(this.volunteerId)
           .subscribe(res => {
                console.log(res);
-     this.router.navigate(["/"]);})
+     this.router.navigate(["/charityuser/volunteer"]);})
 }
 
 }

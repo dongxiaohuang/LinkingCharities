@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchService } from '../services/search.service';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { baseURL } from '../shared/baseurl';
 @Component({
   selector: 'app-search',
@@ -14,8 +13,7 @@ export class SearchComponent implements OnInit {
   totalNumber: number;
   search_key: number;
   constructor(private searchService: SearchService,
-    private activatedRoute: ActivatedRoute,
-    private http: HttpClient) { }
+    private activatedRoute: ActivatedRoute) { }
   query: string;
   page: number = 1;
   perPage:number =10;

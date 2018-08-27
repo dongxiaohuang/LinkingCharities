@@ -3,9 +3,8 @@ import { AuthService } from '../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { matchOtherValidator, onValueChanged } from '../utils/helpers';
 import { baseURL } from '../shared/baseurl';
-import { HttpClient, HttpEventType } from '@angular/common/http';
+import { HttpEventType } from '@angular/common/http';
 import { mergeMap } from 'rxjs/operators';
-import { Location } from '@angular/common';
 import { Countries } from '../shared/countries';
 
 @Component({
@@ -60,9 +59,7 @@ export class UserprofileComponent implements OnInit {
     },
   }
   constructor(private authService: AuthService,
-    private fb: FormBuilder,
-    private http: HttpClient,
-    private location: Location) { }
+    private fb: FormBuilder) { }
   ngOnInit() {
     this.authService.getProfile()
       .subscribe(profile => {

@@ -79,6 +79,7 @@ import { CharityVolunteersRegistersComponent } from './charity-volunteers-regist
 import { EditVolunteerComponent } from './edit-volunteer/edit-volunteer.component';
 import { EditTimeslotComponent } from './edit-timeslot/edit-timeslot.component';
 import { UserVolunteerHistoryComponent } from './user-volunteer-history/user-volunteer-history.component';
+import { PaymentService } from './services/payment.service';
 
 // Configs
 export function getAuthServiceConfigs() {
@@ -171,6 +172,7 @@ export function getAuthServiceConfigs() {
     ProcessHTTPMsgService,
     SearchService,
     VolunteerService,
+    PaymentService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     //registers a value (baseURL) under the BaseURL injection token.
     //Angular can inject the BaseURL value into any class that it creates.

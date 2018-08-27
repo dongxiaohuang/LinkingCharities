@@ -3,7 +3,7 @@ import { VolunteerService } from '../services/volunteer.service';
 import { Params, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-volunteer-timeslots',
   templateUrl: './volunteer-timeslots.component.html',
@@ -16,6 +16,7 @@ export class VolunteerTimeslotsComponent implements OnInit {
   constructor(private volunteerService: VolunteerService,
     private authService: AuthService,
     private modalService: NgbModal,
+    private location: Location,
     private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -31,5 +32,8 @@ export class VolunteerTimeslotsComponent implements OnInit {
         }
       )
   }
+  back(){
+    this.location.back(); // <-- go back to previous location on cancel
+ }
 
 }
