@@ -105,7 +105,7 @@ charityRouter.route('/newCharities')
      .get(cors.cors, (req, res, next) => {
           Charities.find({})
                .sort({
-                    updatedAt: 'desc'
+                    createdAt: 'desc'
                })
                .limit(8)
                .populate('categories')

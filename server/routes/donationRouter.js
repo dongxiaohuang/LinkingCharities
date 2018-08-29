@@ -77,35 +77,70 @@ donationRouter.route('/')
                })
      })
      .post(cors.corsWithOptions, (req, res, next) => {
-          // passport.authenticate('jwtPassportUser', {
-          //      session: false
-          // }, (err, user, info) => {
-          //      if (err) return next(err);
-          //      if (!user) {
-          //           Donations.create(req.body)
-          //           .then(result => {
-          //                res.statusCode = 200;
-          //                res.setHeader('Content-Type', 'application/json');
-          //                res.json(result);
-          //           }, err => next(err))
-          //           .catch(err => next(err))
-          //      } else {
-          //           Donations.create({
-          //                charity:req.body.charity,
-          //                user:user._id,
-          //                amount:req.body.amount
-          //           })
-          //           .then(result => {
-          //                res.statusCode = 200;
-          //                res.setHeader('Content-Type', 'application/json');
-          //                res.json(result);
-          //           }, err => next(err))
-          //           .catch(err => next(err))
-          //      }
-          // })(req, res);
-          res.statusCode = 405;
-          res.end('POST is not supported on endpoint /donation');
+          const stripe = require('stripe')('sk_test_2nwposkyloGI8LEyP3FFZIlC');
+          const stripeToken = req.body.stripeToken;
+          const currentCharge = Math.round(req.body.amount * 100);
 
+          stripe.customers
+               .create({
+                    source: stripeToken.id
+               })
+               .then(customer => {
+                    return stripe.charges.create({
+                         amount: currentCharge,
+                         currency: 'gbp',
+                         customer: customer.id
+                    });
+               })
+               .then((charge) => {
+                    // todo save
+                    // console.log('charge period')
+                    // res.statusCode = 200;
+                    // res.setHeader('Content-type', 'application/json');
+                    // res.json({
+                    //      success: true,
+                    //      message: "Successfully made a payment"
+                    // })
+                    passport.authenticate('jwtPassportUser', {
+                         session: false
+                    }, (err, user, info) => {
+                         if (err) return next(err);
+                         if (!user) {
+                              Donations.create({
+                                   charity:req.body.charity,
+                                   amount:req.body.amount,
+                                   message:req.body.message
+                              })
+                              .then(result => {
+                                   res.statusCode = 200;
+                                   res.setHeader('Content-Type', 'application/json');
+                                   res.json({
+                                        success:true,
+                                        charge:charge,
+                                        results:result
+                                   });
+                              }, err => next(err))
+                              .catch(err => next(err))
+                         } else {
+                              Donations.create({
+                                   charity:req.body.charity,
+                                   user:user._id,
+                                   amount:req.body.amount,
+                                   message:req.body.message
+                              })
+                              .then(result => {
+                                   res.statusCode = 200;
+                                   res.setHeader('Content-Type', 'application/json');
+                                   res.json({
+                                        success:true,
+                                        charge:charge,
+                                        results:result
+                                   });
+                              }, err => next(err))
+                              .catch(err => next(err))
+                         }
+                    })(req, res);
+               })
      })
      .put(cors.corsWithOptions, (req, res, next) => {
           res.statusCode = 405;
