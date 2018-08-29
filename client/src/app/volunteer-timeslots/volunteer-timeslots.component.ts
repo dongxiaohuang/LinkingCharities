@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { VolunteerService } from '../services/volunteer.service';
 import { Params, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from '@angular/common';
 @Component({
   selector: 'app-volunteer-timeslots',
@@ -15,7 +14,6 @@ export class VolunteerTimeslotsComponent implements OnInit {
   timeslots: any = [];
   constructor(private volunteerService: VolunteerService,
     private authService: AuthService,
-    private modalService: NgbModal,
     private location: Location,
     private route: ActivatedRoute) { }
 

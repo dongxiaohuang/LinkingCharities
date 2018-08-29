@@ -10,7 +10,7 @@ export class PaymentService {
 
   constructor(private http: HttpClient,) { }
   makeDonation(amount, stripeToken, charityId, message):Observable<any>{
-      return  this.http.post(baseURL +'payment',{
+      return  this.http.post(baseURL +'donation',{
             "amount": amount,
             "stripeToken":stripeToken,
             "charity":charityId,
