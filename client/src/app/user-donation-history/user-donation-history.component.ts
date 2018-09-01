@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
+import { PaymentService } from '../services/payment.service';
 @Component({
   selector: 'app-user-donation-history',
   templateUrl: './user-donation-history.component.html',
@@ -12,14 +12,14 @@ export class UserDonationHistoryComponent implements OnInit {
   donations;
   perPage: number;
   page: number = 0;
-  constructor(private authService: AuthService) { }
+  constructor(private paymentService: PaymentService) { }
 
   ngOnInit() {
     this.getDonations(this.page)
   }
 
   getDonations(page) {
-    this.authService.getDonations(page)
+    this.paymentService.getDonorDonations(page)
       .subscribe(donations => {
         this.donations = donations;
         this.totalPage = donations.pages;

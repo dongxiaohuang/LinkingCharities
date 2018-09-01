@@ -148,10 +148,10 @@ export class AuthService {
     return this.http.put(baseURL + 'users/newpassword', newPSW)
       .catch(error => { return this.processHTTPMsgService.handleError(error); });
   }
-  getDonations(page: number): Observable<any>{
-       return this.http.get(baseURL + 'donation/user?page='+page)
-       .catch(err => this.processHTTPMsgService.handleError(err));
- }
+ //  getDonations(page: number): Observable<any>{
+ //       return this.http.get(baseURL + 'donation/user?page='+page)
+ //       .catch(err => this.processHTTPMsgService.handleError(err));
+ // }
 
  checkId(username:string): Observable<any>{
       return this.http.post(baseURL + 'users/checkId', {username:username})
