@@ -25,6 +25,7 @@ export class Charity {
      geocoding:Geocoding;
      geoaddress:string;
      updatedAt:string;
+     verified:boolean;
 };
 
 export class CharityIdName{

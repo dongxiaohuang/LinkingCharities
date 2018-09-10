@@ -90,161 +90,162 @@
   <ngb-tab>
     <ng-template ngbTabTitle><i class="far fa-edit"></i> <b> My charity</b></ng-template>
     <ng-template ngbTabContent>
-         <mat-horizontal-stepper #stepper linear>
-              <mat-step>
-                <ng-template matStepLabel><i class="far fa-eye"></i><b>&nbsp; Edit Information</b></ng-template>
-         <div class="alert alert-info alert-dismissable" *ngIf="UpdateMsg">
-          <a class="panel-close close" data-dismiss="alert" (click)="UpdateMsg=undefined">×</a> {{UpdateMsg}}
-        </div>
-      <div class="row justify-content-center">
-        <div class="col-8 col-md-6 col-lg-5">
-          <form [formGroup]="charityDetailForm" novalidate>
+      <mat-horizontal-stepper #stepper linear>
+        <mat-step>
+          <ng-template matStepLabel><i class="far fa-eye"></i><b>&nbsp; Edit Information</b></ng-template>
+          <div class="alert alert-info alert-dismissable" *ngIf="UpdateMsg">
+            <a class="panel-close close" data-dismiss="alert" (click)="UpdateMsg=undefined">×</a> {{UpdateMsg}}
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-8 col-md-6 col-lg-5">
+              <form [formGroup]="charityDetailForm" novalidate>
 
-            <div class="form-group" *ngIf="profile.charity.ccn">
-              <label for="ccb">Charity Commission number</label>
-              <input readonly="true" type="text" class="form-control" id="ccn" formControlName="ccn" placeholder="Enter charity commission number" value={{profile.charity.ccn}}>
-            </div>
-            <div class="form-group" *ngIf="profile.charity.rBody">
-              <label for="rBody">Registered body</label>
-              <input type="text" readonly="true" class="form-control" id="rBody" formControlName="rbody" placeholder="Enter registered body">
-            </div>
-            <div class="form-group" *ngIf="profile.charity.rno">
-              <label for="rNumber">Registered number</label>
-              <input type="text" readonly="true" class="form-control" id="rNumber" formControlName="rno" pattern="[0-9]*" placeholder="Enter registered number">
-              <small>
+                <div class="form-group">
+                  <label for="ccb">Charity Commission number</label>
+                  <input *ngIf="profile.charity.ccn" readonly="true" type="text" class="form-control" id="ccn" formControlName="ccn" placeholder="Enter charity commission number" value={{profile.charity.ccn}}>
+                  <input *ngIf="!profile.charity.ccn" type="text" class="form-control" id="ccn" formControlName="ccn" placeholder="Enter charity commission number" value={{profile.charity.ccn}}>
+                </div>
+                <div class="form-group" *ngIf="profile.charity.rbody">
+                  <label for="rBody">Registered body</label>
+                  <input type="text" readonly="true" class="form-control" id="rBody" formControlName="rbody" placeholder="Enter registered body">
+                </div>
+                <div class="form-group" *ngIf="profile.charity.rno">
+                  <label for="rNumber">Registered number</label>
+                  <input type="text" readonly="true" class="form-control" id="rNumber" formControlName="rno" pattern="[0-9]*" placeholder="Enter registered number">
+                  <small>
                  <span [hidden]="!charityDetailErrors.rno">{{charityDetailErrors.rno}}</span>
             </small>
-            </div>
-            <div class="form-group">
-              <label for="rName">Registered name(*)</label>
-              <input type="text" readonly="true" class="form-control" id="rName" formControlName="name" placeholder="Enter registered name" value="{{profile.charity.name}}">
-              <small>
+                </div>
+                <div class="form-group">
+                  <label for="rName">Registered name(*)</label>
+                  <input type="text" readonly="true" class="form-control" id="rName" formControlName="name" placeholder="Enter registered name" value="{{profile.charity.name}}">
+                  <small>
         <span [hidden]="!(charityDetailErrors.name)" >{{charityDetailErrors.name}}</span>
   </small>
-            </div>
-            <div class="form-group">
-              <label for="tel">Registered telphone(*)</label>
-              <input type="tel" class="form-control" id="tel" formControlName="tel" name="tel"  placeholder="Enter telphone" required>
-              <small>
+                </div>
+                <div class="form-group">
+                  <label for="tel">Registered telphone(*)</label>
+                  <input type="tel" class="form-control" id="tel" formControlName="tel" name="tel" placeholder="Enter telphone" required>
+                  <small>
         <span [hidden]="!charityDetailErrors.tel">{{charityDetailErrors.tel}}</span>
   </small>
-            </div>
-            <div class="form-group">
-              <label for="website">Website</label>
-              <input type="text" class="form-control" id="website" formControlName="web" name="website" pattern="https?://.+" placeholder="Enter website">
-              <small>
+                </div>
+                <div class="form-group">
+                  <label for="website">Website</label>
+                  <input type="text" class="form-control" id="website" formControlName="web" name="website" pattern="https?://.+" placeholder="Enter website">
+                  <small>
         <span [hidden]="!charityDetailErrors.web">{{charityDetailErrors.web}}</span>
   </small>
-            </div>
-            <div class="form-group">
-              <label for="charity_email">Contact Email(*)</label>
-              <input type="text" class="form-control" id="charity_email" formControlName="email" name="website" placeholder="Enter charity email" required>
-              <small>
+                </div>
+                <div class="form-group">
+                  <label for="charity_email">Contact Email(*)</label>
+                  <input type="text" class="form-control" id="charity_email" formControlName="email" name="website" placeholder="Enter charity email" required>
+                  <small>
         <span [hidden]="!charityDetailErrors.email">{{charityDetailErrors.email}}</span>
   </small>
-            </div>
-            <div class="form-group">
-              <label for="chooseTypes">Types(*)</label>
-              <ng-multiselect-dropdown #chooseTypes [placeholder]="'Please select type(s) of your charity'" [data]="categories" [settings]="dropdownSettings" formControlName="categories" (onSelectAll)="onSelectAll($event)" required>
-              </ng-multiselect-dropdown>
-              <small>
+                </div>
+                <div class="form-group">
+                  <label for="chooseTypes">Types(*)</label>
+                  <ng-multiselect-dropdown #chooseTypes [placeholder]="'Please select type(s) of your charity'" [data]="categories" [settings]="dropdownSettings" formControlName="categories" (onSelectAll)="onSelectAll($event)" required>
+                  </ng-multiselect-dropdown>
+                  <small>
             <span [hidden]="!charityDetailErrors.categories">{{charityDetailErrors.categories}}</span>
             </small>
-            </div>
+                </div>
 
-            <div class="form-group">
-              <label for="info">brief description(*)</label>
-              <textarea id="info" maxlength="200" class="form-control" formControlName="info" placeholder="Charity Description 200 words at most" rows=4 required></textarea>
-              <small>
+                <div class="form-group">
+                  <label for="info">brief description(*)</label>
+                  <textarea id="info" maxlength="200" class="form-control" formControlName="info" placeholder="Charity Description 200 words at most" rows=4 required></textarea>
+                  <small>
               <span [hidden]="!charityDetailErrors.info">{{charityDetailErrors.info}}</span>
         </small>
-              <hr />
-              <label for="detail">details description(*)</label>
-              <textarea id="detail" maxlength="500" class="form-control" formControlName="details" placeholder="Charity Details 500 words at most" rows=6 required></textarea>
-              <small>
+                  <hr />
+                  <label for="detail">details description(*)</label>
+                  <textarea id="detail" maxlength="500" class="form-control" formControlName="details" placeholder="Charity Details 500 words at most" rows=6 required></textarea>
+                  <small>
             <span [hidden]="!charityDetailErrors.details">{{charityDetailErrors.details}}</span>
         </small>
-            </div>
-          </form>
-          <div class="btn-group text-center">
-               <button class="btn btn-success" [disabled]="charityDetailForm.invalid || !charityDetailForm.dirty"  (click)="changeCharity()">Update</button>
-               <button class="btn btn-warning" (click)="onReset()">Cancel</button>
-          </div>
-          <hr />
-          <div class="form-group">
-            <!-- Text input-->
-            <div class="alert alert-info alert-dismissable" *ngIf="addrUpdataMsg">
-            <a class="panel-close close" data-dismiss="alert" (click)="addrUpdataMsg=undefined">×</a> {{addrUpdataMsg}}
-          </div>
-            <form [formGroup]="addressForm" novalidate>
+                </div>
+              </form>
+              <div class="btn-group text-center">
+                <button class="btn btn-success" [disabled]="charityDetailForm.invalid || !charityDetailForm.dirty" (click)="changeCharity()">Update</button>
+                <button class="btn btn-warning" (click)="onReset()">Cancel</button>
+              </div>
+              <hr />
               <div class="form-group">
-                <label class="control-label" for="textinput">Line 1(*)</label>
-                <input type="text" placeholder="Address Line 1" class="form-control" formControlName="line1" required [(ngModel)]="profile.charity.address.line1">
-               <small>
+                <!-- Text input-->
+                <div class="alert alert-info alert-dismissable" *ngIf="addrUpdataMsg">
+                  <a class="panel-close close" data-dismiss="alert" (click)="addrUpdataMsg=undefined">×</a> {{addrUpdataMsg}}
+                </div>
+                <form [formGroup]="addressForm" novalidate>
+                  <div class="form-group">
+                    <label class="control-label" for="textinput">Line 1(*)</label>
+                    <input type="text" placeholder="Address Line 1" class="form-control" formControlName="line1" required [(ngModel)]="profile.charity.address.line1">
+                    <small>
                     <span [hidden]="!addressErrors.line1">{{addressErrors.line1}}</span>
                </small>
-              </div>
-              <!-- Text input-->
-              <div class="form-group">
-                <label class="control-label" for="textinput">Line 2</label>
-                <input type="text" placeholder="Address Line 2" class="form-control" formControlName="line2" [(ngModel)]="profile.charity.address.line2">
-              </div>
-         </form>
-              <!-- {{addressForm.valid |json}} -->
-              <!-- {{this.profile.charity.address.line1}}
+                  </div>
+                  <!-- Text input-->
+                  <div class="form-group">
+                    <label class="control-label" for="textinput">Line 2</label>
+                    <input type="text" placeholder="Address Line 2" class="form-control" formControlName="line2" [(ngModel)]="profile.charity.address.line2">
+                  </div>
+                </form>
+                <!-- {{addressForm.valid |json}} -->
+                <!-- {{this.profile.charity.address.line1}}
               {{this.profile.charity.address.line2}} -->
 
-              <form [formGroup]="fullAddressForm" novalidate>
-              <!-- Text input-->
-              <div class="form-group">
-                <label class="control-label" for="city">City(*)</label>
-                <input type="text" placeholder="City" id="city" class="form-control" formControlName="city" required [(ngModel)]="this.profile.charity.city">
-                <small>
+                <form [formGroup]="fullAddressForm" novalidate>
+                  <!-- Text input-->
+                  <div class="form-group">
+                    <label class="control-label" for="city">City(*)</label>
+                    <input type="text" placeholder="City" id="city" class="form-control" formControlName="city" required [(ngModel)]="this.profile.charity.city">
+                    <small>
                      <span [hidden]="!fullAddressErrors.city">{{fullAddressErrors.city}}</span>
                 </small>
-              </div>
-              <!-- Text input-->
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="control-label" for="state">State</label>
-                    <input type="text" placeholder="State" id="state" class="form-control" formControlName="state" [(ngModel)]="this.profile.charity.state">
                   </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="control-label" for="postcode">Postcode(*)</label>
-                    <input type="text" placeholder="Post Code" id="postcode" class="form-control" formControlName="postcode" required [(ngModel)]="this.profile.charity.postcode">
-                    <small>
+                  <!-- Text input-->
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="control-label" for="state">State</label>
+                        <input type="text" placeholder="State" id="state" class="form-control" formControlName="state" [(ngModel)]="this.profile.charity.state">
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="control-label" for="postcode">Postcode(*)</label>
+                        <input type="text" placeholder="Post Code" id="postcode" class="form-control" formControlName="postcode" required [(ngModel)]="this.profile.charity.postcode">
+                        <small>
                          <span [hidden]="!fullAddressErrors.postcode">{{fullAddressErrors.postcode}}</span>
                     </small>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
 
-              <div class="form-group">
-                <label class="control-label" for="country">Country(*)</label>
-                <select id="country" formControlName="country" class="form-control" required [(ngModel)]="this.profile.charity.country">
+                  <div class="form-group">
+                    <label class="control-label" for="country">Country(*)</label>
+                    <select id="country" formControlName="country" class="form-control" required [(ngModel)]="this.profile.charity.country">
                    <option  *ngFor="let c of countries; let i = index;"  [value]="c.name">{{c.name}}</option>
                </select>
-                <small>
+                    <small>
                    <span [hidden]="!fullAddressErrors.country">{{fullAddressErrors.country}}</span>
               </small>
+                  </div>
+
+                </form>
+                <div class="btn-group text-center">
+                  <button class="btn btn-success" (click)="changeAddress()" [disabled]="fullAddressForm.invalid || addressForm.invalid">Update</button>
+                </div>
               </div>
-
-         </form>
-         <div class="btn-group text-center">
-              <button class="btn btn-success" (click)="changeAddress()" [disabled]="fullAddressForm.invalid || addressForm.invalid">Update</button>
-         </div>
+            </div>
           </div>
-        </div>
-      </div>
-</mat-step>
+        </mat-step>
 
-<mat-step>
-     <ng-template matStepLabel><i class="far fa-images"></i><b>&nbsp; Images</b></ng-template>
+        <mat-step>
+          <ng-template matStepLabel><i class="far fa-images"></i><b>&nbsp; Images</b></ng-template>
 
-  <!-- <image-upload #iu
+          <!-- <image-upload #iu
   [max]="4"
   [extensions]="['jpeg','png','jpg']"
   [maxFileSize]="1048576"
@@ -253,177 +254,170 @@
        (uploadStateChanged)="onUploadStateChanged($event)"
        (removed)="onRemoved($event)"
   ></image-upload> -->
-  <image-upload #iu
-  [max]="4"
-  [uploadedFiles]="profile.charity.images"
-  [extensions]="['jpeg','png','jpg']"
-  [maxFileSize]="1048576"
-  dropBoxMessage="Drop Charities promotion images here (1M size at most for each picture, and 3 pictures at most)"
-  (uploadFinished)="onUploadFinished($event)"
-  (uploadStateChanged)="onUploadStateChanged($event)"
-  (removed)="onRemoved($event)"></image-upload>
-  <div class="alert {{uploadMsg.success? 'alert-info': 'alert-danger'}} alert-dismissable" *ngIf="uploadMsg.message">
-      <a class="panel-close close" routerLink="/charitydetail/{{profile.charity._id}}" data-dismiss="alert">×</a> {{uploadMsg.message}}
-    </div>
-  <div class="form-group text-center">
-       <button class="btn btn-warning" matStepperPrevious>Previous</button>
-       <button class="btn btn-success" (click)="updateImg()" [disabled]="!canSave()">Save</button>
-       <!-- <button class="btn btn-danger" (click)="onResetImgs()" [disabled]="!canReset()">Reset</button> -->
-       <button class="btn btn-info" matStepperNext>Preview</button>
-  </div>
-</mat-step>
+          <image-upload #iu [max]="4" [uploadedFiles]="profile.charity.images" [extensions]="['jpeg','png','jpg']" [maxFileSize]="1048576" dropBoxMessage="Drop Charities promotion images here (1M size at most for each picture, and 3 pictures at most)" (uploadFinished)="onUploadFinished($event)"
+               (uploadStateChanged)="onUploadStateChanged($event)" (removed)="onRemoved($event)"></image-upload>
+          <div class="alert {{uploadMsg.success? 'alert-info': 'alert-danger'}} alert-dismissable" *ngIf="uploadMsg.message">
+            <a class="panel-close close" routerLink="/charitydetail/{{profile.charity._id}}" data-dismiss="alert">×</a> {{uploadMsg.message}}
+          </div>
+          <div class="form-group text-center">
+            <button class="btn btn-warning" matStepperPrevious>Previous</button>
+            <button class="btn btn-success" (click)="updateImg()" [disabled]="!canSave()">Save</button>
+            <!-- <button class="btn btn-danger" (click)="onResetImgs()" [disabled]="!canReset()">Reset</button> -->
+            <button class="btn btn-info" matStepperNext>Preview</button>
+          </div>
+        </mat-step>
 
-<mat-step>
-     <ng-template matStepLabel><i class="far fa-eye"></i><b>&nbsp; Preview</b></ng-template>
+        <mat-step>
+          <ng-template matStepLabel><i class="far fa-eye"></i><b>&nbsp; Preview</b></ng-template>
 
-     <div class="row">
-       <div class="col-11 col-md-5 info container">
-         <h1><b class="col text-center">{{charityDetailForm.value.name}}</b></h1>
-         <!-- <h2>{{charity?.info}}</h2> -->
-         <div >
-           Overall Rating:
-           <ngb-rating rate="5" placement="top" ngbTooltip="Number of Ratings" max=5 [readonly]="true"></ngb-rating>
-           <span>Rating: 5</span>
-         </div>
+          <div class="row">
+            <div class="col-11 col-md-5 info container">
+              <h1><b class="col text-center">{{charityDetailForm.value.name}}</b></h1>
+              <!-- <h2>{{charity?.info}}</h2> -->
+              <div>
+                Overall Rating:
+                <ngb-rating rate="5" placement="top" ngbTooltip="Number of Ratings" max=5 [readonly]="true"></ngb-rating>
+                <span>Rating: 5</span>
+              </div>
 
-         <ng-template #t let-fill="fill">
-           <span class="star" [class.full]="fill === 100">
+              <ng-template #t let-fill="fill">
+                <span class="star" [class.full]="fill === 100">
                    <span class="half" [style.width.%]="fill">&hearts;</span>&hearts;
-           </span>
-         </ng-template>
-         Your Rating:
-           <ngb-rating rate="5" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
-           <!-- <button type="submit" class="btn btn-info">submit</button> Selected: <b>{{ratingForm.value.rating}}</b> -->
+                </span>
+              </ng-template>
+              Your Rating:
+              <ngb-rating rate="5" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
+              <!-- <button type="submit" class="btn btn-info">submit</button> Selected: <b>{{ratingForm.value.rating}}</b> -->
 
-         <!-- <ngb-rating *ngIf="hasRated" [(rate)]="rating" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating> -->
-         <p>
-         </p>
-         <div class="btn-group btn-group-sm demoPadder" role="group" aria-label="Small button group">
-           <button type="button" class="btn btn-ept btn-like"><i class="fas fa-heart">Add to favorite</i></button>
-         </div>
-         <br />
-         <div>
+              <!-- <ngb-rating *ngIf="hasRated" [(rate)]="rating" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating> -->
+              <p>
+              </p>
+              <div class="btn-group btn-group-sm demoPadder" role="group" aria-label="Small button group">
+                <button type="button" class="btn btn-ept btn-like"><i class="fas fa-heart">Add to favorite</i></button>
+              </div>
+              <br />
+              <div>
 
-         </div>
-         <div class="align-bottom">
-           <div class="row text">
-            <div class="col" *ngFor="let category of charityDetailForm.value.categories">
-               <span class="badge badge-pill badge-warning"><a class="link" >{{category.name}}</a></span>
+              </div>
+              <div class="align-bottom">
+                <div class="row text">
+                  <div class="col" *ngFor="let category of charityDetailForm.value.categories">
+                    <span class="badge badge-pill badge-warning"><a class="link" >{{category.name}}</a></span>
+                  </div>
+                </div>
+              </div>
             </div>
-           </div>
-         </div>
-       </div>
-       <div class="container col-11 col-md-5">
-         <ngb-carousel *ngIf="pre_imgs.length" >
-           <ng-template ngbSlide *ngFor="let image of pre_imgs">
-            <img class="img-fluid rounded text-center img img-size col-12" src="{{image}}" />
-           </ng-template>
-         </ngb-carousel>
-       </div>
-     </div>
-     <div class="row">
-       <div class="container" *ngIf="charityDetailForm" >
-
-         <hr />
-         <div class="row">
-
-           <div class="col-sm-9">
-            <div class="row">
-               <h2 class="col-10"><b>Voluntary works</b></h2>
+            <div class="container col-11 col-md-5">
+              <ngb-carousel *ngIf="pre_imgs.length">
+                <ng-template ngbSlide *ngFor="let image of pre_imgs">
+                  <img class="img-fluid rounded text-center img img-size col-12" src="{{image}}" />
+                </ng-template>
+              </ngb-carousel>
             </div>
-            <div id="collapseVnt" >
-            <div id="collapseVnt" [ngbCollapse]="isCollapsedVnt">
-               <div class="alert alert-danger alert-dismissable" >
-                 charity volunteer Activities is Empty
-               </div>
+          </div>
+          <div class="row">
+            <div class="container" *ngIf="charityDetailForm">
 
-            </div>
-            <hr />
-            <!-- <div class="row"> -->
-               <h2 class="col-10"><b>Financial data</b></h2>
-               <div class="alert alert-danger alert-dismissable" >
-                 Financial data is Empty
-               </div>
-            <!-- </div> -->
-            <div id="collapseFd" >
-            <!-- <div id="collapseFd" [ngbCollapse]="isCollapsedFd"> -->
-               financial data details
-            </div>
-            <hr />
+              <hr />
+              <div class="row">
 
-            <div class="row" id="comments">
-               <h2 class="col-10"><b>Comments</b></h2>
+                <div class="col-sm-9">
+                  <div class="row">
+                    <h2 class="col-10"><b>Voluntary works</b></h2>
+                  </div>
+                  <div id="collapseVnt">
+                    <div id="collapseVnt" [ngbCollapse]="isCollapsedVnt">
+                      <div class="alert alert-danger alert-dismissable">
+                        charity volunteer Activities is Empty
+                      </div>
 
-            </div>
-            <ngb-tabset id="collapseCm" #commentTabs >
-               <ngb-tab id="tab-comment" title="Comments">
-                 <ng-template ngbTabContent>
-                     <div class="alert alert-danger alert-dismissable" >
-                       Comments are Empty
-                     </div>
-                 </ng-template>
-               </ngb-tab>
-               <ngb-tab title="Add Comments">
-                 <ng-template ngbTabContent>
+                    </div>
+                    <hr />
+                    <!-- <div class="row"> -->
+                    <h2 class="col-10"><b>Financial data</b></h2>
+                    <div class="alert alert-danger alert-dismissable">
+                      Financial data is Empty
+                    </div>
+                    <!-- </div> -->
+                    <div id="collapseFd">
+                      <!-- <div id="collapseFd" [ngbCollapse]="isCollapsedFd"> -->
+                      financial data details
+                    </div>
+                    <hr />
 
-                 </ng-template>
-               </ngb-tab>
-            </ngb-tabset>
-            <br />
-           </div>
+                    <div class="row" id="comments">
+                      <h2 class="col-10"><b>Comments</b></h2>
 
-         </div>
-         <div class="col-sm-3">
-         <div class="btn-group">
-            <button class="btn btn-warning" >Donate</button>
-         </div>
-         <hr />
-         <div class="col-xs-12 col-sm-12">
-            <div class="btn-group">
-              <a class="btn" shareButton="twitter" description="I have found an amazing charity, let's have a look!" [style.backgroundColor]="share.prop.twitter.color">
+                    </div>
+                    <ngb-tabset id="collapseCm" #commentTabs>
+                      <ngb-tab id="tab-comment" title="Comments">
+                        <ng-template ngbTabContent>
+                          <div class="alert alert-danger alert-dismissable">
+                            Comments are Empty
+                          </div>
+                        </ng-template>
+                      </ngb-tab>
+                      <ngb-tab title="Add Comments">
+                        <ng-template ngbTabContent>
+
+                        </ng-template>
+                      </ngb-tab>
+                    </ngb-tabset>
+                    <br />
+                  </div>
+
+                </div>
+                <div class="col-sm-3">
+                  <div class="btn-group">
+                    <button class="btn btn-warning">Donate</button>
+                  </div>
+                  <hr />
+                  <div class="col-xs-12 col-sm-12">
+                    <div class="btn-group">
+                      <a class="btn" shareButton="twitter" description="I have found an amazing charity, let's have a look!" [style.backgroundColor]="share.prop.twitter.color">
                    <i class="fab fa-twitter"></i>
             </a>
-              <a class="btn" shareButton="facebook" description="I have found an amazing charity, let's have a look!" [style.backgroundColor]="share.prop.facebook.color">
+                      <a class="btn" shareButton="facebook" description="I have found an amazing charity, let's have a look!" [style.backgroundColor]="share.prop.facebook.color">
                   <i class="fab fa-facebook-f"></i>
             </a>
-              <a class="btn" shareButton="pinterest" description="I have found an amazing charity, let's have a look!" [style.backgroundColor]="share.prop.pinterest.color">
+                      <a class="btn" shareButton="pinterest" description="I have found an amazing charity, let's have a look!" [style.backgroundColor]="share.prop.pinterest.color">
                    <i class="fab fa-pinterest-p"></i>
             </a>
-              <a class="btn" shareButton="reddit" description="I have found an amazing charity, let's have a look!" [style.backgroundColor]="share.prop.reddit.color">
+                      <a class="btn" shareButton="reddit" description="I have found an amazing charity, let's have a look!" [style.backgroundColor]="share.prop.reddit.color">
                    <i class="fab fa-reddit-alien"></i>
             </a>
-              <a class="btn" shareButton="whatsapp" description="I have found an amazing charity, let's have a look!"  [style.backgroundColor]="share.prop.whatsapp.color">
+                      <a class="btn" shareButton="whatsapp" description="I have found an amazing charity, let's have a look!" [style.backgroundColor]="share.prop.whatsapp.color">
                    <i class="fab fa-whatsapp"></i>
             </a>
+                    </div>
+
+                  </div>
+                  <hr />
+                  <h2><b>Contact</b></h2>
+                  <div class="col-xs-12 col-sm-12">
+                    <ul class="list-unstyled">
+                      <li>
+                        <span class="fa fa-map-marker-alt fa-lg"></span><a>&nbsp;{{charityDetailForm?.value.address}}</a>
+                      </li>
+                      <li>
+                        <span class="fa fa-phone text-muted c-info"></span> &nbsp;{{charityDetailForm?.value.tel}}
+                      </li>
+                      <li>
+                        <span class="fa fa-envelope text-muted c-info"></span> &nbsp;{{charityDetailForm?.value.email}}
+                      </li>
+                      <li *ngIf="charity?.website">
+                        <i class="fas fa-link"></i>{{charityDetailForm?.value.website}}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
 
-         </div>
-         <hr />
-         <h2><b>Contact</b></h2>
-         <div class="col-xs-12 col-sm-12">
-            <ul class="list-unstyled">
-              <li>
-                 <span class="fa fa-map-marker-alt fa-lg"></span><a >&nbsp;{{charityDetailForm?.value.address}}</a>
-              </li>
-              <li>
-                 <span class="fa fa-phone text-muted c-info"></span> &nbsp;{{charityDetailForm?.value.tel}}
-              </li>
-              <li>
-                 <span class="fa fa-envelope text-muted c-info"></span> &nbsp;{{charityDetailForm?.value.email}}
-              </li>
-              <li *ngIf="charity?.website">
-                 <i class="fas fa-link"></i>{{charityDetailForm?.value.website}}
-              </li>
-            </ul>
-         </div>
-        </div>
-       </div>
-     </div>
-   </div>
+        </mat-step>
 
-</mat-step>
-
-</mat-horizontal-stepper>
+      </mat-horizontal-stepper>
     </ng-template>
   </ngb-tab>
   <ngb-tab>
@@ -478,10 +472,50 @@
       </div>
     </ng-template>
   </ngb-tab>
-  <!-- <ngb-tab>
-    <ng-template ngbTabTitle><i class="fas fa-users-cog"></i> <b> My Volunteer Activities</b></ng-template>
+  <ngb-tab>
+    <ng-template ngbTabTitle><i class="fas fa-check-circle"></i> <b> Verification</b></ng-template>
     <ng-template ngbTabContent>
-      <app-charity-volunteer [charityId]="profile.charity._id"></app-charity-volunteer>
+      <div class="row">
+        <div class="container">
+          <div #intro class="text-bold">
+            <ngb-alert [dismissible]="false">
+              The charity is verified based on the data provided by
+              <b><a href="https://www.gov.uk/government/organisations/charity-commission">The Charity Commission</a></b>, which registers and regulates charities in England and Wales, to ensure that the public can support charities with confidence.<br
+              />
+              <br /> Registered charities in England and Wales can be verified by emails sent by this site to be verified.
+              <br />
+              <br /> The email address of the charity is from the <b><a href="http://data.charitycommission.gov.uk">database</a></b>
+            </ngb-alert>
+
+          </div>
+          <ngb-alert [dismissible]="false" *ngIf="profile.charity.verified" type="success" (close)="closeAlert(alert)"><b><span class="text-danger">Congratulations!</span></b> &nbsp; Already Verified!</ngb-alert>
+          <!-- {{profile|json}} -->
+          <div *ngIf="!profile.charity.verified">
+
+            Your Registration number is: <span *ngIf="profile.charity.ccn"><b class="text-warning">{{profile.charity.ccn}}</b></span> <b *ngIf="!profile.charity.ccn" class="text-danger">NULL</b> <br />
+            <button (click)="getCharityEmail()" class="btn btn-info"> Check</button>
+            <div *ngIf="charityInfo">
+              <div *ngIf="!charityInfo.exists">
+                <ngb-alert [dismissible]="false" type="danger">
+                  No charity with CCN = {{profile.charity.ccn}} found
+                </ngb-alert>
+              </div>
+              <div *ngIf="charityInfo.exists">
+                <div *ngIf="!charityInfo.charity.email">
+                  No email information found in the databse
+                </div>
+                <div *ngIf="charityInfo.charity.email" class="font-weight-normal">
+                  email: {{charityInfo.charity.email}}
+                  <br /> would you want to send verification email to this email address <button class="btn btn-success" (click)="verify()"><i class="fas fa-check-circle"></i>Verify</button>
+                  <div>
+                    <ngb-alert *ngIf="verfifyMsg" type="info" (close)="closeAlert(alert)">{{this.verfifyMsg}}</ngb-alert>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </ng-template>
-  </ngb-tab> -->
+  </ngb-tab>
 </ngb-tabset>

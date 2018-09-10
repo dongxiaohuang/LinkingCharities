@@ -5,15 +5,14 @@ module.exports = {
      'facebook': {
           clientId: '188557768477636',
           clientSecret: 'd4fa8829202a6fea6c4c20940fa9c3b2'},
-     'algolia':{
-          appId:'Z5RU7IQOAI',
-          apiKey: '8fb5f0c0a90e90667c1a63573e9a9c4a',
-          indexName: 'linking_charities'
-     },
      'azureStorageConnectionString':'DefaultEndpointsProtocol=https;AccountName=linkingcharitystorage;AccountKey=nr7gCW7BAj8jE27zDCDdwCT7aDcnS0zkd+KxBS8Ho0NmthPIpQSyLK4Mslw+AGGseBX6F9PnllaMnZRUOosE+A==;EndpointSuffix=core.windows.net',
      'azureStorage': {
           accountName: 'linkingcharitystorage',
           accountKey: 'nr7gCW7BAj8jE27zDCDdwCT7aDcnS0zkd+KxBS8Ho0NmthPIpQSyLK4Mslw+AGGseBX6F9PnllaMnZRUOosE+A=='
+     },
+     'gmail': {
+          user: 'verify4linkingcharities@gmail.com',
+          psw: 'Test4charities',
      }
 
 }

@@ -152,7 +152,7 @@ export class CharityRegisterComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder,
     private categoriesService: CategoriesService,
     private getCharityService: GetCharitiesService,
-     public share: ShareButtons,//social button
+    public share: ShareButtons,//social button
     private authCharityService: AuthCharityService) { }
 
   ngOnInit() {
@@ -290,27 +290,36 @@ export class CharityRegisterComponent implements OnInit {
           return this.getCharityService.getGeocode(geoAddress);
         }),
         mergeMap(res => {
+          console.log(res);
           return this.getCharityService.changeGeocoding(charityID, res)
         }),
         mergeMap(event => {
           this.basicInfoForm.value.charity = charityID;
           console.log('charities successful, and the basicInform Value is ', this.basicInfoForm.value);
           return this.authCharityService.signUp(this.basicInfoForm.value);
+        }),
+        mergeMap(res => {
+          if (res.success) {
+            this.msg.success = true;
+            if (this.charityDetailForm.value.ccn) {
+                 console.log('signup res',res)
+              this.msg.message = "register successfully! Verification has send to email";
+              return this.authCharityService.getVerified(this.charityDetailForm.value.ccn, res.userId)
+            }
+            else {
+              this.msg.message = "register successfully!";
+              return this.authCharityService.getVerified()
+            }
+          } else {
+            this.msg.success = false;
+            this.msg.message = res.err;
+            return this.getCharityService.deleteCharity(charityID)
+          }
         })
       )
       .subscribe(
         res => {
           console.log(res);
-          //{success: true, username: "imperial"}
-          if (res.success) {
-            this.msg.success = true;
-            this.msg.message = "register successfully!";
-          } else {
-            this.msg.success = false;
-            this.msg.message = res.err;
-            this.getCharityService.deleteCharity(charityID)
-              .subscribe(res => console.log(res))
-          }
         }, err => {
           this.msg.success = false;
           this.msg.message = err;
@@ -361,7 +370,7 @@ export class CharityRegisterComponent implements OnInit {
 
   //upload Images
   onUploadFinished(event) {
-       // this.readUrl(event);
+    // this.readUrl(event);
 
     this.imgfiles.push(event);
     console.log(this.imgfiles)
@@ -395,7 +404,7 @@ export class CharityRegisterComponent implements OnInit {
         this.usernameValid = !res.exists;
       })
   }
- // no whitespace for username
+  // no whitespace for username
   trimValidator: ValidatorFn = (control: FormControl) => {
     if (control.value.indexOf(' ') >= 0) {
       return {
@@ -406,10 +415,10 @@ export class CharityRegisterComponent implements OnInit {
   };
   //return array to avoid ngfor cannot find Array error
   hack(val) {
-   return Array.from(val);
- }
+    return Array.from(val);
+  }
 
- // check data from uk charity database
+  // check data from uk charity database
   email;
   web;
   regno;
@@ -418,7 +427,7 @@ export class CharityRegisterComponent implements OnInit {
   tel;
   line1;
   line2;
-  hasFound:boolean = undefined;
+  hasFound: boolean = undefined;
   emailReadOnly: boolean = false;
   regnoReadOnly: boolean = false;
   webReadOnly: boolean = false;
@@ -426,14 +435,14 @@ export class CharityRegisterComponent implements OnInit {
   postcodeReadOnly: boolean = false;
   telReadOnly: boolean = false;
   getCharityByCCN() {
-       this.email = "";
-      this.web ="";
-      this.regno ="";
-      this.name ="";
-      this.postcode ="";
-      this.tel ="";
-      this.line1 ="";
-      this.line2 ="";
+    this.email = "";
+    this.web = "";
+    this.regno = "";
+    this.name = "";
+    this.postcode = "";
+    this.tel = "";
+    this.line1 = "";
+    this.line2 = "";
     this.emailReadOnly = false;
     this.regnoReadOnly = false;
     this.webReadOnly = false;
@@ -443,7 +452,7 @@ export class CharityRegisterComponent implements OnInit {
     this.getCharityService.getCharityByCCN(this.charityDetailForm.value.ccn)
       .subscribe(
         res => {
-             this.hasFound = undefined;
+          this.hasFound = undefined;
           if (res.exists) {
             console.log(res);
             this.regno = this.charityDetailForm.value.ccn;
@@ -500,17 +509,4 @@ export class CharityRegisterComponent implements OnInit {
       )
   }
 
-  // url;
-  // readUrl(event:any) {
-  // if (event.target.files) {
-  //      console.log(event.target.files)
-  //   var reader = new FileReader();
-  //   reader.onload = (event: ProgressEvent) => {
-  //        console.log('process',event);
-  //     this.url = (<FileReader>event.target).result;
-  //   }
-  //   for (let i = 0; i < event.target.files.length; i++) {
-  //       reader.readAsDataURL(event.target.files[i]);
-  //   }
-  // }
 }

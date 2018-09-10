@@ -19,7 +19,9 @@
     <div class="data">
       <div class="content">
         <span class="location">{{charity.city}}, {{charity.country}}</span>
-        <h1 class="title"><a [routerLink]="['/charitydetail', charity._id]">{{charity.name}}</a></h1>
+        <h1 class="title"><a [routerLink]="['/charitydetail', charity._id]">
+             <b>{{charity?.name}}</b>&nbsp;<img *ngIf="charity.verified" src="../assets/icons/verified.png" width="20" height="20" placement="top" ngbTooltip="Verified charities supported by the Charity Commission"/>
+</a></h1>
         <p class="text">{{charity.info}}</p>
         <!-- <div class="row text"> -->
         <div class="col-4 col-md-3 col-lg-2" *ngFor="let category of charity?.categories">

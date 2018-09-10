@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const mongooseAlgolia = require('mongoose-algolia');
 const Schema = mongoose.Schema;
 
 const donationSchema = new Schema({

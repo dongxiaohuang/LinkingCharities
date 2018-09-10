@@ -81,6 +81,7 @@ router.route('/login')
                               status: "Login Unsuccessful",
                               err: "Could not login user"
                          });
+                         next(err)
                     };
 
                     var token = authenticate.getToken({

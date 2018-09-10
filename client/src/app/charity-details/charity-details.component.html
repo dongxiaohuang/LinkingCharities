@@ -6,7 +6,8 @@
 <div class="bgcolor" *ngIf="charity">
   <div class="row ">
     <div class="col-11 col-md-5 info container">
-      <h1><b class="col text-center">{{charity?.name}}</b></h1>
+
+      <h1><b class="col text-center">{{charity?.name}}</b>&nbsp;<img *ngIf="charity.verified" src="../assets/icons/verified.png" width="20" height="20" placement="top" ngbTooltip="Verified charities supported by the Charity Commission"/></h1>
       <!-- <h2>{{charity?.info}}</h2> -->
       <div *ngIf="ratingAmount">
         Overall Rating:
@@ -52,7 +53,7 @@
       <div class="align-bottom">
         <div class="row text">
           <div class="col" *ngFor="let category of charity?.categories">
-            <span class="badge badge-pill badge-warning"><a class="link" [routerLink]="['/category', category._id]">{{category.name}}</a></span>
+            <span class="badge badge-pill badge-warning"><a class="link" [routerLink]="['/search', { query: category.name, page: 1 }]">{{category.name}}</a></span>
           </div>
         </div>
       </div>

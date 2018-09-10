@@ -24,6 +24,7 @@ import { UserVolunteerHistoryComponent } from '../user-volunteer-history/user-vo
 export const routes: Routes = [
      { path: '', redirectTo: '/home', pathMatch: 'full'},
      { path: 'aboutus', component: AboutusComponent},
+     { path: 'contactus', component: ContactComponent},
      { path: 'charitydetail/:id', component: CharityDetailsComponent},
      { path: 'volunteerdetail/:id', component: VolunteerDetailsComponent},
      { path: 'volunteerdetail/:id/registers', component: CharityVolunteersRegistersComponent},

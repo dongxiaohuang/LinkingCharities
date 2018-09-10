@@ -43,7 +43,7 @@ export class AuthService {
   clearUsername() {
     this.username.next(undefined);
   }
-
+  //INITIALISE login status used in header component 
   loadUserCredentials() {
     var credentials = JSON.parse(localStorage.getItem(this.tokenKey));
     console.log("loadUserCredentials ", credentials);

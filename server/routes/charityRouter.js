@@ -216,7 +216,7 @@ charityRouter.route('/:charityId')
                .catch((err) => next(err));
      })
      .delete(cors.corsWithOptions, (req, res, next) => {
-          Charities.findByIdAndRemove(req.params.charityId)
+          Charities.findOneAndDelete({_id:req.params.charityId})
                .then((resp) => {
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');

@@ -8,7 +8,7 @@
      <div class="col-margin-1 mg-top">
      <h3>
           <a [routerLink]="['/charitydetail', charity?._id]">
-               <b>{{charity?.name}}</b>
+               <b>{{charity?.name}}</b>&nbsp;<img *ngIf="charity.verified" src="../assets/icons/verified.png" width="20" height="20" placement="top" ngbTooltip="Verified charities supported by the Charity Commission"/>
           </a>
      </h3>
      <!-- <h4>description: {{charity?.info}}</h4> -->

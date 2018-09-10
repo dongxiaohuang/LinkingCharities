@@ -10,7 +10,6 @@ import { mergeMap } from 'rxjs/operators';
 import { googleAPI } from '../config';
 import { HttpHeaders } from '@angular/common/http';
 import { InterceptorSkipHeader } from './auth.interceptor';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -36,7 +35,7 @@ export class GetCharitiesService {
     return this.restangular.one('charities', id).get();
   }
   deleteCharity(charityId:string): Observable<any> {
-       return this.http.delete(baseURL + '/charities/'+charityId)
+       return this.http.delete(baseURL + 'charities/'+charityId)
        .catch(err => this.processHTTPMsgService.handleError(err));
  }
   postComment(charityId: string, comment: any): Observable<any[]> {
@@ -50,13 +49,14 @@ export class GetCharitiesService {
   getGeocode(geoAddress: string): Observable<any> {
        let headers = new HttpHeaders().set(InterceptorSkipHeader, '');
        // headers = headers.set('Content-Type', 'application/json; charset=utf-8');
-       return this.http.get<MapResponse>('https://maps.googleapis.com/maps/api/geocode/json?address=' + geoAddress, {headers:headers})
+       return this.http.get<MapResponse>('https://maps.googleapis.com/maps/api/geocode/json?address=' + geoAddress +'&key='+googleAPI, {headers:headers})
        .catch(err => this.processHTTPMsgService.handleError(err));
 
  }
   changeGeocoding(charityId: string, geoRes: MapResponse): Observable<any> {
        let geocode;
-       if(geoRes.results){
+       console.log(geoRes);
+       if(geoRes && geoRes.results){
             geocode = geoRes.results[0].geometry.location;
        }else{
             geocode = {

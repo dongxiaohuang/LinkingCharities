@@ -98,6 +98,10 @@ const charitySchema = new Schema({
      geocoding: {
           lat: Number,
           lng: Number
+     },
+     verified:{
+          type:Boolean,
+          default:false
      }
 },
  {

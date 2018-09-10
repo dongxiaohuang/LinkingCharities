@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
-
+var helmet = require('helmet'); //security
 var passport = require('passport');
 var authenticate = require('./authenticate'); // config the passport
 var charityAuthenticate = require('./charityAuthenticate'); // config the passport
@@ -30,6 +30,7 @@ var ratingRouter = require('./routes/ratingRouter');
 var app = express();
 
 // connect to mongodb
+//TODO: change the url to your mongoDB URL
 var url = config.mongoUrl;
 const connect = mongoose.connect(url, { useNewUrlParser: true });
 //Mongoose creates a default connection when you call mongoose.connect().
@@ -58,11 +59,12 @@ connect.then(() => {
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 // app.set('views', path.join(__dirname, 'public') );
 // app.set('view engine', 'ejs');
 // app.engine('html', require('ejs').renderFile);
 
+app.use(helmet())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

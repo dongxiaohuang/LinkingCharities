@@ -82,11 +82,11 @@ export class AuthCharityService {
   signUp(user: any): Observable<any> {
     // localhost:8000/charityusers/signup
     return this.http.post(baseURL + 'charityusers/signup', user)
-      .pipe(
-        map(res => {
-          return { 'success': true, 'username': user.username };
-        })
-      )
+      // .pipe(
+      //   map(res => {
+      //     return { 'success': true, 'username': user.username };
+      //   })
+      // )
       .catch(error => this.processHTTPMsgService.handleError(error));
   }
   logIn(user: any): Observable<any> {
@@ -166,5 +166,15 @@ changeCharity(charityId: string, content:any){
 checkId(username): Observable<any>{
      return this.http.post(baseURL + 'charityusers/checkId', {username:username})
      .catch(err => this.processHTTPMsgService.handleError(err));
+}
+getVerified(ccn:number=undefined, charityuserId:string=undefined): Observable<any>{
+     console.log('ccn',ccn, ' charityuserId', charityuserId)
+     if(!ccn || ! charityuserId){
+          return this.http.get(baseURL + 'charityusers/verification')
+          .catch(err => this.processHTTPMsgService.handleError(err));
+     }else{
+          return this.http.get(baseURL + 'charityusers/verification?ccn='+ccn+'&charityuser='+charityuserId)
+          .catch(err => this.processHTTPMsgService.handleError(err));
+     }
 }
 }

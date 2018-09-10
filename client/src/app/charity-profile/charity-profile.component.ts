@@ -35,6 +35,8 @@ export class CharityProfileComponent implements OnInit {
   imgfiles = [];
   dropdownSettings = {};
   fd = new FormData();
+  charityInfo;
+  verfifyMsg;
   userFormErrors = {
     'firstname': '',
     'lastname': '',
@@ -318,8 +320,8 @@ export class CharityProfileComponent implements OnInit {
   changeCharity() {
     this.authCharityService.changeCharity(this.profile.charity._id, this.charityDetailForm.value)
       .subscribe(res => {
-        this.UpdateMsg = "Update Payment Details Successfully!";
-      }, err => { this.UpdateMsg = "Update Payment Details Failed!"; })
+        this.UpdateMsg = "Update Charity Details Successfully!";
+   }, err => { this.UpdateMsg = "Update Charity Details Failed!"; })
   }
   changeAddress() {
     this.fullAddressForm.value.address = this.addressForm.value;
@@ -441,4 +443,20 @@ uploadMsg= {
                this.uploadMsg.message = "Upload Failed";
           })
 }
+  getCharityEmail(){
+       // this.getCharityService.getCharityByCCN(7777777)
+       this.getCharityService.getCharityByCCN(this.profile.charity.ccn)
+         .subscribe(
+              res => {this.charityInfo = res; console.log(res)}
+         )
+ }
+  verify(){
+       this.authCharityService.getVerified(this.profile.charity.ccn, this.profile._id)
+       // this.getCharityService.getCharityByCCN(this.profile.charity.ccn)
+         .subscribe(
+              res => {
+                        this.verfifyMsg = res.msg
+              }
+         )
+ }
 }

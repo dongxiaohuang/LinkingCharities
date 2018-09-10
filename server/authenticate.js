@@ -16,15 +16,15 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 exports.getToken = function(user) {
+     //TODO: replace to your secretKey
      return jwt.sign(user, config.secretKey, {
-          expiresIn: 180000
+          expiresIn: 180000,
      }); // expire in 50 hour
 };
 
 var opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = config.secretKey;
-
 // config jwt strategy and provide verification function
 exports.jwtPassportUser = passport.use('jwtPassportUser', new JwtStrategy(opts,
      // verify function, done is return callback
